@@ -17,18 +17,16 @@ This project is designed for those who are not able to control their hands and s
 
 <h2><a name = "Title2"> 2. Project Administration </a></h2>
 
-<h3> 2.1 Timeline </h3>
+<h3> 2.1 Timeline  & Deliverables</h3>
 
-
-
-<h3> 2.2 Deliverables </h3>
-
+![Schedule](Resources/Schedule.png)
 
 
 
 
 
-<h3> 2.3Team Roles </h3>
+
+<h3> 2.3 Team Roles </h3>
 
 #### Project Manager (Minju)
  - Responsible to ensure that software development is suitably goverened and reported on
