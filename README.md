@@ -61,7 +61,7 @@ Guest Account:
 Android Studio
 
 **Project Constraints:**
- - We expect the users can control their eye and head movement.
+ - We expect the users to be able to control their eye and head movement.
 
 
 
