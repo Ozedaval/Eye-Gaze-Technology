@@ -25,24 +25,7 @@ public class MainActivity extends AppCompatActivity {
         View view =binding.getRoot();
         setContentView(view);
 
-        binding.yesTextView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                scaleNormalOrUp((View) view.getParent(),motionEvent);
-                return false;
-            }
 
-        });
-
-
-        binding.noTextView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                scaleNormalOrUp((View) view.getParent(),motionEvent);
-
-                return false;
-            }
-        });
 
         FaceDetector detector = new FaceDetector.Builder(getApplicationContext())
                .setProminentFaceOnly(true)
@@ -54,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         detector.setProcessor(
                 new LargestFaceFocusingProcessor(
                         detector,
-                        new FaceTracker()));
+                        new FaceTracker(binding)));
 
         try {
             cameraSource = new CameraSource.Builder(getApplicationContext(),detector)
@@ -74,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         String apiReady=detector.isOperational()?"ready":"not ready";
         Toast.makeText(getApplicationContext(),"API "+apiReady,Toast.LENGTH_LONG).show();
     }
-    public void scaleNormalOrUp(View v, MotionEvent motionEvent){   int motion=motionEvent.getAction();
+    public static void scaleNormalOrUp(View v, int motion){
         if(motion==MotionEvent.ACTION_DOWN||motion==MotionEvent.ACTION_BUTTON_PRESS||motion==MotionEvent.ACTION_DOWN||motion==MotionEvent.ACTION_BUTTON_PRESS||motion==MotionEvent.AXIS_PRESSURE){
             v.setScaleX(1.10f);
             v.setScaleY(1.10f);}
