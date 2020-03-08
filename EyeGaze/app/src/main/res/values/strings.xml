@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EyeGaze</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
 </resources>
