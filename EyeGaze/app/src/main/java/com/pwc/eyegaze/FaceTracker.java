@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
+import com.google.android.gms.vision.face.Face;
 
 public class FaceTracker extends Tracker {
     public FaceTracker() {
@@ -18,10 +19,11 @@ public class FaceTracker extends Tracker {
     @Override
     public void onUpdate(Detector.Detections detections, Object o) {
 
-        Log.d("FaceTrackerCallback","updating");
-        super.onUpdate(detections, o);
 
-    }
+       Face face= (Face) detections.getDetectedItems().valueAt(0);
+        Log.d("FaceTrackerCallback","Tracking At "+face.getEulerY());
+
+}
 
     @Override
     public void onMissing(Detector.Detections detections) {
