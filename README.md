@@ -89,7 +89,8 @@ Project Manager (Minju)
 
 <h2><a name = "Title3"> 3. Traceability of Progress</a></h2>
 
-https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1
+
+<a href = "https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1"><b> Jira Project Management Platform </b></a><br/>
 
 Guest Account:
  - ID: audit.techlauncher@outlook.com
