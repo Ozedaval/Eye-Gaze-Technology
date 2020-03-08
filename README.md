@@ -34,36 +34,35 @@ Our client raises great expectations to minimize the expenses on the hardware us
 
 <h3> 2.1 Deliverables</h3>
 
-### Deliverable 1: Prototype (Semester 1: Before Week 5):
+#### Deliverable 1: Prototype (Semester 1: Before Week 5):
   * This prototype to showcase the conversion of facial inputs as touch & click events. 
   It will be able to track facial inputs  whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
      - Researching for a Trustworthy API(s) to recognise facial expression.
      - Implement the Logic of the App which can use the API to convert into touch & click events.
-### Deliverable 2: Basic Skeleton of App (Semester 1: Before start of Mid Semester Break)
+#### Deliverable 2: Basic Skeleton of App (Semester 1: Before start of Mid Semester Break)
   * The basic skeleton will consist of what the overall app will look like.This will be built upon the prototype built in the previous deliverable.
     - Creating basic content for assisting communication.
     - Temporarily store content in a persistent storage.
-    - Creating a local Database to store those content.
     - Implement the application which follows a good software design pattern/model(MVVM or MVP).
-    - Unit Testing of the added features & the logic part of Deliverable 1.
-### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Before Week 7)
+    - Unit Testing for the added features & the logic part of Deliverable 1.
+#### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Before Week 7)
   * A MVP will be delivered such that it can allow users can communicate to another person by facial inputs.The application will be able to speak out the word selection made by the user.Furthermore,The sensitivity of the control can be altered.
-     - Linking up the database to the application.
-     - Adding  Input Sensitivity Settings.
-     - Uses an API to convert Text into Speech & store it in the local Storage.
+     - Replacing the persistent storage by Creating & Linking up the database to the application.
+     - Implement Observable design pattern to update UI.
+     - Use an API to convert Text into Speech & store it in the local Storage.
      - Add the local Storage path for each word along with it in the Database.
      - Linking Images & making the UI more friendly. 
+     - Adding Input Sensitivity Settings.
      - Unit Testing of the added features. 
-### Deliverable 4: Customisable content feature (Semester 1: Before Week 9)
+#### Deliverable 4: Customisable content feature (Semester 1: Before Week 9)
   * Users are able to add their own words to the App such that they can use that word to communicate with the help of the App.
     - Add the feature to add words to the database. 
-    - Implement Observable design pattern to update UI.
     - Add the feature to delete selected words from the database.
     - Unit Testing of the added features.
-### Deliverable 5: Integrated Testing & stabilisation (Semester 1: Before Week 10)
+#### Deliverable 5: Integrated Testing & stabilisation (Semester 1: Before Week 10)
   * Integrated testing will be implemented to make sure the app is stable & does not have any major bugs.
     - Implement Integrated Testing.
-    - Check for any major bugs.
+    - Check for any major bugs & fix them if found.
   
  
 
