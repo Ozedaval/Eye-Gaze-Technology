@@ -11,15 +11,71 @@
 
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
-This project is designed for those who are not able to control their hands and speak but are able to control their eye and head movement. The application for the project is a communication tool for those people so that they can express their feeling through the application. In order to overcome their difficulties and limitations, we chose the technology of facial recognition so they can select words, sentences, and hopefully their feelings based on what they would like to express. For the extension of the application, blinking action will be recognised as a clicking event so that they can easily choose/click the interaction.
+According to the World Health Organization, roughly 15% of the world's population live with some form of disability. There is a techology that helps people with disabilities to communicate better in lives. The major barrier however in accessing this technology is it's high cost that most people cannot afford. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smart phone platform.
 
+The Eye Gaze technology has been widely used to capture eye movement and focus through infrared cameras and in turn control the screen display without physical interaction. Infrared cameras, developed at the quality required for eye tracking, are prohibitvely expensive. This makes the final product of eye gaze technology no longer affordable to the general populace. This project seeks for solutions to replace infrared cameras with smart phone cameras which are much more affordable and accessible. Our project proposes a communication assistance application via face and eye tracking to enable them to select words and compose sentences for disabled personnels. We seek to improve their ability to communicate their feelings and thoughts more effectively through our designed user interface.
+
+<h3> 2.4 Stakeholders </h3>
+
+#### End-users:
+Our project serves children with neural diseases that affects their body coordination, which means they cannot control their hands to click on mobile phones. Besides, our end-users may not have verbal capacity to sound their voices and needs. They may have:-
+                <ul>
+                <li>Amyotrophic lateral sclerosis(ALS)</li>
+                <li>Parkinson's Disease</li>
+                <li>Brain injury</li>
+                <li>Cerebral Pulsy</li>
+                <li>Autism</li>
+                </ul>
+                
+#### Client:
+Our client raises great expectations to minimize the expenses on the hardware used in the eye gaze technology which merely seek solutions to replace infrared cameras. Both eye gaze technology and face tracking are permitted that no involvement of hand or verbal inputs.
 <br />
 
 <h2><a name = "Title2"> 2. Project Administration </a></h2>
 
-<h3> 2.1 Timeline  & Deliverables</h3>
+<h3> 2.1 Deliverables</h3>
 
-![Schedule](Resources/Schedule.png)
+#### Deliverable 1: Prototype (Semester 1: Before Week 5):
+  * This prototype to showcase the conversion of facial inputs as touch & click events. 
+  It will be able to track facial inputs  whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
+     - Researching for a Trustworthy API(s) to recognise facial expression.
+     - Implement the Logic of the App which can use the API to convert into touch & click events.
+#### Deliverable 2: Basic Skeleton of App (Semester 1: Before start of Mid Semester Break)
+  * The basic skeleton will consist of what the overall app will look like.This will be built based upon the Logic part of the prototype built in the previous deliverable.
+    - Creating basic content for assisting communication.
+    - Temporarily store content in a persistent storage.
+    - Implement the application which follows a good software design pattern/model (MVVM or MVP).
+    - Unit Testing for the added features if applicable & the logic part of Deliverable 1.
+#### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Before Week 7)
+  * A MVP will be delivered such that it can allow users can communicate to another person by facial inputs.The application will be able to speak out the word selection made by the user.Furthermore,The sensitivity of the control can be altered.
+     - Replacing the persistent storage by Creating & Linking up the database to the application.
+     - Implement Observable design pattern to update UI.
+     - Use an API to convert Text into Speech & store it in the local Storage.
+     - Add the local Storage path for each word along with it in the Database.
+     - Link the sound of word such that upon interacting with the respective View object, the word will be read out.
+     - Linking Images & making the UI more friendly. 
+     - Adding Input Sensitivity Settings.
+     - Unit Testing of the added features if applicable. 
+#### Deliverable 4: Customisable content feature (Semester 1: Before Week 9)
+  * Users are able to add their own words to the App such that they can use that word to communicate with the help of the App.
+    - Add the feature to add words to the database. 
+    - Add the feature to delete selected words from the database.
+    - Unit Testing of the added features if applicable.
+#### Deliverable 5: Integrated Testing & stabilisation (Semester 1: Before Week 10)
+  * Integrated testing will be implemented to make sure the app is stable & does not have any major bugs.
+    - Implement Integrated Testing.
+    - Check for any major bugs & fix them if found.
+  
+ 
+
+<h3> 2.2 Milestones</h3>
+
+#### Overview of Milestones
+<img src="Resources/Schedule.png" width="50%" length="50%">
+
+
+ #### Detailed Milestones
+<a href = "Resources/Techlauncher Semester 1 Detailed Schedule.xlsx"><b> Click here for Detailed Milestones </b>
 
 
 
@@ -28,7 +84,7 @@ This project is designed for those who are not able to control their hands and s
 
 <h3> 2.3 Team Roles </h3>
 
-#### Project Manager (Minju)
+Project Manager (Minju)
  - Responsible to ensure that software development is suitably goverened and reported on
  - Primary client liason
  - Responsible for Project Management Platforms (Jira & Confluence)
@@ -41,25 +97,29 @@ This project is designed for those who are not able to control their hands and s
  - Responsible for scoping cost, effort and timelines to deliver the technical solutions 
  - Builds the deliverables and communicates the status of the software components to the Technical Lead and Project Manager
 
-<h3> 2.4 Stakeholders </h3>
-
-
 
 <h2><a name = "Title3"> 3. Traceability of Progress</a></h2>
 
-https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1
+
+<a href = "https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1/roadmap"><b> Jira Project Management Platform </b></a><br/>
 
 Guest Account:
- - ID: audit.techlauncher
+ - ID: audit.techlauncher@outlook.com
  - PW: 2020techlauncher
 
 <h2><a name = "Title3"> 4. Technical Tools and Constraints</a></h2>
 
 **Technical Tools:**
-Android Studio
+ - Development platform: Android Studio
+ - Face & eye tracking library: Google Mobile Vision API
+ - Eye gaze technology library: OpenCV
+ 
 
 **Project Constraints:**
- - We expect the users to be able to control their eye and head movement.
+ - No hand motions.
+ - No verbal inputs.
+ - Assume that the end-users may have the capacity to focus their eye gaze and control head motions.
+ - Affordability of the technology to ensure the cost on software and hardware are low.
 
 
 
