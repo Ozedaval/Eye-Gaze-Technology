@@ -71,8 +71,8 @@ Our client raises great expectations to minimize the expenses on the hardware us
 <h3> 2.2 Milestones</h3>
 
 #### Overview of Milestones
+<img src="Resources/Schedule.png" width="60%" length="60%">
 
- ![Milestone](Resources/Schedule.png) 
 
  #### Detailed Milestones
 <a href = "Resources/Techlauncher Semester 1 Detailed Schedule.xlsx"><b> Click here for Detailed Milestones </b>
