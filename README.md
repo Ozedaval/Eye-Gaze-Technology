@@ -30,12 +30,16 @@ NIL
 
 <h3> 2.3Team Roles </h3>
 
-| Team Member      | Team Role                        | Email                | 
-
-|Kalaiarasan Somasundaram|Developer|u6170753@anu.edu.au|  
-|Maojun zhu|Technical Lead|u6555407@anu.edu.au| 
-|Minju Kang|Project Manager|minju.kang@outlook.com| 
-|Soobin Lee|Developer|u6682215@anu.edu.au| 
+__Project Manager (Minju)__
+ -Responsible to ensure that software development is suitably goverened and reported on
+ -Primary client liason
+ -Responsible for Project Management Platforms (Jira & Confluence)
+__Technical Lead (Maojun)__
+ -Works with the developers to articulate technical goals
+ -Works with the Project Manager to prioritise technical goals into an agreed plan that ensures quality and a timely delivery 
+__Developers (Kalai & Soobin)__
+ -Responsible for scoping cost, effort and timelines to deliver the technical solutions 
+ -Builds the deliverables and communicates the status of the software components to the Technical Lead and Project Manager
 
 <h3> 2.4 Stakeholders </h3>
 
