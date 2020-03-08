@@ -19,9 +19,17 @@ public class FaceTracker extends Tracker {
     @Override
     public void onUpdate(Detector.Detections detections, Object o) {
 
-
        Face face= (Face) detections.getDetectedItems().valueAt(0);
-        Log.d("FaceTrackerCallback","Tracking At "+face.getEulerY());
+       if(face.getEulerY()>0){
+//select Left
+       }
+       else{
+           //select left
+       }
+       // Since from the camera perspective left is right & vice versa
+       String rightEyeIs= face.getIsLeftEyeOpenProbability()>0.5?"open":"not open";
+        String leftEyeIs= face.getIsRightEyeOpenProbability()>0.5?"open":"not open";
+       Log.d("FaceTrackerCallback","Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
 
 }
 

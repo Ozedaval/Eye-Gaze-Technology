@@ -4,14 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.LargestFaceFocusingProcessor;
 import com.pwc.eyegaze.databinding.ActivityMainBinding;
