@@ -90,7 +90,7 @@ Project Manager (Minju)
 https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1
 
 Guest Account:
- - ID: audit.techlauncher
+ - ID: audit.techlauncher@outlook.com
  - PW: 2020techlauncher
 
 <h2><a name = "Title3"> 4. Technical Tools and Constraints</a></h2>
