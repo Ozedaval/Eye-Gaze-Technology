@@ -48,7 +48,9 @@ This project is designed for those who are not able to control their hands and s
 
 
 <h2><a name = "Title3"> 3. Traceability of Progress</a></h2>
+
 https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1
+
 Guest Account:
  - ID: audit.techlauncher
  - PW: 2020techlauncher
