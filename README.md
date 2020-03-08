@@ -11,7 +11,7 @@
 
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
-NIL 
+This project is designed for those who are not able to control their hands and speak but are able to control their eye and head movement. The application for the project is a communication tool for those people so that they can express their feeling through the application. In order to overcome their difficulties and limitations, we chose the technology of facial recognition so they can select words, sentences, and hopefully their feelings based on what they would like to express. For the extension of the application, blinking action will be recognised as a cliking event so that they can easily choose/click the interaction.
 
 <br />
 
