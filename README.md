@@ -28,14 +28,13 @@ NIL
 
 
 
-<h3> 2.3Team Rolls </h3>
+<h3> 2.3Team Roles </h3>
 
 | Team Member      | Team Role                        | Email                | 
-|------------------|----------------------------------|----------------------|  
-|------------------|----------------------------------|----------------------| 
-|------------------|----------------------------------|----------------------| 
-|------------------|----------------------------------|----------------------| 
-|------------------|----------------------------------|----------------------| 
+|Kalaiarasan Somasundaram|Developer|u6170753@anu.edu.au|  
+|Maojun zhu|Technical Lead|u6555407@anu.edu.au| 
+|Minju Kang|Project Manager|minju.kang@outlook.com| 
+|Soobin Lee|Developer|u6682215@anu.edu.au| 
 
 <h3> 2.4 Stakeholders </h3>
 
@@ -45,10 +44,12 @@ NIL
 
 
 <h2><a name = "Title3"> 4. Technical Tools and Constraints</a></h2>
+
 **Technical Tools:**
+Android Studio
 
 **Project Constraints:**
-
+We expect the users can control their eye and head movement.
 
 
 
