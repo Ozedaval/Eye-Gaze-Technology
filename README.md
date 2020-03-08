@@ -68,10 +68,15 @@ Guest Account:
 <h2><a name = "Title3"> 4. Technical Tools and Constraints</a></h2>
 
 **Technical Tools:**
-Android Studio
+ - Development plateform: Android Studio
+ - Eye gaze technology library: OpenCV
+ - Face tracking library: Mobile Vision?
 
 **Project Constraints:**
- - We expect the users to be able to control their eye and head movement.
+ - No hand motions
+ - No verbal inputs
+ - Assume that the end-users may have the capacity to focus their eye gaze and control head motions
+ - Affordability of the technology to ensure the cost on software and hardware are low
 
 
 
