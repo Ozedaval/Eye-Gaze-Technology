@@ -15,7 +15,7 @@ According to the World Health Organization, roughly 15% of the world's populatio
 
 The Eye Gaze technology has been widely used to capture eye movement and focus through infrared cameras and in turn control the screen display without physical interaction. Infrared cameras, developed at the quality required for eye tracking, are prohibitvely expensive. This makes the final product of eye gaze technology no longer affordable to the general populace. This project seeks for solutions to replace infrared cameras with smart phone cameras which are much more affordable and accessible. Our project proposes a communication assistance application via face and eye tracking to enable them to select words and compose sentences for disabled personnels. We seek to improve their ability to communicate their feelings and thoughts more effectively through our designed user interface.
 
-<h3> 2.4 Stakeholders </h3>
+<h3> Stakeholders </h3>
 
 #### End-users:
 Our project serves children with neural diseases that affects their body coordination, which means they cannot control their hands to click on mobile phones. Besides, our end-users may not have verbal capacity to sound their voices and needs. They may have:-
