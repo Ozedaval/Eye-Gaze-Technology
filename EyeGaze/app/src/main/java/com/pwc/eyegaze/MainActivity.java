@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.LargestFaceFocusingProcessor;
 import com.pwc.eyegaze.databinding.ActivityMainBinding;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -50,16 +53,28 @@ public class MainActivity extends AppCompatActivity {
                 .setMode(FaceDetector.ACCURATE_MODE)
                 .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
                 .build();
-        cameraSource = new CameraSource.Builder(getApplicationContext(),detector)
-                .setRequestedPreviewSize(640, 480)
-                .setFacing(CameraSource.CAMERA_FACING_FRONT)
-                .setRequestedFps(30.0f)
-                .build();
-     
-//        detector.setProcessor(
-//                new LargestFaceFocusingProcessor(
-//                        detector,
-//                        new FaceTracker()));
+
+
+        detector.setProcessor(
+                new LargestFaceFocusingProcessor(
+                        detector,
+                        new FaceTracker()));
+
+        try {
+            cameraSource = new CameraSource.Builder(getApplicationContext(),detector)
+                    .setRequestedPreviewSize(640, 480)
+                    .setFacing(CameraSource.CAMERA_FACING_FRONT)
+                    .setRequestedFps(30.0f)
+                    .build()
+                    .start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+//        SparseArray<Face> faces = detector.detect(frame);
+//        Toast.makeText(getApplicationContext(),faces.valueAt(0)+"",Toast.LENGTH_LONG).show();
+
         String apiReady=detector.isOperational()?"ready":"not ready";
         Toast.makeText(getApplicationContext(),"API "+apiReady,Toast.LENGTH_LONG).show();
     }
