@@ -30,16 +30,18 @@ NIL
 
 <h3> 2.3Team Roles </h3>
 
-__Project Manager (Minju)__
- -Responsible to ensure that software development is suitably goverened and reported on
- -Primary client liason
- -Responsible for Project Management Platforms (Jira & Confluence)
-__Technical Lead (Maojun)__
- -Works with the developers to articulate technical goals
- -Works with the Project Manager to prioritise technical goals into an agreed plan that ensures quality and a timely delivery 
-__Developers (Kalai & Soobin)__
- -Responsible for scoping cost, effort and timelines to deliver the technical solutions 
- -Builds the deliverables and communicates the status of the software components to the Technical Lead and Project Manager
+####Project Manager (Minju)
+ - Responsible to ensure that software development is suitably goverened and reported on
+ - Primary client liason
+ - Responsible for Project Management Platforms (Jira & Confluence)
+ 
+####Technical Lead (Maojun)
+ - Works with the developers to articulate technical goals
+ - Works with the Project Manager to prioritise technical goals into an agreed plan that ensures quality and a timely delivery 
+
+####Developers (Kalai & Soobin)
+ - Responsible for scoping cost, effort and timelines to deliver the technical solutions 
+ - Builds the deliverables and communicates the status of the software components to the Technical Lead and Project Manager
 
 <h3> 2.4 Stakeholders </h3>
 
