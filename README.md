@@ -45,7 +45,7 @@ Our client raises great expectations to minimize the expenses on the hardware us
     - Temporarily store content in a persistent storage.
     - Creating a local Database to store those content.
     - Implement the application which follows a good software design pattern/model(MVVM or MVP).
-    - Unit Testing of the features.
+    - Unit Testing of the added features & the logic part of Deliverable 1.
 ### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Before Week 7)
   * A MVP will be delivered such that it can allow users can communicate to another person by facial inputs.The application will be able to speak out the word selection made by the user.Furthermore,The sensitivity of the control can be altered.
      - Linking up the database to the application.
@@ -53,14 +53,17 @@ Our client raises great expectations to minimize the expenses on the hardware us
      - Uses an API to convert Text into Speech & store it in the local Storage.
      - Add the local Storage path for each word along with it in the Database.
      - Linking Images & making the UI more friendly. 
-     - Unit Testing of the features. 
+     - Unit Testing of the added features. 
 ### Deliverable 4: Customisable content feature (Semester 1: Before Week 9)
   * Users are able to add their own words to the App such that they can use that word to communicate with the help of the App.
     - Add the feature to add words to the database. 
     - Implement Observable design pattern to update UI.
-    - Add the feature to delete selected words from the database
-### Deliverable 5 (Semester 1: Before Week 10)
-* **Integrated Testing & stabilisation**
+    - Add the feature to delete selected words from the database.
+    - Unit Testing of the added features.
+### Deliverable 5: Integrated Testing & stabilisation (Semester 1: Before Week 10)
+  * Integrated testing will be implemented to make sure the app is stable & does not have any major bugs.
+    - Implement Integrated Testing.
+    - Check for any major bugs.
   
  
 
