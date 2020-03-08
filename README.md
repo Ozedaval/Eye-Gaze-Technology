@@ -11,8 +11,20 @@
 
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
-This project is designed for those who are not able to control their hands and speak but are able to control their eye and head movement. The application for the project is a communication tool for those people so that they can express their feeling through the application. In order to overcome their difficulties and limitations, we chose the technology of facial recognition so they can select words, sentences, and hopefully their feelings based on what they would like to express. For the extension of the application, blinking action will be recognised as a clicking event so that they can easily choose/click the interaction.
 
+Eye gaze technology has been widely used to capture eye sights through infrared cameras to control panels without hand click events. While there are critical expenses on infrared cameras which make the eye gaze technology no longer affordable to the general families. This project is proposed to seek for solutions to replace infrared cameras with mobile cameras which would be much more affordable and accessible. Considering that our end-users may have neural inabilities that they may have great difficulties to manage their body coordination and sound their voices. Our project proposes a communication assistance application via face tracking technology and eye gaze tracking technology to enhance them to select words and draft sentences. Hopefully, their feelings and thoughts could be expressed through our designed user interface.
+
+<h3> 2.4 Stakeholders </h3>
+#### End-users:
+Our project serves children with neural diseases that affects their body coordination, which means they cannot control their hands to click on mobile phones. Besides, our end-users may not have verbal capacity to sound their voices and needs. They may struggle with
+                Amyotrophic lateral sclerosis(ALS)
+                Parkinson's Disease
+                Brain injury
+                Cerebral Pulsy
+                Autism
+                
+#### Client:
+Our client raises great expectations to minimize the expenses on the hardware used in the eye gaze technology which merely seek solutions to replace infrared cameras. Both eye gaze technology and face tracking are permitted that no involvement of hand or verbal inputs.
 <br />
 
 <h2><a name = "Title2"> 2. Project Administration </a></h2>
@@ -40,9 +52,6 @@ This project is designed for those who are not able to control their hands and s
 #### Developers (Kalai & Soobin)
  - Responsible for scoping cost, effort and timelines to deliver the technical solutions 
  - Builds the deliverables and communicates the status of the software components to the Technical Lead and Project Manager
-
-<h3> 2.4 Stakeholders </h3>
-
 
 
 <h2><a name = "Title3"> 3. Traceability of Progress</a></h2>
