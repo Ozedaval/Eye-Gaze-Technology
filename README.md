@@ -36,9 +36,10 @@ Our client raises great expectations to minimize the expenses on the hardware us
 <h3> 2.1 Deliverables</h3>
 
 #### Deliverable 1: Prototype (Semester 1: Before Week 5):
-  * This prototype to showcase the conversion of facial inputs as touch & click events. 
-  It will be able to track facial inputs  whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
-     - Researching for a Trustworthy API(s) to recognise facial expression.
+  * Analysis on the technology supportive libraries on mobile devices.This prototype to showcase the conversion of facial inputs/eye gaze as touch & click events. Either succuessful adaption will be further modified as final solution.
+  Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
+  Eye Gaze: It will be able to track the eye gaze on the screen and concentrate the attention into a spot which will change smoothly as eye gaze shifts.  
+     - Researching for a Trustworthy API(s) to recognise facial expression/eye gaze.
      - Implement the Logic of the App which can use the API to convert into touch & click events.
 #### Deliverable 2: Basic Skeleton of App (Semester 1: Before start of Mid Semester Break)
   * The basic skeleton will consist of what the overall app will look like.This will be built based upon the Logic part of the prototype built in the previous deliverable.
@@ -47,7 +48,7 @@ Our client raises great expectations to minimize the expenses on the hardware us
     - Implement the application which follows a good software design pattern/model (MVVM or MVP).
     - Unit Testing for the added features if applicable & the logic part of Deliverable 1.
 #### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Before Week 7)
-  * A MVP will be delivered such that it can allow users can communicate to another person by facial inputs.The application will be able to speak out the word selection made by the user.Furthermore,The sensitivity of the control can be altered.
+  * A MVP will be delivered such that it can allow users can communicate to another person by facial inputs/eye gaze.The application will be able to speak out the word selection made by the user.Furthermore,The sensitivity of the control can be altered.
      - Replacing the persistent storage by Creating & Linking up the database to the application.
      - Implement Observable design pattern to update UI.
      - Use an API to convert Text into Speech & store it in the local Storage.
