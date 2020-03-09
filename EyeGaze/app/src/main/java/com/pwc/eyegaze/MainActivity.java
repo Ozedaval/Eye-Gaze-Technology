@@ -3,9 +3,11 @@ package com.pwc.eyegaze;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -51,14 +53,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-//        SparseArray<Face> faces = detector.detect(frame);
-//        Toast.makeText(getApplicationContext(),faces.valueAt(0)+"",Toast.LENGTH_LONG).show();
-
         String apiReady=detector.isOperational()?"ready":"not ready";
         Toast.makeText(getApplicationContext(),"API "+apiReady,Toast.LENGTH_LONG).show();
     }
-    public static void scaleNormalOrUp(View v, int motion){
-        if(motion==MotionEvent.ACTION_DOWN||motion==MotionEvent.ACTION_BUTTON_PRESS||motion==MotionEvent.ACTION_DOWN||motion==MotionEvent.ACTION_BUTTON_PRESS||motion==MotionEvent.AXIS_PRESSURE){
+    public static void scaleNormalOrUp(final View v, final int motion){
+v.post(new Runnable() {
+    @Override
+    public void run() {
+        if(motion==MotionEvent.AXIS_PRESSURE){
             v.setScaleX(1.10f);
             v.setScaleY(1.10f);}
         else{
@@ -66,6 +68,19 @@ public class MainActivity extends AppCompatActivity {
             v.setScaleY(1);
 
         }
+
+    }
+
+});}
+
+
+    public static void setText(final TextView v, final String text){
+        v.post(new Runnable() {
+            @Override
+            public void run() {
+                v.setText(text);
+            }
+        });
 
     }
 }
