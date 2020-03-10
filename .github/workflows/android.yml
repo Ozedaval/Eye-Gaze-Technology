@@ -1,10 +1,6 @@
 name: Android CI
 
-on: 
-    push:
-      branches: [ Stage_1_Kalai ]
-    pull_request:
-      branches: [ Stage_1_Kalai ]
+on: push
 
 jobs:
   build:
