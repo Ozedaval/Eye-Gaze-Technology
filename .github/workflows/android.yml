@@ -2,9 +2,9 @@ name: Android CI
 
 on:
   push:
-    branches: [ stage_1_kalai ]
+    branches: [ stage_1_kalai_CI ]
   pull_request:
-    branches: [ stage_1_kalai ]
+    branches: [ stage_1_kalai_CI ]
 
 jobs:
   build:
