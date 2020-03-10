@@ -20,7 +20,7 @@ public class FaceTracker extends Tracker {
     private ActivityMainBinding binding;
 
     public FaceTracker(ActivityMainBinding binding) {
-      this.binding=binding;
+        this.binding=binding;
 
     }
 
@@ -36,32 +36,32 @@ public class FaceTracker extends Tracker {
     @Override
     public void onUpdate(Detector.Detections detections, Object o) {
         // Since from the camera perspective left is right & vice versa
-       Face face= (Face) detections.getDetectedItems().valueAt(0);
-       float eulerY= face.getEulerY();
-       Boolean isRightEyeClosed= face.getIsLeftEyeOpenProbability()<0.5;
+        Face face= (Face) detections.getDetectedItems().valueAt(0);
+        float eulerY= face.getEulerY();
+        Boolean isRightEyeClosed= face.getIsLeftEyeOpenProbability()<0.5;
         String rightEyeIs= isRightEyeClosed?"not open":"open";
         String leftEyeIs= face.getIsRightEyeOpenProbability()>0.5?"open":"not open";
         Log.d("FaceTrackerCallback","Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
 
-       if(eulerY>15){
-                   scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.AXIS_PRESSURE);
-                     if(isRightEyeClosed) { setText(binding.yesTextView,"SELECTED YES");}
+        if(eulerY>15){
+            scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.AXIS_PRESSURE);
+            if(isRightEyeClosed) { setText(binding.yesTextView,"SELECTED YES");}
 
-      else{setText(binding.yesTextView,"YES");} }
-       else if (eulerY<-30) {
-           scaleNormalOrUp(binding.linearLayoutNo, MotionEvent.AXIS_PRESSURE);
-           if(isRightEyeClosed) { setText(binding.noTextView,"Selected NO");}
-           else{setText(binding.noTextView,"NO");}
-       }
+            else{setText(binding.yesTextView,"YES");} }
+        else if (eulerY<-30) {
+            scaleNormalOrUp(binding.linearLayoutNo, MotionEvent.AXIS_PRESSURE);
+            if(isRightEyeClosed) { setText(binding.noTextView,"Selected NO");}
+            else{setText(binding.noTextView,"NO");}
+        }
 
-       else{
-setText(binding.yesTextView,"YES");
-setText(binding.noTextView,"NO");
-           scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.ACTION_CANCEL);
-           scaleNormalOrUp(binding.linearLayoutNo,MotionEvent.ACTION_CANCEL);
-       }
+        else{
+            setText(binding.yesTextView,"YES");
+            setText(binding.noTextView,"NO");
+            scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.ACTION_CANCEL);
+            scaleNormalOrUp(binding.linearLayoutNo,MotionEvent.ACTION_CANCEL);
+        }
 
-}
+    }
 
     @Override
     public void onMissing(Detector.Detections detections) {
