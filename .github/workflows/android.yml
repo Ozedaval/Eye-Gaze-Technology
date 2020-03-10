@@ -1,6 +1,10 @@
 name: Android CI
 
-on: push
+on: 
+    push:
+      branches: [ Stage_1_Kalai ]
+    pull_request:
+      branches: [ Stage_1_Kalai ]
 
 jobs:
   build:
@@ -13,5 +17,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Giving Permission for Accessing Gradle file
+      run: chmod +x ./EyeGaze/gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./EyeGaze/gradlew build
