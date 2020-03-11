@@ -1,25 +1,19 @@
 package com.pwc.eyegaze;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
-
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.pwc.eyegaze.databinding.ActivityMainBinding;
-
 import static com.pwc.eyegaze.MainActivity.scaleNormalOrUp;
 import static com.pwc.eyegaze.MainActivity.setText;
 
 public class FaceTracker extends Tracker {
     private ActivityMainBinding binding;
 
-    public FaceTracker(ActivityMainBinding binding) {
+    FaceTracker(ActivityMainBinding binding) {
         this.binding=binding;
 
     }
@@ -39,18 +33,20 @@ public class FaceTracker extends Tracker {
         Face face= (Face) detections.getDetectedItems().valueAt(0);
         float eulerY= face.getEulerY();
         Boolean isRightEyeClosed= face.getIsLeftEyeOpenProbability()<0.5;
+        Boolean isLeftEyeClosed=face.getIsRightEyeOpenProbability()<0.5;
         String rightEyeIs= isRightEyeClosed?"not open":"open";
-        String leftEyeIs= face.getIsRightEyeOpenProbability()>0.5?"open":"not open";
+        String leftEyeIs= isLeftEyeClosed?"not open":"open";
         Log.d("FaceTrackerCallback","Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
 
         if(eulerY>15){
+            // face turns left
             scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.AXIS_PRESSURE);
-            if(isRightEyeClosed) { setText(binding.yesTextView,"SELECTED YES");}
-
+            if(isRightEyeClosed||isLeftEyeClosed) { setText(binding.yesTextView,"SELECTED YES");}
             else{setText(binding.yesTextView,"YES");} }
         else if (eulerY<-30) {
+            // face turns right
             scaleNormalOrUp(binding.linearLayoutNo, MotionEvent.AXIS_PRESSURE);
-            if(isRightEyeClosed) { setText(binding.noTextView,"Selected NO");}
+            if(isRightEyeClosed||isLeftEyeClosed) { setText(binding.noTextView,"Selected NO");}
             else{setText(binding.noTextView,"NO");}
         }
 
