@@ -37,9 +37,9 @@ Our client raises great expectations to minimize the expenses on the hardware us
 
 #### Deliverable 1: Define Requirements (Semester 1: Before Midterm):
   * Design thinking should be adopted to analyze difficulties our end-users may confront daily when they may fail to voice their needs. The project specifications should be drafted to define these problems to ensure the values delivered to children with neural disease.
-  - The project should ensure that our end-users could learn how to use the functions of software with low barriers.
-  - The project should cover that major communications needs of our end-users in their daily life, such as their emotional expressions, and Food demands
-  - The project should cover the requirements from our end-users' parents that their concerns and expectations on communication features would be prioritized.
+    - The project should ensure that our end-users could learn how to use the functions of software with low barriers.
+    - The project should cover that major communications needs of our end-users in their daily life, such as their emotional expressions, and Food demands
+    - The project should cover the requirements from our end-users' parents that their concerns and expectations on communication features would be prioritized.
 #### Deliverable 2: Prototype (Semester 1: Week 5 - Week 7):
   * Analysis on the technology supportive libraries on mobile devices.This prototype to showcase the conversion of facial inputs/eye gaze as touch & click events. Either succuessful adaption will be further modified as final solution.
   - Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
