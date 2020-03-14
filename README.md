@@ -35,14 +35,14 @@ Our client raises great expectations to minimize the expenses on the hardware us
 
 <h3> 2.1 Schedule</h3>
 
-#### Define Requirements & Research (Semester 1: Before Midterm):
+#### Define Requirements & Research (Semester 1: Before Week 6):
   * Design thinking should be adopted to analyze difficulties our end-users may confront daily when they may fail to voice their needs. The project specifications should be drafted to define these problems to ensure the values delivered to children with neural disease.
     - The project should ensure that our end-users could learn how to use the functions of software with low barriers.
     - The project should cover that major communications needs of our end-users in their daily life, such as their emotional expressions, and Food demands
     - The project should cover the requirements from our end-users' parents that their concerns and expectations on communication features would be prioritized.
     
     
-#### Deliverable 1: Prototype (Semester 1: Week 5 - Week 7):
+#### Deliverable 1: Prototype (Semester 1: Before Break Week 1):
   * Analysis on the technology supportive libraries on mobile devices.This prototype to showcase the conversion of facial inputs/eye gaze as touch & click events. Either succuessful adaption will be further modified as final solution.
       > Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
       
@@ -50,18 +50,17 @@ Our client raises great expectations to minimize the expenses on the hardware us
      - Researching for a Trustworthy API(s) to recognise facial expression/eye gaze.
      - Implement the Logic of the App which can use the API to convert into touch & click events.
      
-#### Deliverable 2: Basic Skeleton of App (Semester 1: Week 7 - Week 8)
+#### Deliverable 2: Basic Skeleton of App (Semester 1: Before Week 7)
   * The basic skeleton will consist of what the overall app will look like.This will be built based upon the Logic part of the prototype built in the previous deliverable.
     - Creating basic content for assisting communication.
     - Temporarily store content in a persistent storage.
     - Implement the application which follows a good software design pattern/model (MVVM or MVP).
-    - Unit Testing for the added features if applicable & the logic part of Deliverable 1.
-#### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Week 8 - Week 10)
+    - Unit Testing for the added features if applicable.
+#### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Before Week 10)
   * A MVP will be delivered which could successful adapt the eye gaze or face tracking technology into our android application that users may manage to touch and click screens to help them sound their voices with basic sentence structures.
-     - Replacing the persistent storage by Creating & Linking up the database to the application.
+     - Using a local database to store words & related data.
      - Use an API to convert Text into Speech & store it in the local Storage.
-     - Add the local Storage path for each word along with it in the Database.
-     - Link the sound of word such that upon interacting with the respective View object, the word will be read out.
+     - Adding Input Sensitivity Settings
      - Linking Images & making the UI more friendly. 
      - Unit Testing of the added features if applicable. 
 
@@ -79,10 +78,7 @@ Our client raises great expectations to minimize the expenses on the hardware us
 
 
  #### Detailed Milestones
-<a href = "Resources/Techlauncher Semester 1 Detailed Schedule.xlsx"><b> Click here for Detailed Milestones </b>
-
-
-
+  [Use Jira to Access][1]
 
 
 
@@ -107,7 +103,7 @@ Project Manager (Minju)
 
 <a href = "https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1/roadmap"><b> Jira Project Management Platform </b></a><br/>
 
-Guest Account:
+[1]: GuestAccount:
  - ID: audit.techlauncher@outlook.com
  - PW: 2020techlauncher
 
@@ -120,10 +116,11 @@ Guest Account:
  
 
 **Project Constraints:**
+- Affordability of the technology to ensure the cost on software and hardware are low.
  - No hand motions.
  - No verbal inputs.
  - Assume that the end-users may have the capacity to focus their eye gaze and control head motions.
- - Affordability of the technology to ensure the cost on software and hardware are low.
+ 
 
 
 
