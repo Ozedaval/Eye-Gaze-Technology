@@ -78,7 +78,7 @@ Our client raises great expectations to minimize the expenses on the hardware us
 
 
  #### Detailed Milestones
-  [Use Jira to Access][1]
+  [Use Jira to Access](1)
 
 
 
@@ -104,9 +104,9 @@ Project Manager (Minju)
 <a href = "https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1/roadmap"><b> Jira Project Management Platform </b></a><br/>
 
 [1]: GuestAccount:
-[GuestAccount](https://id.atlassian.com/login?application=jira&continue=https%3A%2F%2Fcomp3500.atlassian.net%2Flogin%3FredirectCount%3D1%26dest-url%3D%252Fjira%252Fsoftware%252Fprojects%252FMEGT%252Fboards%252F1%252Froadmap%26application%3Djira&email=audit.techlauncher%40outlook.com)
- - ID: audit.techlauncher@outlook.com
- - PW: 2020techlauncher
+[GuestAccount](https://id.atlassian.com/login?application=jira&continue=https%3A%2F%2Fcomp3500.atlassian.net%2Flogin%3FredirectCount%3D1%26dest-url%3D%252Fjira%252Fsoftware%252Fprojects%252FMEGT%252Fboards%252F1%252Froadmap%26application%3Djira&email=audit.techlauncher%40outlook.com) (Note: Copy _PW_ before clicking GuestAccount)
+ - _ID_: audit.techlauncher@outlook.com
+ - _PW_: 2020techlauncher
 
 <h2><a name = "Title4"> 4. Technical Tools and Constraints</a></h2>
 
