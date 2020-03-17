@@ -74,7 +74,7 @@ Our client raises great expectations to minimize the expenses on the hardware us
 <h3> 2.2 Milestones</h3>
 
 #### Overview of Milestones
-<img src="Resources/Schedule.png" width="40%" length="40%">
+<img src="Schedule.png" width="40%" length="40%">
 
 
  #### Detailed Milestones
