@@ -74,11 +74,7 @@ Our client raises great expectations to minimize the expenses on the hardware us
 <h3> 2.2 Milestones</h3>
 
 #### Overview of Milestones
-<<<<<<< HEAD
 <img src="Resources/Schedule.png" width="40%" length="40%">
-=======
-<img src="Schedule.png" width="40%" length="40%">
->>>>>>> 20acc2fd2d3ba03e1ff4c2f4dd6b77f7f0ac2fee
 
 
  #### Detailed Milestones
@@ -101,10 +97,10 @@ Project Manager (Minju)
  - Responsible for scoping cost, effort and timelines to deliver the technical solutions 
  - Builds the deliverables and communicates the status of the software components to the Technical Lead and Project Manager
 
-
+<a name = "JiraAccess"/>
 <h2><a name = "Title3"> 3. Traceability of Progress</a></h2>
 
-<a name = "JiraAccess"/>
+
 <a href = "https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1/roadmap"><b> Jira Project Management Platform </b></a><br/>
 
 
