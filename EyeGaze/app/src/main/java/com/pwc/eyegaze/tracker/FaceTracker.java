@@ -1,6 +1,5 @@
-package com.pwc.eyegaze;
+package com.pwc.eyegaze.tracker;
 
-import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.google.android.gms.vision.Detector;
@@ -13,7 +12,7 @@ import static com.pwc.eyegaze.MainActivity.setText;
 public class FaceTracker extends Tracker {
     private ActivityMainBinding binding;
 
-    FaceTracker(ActivityMainBinding binding) {
+    public FaceTracker(ActivityMainBinding binding) {
         this.binding=binding;
 
     }
@@ -26,7 +25,6 @@ public class FaceTracker extends Tracker {
 
 
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public void onUpdate(Detector.Detections detections, Object o) {
         // Since from the camera perspective left is right & vice versa
