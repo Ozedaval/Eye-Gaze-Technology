@@ -83,8 +83,11 @@ Project Manager (Minju)
 <a href = "https://app.slack.com/client/TUX4W2LDP/CV9DJ2ZQW"><b> Slack </b></a><br/>
 <h4> Documentation:</h4>
 <a href = "https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ"><b>Google Drive</b></a><br/>
+Meeting Minutes<br/>
 Decision Making<br/>
 Reflection Log<br/>
+Risk Register<br/>
+
 <h4> Teamwork:</h4>
 <a href = "https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1/roadmap"><b> Jira Project Management Platform</b></a>
 <br/>
