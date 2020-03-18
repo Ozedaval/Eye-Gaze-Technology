@@ -100,7 +100,7 @@ Project Manager (Minju)
 <a name = "JiraAccess"/>
 <h2><a name = "Title3"> 3. Traceability of Progress</a></h2>
 <h4> Communication:</h4>
-<a href = "https://app.slack.com/client/TUX4W2LDP/CV9DJ2ZQW"><b> Slack </b></a><br/>
+<a href = "https://app.slack.com/client/TUX4W2LDP/CV9DJ2ZQW"><b> Slack </b></a>
 <h4> Documentation:</h4>
 <a href = "https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ"><b> Google Drive </b></a><br/>
 <a href = "https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1/roadmap"><b> Jira Project Management Platform</b></a>
