@@ -41,24 +41,24 @@ Our client raises great expectations to minimize the expenses on the hardware us
 To collect data about the end users & to analyse their common characteristics & difficulties;to ideate possible solutions to make their communication better.
 * Technology analysis:
 Research about the feasibility of implementing those possible solutions.
-Analysis include research on mobile device libraries + peripherals (to replace IR camera)
-Either successful adaptation will be further modified as a final solution.<br/>
+Analysis include research on mobile device libraries + peripherals (to replace IR camera)<br/>
+<b>Either successful adaptation will be further modified as a final solution.</b><br/>
   >Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.<br/>
   >Eye Gaze: It will be able to track the eye gaze on the screen and concentrate the attention into a spot which will change smoothly as eye gaze shifts.<br/>
     
 #### Deliverable 2: Basic Skeleton of Android  App (Semester 1:Before Week 8 ~26/04 )
 The basic skeleton will consist of what the overall app will look like & function.<br/>
-  >Creating basic content on communication<br/>
-  >Temporarily store content in a persistent storage.<br/>
-  >Implement the application which follows a good software design pattern/model (MVVM or MVP).<br/>
-  >Unit Testing for the added features if applicable.<br/>
+  > *Creating basic content on communication<br/>
+  > *Temporarily store content in a persistent storage.<br/>
+  > *Implement the application which follows a good software design pattern/model (MVVM or MVP).<br/>
+  > *Unit Testing for the added features if applicable.<br/>
 
      
 #### Deliverable 3:Minimum Viable Product- MVP (Semester 1: Before Week 10 ~10/05)
 A MVP will be delivered which could successfully adapt the eye gaze or face tracking technology into our android application that users may manage to imitate  touch and click events to help them sound their voices with basic sentence structures.<br/>
-  >Using a local database to store data.<br/>
-  >Linking Images & making the UI more friendly.<br/>
-  >Unit Testing of the added features.<br/>
+  > *Using a local database to store data.<br/>
+  > *Linking Images & making the UI more friendly.<br/>
+  > *Unit Testing of the added features.<br/>
 
 
 
