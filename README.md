@@ -41,7 +41,7 @@ Our client raises great expectations to minimize the expenses on the hardware us
 To collect data about the end users & to analyse their common characteristics & difficulties;to ideate possible solutions to make their communication better.
 * Technology analysis:
 Research about the feasibility of implementing those possible solutions.
-Analysis include research on mobile device libraries + peripherals (to replace IR camera)<br/>
+Analysis include research on mobile device libraries + peripherals to seek for solutions to replace Infrared Camberas<br/>
 <b>Either successful adaptation will be further modified as a final solution.</b><br/>
   >Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.<br/>
   >Eye Gaze: It will be able to track the eye gaze on the screen and concentrate the attention into a spot which will change smoothly as eye gaze shifts.<br/>
