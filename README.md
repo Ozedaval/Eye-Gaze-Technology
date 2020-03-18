@@ -1,5 +1,5 @@
 # Techlauncher Eye-Gaze-Technology
-![Image description](link-to-image)
+!(https://github.com/Ozedaval/Eye-Gaze-Technology/blob/master/sample%20communication%20application.jpg)
 <h2><a name = "content"> Table of Contents </a></h2>
 
 <a href = "#Title1"><b> 1. Project Description </b></a><br/>
