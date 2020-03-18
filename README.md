@@ -1,12 +1,11 @@
 # Techlauncher Eye-Gaze-Technology
+![Image description](link-to-image)
 <h2><a name = "content"> Table of Contents </a></h2>
 
 <a href = "#Title1"><b> 1. Project Description </b></a><br/>
 <a href = "#Title2"><b> 2. Project Administration </b></a><br/>
 <a href = "#Title3"><b> 3. Traceability of Progress </b></a><br/> 
 <a href = "#Title4"><b> 4. Technical Tools and Constraints </b></a><br/>
-
-
 <br />
 
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
