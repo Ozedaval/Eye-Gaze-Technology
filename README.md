@@ -71,7 +71,7 @@ A MVP will be delivered which could successfully adapt the eye gaze or face trac
 
    
 
-<h3> 2.3 Team Roles </h3>
+<h3> 2.2 Team Roles </h3>
 
 #### Project Manager (Minju)
  - Responsible to ensure that software development is suitably goverened and reported on
