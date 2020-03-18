@@ -4,7 +4,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
+import com.google.android.gms.vision.face.Contour;
 import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.Landmark;
 import com.pwc.eyegaze.databinding.ActivityMainBinding;
 import static com.pwc.eyegaze.MainActivity.scaleNormalOrUp;
 import static com.pwc.eyegaze.MainActivity.setText;
@@ -38,6 +40,7 @@ public class FaceTracker extends Tracker {
 
         if(eulerY>15){
             // face turns left
+
             scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.AXIS_PRESSURE);
             if(isRightEyeClosed||isLeftEyeClosed) { setText(binding.yesTextView,"SELECTED YES");}
             else{setText(binding.yesTextView,"YES");} }
