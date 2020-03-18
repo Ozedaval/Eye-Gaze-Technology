@@ -7,7 +7,7 @@
 <a href = "#Title3"><b> 3. Traceability of Progress </b></a><br/> 
 <a href = "#Title4"><b> 4. Technical Tools and Constraints </b></a><br/>
 <br />
-![Image description](https://github.com/Ozedaval/Eye-Gaze-Technology/blob/master/sample%20communication%20application.jpg)
+![tobii dynavox](https://github.com/Ozedaval/Eye-Gaze-Technology/blob/master/sample%20communication%20application.jpg)
 
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
