@@ -35,50 +35,30 @@ Our client raises great expectations to minimize the expenses on the hardware us
 
 <h3> 2.1 Schedule</h3>
 
-#### Define Requirements & Research (Semester 1: Before Week 6):
-  * Design thinking should be adopted to analyze difficulties our end-users may confront daily when they may fail to voice their needs. The project specifications should be drafted to define these problems to ensure the values delivered to children with neural disease.
-    - The project should ensure that our end-users could learn how to use the functions of software with low barriers.
-    - The project should cover that major communications needs of our end-users in their daily life, such as their emotional expressions, and Food demands
-    - The project should cover the requirements from our end-users' parents that their concerns and expectations on communication features would be prioritized.
+#### Deliverable 1: Research (Before Break ~ 05/04)
+
+* User research: 
+To collect data about the end users & to analyse their common characteristics & difficulties;to ideate possible solutions to make their communication better.
+* Technology analysis:
+Research about the feasibility of implementing those possible solutions.
+Analysis include research on mobile device libraries + peripherals (to replace IR camera)
+Either successful adaptation will be further modified as a final solution.
+  -Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
+  -Eye Gaze: It will be able to track the eye gaze on the screen and concentrate the attention into a spot which will change smoothly as eye gaze shifts.    
     
-    
-#### Deliverable 1: Prototype (Semester 1: Before Break Week 1):
-  * Analysis on the technology supportive libraries on mobile devices.This prototype to showcase the conversion of facial inputs/eye gaze as touch & click events. Either succuessful adaption will be further modified as final solution.
-      > Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
-      
-      > Eye Gaze: It will be able to track the eye gaze on the screen and concentrate the attention into a spot which will change smoothly as eye gaze shifts. 
-     - Researching for a Trustworthy API(s) to recognise facial expression/eye gaze.
-     - Implement the Logic of the App which can use the API to convert into touch & click events.
+#### Deliverable 2: Basic Skeleton of Android  App (Semester 1:Before Week 8 ~26/04 )
+The basic skeleton will consist of what the overall app will look like & function.
+  -Creating basic content on communication
+  -Temporarily store content in a persistent storage.
+  -Implement the application which follows a good software design pattern/model (MVVM or MVP).
+  -Unit Testing for the added features if applicable.
+
      
-#### Deliverable 2: Basic Skeleton of App (Semester 1: Before Week 7)
-  * The basic skeleton will consist of what the overall app will look like.This will be built based upon the Logic part of the prototype built in the previous deliverable.
-    - Creating basic content for assisting communication.
-    - Temporarily store content in a persistent storage.
-    - Implement the application which follows a good software design pattern/model (MVVM or MVP).
-    - Unit Testing for the added features if applicable.
-#### Deliverable 3:Minimum Viable Product-MVP (Semester 1: Before Week 10)
-  * A MVP will be delivered which could successful adapt the eye gaze or face tracking technology into our android application that users may manage to touch and click screens to help them sound their voices with basic sentence structures.
-     - Using a local database to store words & related data.
-     - Use an API to convert Text into Speech & store it in the local Storage.
-     - Adding Input Sensitivity Settings
-     - Linking Images & making the UI more friendly. 
-     - Unit Testing of the added features if applicable. 
-
-#### Integrated Testing (Semester 1: Week 10 - Week 12)
-  * Integrated testing will be implemented to make sure the app is stable & does not have any major bugs.
-    - Implement Integrated Testing.
-    - Check for any major bugs & fix them if found.   
-
-   
-
-<h3> 2.2 Milestones</h3>
-
-#### Overview of Milestones
-<img src="Resources/Schedule.png" width="40%" length="40%">
-
-
- #### Detailed Milestones
- <a href = "#JiraAccess"><b> Use Jira to Access </b></a><br/>
+#### Deliverable 3:Minimum Viable Product- MVP (Semester 1: Before Week 10 ~10/05)
+A MVP will be delivered which could successfully adapt the eye gaze or face tracking technology into our android application that users may manage to imitate  touch and click events to help them sound their voices with basic sentence structures.
+  -Using a local database to store data.
+  -Linking Images & making the UI more friendly.
+  -Unit Testing of the added features.
 
 
 
