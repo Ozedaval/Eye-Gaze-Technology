@@ -9,7 +9,7 @@
 
 <br />
 <p align="center">
-<img src="Resources/Sample_communication_application.jpg"  width="35%" length="35%" >
+<img src="Resources/Sample_communication_application.jpg"  width="45%" length="45%" >
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
@@ -99,7 +99,7 @@ A MVP will be delivered which could successfully adapt the eye gaze or face trac
 
   * [Feedback & Reflection](https://drive.google.com/open?id=1Ez3zpXuvb3K82JIZOckS8c_vj4hy5sOG)
 
-  * [Meeting Minutes](https://drive.google.com/open?id=1TMtd5c0iiUnPlhUVqIoGrRtxkxuArVoK)
+  * [Meeting Minutes](https://drive.google.com/open?id=1XRX-F2_kUdTftGIQKBF57nrPVdt4L3jy)
 
   * [Risk Analysis](https://drive.google.com/open?id=1Uw5uD4dYpGCd37f2pzDuS4Xqts_sX_hmQ5OORyHsGHU)
 
