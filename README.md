@@ -42,32 +42,27 @@ Our clients raise great expectations to minimize the expenses on the hardware us
 
 <h3> 2.1 Schedule</h3>
 
-#### Deliverable 1: Research (Before Break ~ 05/04)
+#### Deliverable 1: Research Analysis (Semester 1:Before Week 8 ~26/04)
 
 * User research: 
 To collect data about the end users & to analyse their common characteristics & difficulties;to ideate possible solutions to make their communication better.
 * Technology analysis:
 Research about the feasibility of implementing those possible solutions.
-Analysis include research on mobile device libraries + peripherals to seek for solutions to replace Infrared Cameras
+Analysis include research on mobile device libraries + peripherals (to replace IR camera)
 
-  **Either or Both successful adaptation will be further modified as a final solution.**
+* Research on:
   >Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
 
   >Eye Gaze: It will be able to track the eye gaze on the screen and concentrate the attention into a spot which will change smoothly as eye gaze shifts.
-    
-#### Deliverable 2: Basic Skeleton of Android  App (Semester 1:Before Week 8 ~26/04 )
-The basic skeleton will consist of what the overall app will look like & function.
-  * Creating basic content on communication
-  * Temporarily store content in a persistent storage.
-  * Implement the application which follows a good software design pattern/model (MVVM or MVP).
-  * Unit Testing for the added features if applicable.
+  
 
-     
-#### Deliverable 3:Minimum Viable Product- MVP (Semester 1: Before Week 10 ~10/05)
-A MVP will be delivered which could successfully adapt the eye gaze or face tracking technology into our android application that users may manage to imitate  touch and click events to help them sound their voices with basic sentence structures.
-  * Using a local database to store data.
-  * Linking Images & making the UI more friendly.
-  * Unit Testing of the added features.
+    
+#### Deliverable 2: Two exploratory tools (Before Week 10 ~10/05 )
+* The exploratory tools consist of core function that we expect to use in the second semester.
+Creating sample content without interactions with cursors
+Enable eye gaze tracking & facial tracking to imitate cursor movement & click events.
+
+Further Deliverables will be discovered in next Semester.
 
    
 
