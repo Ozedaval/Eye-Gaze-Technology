@@ -21,7 +21,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.pwc.explore.face.FaceActivity"
+            android:name="com.pwc.explore.face.FaceEventActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+        <activity
+            android:name="com.pwc.explore.eyegaze.EyeGazeEventActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
         </activity>

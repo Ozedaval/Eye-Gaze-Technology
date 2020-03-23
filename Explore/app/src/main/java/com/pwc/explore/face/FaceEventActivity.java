@@ -1,26 +1,25 @@
 package com.pwc.explore.face;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.LargestFaceFocusingProcessor;
-import com.pwc.explore.databinding.ActivityFaceEventBinding;
+import com.pwc.explore.databinding.ActivityEventUiBinding;
 
 import java.io.IOException;
 
-public class FaceActivity extends AppCompatActivity {
-    private ActivityFaceEventBinding binding;
+public class FaceEventActivity extends AppCompatActivity {
+
+
+    private ActivityEventUiBinding binding;
     private CameraSource cameraSource;
 
 
@@ -28,7 +27,7 @@ public class FaceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityFaceEventBinding.inflate(getLayoutInflater());
+        binding=ActivityEventUiBinding.inflate(getLayoutInflater());
         View view =binding.getRoot();
         setContentView(view);
 

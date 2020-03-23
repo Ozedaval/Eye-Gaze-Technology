@@ -5,14 +5,16 @@ import android.view.MotionEvent;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
-import com.pwc.explore.databinding.ActivityFaceEventBinding;
-import static com.pwc.explore.face.FaceActivity.scaleNormalOrUp;
-import static com.pwc.explore.face.FaceActivity.setText;
+import com.pwc.explore.databinding.ActivityEventUiBinding;
+import static com.pwc.explore.face.FaceEventActivity.scaleNormalOrUp;
+import static com.pwc.explore.face.FaceEventActivity.setText;
 
 public class FaceTracker extends Tracker {
-    private ActivityFaceEventBinding binding;
+    /*TODO (1.Use Cursor Class appropriately
+            2.Check if reference to binding is causing memory leaks) */
+    private ActivityEventUiBinding binding;
 
-    public FaceTracker(ActivityFaceEventBinding binding) {
+    public FaceTracker(ActivityEventUiBinding binding) {
         this.binding=binding;
 
     }

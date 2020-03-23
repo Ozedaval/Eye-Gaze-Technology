@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.pwc.explore.face.FaceActivity;
+import com.pwc.explore.face.FaceEventActivity;
 
 public class MainActivity extends AppCompatActivity {
     private final int PERMISSION_REQUEST_CODE=1;
@@ -34,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startFaceEvent(View view) {
-        Intent faceEventIntent=new Intent(this, FaceActivity.class);
+        Intent faceEventIntent=new Intent(this, FaceEventActivity.class);
         startActivity(faceEventIntent);
     }
 
     public void startEyeGazeEvent(View view) {
+        // TODO(Link up OpenCV Event here;Once OpenCV basic functionality is done)
         Toast.makeText(this,"Still in Development",Toast.LENGTH_LONG).show();
     }
 
