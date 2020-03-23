@@ -14,6 +14,6 @@ jobs:
       with:
         java-version: 1.8
     - name: Giving Permission for Accessing Gradle file
-      run: chmod +x ./EyeGaze/gradlew
+      run: chmod +x ./Explore/gradlew
     - name: Build with Gradle
-      run: ./EyeGaze/gradlew build
+      run: ./Explore/gradlew build
