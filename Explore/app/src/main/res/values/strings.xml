@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Explore</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="eye_gaze_event">EyeGaze Event</string>
+    <string name="face_event">Face Event</string>
+</resources>
