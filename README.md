@@ -42,26 +42,37 @@ Our clients raise great expectations to minimize the expenses on the hardware us
 
 <h3> 2.1 Schedule</h3>
 
-#### Deliverable 1: Research Analysis (Semester 1:Before Week 8 ~26/04)
+#### Deliverable 1: Research Analysis
 
-* User research: 
-To collect data about the end users & to analyse their common characteristics & difficulties;to ideate possible solutions to make their communication better.
-* Technology analysis:
-Research about the feasibility of implementing those possible solutions.
-Analysis include research on mobile device libraries + peripherals (to replace IR camera)
+* User research Report:
 
-* Research on:
-  >Face Tracking: It will be able to track facial inputs whether the eye is open or not & the angle of the head such that it can be used to select & operate the Application UI.
+  The research involves:
+  * Collection of data about the end users
+  * Analysing their common characteristics & difficulties
+  * Ideating possible solutions to make their communication better while considering the practicality of using it.
+* Technology analysis Report:
 
-  >Eye Gaze: It will be able to track the eye gaze on the screen and concentrate the attention into a spot which will change smoothly as eye gaze shifts.
-  
+  The research involves:
+  * Analysing the feasibility of implementing those possible solutions & the usability and quality of it.
+  * Analysing furthermore mobile device libraries/APIs + peripherals (to replace IR camera)
+
+* Evidence of Progress on exploring Technical Approaches(in form of Code):
+
+The technical approches will be related to:
+  * Facial Tracking
+  * Eye Gaze Tracking
+
 
     
-#### Deliverable 2: Two exploratory tools (Before Week 10 ~10/05 )
-* The exploratory tools consist of core function that we expect to use in the second semester.
-Creating sample content without interactions with cursors
-Enable eye gaze tracking & facial tracking to imitate cursor movement & click events.
-
+#### Deliverable 2: Two exploratory tools
+* The exploratory tools consist of core functions that we expect to use in the future semesters.These tools will act as an evidence of us providing implementations which use the below mentioned technologies.
+  * Eye gaze tracking
+  
+    The tool created will be able to imitate cursor movements.
+  * Facial tracking
+    
+    The tool created will be able to use facial inputs to imitate cursor movement & click events.
+    
 Further Deliverables will be discovered in next Semester.
 
    
