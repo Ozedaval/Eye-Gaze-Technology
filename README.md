@@ -58,7 +58,7 @@ Our clients raise great expectations to minimize the expenses on the hardware us
 
 * Evidence of Progress on exploring Technical Approaches(in form of Code):
 
-The technical approches will be related to:
+  The technical approches will be related to:
   * Facial Tracking
   * Eye Gaze Tracking
 
