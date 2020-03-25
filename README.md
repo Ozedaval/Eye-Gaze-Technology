@@ -16,7 +16,7 @@
 
 According to the World Health Organization, roughly 15% of the world's population live with some form of disability. There is a technology that helps people with disabilities to communicate better in life. The major barrier however in accessing this technology is its high cost that most people cannot afford. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform.
 
-The Eye Gaze technology has been widely used to capture eye movement and focus through infrared cameras and in turn control the screen display without physical interaction. Infrared cameras, developed at the quality required for eye tracking, are expensive. This makes the final product of eye gaze technology no longer affordable to the general populace. This project seeks for solutions to replace infrared cameras with smartphone cameras which are much more affordable and accessible. 
+The Eye Gaze technology has been widely used to capture eye movement and focus through infrared cameras and in turn control the screen display without physical interaction. Infrared cameras, developed at the quality required for eye tracking, are expensive. This makes the final product of eye gaze technology no longer affordable to the general populace. This project seeks for possible solutions to recreate eye gaze technology in more affordable way.
 
 
 ### Stakeholders 
