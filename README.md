@@ -99,7 +99,6 @@ Further Deliverables will be discovered in next Semester.
 
 <h2><a name = "Title4"> 4. Documentation</a></h2>
 
-#### Documentation:
 
 - [All](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ)
   * [Decision Making](https://drive.google.com/open?id=1saNyL4HzxOY_hxSUxgXdmyMEt44hYi6K)
