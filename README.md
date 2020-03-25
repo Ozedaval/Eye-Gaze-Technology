@@ -56,7 +56,7 @@ Our project serves personnels with neural diseases that affects their body coord
 + **Technology analysis Report**  
    The research involves:   
     * Analysing the feasibility of implementing those possible solutions & the usability and quality of it.  
-    * Analysing furthermore mobile device libraries/APIs + peripherals (to replace IR camera)  
+    * Analysing furthermore mobile device libraries/APIs + peripherals
 + **Evidence of Progress on exploring Technical Approaches(in form of Code)**  
    The technical approaches will be related to:
     * Facial Tracking
@@ -118,7 +118,7 @@ Further Deliverables will be discovered in next Semester.
  
 
 **Project Constraints:**
-- Affordability of the technology to ensure the cost on software and hardware are low.
+- Affordability of the technology to ensure the cost on software and hardware are under $200.
  - No hand motions.
  - No verbal inputs.
  - Assume that the end-users may have the capacity to focus their eye gaze and control head motions.
