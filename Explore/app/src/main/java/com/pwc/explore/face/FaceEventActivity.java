@@ -6,14 +6,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.LargestFaceFocusingProcessor;
 import com.pwc.explore.databinding.ActivityEventUiBinding;
-
 import java.io.IOException;
 
 public class FaceEventActivity extends AppCompatActivity {
