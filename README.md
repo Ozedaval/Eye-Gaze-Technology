@@ -1,4 +1,4 @@
-# Techlauncher Eye-Gaze-Technology
+# Techlauncher Eye-Gaze-Technology   
 <h2><a name = "content"> Table of Contents </a></h2>
 
 <a href = "#Title1"><b> 1. Project Overview </b></a><br/>
@@ -16,7 +16,7 @@
 
 According to the World Health Organization, roughly 15% of the world's population live with some form of disability. There is a technology that helps people with disabilities to communicate better in life. The major barrier however in accessing this technology is its high cost that most people cannot afford. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform.
 
-The Eye Gaze technology has been widely used to capture eye movement and focus through infrared cameras and in turn control the screen display without physical interaction. Infrared cameras, developed at the quality required for eye tracking, are expensive. This makes the final product of eye gaze technology no longer affordable to the general populace. This project seeks for solutions to replace infrared cameras with smartphone cameras which are much more affordable and accessible.
+The Eye Gaze technology has been widely used to capture eye movement and focus through infrared cameras and in turn control the screen display without physical interaction. Infrared cameras, developed at the quality required for eye tracking, are expensive. This makes the final product of eye gaze technology no longer affordable to the general populace. This project seeks for solutions to replace infrared cameras with smartphone cameras which are much more affordable and accessible. 
 
 
 ### Stakeholders 
@@ -45,28 +45,29 @@ Our project serves personnels with neural diseases that affects their body coord
 
 <h2><a name = "Title2"> 2. Project Administration </a></h2>
 
-<h3> 2.1 Schedule</h3>
+<h3> 2.1 Deliverables</h3>
 
-#### Deliverable 1: Research Analysis 
-+ User research Report<br/>
+#### Deliverable 1: Research Analysis   
+ + **User research Report**  
   The research involves:  
     * Collection of data about the end users  
     * Analysing their common characteristics & difficulties  
     * Ideating possible solutions to make their communication better while considering the practicality of using it.  
-+ Technology analysis Report<br/>
++ **Technology analysis Report**  
    The research involves:   
     * Analysing the feasibility of implementing those possible solutions & the usability and quality of it.  
     * Analysing furthermore mobile device libraries/APIs + peripherals (to replace IR camera)  
-+ Evidence of Progress on exploring Technical Approaches(in form of Code).The technical approches will be related to:
++ **Evidence of Progress on exploring Technical Approaches(in form of Code)**  
+   The technical approaches will be related to:
     * Facial Tracking
     * Eye Gaze Tracking
 
     
 #### Deliverable 2: Two exploratory tools
 + The exploratory tools consist of core functions that we expect to use in the future semesters.These tools will act as an evidence of us providing implementations which use the below mentioned technologies.
-  * Eye gaze tracking
+  * **Eye gaze tracking**  
     The tool created will be able to imitate cursor movements.
-  * Facial tracking
+  * **Facial tracking**   
     The tool created will be able to use facial inputs to imitate cursor movement & click events.
     
 Further Deliverables will be discovered in next Semester.
@@ -75,18 +76,16 @@ Further Deliverables will be discovered in next Semester.
 
 <h3> 2.2 Team Roles </h3>
 
-#### Project Manager (Minju)
- - Responsible to ensure that software development is suitably goverened and reported on
- - Primary client liason
- - Responsible for Project Management Platforms (Jira & Confluence)
- 
-#### Technical Lead (Maojun)
- - Works with the developers to articulate technical goals
- - Works with the Project Manager to prioritise technical goals into an agreed plan that ensures quality and a timely delivery 
-
-#### Developers (Kalai & Soobin)
- - Responsible for scoping cost, effort and timelines to deliver the technical solutions 
- - Builds the deliverables and communicates the status of the software components to the Technical Lead and Project Manager
++ **Project Manager** (Minju)  
+    * Responsible to ensure that software development is suitably goverened and reported on
+    * Primary client liason
+    * Responsible for Project Management Platforms (Jira & Confluence)
++ **Project Leader** (Maojun)
+    * Works with the developers to articulate technical goals
+    * Works with the Project Manager to prioritise technical goals into an agreed plan that ensures quality and a timely delivery 
++ **Developers** (Kalai & Soobin)
+    * Responsible for scoping cost, effort and timelines to deliver the technical solutions 
+    * Builds the deliverables and communicates the status of the software components to the Project Leader and Project Manager
 
 
 
