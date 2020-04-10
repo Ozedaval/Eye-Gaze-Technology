@@ -24,7 +24,7 @@
 
 * [**Deliverables**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 
-* [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Stakeholders)
+* [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Team-Members-&-Roles)
 
 <h2><a name = "Title3"> 3. Traceability of Progress & Teamwork</a></h2>
 
