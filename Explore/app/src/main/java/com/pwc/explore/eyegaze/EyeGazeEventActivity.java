@@ -1,15 +1,17 @@
 package com.pwc.explore.eyegaze;
-import org.opencv.objdetect.Objdetect;
+
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.pwc.explore.databinding.ActivityEventUiBinding;
-
+import org.opencv.objdetect.CascadeClassifier;
 
 
 public class EyeGazeEventActivity extends AppCompatActivity {
-/*    TODO MAO(1.Temporarily do actually manipulation of eyegaze here.
+/*    TODO  (1.Temporarily do actually manipulation of eyegaze here.
                2.Add UI changes accordingly
                3. Use Cursor Class appropriately) */
 
@@ -21,5 +23,14 @@ public class EyeGazeEventActivity extends AppCompatActivity {
         View view =binding.getRoot();
         setContentView(view);
 
+
+//TODO 2(After TODO 1,Need to pass eye model & face XML string path to cascadeClassifier)
+        CascadeClassifier faceCascade = new CascadeClassifier();
+        CascadeClassifier eyeCascade= new CascadeClassifier();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String path=getApplicationInfo().dataDir;
+            Log.d("Path name", path) ;
+        }
     }
 }
+

@@ -38,28 +38,15 @@
 
 - [**All**](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ)
   * [Decision Making](https://drive.google.com/open?id=1saNyL4HzxOY_hxSUxgXdmyMEt44hYi6K)
+  * [Output](https://drive.google.com/open?id=1OQ9x4_ARRlfDZPdr63_p5DNzwD6NIkFe)
   * [Feedback & Reflection](https://drive.google.com/open?id=1Ez3zpXuvb3K82JIZOckS8c_vj4hy5sOG)
   * [Meeting Minutes](https://drive.google.com/open?id=1XRX-F2_kUdTftGIQKBF57nrPVdt4L3jy)
-  * [Output](https://drive.google.com/open?id=1OQ9x4_ARRlfDZPdr63_p5DNzwD6NIkFe)
   * [Research & Analysis](https://drive.google.com/open?id=1FrzmrwSpPv-w4EeVi7kL5PmxduSmQMSS)
-  * [Risk Analysis](https://drive.google.com/open?id=1Uw5uD4dYpGCd37f2pzDuS4Xqts_sX_hmQ5OORyHsGHU)
+
 
 <h2><a name = "Title5"> 5. Technical Tools and Constraints</a></h2>
-
-* **Technical Tools:**
-  - Team Communication: [Slack](https://techlauncher-eyegaze.slack.com/) & Zoom
-  - Client Communication: Google Hangout & Whatsapp
-  - Development platform: Android Studio
-  - Face & Eye tracking: Google Mobile Vision API
-  - Eye Gaze technology: OpenCV  library
+  
+ * [**Technical Tools**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Technical-Tools)
  
-
-* **Project Constraints:**
-  - Affordability of the technology to ensure the cost on software and hardware are under $200.
-  - No hand motions.
-  - No verbal inputs.
-  - Assume that the end-users may have the capacity to focus their eye gaze and control head motions.
+ * [**Project Constraints**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Project-Constraints)
  
-
-
-

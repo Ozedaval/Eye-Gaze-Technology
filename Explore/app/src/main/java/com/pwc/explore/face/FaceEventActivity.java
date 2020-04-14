@@ -20,7 +20,7 @@ public class FaceEventActivity extends AppCompatActivity {
     private CameraSource cameraSource;
 
 
-    @SuppressLint("ClickableViewAccessibility")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
