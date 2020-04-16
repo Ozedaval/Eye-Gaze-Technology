@@ -68,7 +68,7 @@ class StaticHelper {
         {
             Log.d(TAG, "Cannot load library \"" + Name + "\"");
             e.printStackTrace();
-            result &= false;
+            result = false;
         }
 
         return result;
@@ -92,7 +92,7 @@ class StaticHelper {
         else
         {
             // If dependencies list is not defined or empty.
-            result &= loadLibrary("opencv_java");
+            result = loadLibrary("opencv_java4");
         }
 
         return result;

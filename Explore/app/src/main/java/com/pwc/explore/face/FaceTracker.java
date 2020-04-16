@@ -36,7 +36,7 @@ public class FaceTracker extends Tracker {
         Boolean isLeftEyeClosed=face.getIsRightEyeOpenProbability()<0.3;
         String rightEyeIs= isRightEyeClosed?"not open":"open";
         String leftEyeIs= isLeftEyeClosed?"not open":"open";
-        Log.d("FaceTrackerCallback","Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
+        Log.d(getClass().getName(),"Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
 
         if(eulerY>15){
             // face turns left

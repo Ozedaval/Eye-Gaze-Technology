@@ -8,4 +8,6 @@
     <string name="main_preference_key">main_preference_key</string>
     <string name="first_run_preference_key">first_run_preference_key</string>
     <string name="hang_on_msg">Hang on while Application is initialising</string>
+    <string name="intialisation_done_msg">Initialisation done</string>
+    <string name="in_development_note_msg">Note: Feature is still in Development</string>
 </resources>

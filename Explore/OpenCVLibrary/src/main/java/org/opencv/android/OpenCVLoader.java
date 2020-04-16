@@ -58,6 +58,47 @@ public class OpenCVLoader
     public static final String OPENCV_VERSION_2_4_11 = "2.4.11";
 
     /**
+     * OpenCV Library version 2.4.12.
+     */
+    public static final String OPENCV_VERSION_2_4_12 = "2.4.12";
+
+    /**
+     * OpenCV Library version 2.4.13.
+     */
+    public static final String OPENCV_VERSION_2_4_13 = "2.4.13";
+
+    /**
+     * OpenCV Library version 3.0.0.
+     */
+    public static final String OPENCV_VERSION_3_0_0 = "3.0.0";
+
+    /**
+     * OpenCV Library version 3.1.0.
+     */
+    public static final String OPENCV_VERSION_3_1_0 = "3.1.0";
+
+    /**
+     * OpenCV Library version 3.2.0.
+     */
+    public static final String OPENCV_VERSION_3_2_0 = "3.2.0";
+
+    /**
+     * OpenCV Library version 3.3.0.
+     */
+    public static final String OPENCV_VERSION_3_3_0 = "3.3.0";
+
+    /**
+     * OpenCV Library version 3.4.0.
+     */
+    public static final String OPENCV_VERSION_3_4_0 = "3.4.0";
+
+    /**
+     * Current OpenCV Library version
+     */
+    public static final String OPENCV_VERSION = "4.2.0";
+
+
+    /**
      * Loads and initializes OpenCV library from current application package. Roughly, it's an analog of system.loadLibrary("opencv_java").
      * @return Returns true is initialization of OpenCV was successful.
      */
