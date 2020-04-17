@@ -1,6 +1,6 @@
 package com.pwc.explore.face;
 
-import android.annotation.SuppressLint;
+
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.pwc.explore.databinding.ActivityEventUiBinding;
 import java.io.IOException;
 
 public class FaceEventActivity extends AppCompatActivity {
-
+// TODO(1.Need to address Activity Lifecycle)
 
     private ActivityEventUiBinding binding;
     private CameraSource cameraSource;

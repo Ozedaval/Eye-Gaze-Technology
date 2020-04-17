@@ -26,43 +26,24 @@ import org.opencv.videoio.VideoCapture;
 import java.util.Arrays;
 import java.util.List;
 
-/*References:
-https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
-https://github.com/opencv/opencv/blob/master/samples/android/face-detection/src/org/opencv/samples/facedetect/FdActivity.java*/
+
 
 
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 /*    TODO  (1.Temporarily do actually manipulation of eyegaze here.
                2.Add UI changes accordingly
-               3. Use Cursor Class appropriately
+               3.Use Cursor Class appropriately
                4.Need to address Activity Lifecycle)
       Note: The image layout "Test" is temporary since as far
       as I have searched it appears that majority of  OpenCV implementations  uses the cameraBridgeViewBase - produces a preview.
       This preview can be hidden by changing the output of the callback:onCameraFrame.
-      The Output produce by the camera is flipped & needs to be addressed.This is an already existing underlying issue in OpenCV*/
+      The Output produced by the camera is flipped & needs to be addressed.This is an already existing underlying issue in OpenCV*/
 
 
     static{ System.loadLibrary( "opencv_java4" );}
     private CascadeClassifier faceCascade;
     private CascadeClassifier eyesCascade;
     private CameraBridgeViewBase camera;
-
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-                    Log.d(getClass().getName(), "Loading of OpenCV done ");
-                    camera.enableView();
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
-            }
-        }
-    };
 
 
     @Override
@@ -93,7 +74,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         }
     }
 
-
+    /*References for detect function:
+    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
+    */
     public Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade){
         Mat frameGray = new Mat();
         Imgproc.cvtColor(frame, frameGray, Imgproc.COLOR_BGR2GRAY);
@@ -107,7 +90,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         for (Rect face : listOfFaces) {
             Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.ellipse(frame, center, new Size(face.width / 2, face.height / 2), 0, 0, 360,
-                    new Scalar(255, 0, 255));
+                    new Scalar(100, 200, 100));
             Log.d(getClass().getName() +"Face "," X co-ordinate  is "+center.x +"Y co ordinate" + center.y );
 
             Mat faceROI = frameGray.submat(face);
@@ -125,19 +108,13 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
             }
         }
-    return frame;}
+        return frame;}
 
     @Override
     public void onResume()
     {
+        camera.enableView();
         super.onResume();
-        if (!OpenCVLoader.initDebug()) {
-            Log.d(getClass().getName(), "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mLoaderCallback);
-        } else {
-            Log.d(getClass().getName(), "OpenCV library found inside package. Using it!");
-            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
     }
 
     @Override
@@ -153,6 +130,6 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Log.d(getClass().getName(),"OnCameraFrame triggered");
-       return detect(inputFrame.rgba(),faceCascade,eyesCascade);
+        return detect(inputFrame.rgba(),faceCascade,eyesCascade);
     }
 }

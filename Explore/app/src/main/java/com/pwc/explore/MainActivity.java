@@ -26,10 +26,11 @@ import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
-    //TODO(Make Initialisation into a
-    //     separate fragment/activity (Loading screen) to prevent users clicking UI components)
-    private final int PERMISSION_REQUEST_CODE=1;
+/*    TODO(1.Make Initialisation into a
+         separate fragment/activity (Loading screen) to prevent users clicking UI components
+         2.Need to address Activity Lifecycle)*/
 
+    private final int PERMISSION_REQUEST_CODE=1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
