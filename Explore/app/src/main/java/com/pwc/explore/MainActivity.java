@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import com.pwc.explore.databinding.ActivityMainBinding;
-import com.pwc.explore.eyegaze.EyeGazeEventActivity;
+import com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity;
 import com.pwc.explore.face.FaceEventActivity;
 
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toggleClickButton(Button button){
         boolean isVisible=button.getVisibility()==View.VISIBLE;
-        int visibility=isVisible?View.GONE:View.VISIBLE;
+        int prospectiveVisibility=isVisible?View.GONE:View.VISIBLE;
         button.setFocusableInTouchMode(!isVisible);
-        button.setVisibility(visibility);}
+        button.setVisibility(prospectiveVisibility);}
 }

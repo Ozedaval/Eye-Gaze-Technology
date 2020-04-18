@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze;
+package com.pwc.explore.eyegaze.mlkitnormal;
 
 import com.pwc.explore.Cursor;
 

@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze;
+package com.pwc.explore.eyegaze.opencvshape;
 
 
 import android.os.Bundle;
@@ -10,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.pwc.explore.R;
 
-import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
@@ -22,7 +19,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.videoio.VideoCapture;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,12 +63,6 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
 
-        VideoCapture capture = new VideoCapture();
-        capture.open(CameraBridgeViewBase.CAMERA_ID_FRONT);
-
-        if (!capture.isOpened()) {
-            Log.e(getClass().getName(),"Capture is empty!");
-        }
     }
 
     /*References for detect function:

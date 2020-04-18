@@ -18,6 +18,7 @@ public class FaceEventActivity extends AppCompatActivity {
 
     private ActivityEventUiBinding binding;
     private CameraSource cameraSource;
+    private FaceDetector detector;
 
 
 
@@ -30,7 +31,7 @@ public class FaceEventActivity extends AppCompatActivity {
 
 
 
-        FaceDetector detector = new FaceDetector.Builder(getApplicationContext())
+    detector = new FaceDetector.Builder(getApplicationContext())
                 .setProminentFaceOnly(true)
                 .setMode(FaceDetector.ACCURATE_MODE)
                 .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
@@ -85,4 +86,10 @@ public class FaceEventActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        detector.release();
+        cameraSource.release();
+        super.onDestroy();
+    }
 }
