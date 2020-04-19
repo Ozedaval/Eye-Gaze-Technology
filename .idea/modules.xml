@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Explore/OpenCVLibrary/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/aapt.iml" filepath="$PROJECT_DIR$/Explore/OpenCVLibrary/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/aapt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Explore/app/src/androidTest/androidTest.iml" filepath="$PROJECT_DIR$/Explore/app/src/androidTest/androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Explore/OpenCVLibrary/build/generated/source/buildConfig/buildConfig.iml" filepath="$PROJECT_DIR$/Explore/OpenCVLibrary/build/generated/source/buildConfig/buildConfig.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Explore/OpenCVLibrary/build/intermediates/library_manifest/debug/debug.iml" filepath="$PROJECT_DIR$/Explore/OpenCVLibrary/build/intermediates/library_manifest/debug/debug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Explore/app/src/main/main.iml" filepath="$PROJECT_DIR$/Explore/app/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Explore/OpenCVLibrary/src/main/main1.iml" filepath="$PROJECT_DIR$/Explore/OpenCVLibrary/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Explore/app/src/test/test.iml" filepath="$PROJECT_DIR$/Explore/app/src/test/test.iml" />
+    </modules>
+  </component>
+</project>

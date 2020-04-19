@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Explore</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="eye_gaze_event">EyeGaze Event</string>
+    <string name="face_event">Face Event</string>
+    <string name="main_preference_key">main_preference_key</string>
+    <string name="first_run_preference_key">first_run_preference_key</string>
+    <string name="hang_on_msg">Hang on while Application is initialising</string>
+</resources>
