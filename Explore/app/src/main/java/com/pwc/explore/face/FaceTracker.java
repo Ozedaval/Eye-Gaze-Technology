@@ -6,16 +6,20 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.pwc.explore.databinding.ActivityEventUiBinding;
+import com.pwc.explore.databinding.ActivityMainBinding;
+
+import java.lang.ref.WeakReference;
+
 import static com.pwc.explore.face.FaceEventActivity.scaleNormalOrUp;
 import static com.pwc.explore.face.FaceEventActivity.setText;
 
 public class FaceTracker extends Tracker {
     /*TODO (1.Use Cursor Class appropriately
             2.Check if reference to binding is causing memory leaks) */
-    private ActivityEventUiBinding binding;
+    private WeakReference<ActivityEventUiBinding> weakReferenceBinding;
 
     public FaceTracker(ActivityEventUiBinding binding) {
-        this.binding=binding;
+        weakReferenceBinding=new WeakReference<>(binding);
 
     }
 
@@ -30,13 +34,14 @@ public class FaceTracker extends Tracker {
     @Override
     public void onUpdate(Detector.Detections detections, Object o) {
         // Since from the camera perspective left is right & vice versa
+        ActivityEventUiBinding binding= weakReferenceBinding.get();
         Face face= (Face) detections.getDetectedItems().valueAt(0);
         float eulerY= face.getEulerY();
         Boolean isRightEyeClosed= face.getIsLeftEyeOpenProbability()<0.3;
         Boolean isLeftEyeClosed=face.getIsRightEyeOpenProbability()<0.3;
         String rightEyeIs= isRightEyeClosed?"not open":"open";
         String leftEyeIs= isLeftEyeClosed?"not open":"open";
-        Log.d("FaceTrackerCallback","Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
+        Log.d(getClass().getName(),"Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
 
         if(eulerY>15){
             // face turns left

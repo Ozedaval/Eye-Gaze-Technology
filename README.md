@@ -28,11 +28,8 @@
 
 <h2><a name = "Title3"> 3. Traceability of Progress & Teamwork</a></h2>
 
-[**Jira Project Management Platform**](https://comp3500.atlassian.net/jira/software/projects/MEGT/boards/1/roadmap)
-
-[GuestAccount](https://id.atlassian.com/login?application=jira&continue=https%3A%2F%2Fcomp3500.atlassian.net%2Flogin%3FredirectCount%3D1%26dest-url%3D%252Fjira%252Fsoftware%252Fprojects%252FMEGT%252Fboards%252F1%252Froadmap%26application%3Djira&email=audit.techlauncher%40outlook.com) (Note: Copy _PW_ content before clicking GuestAccount)
- - _ID_: audit.techlauncher@outlook.com
- - _PW_: 2020techlauncher
+* [**Jira Project Management Platform**](https://id.atlassian.com/login?application=jira&continue=https%3A%2F%2Fcomp3500.atlassian.net%2Flogin%3FredirectCount%3D1%26dest-url%3D%252Fjira%252Fsoftware%252Fprojects%252FMEGT%252Fboards%252F1%252Froadmap%26application%3Djira&email=audit.techlauncher%40outlook.com)
+    - _Password_: 2020techlauncher
 
 <h2><a name = "Title4"> 4. Documentation</a></h2>
 

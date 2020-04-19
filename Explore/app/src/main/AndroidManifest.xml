@@ -26,7 +26,7 @@
             tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-            android:name="com.pwc.explore.eyegaze.EyeGazeEventActivity"
+            android:name="com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
         </activity>
