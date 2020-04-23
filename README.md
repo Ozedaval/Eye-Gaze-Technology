@@ -47,5 +47,5 @@
  
  * [**Project Constraints**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Project-Constraints)
  
- <h2><a name = "Feedback">6. Feedback</a></h2>
+ <h2><a name = "Feedback">Feedback</a></h2>
  <a href = "https://drive.google.com/open?id=1j--azvBIf_7xkufhe8fR2g7GvuG47eTfvsKeAyDyk6Y"><b>We would like to hear your thougths!</a>
