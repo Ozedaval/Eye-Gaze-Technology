@@ -18,13 +18,15 @@ jobs:
     - name: Giving Permission for Accessing Gradle file
       run: chmod +x ./Explore/gradlew
 
-    - name: Compiling Project using  Gradle
+    - name: Compiling Project using Gradle
       run: ./Explore/gradlew build
 
-    - name: Building artifact
-      run: ./Explore/gradlew assembleDebug -a -b app/build.gradle
+    - name: Building Explore APK artifact
+      run: |
+       ./Explore/gradlew assembleDebug  -b Explore/OpenCVLibrary/build.gradle
+       ./Explore/gradlew assembleDebug  -b Explore/app/build.gradle
 
     - uses: actions/upload-artifact@v1
       with:
-        name: APK
-        path: Explore/app/build/output/apk/debug/app-debug.apk
+        name: Explore_APK
+        path: ./Explore/app/build/outputs/apk/debug/app-debug.apk
