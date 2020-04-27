@@ -18,7 +18,7 @@ jobs:
     - name: Giving Permission for Accessing Gradle file
       run: chmod +x ./Explore/gradlew
 
-    - name: Build with Gradle
+    - name: Compiling Project using  Gradle
       run: ./Explore/gradlew build
 
     - name: Building artifact
@@ -27,4 +27,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: APK
-        path: ./Explore/app/build/output/apk/debug/app-debug.apk
+        path: Explore/app/build/output/apk/debug/app-debug.apk
