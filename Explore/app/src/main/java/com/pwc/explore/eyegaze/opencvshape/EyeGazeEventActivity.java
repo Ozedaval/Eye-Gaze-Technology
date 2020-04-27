@@ -4,14 +4,12 @@ package com.pwc.explore.eyegaze.opencvshape;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.pwc.explore.R;
-
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -19,10 +17,8 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-
 
 
 
@@ -57,18 +53,18 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
         faceCascade = new CascadeClassifier();
         eyesCascade = new CascadeClassifier();
-        Log.d(getClass().getName(), Arrays.toString(fileList()));
-        Log.d(getClass().getName(), getFileStreamPath("eyeModel.xml").getAbsolutePath());
-        Log.d(getClass().getName(), getFileStreamPath("faceModel.xml").getAbsolutePath());
+//        Log.d(getClass().getName(), Arrays.toString(fileList()));
+//        Log.d(getClass().getName(), getFileStreamPath("eyeModel.xml").getAbsolutePath());
+//        Log.d(getClass().getName(), getFileStreamPath("faceModel.xml").getAbsolutePath());
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
 
     }
 
-    /*References for detect function:
+    /*Functionality up to detecting eyes in inspired from:
     https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
     */
-    public Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade){
+    public Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
         Mat frameGray = new Mat();
         Imgproc.cvtColor(frame, frameGray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.equalizeHist(frameGray, frameGray);
@@ -77,29 +73,42 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         MatOfRect faces = new MatOfRect();
         faceCascade.detectMultiScale(frameGray, faces);
 
+        //Just use the first face detected
         List<Rect> listOfFaces = faces.toList();
-        for (Rect face : listOfFaces) {
+        if (!listOfFaces.isEmpty()) {
+            Rect face = listOfFaces.get(0);
             Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.ellipse(frame, center, new Size(face.width / 2, face.height / 2), 0, 0, 360,
                     new Scalar(100, 200, 100));
-            Log.d(getClass().getName() +"Face "," X co-ordinate  is "+center.x +"Y co ordinate" + center.y );
-
+            Log.d(getClass().getName() + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);
             Mat faceROI = frameGray.submat(face);
 
             // -- In each face, detect eyes
             MatOfRect eyes = new MatOfRect();
             eyesCascade.detectMultiScale(faceROI, eyes);
-
             List<Rect> listOfEyes = eyes.toList();
-            for (Rect eye : listOfEyes) {
+            Mat[] eyesROI = new Mat[2];
+            for (int i = 0; i < listOfEyes.size(); i++) {
+                Rect eye = listOfEyes.get(i);
                 Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
                 int radius = (int) Math.round((eye.width + eye.height) * 0.25);
                 Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 4);
-                Log.d(getClass().getName() +"Eyes "," X co-ordinate  is "+eyeCenter.x +"Y co ordinate" + eyeCenter.y );
+                Log.d(getClass().getName() + "Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
+//                eyesROI[i] = faceROI.(eye);
+            }
+            try {
+                Log.d(getClass().getSimpleName() + "Contours", "Reached");
+                List<MatOfPoint> contours = new ArrayList<>();
+                Mat hierarchy = new Mat();
 
+//            Imgproc.findContours(eyesROI[0],contours,hierarchy,Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_SIMPLE);
+               Log.d(getClass().getSimpleName() + "Contours", faceROI.empty()+ "");
+            } catch (Exception e) {
+
+Log.e(getClass().getSimpleName(),"Error"+e.getMessage());
             }
         }
-        return frame;}
+   return frame; }
 
     @Override
     public void onResume()
@@ -110,7 +119,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-        Log.d(getClass().getName(),"On Camera View Started");
+//        Log.d(getClass().getName(),"On Camera View Started");
     }
 
     @Override
@@ -120,7 +129,13 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        Log.d(getClass().getName(),"OnCameraFrame triggered");
+//        Log.d(getClass().getName(),"OnCameraFrame triggered");
         return detect(inputFrame.rgba(),faceCascade,eyesCascade);
+    }
+
+    @Override
+    protected void onDestroy() {
+        camera.surfaceDestroyed(camera.getHolder());
+        super.onDestroy();
     }
 }

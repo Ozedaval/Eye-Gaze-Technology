@@ -54,7 +54,7 @@ class Initialisation extends AsyncTask<Void,Void,Void> {
         Log.d("Initialisation ", "Done  Copying");
     }
 
-    
+
     @Override
     protected Void doInBackground(Void... voids) {
         //TODO 1( Need to delete xml attached to apk in res/raw)

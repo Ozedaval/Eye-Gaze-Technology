@@ -6,7 +6,7 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.pwc.explore.databinding.ActivityEventUiBinding;
-import com.pwc.explore.databinding.ActivityMainBinding;
+
 
 import java.lang.ref.WeakReference;
 

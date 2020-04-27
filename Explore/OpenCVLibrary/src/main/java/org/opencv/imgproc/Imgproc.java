@@ -28,41 +28,41 @@ import org.opencv.utils.Converters;
 public class Imgproc {
 
     private static final int
-            IPL_BORDER_CONSTANT = 0,
-            IPL_BORDER_REPLICATE = 1,
-            IPL_BORDER_REFLECT = 2,
-            IPL_BORDER_WRAP = 3,
-            IPL_BORDER_REFLECT_101 = 4,
-            IPL_BORDER_TRANSPARENT = 5,
-            CV_INTER_NN = 0,
-            CV_INTER_LINEAR = 1,
-            CV_INTER_CUBIC = 2,
-            CV_INTER_AREA = 3,
-            CV_INTER_LANCZOS4 = 4,
-            CV_MOP_ERODE = 0,
-            CV_MOP_DILATE = 1,
-            CV_MOP_OPEN = 2,
-            CV_MOP_CLOSE = 3,
-            CV_MOP_GRADIENT = 4,
-            CV_MOP_TOPHAT = 5,
-            CV_MOP_BLACKHAT = 6,
-            CV_RETR_EXTERNAL = 0,
-            CV_RETR_LIST = 1,
-            CV_RETR_CCOMP = 2,
-            CV_RETR_TREE = 3,
-            CV_RETR_FLOODFILL = 4,
-            CV_CHAIN_APPROX_NONE = 1,
-            CV_CHAIN_APPROX_SIMPLE = 2,
-            CV_CHAIN_APPROX_TC89_L1 = 3,
-            CV_CHAIN_APPROX_TC89_KCOS = 4,
-            CV_THRESH_BINARY = 0,
-            CV_THRESH_BINARY_INV = 1,
-            CV_THRESH_TRUNC = 2,
-            CV_THRESH_TOZERO = 3,
-            CV_THRESH_TOZERO_INV = 4,
-            CV_THRESH_MASK = 7,
-            CV_THRESH_OTSU = 8,
-            CV_THRESH_TRIANGLE = 16;
+            IPL_BORDER_CONSTANT = 0;
+    private static final int IPL_BORDER_REPLICATE = 1;
+    private static final int IPL_BORDER_REFLECT = 2;
+    private static final int IPL_BORDER_WRAP = 3;
+    private static final int IPL_BORDER_REFLECT_101 = 4;
+    private static final int IPL_BORDER_TRANSPARENT = 5;
+    private static final int CV_INTER_NN = 0;
+    private static final int CV_INTER_LINEAR = 1;
+    private static final int CV_INTER_CUBIC = 2;
+    private static final int CV_INTER_AREA = 3;
+    private static final int CV_INTER_LANCZOS4 = 4;
+    private static final int CV_MOP_ERODE = 0;
+    private static final int CV_MOP_DILATE = 1;
+    private static final int CV_MOP_OPEN = 2;
+    private static final int CV_MOP_CLOSE = 3;
+    private static final int CV_MOP_GRADIENT = 4;
+    private static final int CV_MOP_TOPHAT = 5;
+    private static final int CV_MOP_BLACKHAT = 6;
+    private static final int CV_RETR_EXTERNAL = 0;
+    private static final int CV_RETR_LIST = 1;
+    private static final int CV_RETR_CCOMP = 2;
+    private static final int CV_RETR_TREE = 3;
+    private static final int CV_RETR_FLOODFILL = 4;
+    private static final int CV_CHAIN_APPROX_NONE = 1;
+    private static final int CV_CHAIN_APPROX_SIMPLE = 2;
+    private static final int CV_CHAIN_APPROX_TC89_L1 = 3;
+    private static final int CV_CHAIN_APPROX_TC89_KCOS = 4;
+    private static final int CV_THRESH_BINARY = 0;
+    private static final int CV_THRESH_BINARY_INV = 1;
+    private static final int CV_THRESH_TRUNC = 2;
+    private static final int CV_THRESH_TOZERO = 3;
+    private static final int CV_THRESH_TOZERO_INV = 4;
+    private static final int CV_THRESH_MASK = 7;
+    private static final int CV_THRESH_OTSU = 8;
+    private static final int CV_THRESH_TRIANGLE = 16;
 
 
     // C++: enum HersheyFonts
