@@ -102,7 +102,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
                 Mat hierarchy = new Mat();
 
 //            Imgproc.findContours(eyesROI[0],contours,hierarchy,Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_SIMPLE);
-               Log.d(getClass().getSimpleName() + "Contours", faceROI.empty()+ "");
+               Log.d(getClass().getSimpleName() + "Contours", faceROI.elemSize()+ "");
             } catch (Exception e) {
 
 Log.e(getClass().getSimpleName(),"Error"+e.getMessage());
