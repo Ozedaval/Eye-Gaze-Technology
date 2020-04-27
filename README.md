@@ -1,4 +1,5 @@
 # Techlauncher Eye-Gaze-Technology   
+![Android CI](https://github.com/Ozedaval/Eye-Gaze-Technology/workflows/Android%20CI/badge.svg?branch=openCV)
 <h2><a name = "content"> Table of Contents </a></h2>
 
 <a href = "#Title1"><b> 1. Project Overview </b></a><br/>
