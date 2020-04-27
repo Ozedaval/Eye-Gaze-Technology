@@ -19,14 +19,17 @@ class Initialisation extends AsyncTask<Void,Void,Void> {
     private FileOutputStream eyeModelOutputStream;
     private  FileOutputStream faceModelOutputStream;
 
-
+    Initialisation(Context context,MutableLiveData<Boolean> initialisation){
+        initialisationLiveDataWeakReference =new WeakReference<>(initialisation);
+        contextWeakReference=new WeakReference<>(context);
+    }
     @Override
     protected void onPreExecute() {
         Context context=contextWeakReference.get();
         eyeModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_eye_tree_eyeglasses);
         faceModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt);
 
-       try {
+        try {
             eyeModelOutputStream=context.openFileOutput("eyeModel.xml", MODE_PRIVATE);
             faceModelOutputStream=context.openFileOutput("faceModel.xml", MODE_PRIVATE);
 
@@ -35,7 +38,7 @@ class Initialisation extends AsyncTask<Void,Void,Void> {
         }
 
     }
-//https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard
+    //https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard
     void write(InputStream in, FileOutputStream out) throws IOException {
         byte[] buff = new byte[1024 * 1024 * 2]; //2MB file
         int read = 0;
@@ -51,14 +54,7 @@ class Initialisation extends AsyncTask<Void,Void,Void> {
         Log.d("Initialisation ", "Done  Copying");
     }
 
-
-    Initialisation(Context context,MutableLiveData<Boolean> initialisation){
-        initialisationLiveDataWeakReference =new WeakReference<>(initialisation);
-        contextWeakReference=new WeakReference<>(context);
-    }
-
-    //https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard
-
+    
     @Override
     protected Void doInBackground(Void... voids) {
         //TODO 1( Need to delete xml attached to apk in res/raw)
@@ -78,7 +74,4 @@ class Initialisation extends AsyncTask<Void,Void,Void> {
         initialisationLiveDataWeakReference.get().setValue(true);
         initialisationLiveDataWeakReference.clear();
     }
-
-
-
 }
