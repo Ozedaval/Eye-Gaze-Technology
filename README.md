@@ -39,6 +39,7 @@
   * [Feedback & Reflection](https://drive.google.com/open?id=1Ez3zpXuvb3K82JIZOckS8c_vj4hy5sOG)
   * [Meeting Minutes](https://drive.google.com/open?id=1XRX-F2_kUdTftGIQKBF57nrPVdt4L3jy)
   * [Research & Analysis](https://drive.google.com/open?id=1FrzmrwSpPv-w4EeVi7kL5PmxduSmQMSS)
+  * [Communication(Slack, Google Hangout & Whatsapp)](https://docs.google.com/document/d/11kMMIePdj8zBedOwhiEBjDGIca44rmw-yMDsSldIoTc/edit?usp=sharing)
 
 
 <h2><a name = "Title5"> 5. Technical Tools and Constraints</a></h2>
