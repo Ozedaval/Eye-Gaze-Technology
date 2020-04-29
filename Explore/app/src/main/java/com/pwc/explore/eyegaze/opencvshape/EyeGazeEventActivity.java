@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.SurfaceView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.R;
 import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfRect;
@@ -39,6 +41,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     private CascadeClassifier faceCascade;
     private CascadeClassifier eyesCascade;
     private CameraBridgeViewBase camera;
+    private CoordinatorLayout coordinatorLayout;
 
 
     @Override
@@ -46,6 +49,8 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen);
 
+        coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
+        Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
         camera = findViewById(R.id.javaCameraView);
         camera.setVisibility(SurfaceView.VISIBLE);
         camera.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);

@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/faceCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-   >
+    android:orientation="horizontal">
 
 
-
-<!--    <org.opencv.android.JavaCameraView-->
-<!--        android:id="@+id/javaCameraView"-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        opencv:layout_constraintBottom_toBottomOf="parent"-->
-<!--        opencv:layout_constraintEnd_toEndOf="parent"-->
-<!--        opencv:layout_constraintStart_toStartOf="parent"-->
-<!--        opencv:layout_constraintTop_toTopOf="parent"-->
-<!--        opencv:layout_constraintVertical_bias="1.0" />-->
+    <!--    <org.opencv.android.JavaCameraView-->
+    <!--        android:id="@+id/javaCameraView"-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        opencv:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        opencv:layout_constraintEnd_toEndOf="parent"-->
+    <!--        opencv:layout_constraintStart_toStartOf="parent"-->
+    <!--        opencv:layout_constraintTop_toTopOf="parent"-->
+    <!--        opencv:layout_constraintVertical_bias="1.0" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,33 +35,35 @@
                 android:id="@+id/yesTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/yes"
-                android:gravity="center"
-                android:clickable="true"
-                android:textStyle="bold"
                 android:background="@android:color/holo_green_light"
-                android:focusable="true">
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/yes"
+                android:textStyle="bold">
 
             </TextView>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/linearLayoutNo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp">
+
             <TextView
                 android:id="@+id/noTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/no"
-                android:clickable="true"
-                android:gravity="center"
-                android:textStyle="bold"
                 android:background="@android:color/holo_red_light"
-                android:focusable="true">
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/no"
+                android:textStyle="bold">
 
             </TextView>
         </LinearLayout>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

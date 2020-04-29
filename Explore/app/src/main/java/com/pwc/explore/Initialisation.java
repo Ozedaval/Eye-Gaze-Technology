@@ -3,29 +3,30 @@ package com.pwc.explore;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import androidx.lifecycle.MutableLiveData;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+
 import static android.content.Context.MODE_PRIVATE;
 
-class Initialisation extends AsyncTask<Void,Void,Void> {
-    private WeakReference<MutableLiveData<Boolean>> initialisationLiveDataWeakReference;
+class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private WeakReference<Context> contextWeakReference;
     private InputStream eyeModelInputStream;
     private InputStream faceModelInputStream;
     private FileOutputStream eyeModelOutputStream;
-    private  FileOutputStream faceModelOutputStream;
+    private FileOutputStream faceModelOutputStream;
 
-    Initialisation(Context context,MutableLiveData<Boolean> initialisation){
-        initialisationLiveDataWeakReference =new WeakReference<>(initialisation);
+
+    Initialisation(Context context){
         contextWeakReference=new WeakReference<>(context);
     }
     @Override
     protected void onPreExecute() {
         Context context=contextWeakReference.get();
+        Log.d(getClass().getSimpleName()+ " ProgressBar","Done setup for progress bar");
+
         eyeModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_eye_tree_eyeglasses);
         faceModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt);
 
@@ -39,7 +40,7 @@ class Initialisation extends AsyncTask<Void,Void,Void> {
 
     }
     //https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard
-    void write(InputStream in, FileOutputStream out) throws IOException {
+    private void write(InputStream in, FileOutputStream out) throws IOException {
         byte[] buff = new byte[1024 * 1024 * 2]; //2MB file
         int read = 0;
 
@@ -56,22 +57,24 @@ class Initialisation extends AsyncTask<Void,Void,Void> {
 
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected Boolean doInBackground(Void... voids) {
         //TODO 1( Need to delete xml attached to apk in res/raw)
+
         try {
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
-        return null;
-
     }
+
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean bool) {
         contextWeakReference.clear();
-        initialisationLiveDataWeakReference.get().setValue(true);
-        initialisationLiveDataWeakReference.clear();
+        Log.d(getClass().getSimpleName() +" onPostExecute","Called & "+getStatus()+bool);
+
     }
 }
