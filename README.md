@@ -1,4 +1,6 @@
 # Techlauncher Eye-Gaze-Technology   
+![Android CI](https://github.com/Ozedaval/Eye-Gaze-Technology/workflows/Android%20CI/badge.svg?branch=master)
+
 <h2><a name = "content"> Table of Contents </a></h2>
 
 <a href = "#Title1"><b> 1. Project Overview </b></a><br/>
@@ -45,8 +47,11 @@
 <h2><a name = "Title5"> 5. Technical Tools and Constraints</a></h2>
   
  * [**Technical Tools**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Technical-Tools)
- 
+
  * [**Project Constraints**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Project-Constraints)
  
- <h2><a name = "Feedback">Feedback</a></h2>
- <a href = "https://drive.google.com/open?id=1j--azvBIf_7xkufhe8fR2g7GvuG47eTfvsKeAyDyk6Y"><b>We would like to hear your thougths!</a>
+ <h2><a name = "Miscellaneous">Miscellaneous</a></h2>
+
+ * [**Feedback**](https://drive.google.com/open?id=1j--azvBIf_7xkufhe8fR2g7GvuG47eTfvsKeAyDyk6Y)
+
+ * [**Installation Instructions**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Installation-Instructions)
