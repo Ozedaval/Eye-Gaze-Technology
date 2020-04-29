@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.pwc.explore.R;
 import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfRect;
@@ -61,7 +63,8 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     }
 
-    /*Functionality up to detecting eyes in inspired from:
+    /*Iris Detection
+    Face & Eye detection is  inspired from:
     https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
     */
     public Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
@@ -80,7 +83,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
             Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.ellipse(frame, center, new Size(face.width / 2, face.height / 2), 0, 0, 360,
                     new Scalar(100, 200, 100));
-            Log.d(getClass().getName() + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);
+//            Log.d(getClass().getName() + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);
             Mat faceROI = frameGray.submat(face);
 
             // -- In each face, detect eyes
@@ -88,27 +91,41 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
             eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
             Mat[] eyesROI = new Mat[2];
-            for (int i = 0; i < listOfEyes.size(); i++) {
-                Rect eye = listOfEyes.get(i);
-                Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
-                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
-                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 4);
-                Log.d(getClass().getName() + "Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
-//                eyesROI[i] = faceROI.(eye);
-            }
             try {
-                Log.d(getClass().getSimpleName() + "Contours", "Reached");
-                List<MatOfPoint> contours = new ArrayList<>();
-                Mat hierarchy = new Mat();
+                for (int i = 0; i < listOfEyes.size(); i++) {
+                    Rect eye = listOfEyes.get(i);
+              /*  Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
+                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
+               Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 4);
+                Log.d(getClass().getName() + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);*/
+                    eyesROI[i] = faceROI.submat(eye);
+                    Log.d(getClass().getSimpleName() + "Contours", "Reached");
+                    List<MatOfPoint> contours = new ArrayList<>();
+                    Mat hierarchy = new Mat();
+                    Mat cannyOutput = new Mat();
+                    Imgproc.Canny(eyesROI[i], cannyOutput, 100, 100 * 2);
+                    Imgproc.findContours(cannyOutput,contours,hierarchy,Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_SIMPLE);
 
-//            Imgproc.findContours(eyesROI[0],contours,hierarchy,Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_SIMPLE);
-               Log.d(getClass().getSimpleName() + "Contours", faceROI.elemSize()+ "");
+                    for (int m = 0; m < contours.size(); m++) {
+                        //TODO(Shape detection)
+                        Scalar color = new Scalar(255, 0, 0);
+                        Point eyePoint = new Point(face.x + eye.x , face.y + eye.y );
+                        Log.d(getClass().getSimpleName() +" Contours" + i,contours.size()+"");
+                        Imgproc.drawContours(frame, contours, m, color, 1, Imgproc.LINE_8, hierarchy, 0,eyePoint);
+                    }
+
+                }
+
+//               Log.d(getClass().getSimpleName() + "Contours", eyesROI[0].empty()+ "");
             } catch (Exception e) {
 
-Log.e(getClass().getSimpleName(),"Error"+e.getMessage());
+                Log.e(getClass().getSimpleName(),"Error"+e.getMessage());
             }
+
         }
-   return frame; }
+        return frame; }
+
+
 
     @Override
     public void onResume()
