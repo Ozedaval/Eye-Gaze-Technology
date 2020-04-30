@@ -1,14 +1,17 @@
-package com.pwc.explore.eyegaze.opencvshape;
+package com.pwc.explore.eyegaze.opencvcolor;
 
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.R;
+
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -19,9 +22,9 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {

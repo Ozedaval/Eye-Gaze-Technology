@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.LargestFaceFocusingProcessor;
+import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.databinding.ActivityEventUiBinding;
 import java.io.IOException;
 
@@ -56,7 +56,7 @@ public class FaceEventActivity extends AppCompatActivity {
 
 
         String apiReady=detector.isOperational()?"ready":"not ready";
-        Toast.makeText(getApplicationContext(),"API "+apiReady,Toast.LENGTH_LONG).show();
+        Snackbar.make(binding.faceCoordinatorLayout,"API is " + apiReady+ "!",Snackbar.LENGTH_LONG).show();
     }
     public static void scaleNormalOrUp(final View v, final int motion){
         v.post(new Runnable() {

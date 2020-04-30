@@ -9,32 +9,35 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.MutableLiveData;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
+import 	androidx.lifecycle.ViewModelProvider;
+import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.databinding.ActivityMainBinding;
-import com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity;
 import com.pwc.explore.face.FaceEventActivity;
-
-
 import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
-/*    TODO(1.Make Initialisation into a
-         separate fragment/activity (Loading screen) to prevent users clicking UI components
-         2.Need to address Activity Lifecycle)*/
 
-    private final int PERMISSION_REQUEST_CODE=1;
+    private final int PERMISSION_REQUEST_CODE = 1;
+    private MainViewModel mainViewModel=null;
+    private Boolean isFirstRun;
+    private ActivityMainBinding binding;
+    private   FragmentTransaction fragmentTransaction;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActivityMainBinding binding= ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -42,70 +45,88 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA},PERMISSION_REQUEST_CODE);
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
             }
         }
 
+        isFirstRun = ( getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
+                .getBoolean(getString(R.string.first_run_preference_key), true));
 
-        boolean isFirstRun=getSharedPreferences(getString(R.string.main_preference_key),Context.MODE_PRIVATE)
-                .getBoolean(getString(R.string.first_run_preference_key),true);
-        Log.d(getClass().getName(),"isFirstRun is " +  isFirstRun);
+        if (isFirstRun) {
+            fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            mainViewModel = new ViewModelProvider(this)
+                    .get(MainViewModel.class);
 
-        if(isFirstRun){
-            toggleClickButton(binding.facialControllerButton);
-            toggleClickButton(binding.eyeGazeControllerButton);
-            Toast.makeText(this, R.string.hang_on_msg,Toast.LENGTH_LONG).show();
-            MutableLiveData<Boolean> initialisation = new MutableLiveData<>();
-
-            Observer<Boolean> initialisationObserver = new Observer<Boolean>() {
+            mainViewModel.getIsFirstRun().observe(this, new Observer<Boolean>() {
                 @Override
-                public void onChanged(@Nullable final Boolean newValue) {
-                    if(newValue!=null){
-                        Log.d(getClass().getName(),"Initialisation done"+newValue);
-                        toggleClickButton(binding.eyeGazeControllerButton);
-                        toggleClickButton(binding.facialControllerButton);
-                        SharedPreferences.Editor sharedPreferencesEditor=getSharedPreferences(getString(R.string.main_preference_key),Context.MODE_PRIVATE).edit();
-                        sharedPreferencesEditor.putBoolean(getString(R.string.first_run_preference_key),!newValue);
+                public void onChanged(Boolean aBoolean) {
+                    if (!aBoolean) {
+                        Log.d(getClass().getSimpleName()+ " OnChangedLiveData","Changed to "+aBoolean);
+                        Snackbar.make(binding.mainCoordinatorLayout,
+                                getString(R.string.initialisation_done_msg),
+                                Snackbar.LENGTH_LONG).show();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        Log.d(getClass().getSimpleName(), "Initialisation done");
+                        SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE).edit();
+                        sharedPreferencesEditor.putBoolean(getString(R.string.first_run_preference_key), false);
                         sharedPreferencesEditor.apply();
-                        Toast.makeText(getApplicationContext(), R.string.intialisation_done_msg,Toast.LENGTH_SHORT).show();
-                        Log.d(getClass().getName(),"Files present "+ Arrays.toString(fileList()));
-
+                        Log.d(getClass().getSimpleName(), "Files present " + Arrays.toString(fileList()));
+                        isFirstRun= false;
+                        mainViewModel.getIsFirstRun().removeObserver(this);
                     }
                 }
-            };
-
-            initialisation.observe(this,initialisationObserver);
-            new Initialisation(this,initialisation).execute();
+            });
         }
+        Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
     }
 
 
     public void startFaceEvent(View view) {
-        Intent faceEventIntent=new Intent(this, FaceEventActivity.class);
+        Intent faceEventIntent = new Intent(this, FaceEventActivity.class);
         startActivity(faceEventIntent);
-
     }
 
-    public void startEyeGazeEvent(View view) {
-        Toast.makeText(this, R.string.in_development_note_msg,Toast.LENGTH_LONG).show();
-        Intent eyeGazeIntent=new Intent(this, EyeGazeEventActivity.class);
+    public void startEyeGazeColor(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvcolor.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+    public void startEyeGazeShape(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode==PERMISSION_REQUEST_CODE){
-            if(!(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)){
-                finish();
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isFirstRun) {
+            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
+                Log.d(getClass().getSimpleName() +" onResume","ViewmodelLivedataisa" +mainViewModel.getIsFirstRun().getValue());
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                Log.d(getClass().getSimpleName() + " onResume", "Called");
+
+                Fragment prev = getSupportFragmentManager().findFragmentByTag(getString(R.string.mainActivity_Fragment_Tag));
+                if (prev != null) {
+                    fragmentTransaction.remove(prev);
+                }
+                DialogFragment initialisationFragment = new InitialisationFragment();
+                initialisationFragment.setCancelable(false);
+                initialisationFragment.show(fragmentTransaction, getString(R.string.mainActivity_Fragment_Tag));
             }
         }
     }
 
-    public void toggleClickButton(Button button){
-        boolean isVisible=button.getVisibility()==View.VISIBLE;
-        int prospectiveVisibility=isVisible?View.GONE:View.VISIBLE;
-        button.setFocusableInTouchMode(!isVisible);
-        button.setVisibility(prospectiveVisibility);}
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                finish();
+            }
+        }
+    }
 }
+
