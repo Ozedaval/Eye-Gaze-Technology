@@ -63,8 +63,9 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         try {
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
+
             return true;
-        } catch (IOException e) {
+        } catch (IOException  e) {
             e.printStackTrace();
             return false;
         }

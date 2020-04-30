@@ -1,10 +1,13 @@
 package com.pwc.explore;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -35,6 +38,7 @@ public class InitialisationFragment extends DialogFragment {
         mainViewModelProvider=new ViewModelProvider(requireActivity())
                 .get(MainViewModel.class);
 
+
         Log.d(getTag()+ " onCreate","Called");
 
     }
@@ -46,18 +50,24 @@ public class InitialisationFragment extends DialogFragment {
         try {
             Boolean asyncTaskCompleted=initialisationAsync.get();
             if(asyncTaskCompleted){
-                Log.d(getTag(), "onResume Aysnc task completed");
+                Log.d(getTag(), "onResume Async task completed");
                 mainViewModelProvider.initialisationDone();
 
-                        Log.d(getTag()+ "Fragment  ","removed");
-                        Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.mainActivity_Fragment_Tag));
-                        FragmentTransaction fragmentTransaction=requireActivity().getSupportFragmentManager().beginTransaction();
-                        if (fragment != null) {
-                            fragmentTransaction.remove(fragment);
+                Log.d(getTag()+ "Fragment  ","removed");
+                Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.mainActivity_Fragment_Tag));
+                FragmentTransaction fragmentTransaction=requireActivity().getSupportFragmentManager().beginTransaction();
+                if (fragment != null) {
+                    fragmentTransaction.remove(fragment);
 
-                        }
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-              onDestroyView();
+                        onDestroyView();
+                    }
+                },3000);
+
             }
             else {
                 while (!initialisationAsync.isCancelled()) {

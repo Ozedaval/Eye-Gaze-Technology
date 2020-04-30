@@ -21,8 +21,6 @@ import androidx.lifecycle.Observer;
 import 	androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.databinding.ActivityMainBinding;
-import com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity;
-
 import com.pwc.explore.face.FaceEventActivity;
 import java.util.Arrays;
 
@@ -116,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.remove(prev);
                 }
                 DialogFragment initialisationFragment = new InitialisationFragment();
+                initialisationFragment.setCancelable(false);
                 initialisationFragment.show(fragmentTransaction, getString(R.string.mainActivity_Fragment_Tag));
             }
         }
