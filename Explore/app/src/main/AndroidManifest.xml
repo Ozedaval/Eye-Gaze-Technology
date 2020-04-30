@@ -32,6 +32,11 @@
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
         </activity>
+        <activity
+            android:name="com.pwc.explore.eyegaze.opencvcolor.EyeGazeEventActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
     </application>
 
     <uses-feature android:name="android.hardware.Camera" />

@@ -12,5 +12,7 @@
     <string name="in_development_note_msg">Note: Feature is still in Development</string>
     <string name="initialising_library_please_wait">Initialising \n Hang on! </string>
     <string name="mainActivity_Fragment_Tag">dialog</string>
+    <string name="eye_gaze_color">Eye gaze color</string>
+    <string name="eye_gaze_shape">Eye gaze shape</string>
 
 </resources>

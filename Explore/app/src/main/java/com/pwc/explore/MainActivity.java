@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import 	androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.databinding.ActivityMainBinding;
 import com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity;
+
 import com.pwc.explore.face.FaceEventActivity;
 import java.util.Arrays;
 
@@ -88,11 +88,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(faceEventIntent);
     }
 
-
-    public void startEyeGazeEvent(View view) {
-        Intent eyeGazeIntent = new Intent(this, EyeGazeEventActivity.class);
+    public void startEyeGazeColor(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvcolor.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
     }
+
+    public void startEyeGazeShape(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+
 
     @Override
     protected void onResume() {
@@ -114,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
