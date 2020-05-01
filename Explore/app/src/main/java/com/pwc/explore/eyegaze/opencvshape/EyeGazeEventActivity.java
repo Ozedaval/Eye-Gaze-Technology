@@ -18,11 +18,10 @@ import org.opencv.objdetect.CascadeClassifier;
 
 
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2, DetectionListener {
-/*    TODO  (1.Temporarily do actually manipulation of eyegaze here.
-               2.Add UI changes accordingly
+/*    TODO  (  1.Update existing UI & Link up RecyclerView UI
                3.Use Cursor Class appropriately
                4.Need to address Activity Lifecycle)
-      Note: The image layout "Test" is temporary since as far
+      Note: The image layout "screen" is temporary since as far
       as I have searched it appears that majority of  OpenCV implementations  uses the cameraBridgeViewBase - produces a preview.
       This preview can be hidden by changing the output of the callback:onCameraFrame.
       The Output produced by the camera is flipped & needs to be addressed.This is an already existing underlying issue in OpenCV*/
@@ -43,37 +42,37 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         setContentView(R.layout.activity_screen);
 
         coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
-        Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
+        eyegazeTextView=findViewById(R.id.eyeGazeTextView);
         camera = findViewById(R.id.javaCameraView);
+
+        Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
+
         camera.setVisibility(SurfaceView.VISIBLE);
         camera.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
         camera.setCameraPermissionGranted();
         camera.disableFpsMeter();
         camera.setCvCameraViewListener(this);
+
         detect=new Detect(this);
-        eyegazeTextView=findViewById(R.id.eyeGazeTextView);
-
-
         faceCascade = new CascadeClassifier();
         eyesCascade = new CascadeClassifier();
-//        Log.d(getClass().getName(), Arrays.toString(fileList()));
-//        Log.d(getClass().getName(), getFileStreamPath("eyeModel.xml").getAbsolutePath());
-//        Log.d(getClass().getName(), getFileStreamPath("faceModel.xml").getAbsolutePath());
+        /*Log.d(getClass().getName(), Arrays.toString(fileList()));
+        Log.d(getClass().getName(), getFileStreamPath("eyeModel.xml").getAbsolutePath());
+        Log.d(getClass().getName(), getFileStreamPath("faceModel.xml").getAbsolutePath());*/
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
     }
 
 
-
     @Override
-    public void onResume()
-    {  super.onResume();
-        camera.enableView();
+    public void move(Direction direction) {
+        Log.d(getClass().getSimpleName(),"Direction is "+direction.name());
+        eyegazeTextView.setText(direction.name()+" ");
     }
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-//        Log.d(getClass().getName(),"On Camera View Started");
+        /*Log.d(getClass().getName(),"On Camera View Started");*/
     }
 
     @Override
@@ -87,14 +86,14 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     }
 
     @Override
-    protected void onDestroy() {
-        camera.surfaceDestroyed(camera.getHolder());
-        super.onDestroy();
+    public void onResume()
+    {  super.onResume();
+        camera.enableView();
     }
 
     @Override
-    public void move(Direction direction) {
-        Log.d(getClass().getSimpleName(),"Direction is "+direction.name());
-        eyegazeTextView.setText(direction.name()+" ");
+    protected void onDestroy() {
+        camera.surfaceDestroyed(camera.getHolder());
+        super.onDestroy();
     }
 }

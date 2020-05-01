@@ -1,17 +1,14 @@
 package com.pwc.explore.eyegaze.opencvshape;
 
 import android.util.Log;
-
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
-
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.opencv.objdetect.CascadeClassifier;
@@ -37,10 +34,7 @@ public class Detect {
 
     Detect(DetectionListener dl){
         this.dl=dl;
-
-
     }
-
 
     private void sendDetection(Direction direction){
         dl.move(direction);
@@ -148,35 +142,38 @@ public class Detect {
         return nearestDirection;
 
     }
+
+
     /*Iris Detection
-   Face & Eye detection is inspired from:
-   https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
-   Ideology of finding max area used by contour:
-   https://stackoverflow.com/questions/31504366/opencv-for-java-houghcircles-finding-all-the-wrong-circles
-   */
+    Face & Eye detection is inspired from:
+    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
+    Ideology of finding max area used by contour:
+    https://stackoverflow.com/questions/31504366/opencv-for-java-houghcircles-finding-all-the-wrong-circles*/
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
 
         Mat frameGray = new Mat();
+
+        /*Converting Image to Grayscale*/
         Imgproc.cvtColor(frame, frameGray, Imgproc.COLOR_BGR2GRAY);
+
+        /*Increasing contrast & brightness of the image appropriately*/
         Imgproc.equalizeHist(frameGray, frameGray);
 
-        // -- Detect faces
+        /*Detecting  faces*/
         MatOfRect faces = new MatOfRect();
         faceCascade.detectMultiScale(frameGray, faces);
 
-        //Just use the first face detected
+        /*Just using the first face detected*/
         List<Rect> listOfFaces = faces.toList();
         if (!listOfFaces.isEmpty()) {
             Rect face = listOfFaces.get(0);
-            Point center = new Point(face.x + face.width / 2f, face.y + face.height / 2f);
-/*            Imgproc.ellipse(frame, center, new Size(face.width / 2f, face.height / 2f), 0, 0, 360,
-                    new Scalar(100, 200, 100));*/
-            Imgproc.rectangle(frame,face, new Scalar(100, 200, 100));
-//            Log.d(getClass().getName() + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);
+
+            /*Displaying the boundary of the detected face*/
+            Imgproc.rectangle(frame,face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
 
 
-            // -- In each face, detect eyes
+            /*Detecting detected Eyes of the face*/
             MatOfRect eyes = new MatOfRect();
             eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
@@ -185,27 +182,32 @@ public class Detect {
             Point[] irisCenters=new Point[2];
             Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);
             try {
-                eyeLoop:for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
+                for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
 
                     Rect eye = listOfEyes.get(i);
-                    /*Point eyeCenter = new Point(face.x + eye.x + eye.width / 2f, face.y + eye.y + eye.height / 2f);
-                    int radiusEye = (int) Math.round((eye.width + eye.height) * 0.25);
-                    Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
-                    Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eye.x + "Y co ordinate" + eye.y);*/
+
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x=face.x+eye.x;
                     eye.y=face.y+eye.y;
                     eyesROI[i] = frame.submat(eye);
                     eyesBoundary[i]=eye;
 
-                    Imgproc.rectangle(frame,eye,new Scalar(155, 155, 0));
+                    /*Point eyeCenter = new Point(face.x + eye.x + eye.width / 2f, face.y + eye.y + eye.height / 2f);
+                    int radiusEye = (int) Math.round((eye.width + eye.height) * 0.25);
+                    Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
+                    Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eye.x + "Y co ordinate" + eye.y);*/
+
+                    /*Displaying boundary of the detected eye*/
+                    Imgproc.rectangle(frame,eye,new Scalar(10, 0, 255));
+
+
+                    /*Shape Detection: Finding the contour area which has the largest area*/
                     List<MatOfPoint> contours = new ArrayList<>();
                     Mat hierarchy = new Mat();
                     Mat cannyOutput = new Mat();
                     Imgproc.Canny(eyesROI[i], cannyOutput, 100, 100 * 2);
                     Imgproc.findContours(cannyOutput,contours,hierarchy,Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_SIMPLE);
 
-                    /*Finding the contour area which has the largest are*/
                     double maxArea = 0;
                     int contourNum = 0;
                     double contourArea = 0;
@@ -219,6 +221,7 @@ public class Detect {
                         }
                     }
                     Moments momentsContour=Imgproc.moments(contours.get(contourNum));
+
                     /*
                     With respect to the location contour
                     Point centerIris= new Point((momentsContour.m10/momentsContour.m00),(momentsContour.m01/momentsContour.m00));*/
@@ -228,17 +231,16 @@ public class Detect {
                     Log.d(getClass().getSimpleName()+" direction is",findDirection(eye,centerIris)+"");
                     */
                     irisCenters[i]=irisCenter;
-
                 }
+
                 /*Temporarily just using one eye*/
-                sendDetection(findDirection(eyesBoundary[0],irisCenters[0], DirectionEstimationMethod.METHOD_1));
+                /*sendDetection(findDirection(eyesBoundary[0],irisCenters[0], DirectionEstimationMethod.METHOD_1));*/
             } catch (Exception e) {
 
                 Log.e(getClass().getSimpleName(),"Error "+e.getMessage());
             }
         }
-        return frame; }
-
-
+        return frame;
+    }
 
 }
