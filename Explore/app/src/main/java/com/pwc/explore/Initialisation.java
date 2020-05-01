@@ -18,7 +18,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private FileOutputStream eyeModelOutputStream;
     private FileOutputStream faceModelOutputStream;
 
-
     Initialisation(Context context){
         contextWeakReference=new WeakReference<>(context);
     }
@@ -37,8 +36,8 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
+
     //https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard
     private void write(InputStream in, FileOutputStream out) throws IOException {
         byte[] buff = new byte[1024 * 1024 * 2]; //2MB file
@@ -69,7 +68,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             e.printStackTrace();
             return false;
         }
-
     }
 
     @Override

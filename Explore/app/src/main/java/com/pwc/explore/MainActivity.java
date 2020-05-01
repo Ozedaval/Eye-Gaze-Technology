@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,11 +27,10 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     private final int PERMISSION_REQUEST_CODE = 1;
-    private MainViewModel mainViewModel=null;
+    private MainViewModel mainViewModel=null;//Initialising cause of a unusual Code Coverage
     private Boolean isFirstRun;
     private ActivityMainBinding binding;
-    private   FragmentTransaction fragmentTransaction;
-
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.make(binding.mainCoordinatorLayout,
                                 getString(R.string.initialisation_done_msg),
                                 Snackbar.LENGTH_LONG).show();
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Log.d(getClass().getSimpleName(), "Initialisation done");
                         SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE).edit();
                         sharedPreferencesEditor.putBoolean(getString(R.string.first_run_preference_key), false);
@@ -78,6 +75,34 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isFirstRun) {
+            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
+                Log.d(getClass().getSimpleName() +" onResume","ViewModel LiveData isa" +mainViewModel.getIsFirstRun().getValue());
+                Log.d(getClass().getSimpleName() + " onResume", "Called");
+
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.mainActivity_Fragment_Tag));
+                if (fragment != null) {
+                    fragmentTransaction.remove(fragment);
+                }
+                DialogFragment initialisationFragment = new InitialisationFragment();
+                initialisationFragment.setCancelable(false);
+                initialisationFragment.show(fragmentTransaction, getString(R.string.mainActivity_Fragment_Tag));
+            }
+        }
     }
 
 
@@ -94,39 +119,6 @@ public class MainActivity extends AppCompatActivity {
     public void startEyeGazeShape(View view) {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
-    }
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (isFirstRun) {
-            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(getClass().getSimpleName() +" onResume","ViewmodelLivedataisa" +mainViewModel.getIsFirstRun().getValue());
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Log.d(getClass().getSimpleName() + " onResume", "Called");
-
-                Fragment prev = getSupportFragmentManager().findFragmentByTag(getString(R.string.mainActivity_Fragment_Tag));
-                if (prev != null) {
-                    fragmentTransaction.remove(prev);
-                }
-                DialogFragment initialisationFragment = new InitialisationFragment();
-                initialisationFragment.setCancelable(false);
-                initialisationFragment.show(fragmentTransaction, getString(R.string.mainActivity_Fragment_Tag));
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                finish();
-            }
-        }
     }
 }
 

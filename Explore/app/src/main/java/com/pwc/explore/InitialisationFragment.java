@@ -1,13 +1,11 @@
 package com.pwc.explore;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -18,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class InitialisationFragment extends DialogFragment {
-    private  Initialisation initialisationAsync = null;
+    private Initialisation initialisationAsync;
     private MainViewModel mainViewModelProvider;
 
     @Override
@@ -52,18 +50,17 @@ public class InitialisationFragment extends DialogFragment {
             if(asyncTaskCompleted){
                 Log.d(getTag(), "onResume Async task completed");
                 mainViewModelProvider.initialisationDone();
-
-                Log.d(getTag()+ "Fragment  ","removed");
                 Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.mainActivity_Fragment_Tag));
                 FragmentTransaction fragmentTransaction=requireActivity().getSupportFragmentManager().beginTransaction();
                 if (fragment != null) {
+                    Log.d(getTag()+ "Fragment  ","removed");
                     fragmentTransaction.remove(fragment);
 
                 }
+                /*Temporarily here to make a smooth UI transition*/
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
                         onDestroyView();
                     }
                 },3000);
