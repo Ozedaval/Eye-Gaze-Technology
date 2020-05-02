@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.opencvshape;
+package com.pwc.explore.eyegaze.opencvmaxarea;
 
 import com.pwc.explore.Cursor;
 

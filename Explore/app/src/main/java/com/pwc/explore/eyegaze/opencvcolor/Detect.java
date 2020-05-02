@@ -5,26 +5,14 @@ import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.imgproc.Moments;
 import org.opencv.objdetect.CascadeClassifier;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import static com.pwc.explore.Direction.BOTTOM;
-import static com.pwc.explore.Direction.BOTTOM_LEFT;
-import static com.pwc.explore.Direction.BOTTOM_RIGHT;
-import static com.pwc.explore.Direction.LEFT;
-import static com.pwc.explore.Direction.NEUTRAL;
-import static com.pwc.explore.Direction.RIGHT;
-import static com.pwc.explore.Direction.TOP;
-import static com.pwc.explore.Direction.TOP_LEFT;
-import static com.pwc.explore.Direction.TOP_RIGHT;
 
 
 public class Detect {
@@ -50,13 +38,13 @@ public class Detect {
 
         Mat frameGray = new Mat();
 
-        /*Converting Image to Grayscale*/
+        /*Creating a Grayscale version of the Image*/
         Imgproc.cvtColor(frame, frameGray, Imgproc.COLOR_BGR2GRAY);
 
         /*Increasing contrast & brightness of the image appropriately*/
         Imgproc.equalizeHist(frameGray, frameGray);
 
-        /*Detecting Faces*/
+        /*Detecting faces*/
         MatOfRect faces = new MatOfRect();
         faceCascade.detectMultiScale(frameGray, faces);
 
@@ -66,12 +54,12 @@ public class Detect {
             Rect face = listOfFaces.get(0);
             /*Log.d(getClass().getName() + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);*/
 
-            /*Displaying boundary of the Face*/
+            /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame,face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
 
 
-            /*Detecting eyes*/
+            /*Detecting Eyes of the face*/
             MatOfRect eyes = new MatOfRect();
             eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
@@ -96,7 +84,7 @@ public class Detect {
                     Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
                     Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eye.x + "Y co ordinate" + eye.y);*/
 
-                    /*Displaying boundary of the eye*/
+                    /*Displaying boundary of the detected eye*/
                     Imgproc.rectangle(frame,eye,new Scalar(10, 0, 255));
                     /*TODO Iris-Color Detection & Estimate Gaze - Call sendDirection(Direction direction)*/
 

@@ -15,7 +15,7 @@ import com.pwc.explore.R;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
-import java.util.Arrays;
+
 
 
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2, DetectionListener {

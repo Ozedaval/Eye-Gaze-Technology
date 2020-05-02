@@ -24,15 +24,20 @@
             opencv:layout_constraintEnd_toEndOf="parent"
             opencv:layout_constraintStart_toStartOf="parent"
             opencv:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/cities" />
+         />
+
 
         <org.opencv.android.JavaCameraView
             android:id="@+id/javaCameraView"
-            android:layout_width="360px"
+            android:layout_width="320px"
             android:layout_height="240px"
             android:keepScreenOn="true"
+            android:visibility="visible"
+            opencv:camera_id="front"
             opencv:layout_constraintStart_toStartOf="parent"
-            opencv:layout_constraintTop_toTopOf="parent" />
+            opencv:layout_constraintTop_toTopOf="parent"
+            opencv:show_fps="false" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.opencvshape;
+package com.pwc.explore.eyegaze.opencvmaxarea;
 
 import android.util.Log;
 import com.pwc.explore.DetectionListener;
@@ -153,7 +153,7 @@ public class Detect {
 
         Mat frameGray = new Mat();
 
-        /*Converting Image to Grayscale*/
+        /*Creating a Grayscale version of the Image*/
         Imgproc.cvtColor(frame, frameGray, Imgproc.COLOR_BGR2GRAY);
 
         /*Increasing contrast & brightness of the image appropriately*/
@@ -163,7 +163,7 @@ public class Detect {
         MatOfRect faces = new MatOfRect();
         faceCascade.detectMultiScale(frameGray, faces);
 
-        /*Just using the first face detected*/
+        /*Using the First Detected Face*/
         List<Rect> listOfFaces = faces.toList();
         if (!listOfFaces.isEmpty()) {
             Rect face = listOfFaces.get(0);
@@ -173,7 +173,7 @@ public class Detect {
             Mat faceROI = frameGray.submat(face);
 
 
-            /*Detecting detected Eyes of the face*/
+            /*Detecting Eyes of the face*/
             MatOfRect eyes = new MatOfRect();
             eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
@@ -189,6 +189,8 @@ public class Detect {
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x=face.x+eye.x;
                     eye.y=face.y+eye.y;
+
+                    /*Cropping an eye Image*/
                     eyesROI[i] = frame.submat(eye);
                     eyesBoundary[i]=eye;
 
@@ -201,7 +203,7 @@ public class Detect {
                     Imgproc.rectangle(frame,eye,new Scalar(10, 0, 255));
 
 
-                    /*Shape Detection: Finding the contour area which has the largest area*/
+                    /*Finding the contour area which has the largest area - Usually the Iris*/
                     List<MatOfPoint> contours = new ArrayList<>();
                     Mat hierarchy = new Mat();
                     Mat cannyOutput = new Mat();
