@@ -111,13 +111,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(faceEventIntent);
     }
 
-    public void startEyeGazeColor(View view) {
-        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvcolor.EyeGazeEventActivity.class);
+
+    public void startEyeGazeShape(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
     }
 
-    public void startEyeGazeShape(View view) {
+    public void startEyeGazeMaxArea(View view) {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvmaxarea.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+    public void startEyeGazeBlob(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvblob.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
     }
 }

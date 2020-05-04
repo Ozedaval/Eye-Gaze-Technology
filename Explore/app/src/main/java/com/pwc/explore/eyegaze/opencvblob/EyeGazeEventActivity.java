@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.opencvcolor;
+package com.pwc.explore.eyegaze.opencvblob;
 
 
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.opencvcolor;
+package com.pwc.explore.eyegaze.opencvshape;
 
 import com.pwc.explore.Cursor;
 

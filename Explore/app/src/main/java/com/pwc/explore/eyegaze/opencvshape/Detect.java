@@ -1,10 +1,11 @@
-package com.pwc.explore.eyegaze.opencvmaxarea;
+package com.pwc.explore.eyegaze.opencvshape;
 
 import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -58,7 +59,7 @@ public class Detect {
         map.put(BOTTOM_LEFT,new double[]{xTL,yTL-height});
         map.put(BOTTOM,new double[]{xTL-halfWidth,yTL-height});
         map.put(BOTTOM_RIGHT,new double[]{xTL-width,yTL-height});
-        /*Log.d(getClass().getSimpleName(),"height : "+height+ "width :"+width);*/
+//        Log.d(getClass().getSimpleName(),"height : "+height+ "width :"+width);
         return map;
     }
 
@@ -146,9 +147,7 @@ public class Detect {
 
     /*Iris Detection
     Face & Eye detection is inspired from:
-    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
-    Ideology of finding max area used by contour:
-    https://stackoverflow.com/questions/31504366/opencv-for-java-houghcircles-finding-all-the-wrong-circles*/
+    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java*/
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
 
         Mat frameGray = new Mat();
@@ -200,7 +199,7 @@ public class Detect {
                     Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eye.x + "Y co ordinate" + eye.y);*/
 
                     /*Displaying boundary of the detected eye*/
-                    Imgproc.rectangle(frame,eye,new Scalar(10, 0, 255));
+//                    Imgproc.rectangle(frame,eye,new Scalar(10, 0, 255));
 
 
                     /*Finding the contour area which has the largest area - Usually the Iris*/
@@ -208,27 +207,29 @@ public class Detect {
                     Mat hierarchy = new Mat();
                     Mat cannyOutput = new Mat();
                     Imgproc.Canny(eyesROI[i], cannyOutput, 100, 100 * 2);
-                    Imgproc.findContours(cannyOutput,contours,hierarchy,Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_SIMPLE);
-
-                    double maxArea = 0;
-                    int contourNum = 0;
-                    double contourArea = 0;
+                    Imgproc.findContours(cannyOutput,contours,hierarchy,Imgproc.RETR_TREE,Imgproc.CHAIN_APPROX_NONE);
+                    Point eyePoint = new Point(eye.x , eye.y );
+                    MatOfPoint2f result=new MatOfPoint2f();
+                    Log.d(getClass().getSimpleName()+" num of contours",contours.size()+"");
                     for (int c = 0; c < contours.size(); c++)
+
                     {
-                        contourArea =Imgproc.contourArea(contours.get(c));
-                        if (maxArea < contourArea)
-                        {
-                            maxArea = contourArea;
-                            contourNum = c;
-                        }
+                        Point[] arr= contours.get(c).toArray();
+                        MatOfPoint2f contourPoints=new MatOfPoint2f(arr);
+                        Imgproc.drawContours(frame, contours, c, new Scalar(255,0,0), 1, Imgproc.LINE_8, hierarchy, 0,eyePoint);
+                        double perimeter=Imgproc.arcLength(contourPoints,false);
+                        Imgproc.approxPolyDP(contourPoints,result,perimeter,false);
+
+                        Log.d(getClass().getSimpleName()+" Number of Sides",result.toArray().length+" perim "+perimeter);
+                        // ellipse & circle
                     }
-                    Moments momentsContour=Imgproc.moments(contours.get(contourNum));
+
 
                     /*
                     With respect to the location contour
                     Point centerIris= new Point((momentsContour.m10/momentsContour.m00),(momentsContour.m01/momentsContour.m00));*/
-                    Point irisCenter= new Point(eye.x+(momentsContour.m10/momentsContour.m00),eye.y+(momentsContour.m01/momentsContour.m00));
-                    Imgproc.circle(frame,irisCenter,2,new Scalar(255,0,0),4);
+                    Point irisCenter= null;
+//                    Imgproc.circle(frame,irisCenter,2,new Scalar(255,0,0),4);
                     /*Log.d(getClass().getSimpleName()+"Iris Center is ","X: "+centerIris.x + "  Y: "+ centerIris.y);
                     Log.d(getClass().getSimpleName()+" direction is",findDirection(eye,centerIris)+"");
                     */

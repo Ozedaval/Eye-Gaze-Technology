@@ -1,14 +1,20 @@
-package com.pwc.explore.eyegaze.opencvcolor;
+package com.pwc.explore.eyegaze.opencvblob;
 
 
 import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
+
+import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.features2d.Feature2D;
+import org.opencv.features2d.Features2d;
+import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
@@ -31,8 +37,6 @@ public class Detect {
     /*Iris Detection
    Face & Eye detection is inspired from:
    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
-   Ideology of finding max area used by contour:
-   https://stackoverflow.com/questions/31504366/opencv-for-java-houghcircles-finding-all-the-wrong-circles
    */
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
 
@@ -66,7 +70,7 @@ public class Detect {
             Mat[] eyesROI = new Mat[2];
             Rect[] eyesBoundary=new Rect[2];
             Point[] irisCenters=new Point[2];
-            Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);
+            /*Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);*/
             try {
                 for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
                     Rect eye = listOfEyes.get(i);
@@ -84,12 +88,28 @@ public class Detect {
                     Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
                     Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eye.x + "Y co ordinate" + eye.y);*/
 
+
                     /*Displaying boundary of the detected eye*/
                     Imgproc.rectangle(frame,eye,new Scalar(10, 0, 255));
-                    /*TODO Iris-Color Detection & Estimate Gaze - Call sendDirection(Direction direction)*/
 
-                } }catch (Exception e) {
+                    /*Iris Detection via Blob Detection*/
+                    Mat eyeROICanny= new Mat();
+                    Imgproc.Canny(eyesROI[i], eyeROICanny, 100, 100 * 2);
+                    SimpleBlobDetector simpleBlobDetector=SimpleBlobDetector.create();
+                    MatOfKeyPoint blobs= new MatOfKeyPoint();
+                    simpleBlobDetector.detect(eyeROICanny,blobs);
+                    Log.d(getClass().getSimpleName() +" Number of blobs ",blobs.toArray().length+"");
 
+                    /*Finding Iris*/
+                    KeyPoint[] blobsArray=blobs.toArray();
+                    if(blobsArray.length!=0){
+                       Point blobCentre= blobsArray[0].pt;
+                       blobCentre.x=blobCentre.x+eye.x;
+                       blobCentre.y=blobCentre.y+eye.y;
+                       Imgproc.circle(frame,blobCentre,2,new Scalar(255,0,0),4);
+                    }
+                }
+            }catch (Exception e) {
                 Log.e(getClass().getSimpleName(),"Error "+e.getMessage());
             }
         }

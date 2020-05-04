@@ -28,12 +28,17 @@
             tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
+            android:name="com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+        <activity
             android:name="com.pwc.explore.eyegaze.opencvmaxarea.EyeGazeEventActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-            android:name="com.pwc.explore.eyegaze.opencvcolor.EyeGazeEventActivity"
+            android:name="com.pwc.explore.eyegaze.opencvblob.EyeGazeEventActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
         </activity>
