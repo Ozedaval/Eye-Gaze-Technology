@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">uidraft</string>
+    <string name="settings_name">Settings</string>
 </resources>

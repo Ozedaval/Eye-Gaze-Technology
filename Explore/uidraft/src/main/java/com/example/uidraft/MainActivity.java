@@ -3,13 +3,19 @@ package com.example.uidraft;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements ItemAdapter.OnItemListener{
 
@@ -20,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
 
         List<String> itemList = new ArrayList<>();
         for(int i=0; i<3; i++){
@@ -34,6 +42,21 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.OnIte
         recyclerView.setLayoutManager(gridLayoutManager);
         this.itemAdapter = itemAdapter;
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+        // switch(item.getItemId())
+        // case check
     }
 
     @Override
