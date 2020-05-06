@@ -145,9 +145,7 @@ public class Detect {
     }
 
 
-    /*Iris Detection
-    Face & Eye detection is inspired from:
-    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java*/
+    /*Iris Detection*/
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
 
         Mat frameGray = new Mat();

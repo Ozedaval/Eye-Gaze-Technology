@@ -1,5 +1,6 @@
 package com.pwc.explore.eyegaze.opencvmaxarea;
 
+
 import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
@@ -12,6 +13,8 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.opencv.objdetect.CascadeClassifier;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +37,7 @@ public class Detect {
 
     Detect(DetectionListener dl){
         this.dl=dl;
+
     }
 
     private void sendDetection(Direction direction){
@@ -145,8 +149,6 @@ public class Detect {
 
 
     /*Iris Detection
-    Face & Eye detection is inspired from:
-    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
     Ideology of finding max area used by contour:
     https://stackoverflow.com/questions/31504366/opencv-for-java-houghcircles-finding-all-the-wrong-circles*/
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {

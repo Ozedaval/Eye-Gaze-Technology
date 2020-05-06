@@ -4,7 +4,6 @@ package com.pwc.explore.eyegaze.opencvblob;
 import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
-
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -12,8 +11,6 @@ import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.features2d.Feature2D;
-import org.opencv.features2d.Features2d;
 import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -24,9 +21,14 @@ import java.util.List;
 public class Detect {
 
     private DetectionListener dl;
+    /*private DetectionSmoother[] dsEyes;*/
+    private  DetectionSmoother dsFace;
 
     Detect(DetectionListener dl){
         this.dl=dl;
+        /*dsEyes=new DetectionSmoother[]{new DetectionSmoother(0.60f),new DetectionSmoother(0.60f)};*/
+        dsFace=new DetectionSmoother(0.2f);
+
     }
 
     private void sendDetection(Direction direction){
@@ -35,8 +37,6 @@ public class Detect {
 
 
     /*Iris Detection
-   Face & Eye detection is inspired from:
-   https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
    */
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
 
@@ -58,9 +58,13 @@ public class Detect {
             Rect face = listOfFaces.get(0);
             /*Log.d(getClass().getName() + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);*/
 
+            /*Updates face for DetectionSmoother*/
+            face=dsFace.updateCoord(face);
+
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame,face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
+            Log.d(getClass().getSimpleName(),"Height "+ face.height+"Width "+face.width );
 
 
             /*Detecting Eyes of the face*/
@@ -70,10 +74,16 @@ public class Detect {
             Mat[] eyesROI = new Mat[2];
             Rect[] eyesBoundary=new Rect[2];
             Point[] irisCenters=new Point[2];
+
+
             /*Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);*/
             try {
                 for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
                     Rect eye = listOfEyes.get(i);
+
+                    /*Updates Eyes for DetectionSmoother*/
+                    /*eye=dsEyes[i].updateArea(eye);*/
+
 
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x=face.x+eye.x;
@@ -81,7 +91,7 @@ public class Detect {
 
                     /*Cropping an eye Image*/
                     eyesROI[i] = frame.submat(eye);
-                    eyesBoundary[i]=eye;
+
 
                     /*Point eyeCenter = new Point(face.x + eye.x + eye.width / 2f, face.y + eye.y + eye.height / 2f);
                     int radiusEye = (int) Math.round((eye.width + eye.height) * 0.25);
@@ -94,7 +104,7 @@ public class Detect {
 
                     /*Iris Detection via Blob Detection*/
                     Mat eyeROICanny= new Mat();
-                    Imgproc.Canny(eyesROI[i], eyeROICanny, 100, 100 * 2);
+                    Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 3);
                     SimpleBlobDetector simpleBlobDetector=SimpleBlobDetector.create();
                     MatOfKeyPoint blobs= new MatOfKeyPoint();
                     simpleBlobDetector.detect(eyeROICanny,blobs);
@@ -103,10 +113,10 @@ public class Detect {
                     /*Finding Iris*/
                     KeyPoint[] blobsArray=blobs.toArray();
                     if(blobsArray.length!=0){
-                       Point blobCentre= blobsArray[0].pt;
-                       blobCentre.x=blobCentre.x+eye.x;
-                       blobCentre.y=blobCentre.y+eye.y;
-                       Imgproc.circle(frame,blobCentre,2,new Scalar(255,0,0),4);
+                        Point blobCentre= blobsArray[0].pt;
+                        blobCentre.x=blobCentre.x+eye.x;
+                        blobCentre.y=blobCentre.y+eye.y;
+                        Imgproc.circle(frame,blobCentre,2,new Scalar(255,0,0),4);
                     }
                 }
             }catch (Exception e) {

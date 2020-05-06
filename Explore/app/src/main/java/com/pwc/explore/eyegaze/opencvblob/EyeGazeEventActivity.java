@@ -82,6 +82,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+
         return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
     }
 
