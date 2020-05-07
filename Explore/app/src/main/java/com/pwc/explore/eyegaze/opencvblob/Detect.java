@@ -4,6 +4,8 @@ package com.pwc.explore.eyegaze.opencvblob;
 import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
+
+import org.opencv.core.Algorithm;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -14,8 +16,23 @@ import org.opencv.core.Scalar;
 import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+import org.opencv.video.DenseOpticalFlow;
+import org.opencv.video.FarnebackOpticalFlow;
+import org.opencv.video.SparseOpticalFlow;
+import org.opencv.video.SparsePyrLKOpticalFlow;
 
+import java.util.HashMap;
 import java.util.List;
+
+import static com.pwc.explore.Direction.BOTTOM;
+import static com.pwc.explore.Direction.BOTTOM_LEFT;
+import static com.pwc.explore.Direction.BOTTOM_RIGHT;
+import static com.pwc.explore.Direction.LEFT;
+import static com.pwc.explore.Direction.NEUTRAL;
+import static com.pwc.explore.Direction.RIGHT;
+import static com.pwc.explore.Direction.TOP;
+import static com.pwc.explore.Direction.TOP_LEFT;
+import static com.pwc.explore.Direction.TOP_RIGHT;
 
 
 public class Detect {
@@ -23,13 +40,20 @@ public class Detect {
     private DetectionListener dl;
     /*private DetectionSmoother[] dsEyes;*/
     private  DetectionSmoother dsFace;
+    private SimpleBlobDetector simpleBlobDetector;
+
+
+
+
 
     Detect(DetectionListener dl){
         this.dl=dl;
-        /*dsEyes=new DetectionSmoother[]{new DetectionSmoother(0.60f),new DetectionSmoother(0.60f)};*/
+        /*dsEyes=new DetectionSmoother[]{new DetectionSmoother(0.2f),new DetectionSmoother(0.2f)};*/
         dsFace=new DetectionSmoother(0.2f);
+        simpleBlobDetector=SimpleBlobDetector.create();
 
     }
+
 
     private void sendDetection(Direction direction){
         dl.move(direction);
@@ -37,7 +61,7 @@ public class Detect {
 
 
     /*Iris Detection
-   */
+     */
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
 
         Mat frameGray = new Mat();
@@ -76,18 +100,17 @@ public class Detect {
             Point[] irisCenters=new Point[2];
 
 
-            /*Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);*/
+            Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);
             try {
                 for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
                     Rect eye = listOfEyes.get(i);
 
-                    /*Updates Eyes for DetectionSmoother*/
-                    /*eye=dsEyes[i].updateArea(eye);*/
-
-
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x=face.x+eye.x;
                     eye.y=face.y+eye.y;
+
+                    /*Updates Eyes for DetectionSmoother*/
+                    /*eye=dsEyes[i].updateCoord(eye);*/
 
                     /*Cropping an eye Image*/
                     eyesROI[i] = frame.submat(eye);
@@ -96,7 +119,7 @@ public class Detect {
                     /*Point eyeCenter = new Point(face.x + eye.x + eye.width / 2f, face.y + eye.y + eye.height / 2f);
                     int radiusEye = (int) Math.round((eye.width + eye.height) * 0.25);
                     Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
-                    Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eye.x + "Y co ordinate" + eye.y);*/
+                  */
 
 
                     /*Displaying boundary of the detected eye*/
@@ -105,7 +128,7 @@ public class Detect {
                     /*Iris Detection via Blob Detection*/
                     Mat eyeROICanny= new Mat();
                     Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 3);
-                    SimpleBlobDetector simpleBlobDetector=SimpleBlobDetector.create();
+
                     MatOfKeyPoint blobs= new MatOfKeyPoint();
                     simpleBlobDetector.detect(eyeROICanny,blobs);
                     Log.d(getClass().getSimpleName() +" Number of blobs ",blobs.toArray().length+"");
@@ -117,7 +140,9 @@ public class Detect {
                         blobCentre.x=blobCentre.x+eye.x;
                         blobCentre.y=blobCentre.y+eye.y;
                         Imgproc.circle(frame,blobCentre,2,new Scalar(255,0,0),4);
+
                     }
+
                 }
             }catch (Exception e) {
                 Log.e(getClass().getSimpleName(),"Error "+e.getMessage());

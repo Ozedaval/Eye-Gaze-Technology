@@ -35,6 +35,7 @@ public class Detect {
     private final Float THRESHOLD_METHOD3=0.1f;//ANY value between 0-1
     private static Point[] prevIrisPoints;
 
+
     Detect(DetectionListener dl){
         this.dl=dl;
 
@@ -231,9 +232,12 @@ public class Detect {
                     Point centerIris= new Point((momentsContour.m10/momentsContour.m00),(momentsContour.m01/momentsContour.m00));*/
                     Point irisCenter= new Point(eye.x+(momentsContour.m10/momentsContour.m00),eye.y+(momentsContour.m01/momentsContour.m00));
                     Imgproc.circle(frame,irisCenter,2,new Scalar(255,0,0),4);
+
                     /*Log.d(getClass().getSimpleName()+"Iris Center is ","X: "+centerIris.x + "  Y: "+ centerIris.y);
                     Log.d(getClass().getSimpleName()+" direction is",findDirection(eye,centerIris)+"");
+
                     */
+
                     irisCenters[i]=irisCenter;
                 }
 
