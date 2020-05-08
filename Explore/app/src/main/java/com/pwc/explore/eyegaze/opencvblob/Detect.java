@@ -41,11 +41,9 @@ public class Detect {
     /*private DetectionSmoother[] dsEyes;*/
     private  DetectionSmoother dsFace;
     private SimpleBlobDetector simpleBlobDetector;
+    private static final String TAG="Detect";
 
-
-
-
-
+    
     Detect(DetectionListener dl){
         this.dl=dl;
         /*dsEyes=new DetectionSmoother[]{new DetectionSmoother(0.2f),new DetectionSmoother(0.2f)};*/
@@ -80,7 +78,7 @@ public class Detect {
         List<Rect> listOfFaces = faces.toList();
         if (!listOfFaces.isEmpty()) {
             Rect face = listOfFaces.get(0);
-            /*Log.d(getClass().getName() + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);*/
+            /*Log.d(TAG + "Face ", " X co-ordinate  is " + center.x + "Y co ordinate" + center.y);*/
 
             /*Updates face for DetectionSmoother*/
             face=dsFace.updateCoord(face);
@@ -88,7 +86,7 @@ public class Detect {
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame,face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
-            Log.d(getClass().getSimpleName(),"Height "+ face.height+"Width "+face.width );
+            Log.d(TAG,"Height "+ face.height+"Width "+face.width );
 
 
             /*Detecting Eyes of the face*/
@@ -100,7 +98,7 @@ public class Detect {
             Point[] irisCenters=new Point[2];
 
 
-            Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);
+            Log.d(TAG,"face.x= "+face.x+"face.y = "+face.y);
             try {
                 for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
                     Rect eye = listOfEyes.get(i);
@@ -118,7 +116,7 @@ public class Detect {
 
                     /*Point eyeCenter = new Point(face.x + eye.x + eye.width / 2f, face.y + eye.y + eye.height / 2f);
                     int radiusEye = (int) Math.round((eye.width + eye.height) * 0.25);
-                    Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
+                    Log.d(TAG, " EYE X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
                   */
 
 
@@ -131,7 +129,7 @@ public class Detect {
 
                     MatOfKeyPoint blobs= new MatOfKeyPoint();
                     simpleBlobDetector.detect(eyeROICanny,blobs);
-                    Log.d(getClass().getSimpleName() +" Number of blobs ",blobs.toArray().length+"");
+                    Log.d(TAG +" Number of blobs ",blobs.toArray().length+"");
 
                     /*Finding Iris*/
                     KeyPoint[] blobsArray=blobs.toArray();
@@ -145,7 +143,7 @@ public class Detect {
 
                 }
             }catch (Exception e) {
-                Log.e(getClass().getSimpleName(),"Error "+e.getMessage());
+                Log.e(TAG,"Error "+e.getMessage());
             }
         }
         return frame; }

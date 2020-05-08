@@ -36,6 +36,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     private TextView eyegazeTextView;
     private Detect detect;
     private SurfaceView surfaceView;
+    private static final String TAG="EyeGazeEventActivity";
 
 
 
@@ -58,9 +59,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         detect=new Detect(this);
         faceCascade = new CascadeClassifier();
         eyesCascade = new CascadeClassifier();
-        /*Log.d(getClass().getName(), Arrays.toString(fileList()));
-        Log.d(getClass().getName(), getFileStreamPath("eyeModel.xml").getAbsolutePath());
-        Log.d(getClass().getName(), getFileStreamPath("faceModel.xml").getAbsolutePath());*/
+        /*Log.d(TAG, Arrays.toString(fileList()));
+        Log.d(TAG, getFileStreamPath("eyeModel.xml").getAbsolutePath());
+        Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
     }
@@ -68,13 +69,13 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public void move(Direction direction) {
-        Log.d(getClass().getSimpleName(),"Direction is "+direction.name());
+        Log.d(TAG,"Direction is "+direction.name());
         eyegazeTextView.setText(direction.name()+" ");
     }
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-        /*Log.d(getClass().getName(),"On Camera View Started");*/
+        /*Log.d(TAG,"On Camera View Started");*/
     }
 
     @Override
@@ -85,7 +86,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        /*Log.d(getClass().getSimpleName(),"Columns : "+   inputFrame.rgba().cols()+ " Rows :"+
+        /*Log.d(TAG,"Columns : "+   inputFrame.rgba().cols()+ " Rows :"+
                 inputFrame.rgba().rows()  );*/
        return detect.detect(inputFrame.rgba(), faceCascade, eyesCascade);
     }

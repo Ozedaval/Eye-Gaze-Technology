@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 public class MainViewModel extends ViewModel {
     private MutableLiveData<Boolean> isFirstRun;
+    private static final String TAG="MainViewModel";
 
     /*Check on UI thread for shared preference before calling this
      * TODO: Use an interface & implement a listener so to check with sharedpreference on UI thread*/
@@ -15,13 +16,13 @@ public class MainViewModel extends ViewModel {
         if (isFirstRun == null) {
             isFirstRun= new MutableLiveData<Boolean>();
             isFirstRun.setValue(true);
-            Log.d(getClass().getSimpleName()+" getIsFirstRun","Called");
+            Log.d(TAG,"getIsFirstRunCalled");
         }
         return isFirstRun;
     }
 
     void initialisationDone() {
-        Log.d(getClass().getSimpleName()+" InitialisationDone","Called");
+        Log.d(TAG," InitialisationDone Called");
         isFirstRun.setValue(false);
     }
 }

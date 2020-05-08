@@ -13,8 +13,6 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.opencv.objdetect.CascadeClassifier;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +32,7 @@ public class Detect {
     private DetectionListener dl;
     private final Float THRESHOLD_METHOD3=0.1f;//ANY value between 0-1
     private static Point[] prevIrisPoints;
+    private static final String TAG="Detect";
 
 
     Detect(DetectionListener dl){
@@ -63,7 +62,7 @@ public class Detect {
         map.put(BOTTOM_LEFT,new double[]{xTL,yTL-height});
         map.put(BOTTOM,new double[]{xTL-halfWidth,yTL-height});
         map.put(BOTTOM_RIGHT,new double[]{xTL-width,yTL-height});
-        /*Log.d(getClass().getSimpleName(),"height : "+height+ "width :"+width);*/
+        /*Log.d(TAG,"height : "+height+ "width :"+width);*/
         return map;
     }
 
@@ -81,10 +80,10 @@ public class Detect {
             Point centerBoundary=new Point((eye.x-(eye.width/2f)),(eye.y-(eye.height/2f)));
             double xDiff=centerBoundary.x-centroid.x;
             double yDiff=centerBoundary.y-centroid.y;
-            Log.d(getClass().getSimpleName(),"Eye width "+eye.width+"Eye Height "+ eye.height);
-            Log.d(getClass().getSimpleName(),"X coordinates of eye "+ eye.x+ " Y coordinates of eye"+eye.y);
-            Log.d(getClass().getSimpleName(),"xDiff is"+ xDiff + "yDiff is "+yDiff + " centerboundary x & y "+ centerBoundary.x + " & "+ centerBoundary.y);
-            Log.d(getClass().getSimpleName(),"CEntroid x is "+ centroid.x+"Centroid y is"+centroid.y);
+            Log.d(TAG,"Eye width "+eye.width+"Eye Height "+ eye.height);
+            Log.d(TAG,"X coordinates of eye "+ eye.x+ " Y coordinates of eye"+eye.y);
+            Log.d(TAG,"xDiff is"+ xDiff + "yDiff is "+yDiff + " centerboundary x & y "+ centerBoundary.x + " & "+ centerBoundary.y);
+            Log.d(TAG,"CEntroid x is "+ centroid.x+"Centroid y is"+centroid.y);
 
             if(xDiff<0){
                 return  RIGHT;
@@ -142,7 +141,7 @@ public class Detect {
                 minDistance=tDiff;
                 nearestDirection=direction;
             }
-            Log.d(getClass().getSimpleName(),direction.name()+tDiff+(coord==null));
+            Log.d(TAG,direction.name()+tDiff+(coord==null));
         }
         return nearestDirection;
 
@@ -183,7 +182,7 @@ public class Detect {
             Mat[] eyesROI = new Mat[2];
             Rect[] eyesBoundary=new Rect[2];
             Point[] irisCenters=new Point[2];
-            Log.d(getClass().getSimpleName(),"face.x= "+face.x+"face.y = "+face.y);
+            Log.d(TAG,"face.x= "+face.x+"face.y = "+face.y);
             try {
                 for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
 
@@ -233,8 +232,8 @@ public class Detect {
                     Point irisCenter= new Point(eye.x+(momentsContour.m10/momentsContour.m00),eye.y+(momentsContour.m01/momentsContour.m00));
                     Imgproc.circle(frame,irisCenter,2,new Scalar(255,0,0),4);
 
-                    /*Log.d(getClass().getSimpleName()+"Iris Center is ","X: "+centerIris.x + "  Y: "+ centerIris.y);
-                    Log.d(getClass().getSimpleName()+" direction is",findDirection(eye,centerIris)+"");
+                    /*Log.d(TAG+"Iris Center is ","X: "+centerIris.x + "  Y: "+ centerIris.y);
+                    Log.d(TAG+" direction is",findDirection(eye,centerIris)+"");
 
                     */
 
@@ -245,7 +244,7 @@ public class Detect {
                 /*sendDetection(findDirection(eyesBoundary[0],irisCenters[0], DirectionEstimationMethod.METHOD_1));*/
             } catch (Exception e) {
 
-                Log.e(getClass().getSimpleName(),"Error "+e.getMessage());
+                Log.e(TAG,"Error "+e.getMessage());
             }
         }
         return frame;

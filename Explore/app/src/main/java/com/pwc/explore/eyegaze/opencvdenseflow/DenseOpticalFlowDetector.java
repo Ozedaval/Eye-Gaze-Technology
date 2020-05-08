@@ -1,61 +1,58 @@
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.opencvdenseflow;
 
 import android.util.Log;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Size;
-import org.opencv.video.SparseOpticalFlow;
-import org.opencv.video.SparsePyrLKOpticalFlow;
+import org.opencv.video.DISOpticalFlow;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 
-class SparseOpticalFlowDetector {
-    private SparseOpticalFlow sparseOpticalFlow;
+class DenseOpticalFlowDetector {
+    private DISOpticalFlow disOpticalFlow;
     private Mat prevFrame;
     private HashMap<Integer, Point[]> roiPoints;
     private Mat roiPointsMat;
-    private static final String TAG="SparseOFDetector";
+    private static final String TAG="DenseOFDetector";
 
-    SparseOpticalFlowDetector(Size winSize,Integer numROI){
-        sparseOpticalFlow = SparsePyrLKOpticalFlow.create(winSize);
+    DenseOpticalFlowDetector(Size winSize, Integer numROI){
+        disOpticalFlow = DISOpticalFlow.create();
         roiPoints=new HashMap<>(numROI);
-        /*Thread.dumpStack();*/
+        Thread.dumpStack();
     }
 
-    void predictPoints(Mat currentFrame){
+   Mat predictPoints(Mat currentFrame,Mat prevPoints){
         if(prevFrame==null){
             Log.d(TAG,"predicting Points for the first time");
-            fillUpMatPoints();
             prevFrame=currentFrame;
+            return prevPoints;
         }
         else{
             Log.d(TAG,"predicting Points");
             Mat status=new Mat();
-            Mat nextPoints=new Mat();//For ease of debugging
+            Mat nextPoints=new Mat();
             /*Log.d(TAG,"Eye A: 1st Prev Point is"+ "["+Arrays.toString(roiPointsMat.get(0,0))+","+ Arrays.toString(roiPointsMat.get(0, 1))+"]");
             Log.d(TAG,"Eye B: 1st Prev Point is"+ "["+Arrays.toString(roiPointsMat.get(1, 0))+","+ Arrays.toString(roiPointsMat.get(1, 1))+"]");*/
-            sparseOpticalFlow.calc(prevFrame,currentFrame, roiPointsMat,nextPoints,status);
+    /*        disOpticalFlow.calc();*/
 /*            Log.d(TAG,"Eye A: 1st Next Point is"+ "["+Arrays.toString(nextPoints.get(0,0))+","+ Arrays.toString(nextPoints.get(0, 1))+"]");
             Log.d(TAG,"Eye B: 1st Next Point is"+ "["+Arrays.toString(nextPoints.get(1, 0))+","+ Arrays.toString(nextPoints.get(1, 1))+"]");*/
             prevFrame=currentFrame;
-            roiPointsMat=nextPoints;
-            unpackPrediction();
-            fillUpMatPoints();
+return nextPoints;
         }
     }
 
 
     /*Will unpack the predictions in roiPointsMat to the roiPoint HashMap*/
-    private void unpackPrediction(){
-        if(roiPointsMat !=null){
-            Log.d(TAG,"Unpacking Prediction Mat: roiPointMat has rows"+roiPointsMat.rows());
+    HashMap<Integer, Point[]> unpackPrediction(Mat prediction){
+        if(prediction !=null){
+            Log.d(TAG,"Unpacking Prediction Mat: roiPointMat has rows"+prediction.rows());
             Queue<Point> pointsQueue=new LinkedList<>();
-            for(int m = 0; m< roiPointsMat.rows(); m++){
-                double xPoint = roiPointsMat.get(m, 0)[0];
-                double yPoint = roiPointsMat.get(m, 1)[0];
+            for(int m = 0; m< prediction.rows(); m++){
+                double xPoint = prediction.get(m, 0)[0];
+                double yPoint = prediction.get(m, 1)[0];
                 Point addedPoint=new Point(xPoint,yPoint);
                 pointsQueue.add(addedPoint);
                 Log.d(TAG,"unpackPrediction"+": Adding "+addedPoint.toString());
@@ -70,11 +67,20 @@ class SparseOpticalFlowDetector {
                 roiPoints.put(roiID,points);
             }
         }
+    return roiPoints;}
+
+
+    void setROIPoints(int roiID, Point[] points) {
+        roiPoints.put(roiID,points);
+        Log.d(TAG,"Setting up ROIPoints.Minor Check - Point 1 X"+ roiPoints.get(roiID)[0].x);
     }
 
+    HashMap<Integer, Point[]> getROIPoints() {
+        return roiPoints;
+    }
 
     /*Will use the roiPoint HashMap to fill up roiPointMat */
-    private void fillUpMatPoints() {
+    public Mat fillUpMatPoints(Mat roiPointsMat) {
         int totalSparsePoints = 0;
 
         for (int r = 0; r < roiPoints.size(); r++) {
@@ -98,14 +104,20 @@ class SparseOpticalFlowDetector {
             }
 
         }
+        return roiPointsMat;
     }
 
-    void setROIPoints(int roiID, Point[] points) {
-        roiPoints.put(roiID,points);
-        Log.d(TAG,"Setting up ROIPoints.Minor Check - Point 1 X"+ roiPoints.get(roiID)[0].x);
-    }
+    int getNumberOfRows(){
+        int totalSparsePoints = 0;
 
-    HashMap<Integer, Point[]> getROIPoints() {
-        return roiPoints;
+        for (int r = 0; r < roiPoints.size(); r++) {
+            if (roiPoints.get(r) != null) {
+                totalSparsePoints = totalSparsePoints + roiPoints.get(r).length;
+                Log.d(TAG, r + "th Iris Point Size :" + roiPoints.get(r).length);
+            }
+        }
+        return totalSparsePoints;
+
     }
 }
+

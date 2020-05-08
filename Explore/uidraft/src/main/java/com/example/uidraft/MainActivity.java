@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.OnIte
         recyclerView.setLayoutManager(gridLayoutManager);
         this.itemAdapter = itemAdapter;
 
+
     }
 
     @Override

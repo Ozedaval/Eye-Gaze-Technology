@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class InitialisationFragment extends DialogFragment {
     private Initialisation initialisationAsync;
     private MainViewModel mainViewModelProvider;
+    private static final String TAG="Initialisation Fragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,23 +38,23 @@ public class InitialisationFragment extends DialogFragment {
                 .get(MainViewModel.class);
 
 
-        Log.d(getTag()+ " onCreate","Called");
+        Log.d(TAG,"onCreate Called");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(getTag(), "onResume");
+        Log.d(TAG, "onResume");
         try {
             Boolean asyncTaskCompleted=initialisationAsync.get();
             if(asyncTaskCompleted){
-                Log.d(getTag(), "onResume Async task completed");
+                Log.d(TAG, "onResume Async task completed");
                 mainViewModelProvider.initialisationDone();
                 Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.mainActivity_Fragment_Tag));
                 FragmentTransaction fragmentTransaction=requireActivity().getSupportFragmentManager().beginTransaction();
                 if (fragment != null) {
-                    Log.d(getTag()+ "Fragment  ","removed");
+                    Log.d(TAG," Fragment removed");
                     fragmentTransaction.remove(fragment);
 
                 }

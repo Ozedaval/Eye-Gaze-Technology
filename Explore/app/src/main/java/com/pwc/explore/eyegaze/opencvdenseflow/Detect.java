@@ -1,10 +1,13 @@
 
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.opencvdenseflow;
 
 
 import android.util.Log;
+
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
+
+import org.opencv.core.CvType;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -16,6 +19,7 @@ import org.opencv.core.Size;
 import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +29,7 @@ public class Detect {
     private DetectionListener detectionListener;
     private boolean isFirstPairOfIrisFound;
     private SimpleBlobDetector simpleBlobDetector;
-    private SparseOpticalFlowDetector sparseOpticalFlowDetector;
+    private DenseOpticalFlowDetector sparseOpticalFlowDetector;
     private static final String TAG="Detect";
 
 
@@ -33,7 +37,7 @@ public class Detect {
         this.detectionListener = dl;
         simpleBlobDetector = SimpleBlobDetector.create();
         isFirstPairOfIrisFound = false;
-        sparseOpticalFlowDetector = new SparseOpticalFlowDetector(new Size(30,30 ),2);
+        sparseOpticalFlowDetector = new DenseOpticalFlowDetector(new Size(30,30 ),2);
     }
 
 
@@ -99,7 +103,7 @@ public class Detect {
 
                     /*Point eyeCenter = new Point(face.x + eye.x + eye.width / 2f, face.y + eye.y + eye.height / 2f);
                     int radiusEye = (int) Math.round((eye.width + eye.height) * 0.25);
-                    Log.d("Detect" + " Eyes ", " X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
+                    Log.d(TAG, " EYE X co-ordinate  is " + eyeCenter.x + "Y co ordinate" + eyeCenter.y);
                   */
 
                     /*Displaying boundary of the detected eye*/
@@ -121,7 +125,7 @@ public class Detect {
                         blobCentre.y = blobCentre.y + eye.y;
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
                         Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
-                        float irisRadius=4;
+                        float irisRadius=5;
                         sparseOpticalFlowDetector.setROIPoints(i,getIrisSparsePoint(irisRadius,blobCentre));
                     }
                 }
@@ -134,10 +138,12 @@ public class Detect {
             }
 
             if (isFirstPairOfIrisFound) {
-                sparseOpticalFlowDetector.predictPoints(frameGray);
-                HashMap<Integer,Point[]> predictionsMap=sparseOpticalFlowDetector.getROIPoints();
+                Mat irisPointsMat = new Mat(sparseOpticalFlowDetector.getNumberOfRows(), 2, CvType.CV_32F);
+               Mat filledUpIrisPointsMat=sparseOpticalFlowDetector.fillUpMatPoints(irisPointsMat);
+                Mat irisPointsPredictions=sparseOpticalFlowDetector.predictPoints(frame,filledUpIrisPointsMat);
+                HashMap<Integer,Point[]> predictions=sparseOpticalFlowDetector.unpackPrediction(irisPointsPredictions);
                 Point[][][] irisPredictedSparsePointss= new Point[][][]
-                        {{predictionsMap.get(0)},{predictionsMap.get(1)}};
+                        {{predictions.get(0)},{predictions.get(1)}};
                 for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
                     for (Point[] points : irisPredictedSparsePoints) {
                         Log.d(TAG,(points==null)+"");
@@ -152,17 +158,18 @@ public class Detect {
             }
 
         }
+
         return frame;
     }
 
 
     private Point[] getIrisSparsePoint(float irisRadius, Point irisCentre){
-        Point[] sparsePoints= new Point[5];
+        Point[] sparsePoints= new Point[3];
         sparsePoints[0]=irisCentre;
         sparsePoints[1]=new Point(irisCentre.x+irisRadius,irisCentre.y);
         sparsePoints[2]=new Point(irisCentre.x-irisRadius,irisCentre.y);
-        sparsePoints[3]=new Point(irisCentre.x,irisCentre.y+irisRadius);
-        sparsePoints[4]=new Point(irisCentre.x+irisRadius,irisCentre.y-irisRadius);
+       /* sparsePoints[3]=new Point(irisCentre.x,irisCentre.y+irisRadius);
+        sparsePoints[4]=new Point(irisCentre.x+irisRadius,irisCentre.y-irisRadius);*/
         return sparsePoints;
     }
 }

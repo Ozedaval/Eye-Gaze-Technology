@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean isFirstRun;
     private ActivityMainBinding binding;
     private FragmentTransaction fragmentTransaction;
+    private static final String TAG="MainActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,22 +60,22 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(Boolean aBoolean) {
                     if (!aBoolean) {
-                        Log.d(getClass().getSimpleName()+ " OnChangedLiveData","Changed to "+aBoolean);
+                        Log.d(TAG," OnChangedLiveData"+"Changed to "+aBoolean);
                         Snackbar.make(binding.mainCoordinatorLayout,
                                 getString(R.string.initialisation_done_msg),
                                 Snackbar.LENGTH_LONG).show();
-                        Log.d(getClass().getSimpleName(), "Initialisation done");
+                        Log.d(TAG, "Initialisation done");
                         SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE).edit();
                         sharedPreferencesEditor.putBoolean(getString(R.string.first_run_preference_key), false);
                         sharedPreferencesEditor.apply();
-                        Log.d(getClass().getSimpleName(), "Files present " + Arrays.toString(fileList()));
+                        Log.d(TAG, "Files present " + Arrays.toString(fileList()));
                         isFirstRun= false;
                         mainViewModel.getIsFirstRun().removeObserver(this);
                     }
                 }
             });
         }
-        Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
+        Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
     }
 
     @Override
@@ -91,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (isFirstRun) {
             if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(getClass().getSimpleName() +" onResume","ViewModel LiveData isa" +mainViewModel.getIsFirstRun().getValue());
-                Log.d(getClass().getSimpleName() + " onResume", "Called");
+                Log.d(TAG ," onResume "+"ViewModel LiveData isa" +mainViewModel.getIsFirstRun().getValue());
+                Log.d(TAG , "on Resume Called");
 
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.mainActivity_Fragment_Tag));
                 if (fragment != null) {
@@ -104,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     public void startFaceEvent(View view) {
         Intent faceEventIntent = new Intent(this, FaceEventActivity.class);
@@ -129,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void startEyeGazeSparseOpticalFlow(View view) {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvsparseflow.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+    public void startEyeGazeDenseOpticalFlow(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvdenseflow.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
     }
 }

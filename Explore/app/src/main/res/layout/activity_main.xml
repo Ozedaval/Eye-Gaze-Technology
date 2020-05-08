@@ -56,5 +56,13 @@
             android:text="@string/eye_gaze_sparse_optical_flow"
             android:layout_margin="30dp"/>
 
+
+        <Button
+            android:id="@+id/eyeGazeDenseOpticalFlowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startEyeGazeDenseOpticalFlow"
+            android:text="Eye Gaze Dense Optical Flow"
+            android:layout_margin="30dp"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

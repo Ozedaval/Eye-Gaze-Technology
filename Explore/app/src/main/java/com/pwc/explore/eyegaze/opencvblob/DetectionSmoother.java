@@ -8,6 +8,7 @@ class DetectionSmoother {
 
     private Rect prevRect =null;
     private float THRESHOLD;
+    private static final String TAG="DetectionSmoother";
 
     DetectionSmoother(final float THRESHOLD){
         this.THRESHOLD=THRESHOLD;
@@ -48,11 +49,11 @@ class DetectionSmoother {
         int yBR2 = prevRect.y+ prevRect.height;
 
         int intersectionArea=(Math.min(xBR1,xBR2)-Math.max(xTL1,xTL2))*(Math.min(yBR1,yBR2)- Math.max(yTL1,yTL2));
-        Log.d(getClass().getSimpleName()," intersection Area"+intersectionArea);
+        Log.d(TAG," intersection Area"+intersectionArea);
         double unionArea= currentRect.area()+ prevRect.area();
         double spanArea = unionArea-intersectionArea;
         float intersectionCoveragePercent= (float) (intersectionArea/spanArea) ;
-        Log.d(getClass().getSimpleName() + " Intersection Area",intersectionCoveragePercent+ "");
+        Log.d(TAG , " Intersection Area "+intersectionCoveragePercent+ "");
 
         return intersectionCoveragePercent>=THRESHOLD? prevRect :currentRect;
     }
