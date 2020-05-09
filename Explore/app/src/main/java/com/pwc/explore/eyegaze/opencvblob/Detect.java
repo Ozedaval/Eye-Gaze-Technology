@@ -22,7 +22,9 @@ import org.opencv.video.SparseOpticalFlow;
 import org.opencv.video.SparsePyrLKOpticalFlow;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.pwc.explore.Direction.BOTTOM;
 import static com.pwc.explore.Direction.BOTTOM_LEFT;
@@ -94,8 +96,7 @@ public class Detect {
             eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
             Mat[] eyesROI = new Mat[2];
-            Rect[] eyesBoundary=new Rect[2];
-            Point[] irisCenters=new Point[2];
+            Set<Integer> blobID=new HashSet<>();
 
 
             Log.d(TAG,"face.x= "+face.x+"face.y = "+face.y);
@@ -138,6 +139,7 @@ public class Detect {
                         blobCentre.x=blobCentre.x+eye.x;
                         blobCentre.y=blobCentre.y+eye.y;
                         Imgproc.circle(frame,blobCentre,2,new Scalar(255,0,0),4);
+                        blobID.add(i);
 
                     }
 

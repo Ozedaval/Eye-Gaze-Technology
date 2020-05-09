@@ -22,7 +22,7 @@ class SparseOpticalFlowDetector {
     SparseOpticalFlowDetector(Size winSize,Integer numROI){
         sparseOpticalFlow = SparsePyrLKOpticalFlow.create(winSize);
         roiPoints=new HashMap<>(numROI);
-        /*Thread.dumpStack();*/
+        Thread.dumpStack();
     }
 
     void predictPoints(Mat currentFrame){
@@ -32,7 +32,7 @@ class SparseOpticalFlowDetector {
             prevFrame=currentFrame;
         }
         else{
-            Log.d(TAG,"predicting Points");
+            /*Log.d(TAG,"predicting Points");*/
             Mat status=new Mat();
             Mat nextPoints=new Mat();//For ease of debugging
             /*Log.d(TAG,"Eye A: 1st Prev Point is"+ "["+Arrays.toString(roiPointsMat.get(0,0))+","+ Arrays.toString(roiPointsMat.get(0, 1))+"]");
@@ -51,14 +51,14 @@ class SparseOpticalFlowDetector {
     /*Will unpack the predictions in roiPointsMat to the roiPoint HashMap*/
     private void unpackPrediction(){
         if(roiPointsMat !=null){
-            Log.d(TAG,"Unpacking Prediction Mat: roiPointMat has rows"+roiPointsMat.rows());
+            /*Log.d(TAG,"Unpacking Prediction Mat: roiPointMat has rows"+roiPointsMat.rows());*/
             Queue<Point> pointsQueue=new LinkedList<>();
             for(int m = 0; m< roiPointsMat.rows(); m++){
                 double xPoint = roiPointsMat.get(m, 0)[0];
                 double yPoint = roiPointsMat.get(m, 1)[0];
                 Point addedPoint=new Point(xPoint,yPoint);
                 pointsQueue.add(addedPoint);
-                Log.d(TAG,"unpackPrediction"+": Adding "+addedPoint.toString());
+                /*Log.d(TAG,"unpackPrediction"+": Adding "+addedPoint.toString());*/
             }
             for(int roiID:roiPoints.keySet()){
                 Point[] points=new Point[roiPoints.get(roiID).length];
@@ -80,17 +80,17 @@ class SparseOpticalFlowDetector {
         for (int r = 0; r < roiPoints.size(); r++) {
             if (roiPoints.get(r) != null) {
                 totalSparsePoints = totalSparsePoints + roiPoints.get(r).length;
-                Log.d(TAG, r + "th Iris Point Size :" + roiPoints.get(r).length);
+                /*Log.d(TAG, r + "th Iris Point Size :" + roiPoints.get(r).length);*/
             }
         }
-        Log.d(TAG,"Filling up Mat Points:  roiPoint - totalSparsePoints "+totalSparsePoints);
+        /*Log.d(TAG,"Filling up Mat Points:  roiPoint - totalSparsePoints "+totalSparsePoints);*/
 
         int matCounter=0;
         roiPointsMat = new Mat(totalSparsePoints, 2, CvType.CV_32F);
         for (Integer roiID : roiPoints.keySet()) {
             if (roiPoints.get(roiID) != null) {
                 for (int m = 0; m < roiPoints.get(roiID).length; m++) {
-                    Log.d(TAG, m + "th Iris Point X :" + roiPoints.get(roiID)[m].x + "  "+ m + "th Iris Point Y :" + roiPoints.get(roiID)[m].y+" matCounter"+matCounter + " m is "+m);
+                    /*Log.d(TAG, m + "th Iris Point X :" + roiPoints.get(roiID)[m].x + "  "+ m + "th Iris Point Y :" + roiPoints.get(roiID)[m].y+" matCounter"+matCounter + " m is "+m);*/
                     roiPointsMat.put(matCounter, 0, roiPoints.get(roiID)[m].x);
                     roiPointsMat.put(matCounter, 1, roiPoints.get(roiID)[m].y);
                     matCounter++;
@@ -102,10 +102,17 @@ class SparseOpticalFlowDetector {
 
     void setROIPoints(int roiID, Point[] points) {
         roiPoints.put(roiID,points);
-        Log.d(TAG,"Setting up ROIPoints.Minor Check - Point 1 X"+ roiPoints.get(roiID)[0].x);
+        /*Log.d(TAG,"Setting up ROIPoints.Minor Check - Point 1 X"+ roiPoints.get(roiID)[0].x);*/
     }
 
     HashMap<Integer, Point[]> getROIPoints() {
         return roiPoints;
+    }
+
+    void resetSparseOpticalFlow(){
+        if(sparseOpticalFlow!=null ) {
+            sparseOpticalFlow.clear();
+        }
+        prevFrame=null;
     }
 }
