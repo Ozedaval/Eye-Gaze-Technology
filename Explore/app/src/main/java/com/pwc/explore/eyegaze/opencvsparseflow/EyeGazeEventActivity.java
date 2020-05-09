@@ -20,7 +20,7 @@ import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
 
-public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2, DetectionListener {
+public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
 /*    TODO  (  1.Update existing UI & Link up RecyclerView UI
                3.Use Cursor Class appropriately
                4.Need to address Activity Lifecycle
@@ -58,7 +58,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         camera.disableFpsMeter();
         camera.setCvCameraViewListener(this);
 
-        detect=new Detect(this);
+        detect=new Detect();
         faceCascade = new CascadeClassifier();
         eyesCascade = new CascadeClassifier();
         /*Log.d(TAG, Arrays.toString(fileList()));
@@ -69,11 +69,6 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     }
 
 
-    @Override
-    public void move(Direction direction) {
-        Log.d(TAG,"Direction is "+direction.name());
-        eyegazeTextView.setText(direction.name()+" ");
-    }
 
     @Override
     public void onCameraViewStarted(int width, int height) {
@@ -86,6 +81,13 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+       eyegazeTextView.post(new Runnable() {
+           @Override
+           public void run() {
+
+               eyegazeTextView.setText(detect.getDirection()+"");
+           }
+       });
         return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
     }
 
