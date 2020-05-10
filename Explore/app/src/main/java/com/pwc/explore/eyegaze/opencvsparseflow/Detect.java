@@ -25,18 +25,19 @@ import java.util.Map;
 
 public class Detect {
 
-    private DetectionListener detectionListener;
+
     private boolean isFirstPairOfIrisFound;
     private SimpleBlobDetector simpleBlobDetector;
     private SparseOpticalFlowDetector sparseOpticalFlowDetector;
     private static final String TAG = "Detect";
     private boolean needCalibration;
     private int frameCount;
-    private static final int FRAME_CALIBRATION_RATE = 30;
+    private static final int FRAME_CALIBRATION_RATE = 90;
     private GazeEstimator gazeEstimator;
     private Direction direction;
     private DetectionSmoother faceDetectionSmoother;
     private Rect prevFace;
+    private Direction prevDirection;
     private static final float FACE_MOVEMENT_THRESHOLD=0.1f;
 
 
@@ -45,7 +46,7 @@ public class Detect {
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound & needCalibration is false*/
         sparseOpticalFlowDetector = new SparseOpticalFlowDetector(new Size(30, 30), 2);
-        gazeEstimator = new GazeEstimator(0.2f);
+        gazeEstimator = new GazeEstimator(1f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
 
     }
@@ -124,7 +125,7 @@ public class Detect {
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
                        /* Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
                         Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Centre Y"+blobCentre.y);*/
-                        float irisRadius = 0;//TODO(Need to find a value dependent on the size of the eye )
+                        float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
                         blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
                     }
                 }
@@ -148,7 +149,8 @@ public class Detect {
                 sparseOpticalFlowDetector.predictPoints(frameGray);
                 HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.getROIPoints();
                 /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+Arrays.toString(predictionsMap.get(1)));*/
-                direction=gazeEstimator.estimateGaze(copy(predictionsMap));
+               direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
+                /*Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction);*/
                 Point[][][] irisPredictedSparsePointss = new Point[][][]
                         {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
                 for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
@@ -250,4 +252,41 @@ public class Detect {
     }
 
 
+    private Direction directionEstimator(Direction currentDirection, HashMap<Integer, Point[]> currentPoints){
+      if(prevDirection==null){
+          prevDirection=currentDirection;
+          return currentDirection;
+      }
+        if(gazeEstimator.isNeutral(currentPoints)){
+            prevDirection=Direction.NEUTRAL;
+            return Direction.NEUTRAL;
+        }
+      switch(prevDirection){
+          case NEUTRAL:
+              if(currentDirection==Direction.LEFT || currentDirection==Direction.RIGHT){
+                  return  currentDirection;
+              }
+          case LEFT:
+              if(currentDirection==Direction.NEUTRAL){
+                  prevDirection=Direction.LEFT;
+                  return Direction.LEFT;
+              }else if(currentDirection==Direction.RIGHT){
+                  prevDirection=Direction.RIGHT;
+                  return Direction.NEUTRAL;
+              }
+          case RIGHT:
+
+              if(currentDirection==Direction.NEUTRAL){
+                  /*Log.d(TAG,"NUETRAL");*/
+                  prevDirection=Direction.RIGHT;
+                  return Direction.RIGHT;
+              }else if(currentDirection==Direction.LEFT){
+                  prevDirection=Direction.LEFT;
+                  return Direction.NEUTRAL;
+              }
+          default:
+              return currentDirection;
+
+      }
+    }
 }

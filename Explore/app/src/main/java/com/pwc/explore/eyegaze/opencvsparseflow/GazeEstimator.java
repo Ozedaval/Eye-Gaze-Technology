@@ -1,23 +1,16 @@
 package com.pwc.explore.eyegaze.opencvsparseflow;
 
 import android.util.Log;
-
 import com.pwc.explore.Direction;
-
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import static com.pwc.explore.Direction.LEFT;
-import static com.pwc.explore.Direction.RIGHT;
-import static java.lang.Math.abs;
 
 
 public class GazeEstimator {
@@ -27,94 +20,124 @@ public class GazeEstimator {
     private List<Rect> eyeNeutralBoundary;
     private static final String TAG="GazeEstimator";
 
+
     GazeEstimator(Float threshold){
         this.threshold=threshold;
     }
-
-    Direction estimateGaze(HashMap<Integer,Point[]> currentPoints){
-        /*TODO Consider gaze*/
-        if(eyes==null||eyes.size()!=2){
-            return Direction.UNKNOWN;
-        }
-        return estimateMovement(currentPoints);
-    }
-
     void updateEyesBoundary(List<Rect> eyes) {
         this.eyes = eyes;
-//        eyeNeutralBoundary = new ArrayList<>();
-//        for (Rect eye : eyes) {
-//            int newTopLeftX = (int)(eye.x + eye.width * 0.33f);
-//            Rect newEye= eye.clone();
-//            newEye.x=newTopLeftX;
-//            newEye.width=(int)(newEye.width*0.33f);
-//            eyeNeutralBoundary.add(newEye);
-//        }
+        eyeNeutralBoundary = new ArrayList<>();
+        for (Rect eye : eyes) {
+            Rect eyeClone= eye.clone();
+            int newTopLeftX = (int)(eyeClone.x + eyeClone.width * 0.33f);
+            Rect newEye= eye.clone();
+            newEye.x=newTopLeftX;
+            newEye.width=(int)(newEye.width*0.33f);
+            eyeNeutralBoundary.add(newEye);
+        }
     }
 
-    private Direction estimateMovement(HashMap<Integer, Point[]> currentPoints){
-        /*TODO Consider all directions*/
-        HashMap<Direction,Integer> directionCount=new HashMap<>();
-        for(int i=0;i<eyes.size();i++){
-            Log.d(TAG,eyes.size()+"- number of eyes detected");
-            HashMap<Direction,double[]> boundaryMap=getBoundaryCoord(eyes.get(i));
-            Point[] points = currentPoints.get(i);
-            for(Point point:points){
-                for(Map.Entry<Direction, double[]> entry:boundaryMap.entrySet()){
-                    Direction closestDirection=findClosestBoundary(point,boundaryMap);
-                    if(!directionCount.containsKey(closestDirection)){
-                        directionCount.put(closestDirection,0);
+    boolean isNeutral(HashMap<Integer,Point[]> currentPoint){
+        if(eyeNeutralBoundary!=null){
+            HashMap<Boolean,Integer> neutralHashMap = new HashMap<>();
+            for(Map.Entry<Integer, Point[]> entry:currentPoint.entrySet()){
+                Point[] points=entry.getValue();
+                for(Point point:points){
+                    Boolean isInNeutralBoundary=eyeNeutralBoundary.get(entry.getKey()).contains(point);
+                    if(!neutralHashMap.containsKey(isInNeutralBoundary)){
+                        neutralHashMap.put(isInNeutralBoundary,1);
                     }
                     else{
-                        directionCount.put(closestDirection,directionCount.get(closestDirection)+1);
+                        neutralHashMap.put(isInNeutralBoundary,neutralHashMap.get(isInNeutralBoundary)+1);
+                    }
+
+                }
+            }
+            int maxValue = Collections.max(neutralHashMap.values());
+            for (Map.Entry<Boolean, Integer> neutralStatusEntry:neutralHashMap.entrySet()) {
+                if (neutralStatusEntry.getValue() == maxValue) {
+                  /*   Log.d(TAG,neutralStatusEntry.getKey().toString()+" has the max at "+ neutralStatusEntry.getValue()+"");*/
+                    return neutralStatusEntry.getKey();
+                }
+            }
+
+        }
+
+    return false;}
+    Direction estimateGaze(HashMap<Integer,Point[]> prevPoints,HashMap<Integer,Point[]> currentPoints){
+        /*TODO Consider gaze*/
+
+        return estimateMovement(prevPoints,currentPoints);
+    }
+
+  /*  private Direction estimateMovement(HashMap<Integer, Point[]> prevPoints,HashMap<Integer, Point[]> currentPoints){
+        *//*TODO Consider all directions*//*
+        if(currentPoints.keySet().size()==prevPoints.keySet().size()) {
+            for(int i=0;i<prevPoints.size();i++){
+                if(prevPoints.get(i)!=null&&currentPoints.get(i)!=null&&prevPoints.get(i).length==currentPoints.get(i).length){
+
+
+                }
+
+            }
+        }
+        return Direction.UNKNOWN;
+    }*/
+
+
+    private Direction estimateMovement(HashMap<Integer, Point[]> prevPoints,HashMap<Integer, Point[]> currentPoints){
+        /*TODO Consider all directions*/
+        if(currentPoints.keySet().size()==prevPoints.keySet().size()){
+            HashMap<Direction,Integer> directions= new HashMap<>();
+            List<Point> currentPointsList=unpackHashMapPoints(currentPoints);
+            List<Point> prevPointsList=unpackHashMapPoints(prevPoints);
+
+            if(currentPointsList.size() == prevPointsList.size()){
+                for (int i = 0; i < currentPointsList.size(); i++) {
+                    Point currentPoint = currentPointsList.get(i);
+                    Point prevPoint = prevPointsList.get(i);
+                    /*Log.d(TAG,"Current Point is"+currentPoint+" prevPoint is "+prevPoint);*/
+                    double xDiff=currentPoint.x-prevPoint.x;
+                    if(xDiff<-threshold){
+                        /*Log.d(TAG,"xDiff is" +xDiff);*/
+                        directions=insertInDirections(directions,Direction.LEFT);
+                    }
+                    else if(xDiff>threshold){
+                        /*Log.d(TAG,"xDiff is" +xDiff);*/
+                        directions=insertInDirections(directions,Direction.RIGHT);
+                    }
+                    else{
+                        /*Log.d(TAG,"xDiff is" +xDiff);*/
+                        directions=insertInDirections(directions,Direction.NEUTRAL);
                     }
                 }
             }
+            int maxValue = Collections.max(directions.values());
+            Direction maxDirection=Direction.UNKNOWN;
+            int ctr=0;
+            for (Map.Entry<Direction, Integer> directionIntegerEntry:directions.entrySet()){
+                /*Log.d(TAG,ctr+".  "+directionIntegerEntry.getKey().toString()+" has num of points "+ directionIntegerEntry.getValue()+"");*/
+                if(directionIntegerEntry.getValue()==maxValue){
+                  maxDirection= directionIntegerEntry.getKey();
+                }
+            }
+            return maxDirection;
         }
-
-        Log.d(TAG, "points near to LEFT "+directionCount.get(LEFT)+"Points near to Right "+directionCount.get(RIGHT));
-        int maxDirectionCount=Collections.max(directionCount.values());
-        for(Direction direction:directionCount.keySet()){
-            if(directionCount.get(direction)==maxDirectionCount){
-                return direction;
-
-            }        }
         return Direction.UNKNOWN;
     }
 
-    Direction findClosestBoundary(Point point,HashMap<Direction,double[]> boundaryMap){
-        double netMinimalDifference=Integer.MAX_VALUE;
-        Direction closestDirection=Direction.UNKNOWN;
-        Log.d(TAG,"Boundary edges LEFT X"+boundaryMap.get(LEFT)[0]+ " LEFT Y"+boundaryMap.get(LEFT)[1]+"Boundary edges RIGHT X"+boundaryMap.get(RIGHT)[0]+ " RIGHT Y"+boundaryMap.get(RIGHT)[1]);
-        for(Map.Entry<Direction, double[]> entry: boundaryMap.entrySet()){
-            double tempDiff;
-            double pointX=point.clone().x;
-            double pointY=point.clone().y;
-            Log.d(TAG,pointX+" X & y is "+pointY);
-            tempDiff=Math.abs(pointX-entry.getValue()[0]);
-            tempDiff+=Math.abs(pointY-entry.getValue()[1]);
-            Log.d(TAG,"TempDiff"+tempDiff);
-            if(netMinimalDifference>tempDiff){
-                closestDirection=entry.getKey();
-                netMinimalDifference=tempDiff;
-            }
 
+    HashMap<Direction,Integer> insertInDirections(HashMap<Direction,Integer> directions,Direction direction){
+        if(!directions.containsKey(direction)){
+            directions.put(direction,1);
         }
-        Log.d(TAG,"Closest Direction is"+closestDirection);
-        return closestDirection;
+        else {
+            directions.put(direction,directions.get(direction)+1);
+        }
+        return  directions;
     }
 
-    private HashMap<Direction,double[]> getBoundaryCoord(Rect boundary){
-        double height=boundary.height;
-        double width=boundary.width;
-        double halfHeight=height/2;
-        double halfWidth=width/2;
-        double xTL=boundary.x; //Top left x co-ord
-        double yTL=boundary.y;//Top left y co-ord
-        HashMap<Direction,double[]> map=new HashMap<>(2);
-        map.put(LEFT,new double[]{xTL,yTL-halfHeight});
-        map.put(RIGHT,new double[]{xTL-width,yTL-halfHeight});
-        return map;
-    }
+
 
 
     List<Point> unpackHashMapPoints(HashMap<Integer,Point[]> hashMap){

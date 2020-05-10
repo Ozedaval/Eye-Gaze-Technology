@@ -27,7 +27,7 @@ class SparseOpticalFlowDetector {
 
     void predictPoints(Mat currentFrame){
         if(prevFrame==null){
-            Log.d(TAG,"predicting Points for the first time");
+            /*Log.d(TAG,"predicting Points for the first time");*/
             fillUpMatPoints();
             prevFrame=currentFrame;
         }
