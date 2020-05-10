@@ -18,13 +18,9 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.Map;
 
 
 public class Detect {
@@ -39,15 +35,19 @@ public class Detect {
     private static final int FRAME_CALIBRATION_RATE = 30;
     private GazeEstimator gazeEstimator;
     private Direction direction;
-    private ArrayList<Direction> directionsList;
+    private DetectionSmoother faceDetectionSmoother;
+    private Rect prevFace;
+    private static final float FACE_MOVEMENT_THRESHOLD=0.1f;
+
 
     Detect() {
         direction = Direction.UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound & needCalibration is false*/
         sparseOpticalFlowDetector = new SparseOpticalFlowDetector(new Size(30, 30), 2);
-        gazeEstimator = new GazeEstimator(Direction.UNKNOWN, 0);
-        directionsList = new ArrayList<>();
+        gazeEstimator = new GazeEstimator(0.2f);
+        faceDetectionSmoother=new DetectionSmoother(0.2f);
+
     }
 
 
@@ -55,7 +55,7 @@ public class Detect {
     Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
-        calculateNeedCalibration(false);
+        calculateNeedCalibration(false,false);
         Mat frameGray = new Mat();
 
         /*Creating a Grayscale version of the Image*/
@@ -73,11 +73,14 @@ public class Detect {
         if (!listOfFaces.isEmpty()) {
             Rect face = listOfFaces.get(0);
 
-
+            /*Detections made smoother*/
+            face=faceDetectionSmoother.updateCoord(face);
 
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
+
+            List<Rect> eyeBoundary=new ArrayList<>();
 
             HashMap<Integer, Point[]> blob = new HashMap<>();
             if (!isFirstPairOfIrisFound || needCalibration) {
@@ -86,6 +89,7 @@ public class Detect {
                 MatOfRect eyes = new MatOfRect();
                 eyesCascade.detectMultiScale(faceROI, eyes);
                 List<Rect> listOfEyes = eyes.toList();
+                eyeBoundary=new ArrayList<>();
                 Mat[] eyesROI = new Mat[listOfEyes.size()];
 
                 for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
@@ -97,6 +101,7 @@ public class Detect {
 
                     /*Cropping an eye Image*/
                     eyesROI[i] = frame.submat(eye);
+                    eyeBoundary.add(eye.clone());
 
                     /*Displaying boundary of the detected eye*/
                     Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
@@ -119,9 +124,8 @@ public class Detect {
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
                        /* Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
                         Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Centre Y"+blobCentre.y);*/
-                        float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
+                        float irisRadius = 0;//TODO(Need to find a value dependent on the size of the eye )
                         blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
-
                     }
                 }
             }
@@ -132,8 +136,8 @@ public class Detect {
                 for (Integer roiID : blob.keySet()) {
                     sparseOpticalFlowDetector.setROIPoints(roiID, blob.get(roiID));
                 }
-
-                calculateNeedCalibration(true);
+                gazeEstimator.updateEyesBoundary(eyeBoundary);
+                calculateNeedCalibration(true,hasFaceMoved(face));
                 isFirstPairOfIrisFound = true;
             }
 
@@ -143,9 +147,8 @@ public class Detect {
                 /*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*/
                 sparseOpticalFlowDetector.predictPoints(frameGray);
                 HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.getROIPoints();
-                directionsList.add(gazeEstimator.estimateGaze(prevPoints, predictionsMap));
-                direction = directionGuesser();
                 /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+Arrays.toString(predictionsMap.get(1)));*/
+                direction=gazeEstimator.estimateGaze(copy(predictionsMap));
                 Point[][][] irisPredictedSparsePointss = new Point[][][]
                         {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
                 for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
@@ -162,10 +165,34 @@ public class Detect {
         return frame;
     }
 
+
+    private boolean hasFaceMoved(Rect currentFace){
+        if(prevFace==null){
+            prevFace=currentFace;
+            return false;
+        }
+        else{
+            float xDiff= Math.abs(prevFace.x-currentFace.x);
+            float yDiff=Math.abs(prevFace.y-currentFace.y);
+            Log.d(TAG,"Face Movement xDiff:"+xDiff+" yDiff"+yDiff+"Threshold value "+prevFace.x*FACE_MOVEMENT_THRESHOLD);
+            if(xDiff<(prevFace.x*FACE_MOVEMENT_THRESHOLD)&&yDiff<(prevFace.y*FACE_MOVEMENT_THRESHOLD)){
+                prevFace=currentFace;
+                return false;
+            }
+            prevFace=currentFace;
+            return true;
+        }
+    }
+
+
     /*Helper function to re-calibrate Optical Flow by using iris detection after N frames & when eyes are detected again*/
-    private void calculateNeedCalibration(boolean calibrationIrisIdentified) {
+    private void calculateNeedCalibration(boolean calibrationIrisIdentified,boolean hasFaceMoved) {
         if (!calibrationIrisIdentified) {
             frameCount++;
+        }
+        if(hasFaceMoved){
+            needCalibration=true;
+            return;
         }
         if (frameCount > FRAME_CALIBRATION_RATE) {
             if (calibrationIrisIdentified) {
@@ -197,30 +224,30 @@ public class Detect {
     }
 
 
-    boolean isUniqueIrisIdentified(HashMap<Integer, Point[]> blob) {
+    private boolean isUniqueIrisIdentified(HashMap<Integer, Point[]> blob) {
         if (blob.size() == 2) {
             if (blob.get(0) != null && blob.get(1) != null)
+                /*First point wont be the same*/
                 return blob.get(0)[0] != blob.get(1)[0];
         }
         return false;
     }
 
-    Direction directionGuesser() {
-        if (frameCount < FRAME_CALIBRATION_RATE) {
-            return direction;
-        }
-        if (directionsList != null) {
-            if (directionsList.size() > 3) {
-                int lastIndex = directionsList.size();
-                List<Direction> lastThreeDirection = directionsList.subList(lastIndex - 2, lastIndex);
-                HashSet<Direction> lastThreeDirectionSet = new HashSet<>();
-                lastThreeDirectionSet.addAll(lastThreeDirection);
-                if (lastThreeDirectionSet.size() == 1) {
-                    return directionsList.get(directionsList.size() - 1);
-                }
+
+    public  HashMap<Integer, Point[]> copy(HashMap<Integer, Point[]> original)
+    {
+        HashMap<Integer, Point[]> copy = new HashMap<Integer, Point[]>();
+        for (Map.Entry<Integer, Point[]> entry : original.entrySet())
+        {
+            Point[] newPoint= new Point[entry.getValue().length];
+            Point oldPoint[]= entry.getValue();
+            for(int i=0;i<oldPoint.length;i++){
+                newPoint[i]=oldPoint[i];
             }
-            return direction;
+            copy.put(entry.getKey(),newPoint);
         }
-return Direction.UNKNOWN;
+        return copy;
     }
+
+
 }

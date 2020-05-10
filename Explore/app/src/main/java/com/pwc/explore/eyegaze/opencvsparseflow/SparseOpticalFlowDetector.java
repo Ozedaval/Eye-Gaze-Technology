@@ -83,6 +83,7 @@ class SparseOpticalFlowDetector {
                 /*Log.d(TAG, r + "th Iris Point Size :" + roiPoints.get(r).length);*/
             }
         }
+
         /*Log.d(TAG,"Filling up Mat Points:  roiPoint - totalSparsePoints "+totalSparsePoints);*/
 
         int matCounter=0;
