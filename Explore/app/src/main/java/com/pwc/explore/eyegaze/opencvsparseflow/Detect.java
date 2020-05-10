@@ -32,7 +32,7 @@ public class Detect {
     private static final String TAG = "Detect";
     private boolean needCalibration;
     private int frameCount;
-    private static final int FRAME_CALIBRATION_RATE = 90;
+    private static final int FRAME_CALIBRATION_RATE = 30;
     private GazeEstimator gazeEstimator;
     private Direction direction;
     private DetectionSmoother faceDetectionSmoother;
