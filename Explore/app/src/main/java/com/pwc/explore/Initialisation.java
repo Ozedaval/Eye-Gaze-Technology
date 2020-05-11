@@ -19,6 +19,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private FileOutputStream faceModelOutputStream;
     private static final String TAG="Initialisation";
 
+
     Initialisation(Context context){
         contextWeakReference=new WeakReference<>(context);
     }

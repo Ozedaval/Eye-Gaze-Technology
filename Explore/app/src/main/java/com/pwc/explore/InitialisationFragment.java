@@ -1,5 +1,6 @@
 package com.pwc.explore;
 
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,9 +17,11 @@ import java.util.concurrent.ExecutionException;
 
 
 public class InitialisationFragment extends DialogFragment {
+
     private Initialisation initialisationAsync;
     private MainViewModel mainViewModelProvider;
     private static final String TAG="Initialisation Fragment";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,13 +41,16 @@ public class InitialisationFragment extends DialogFragment {
                 .get(MainViewModel.class);
 
 
+
         Log.d(TAG,"onCreate Called");
+
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         Log.d(TAG, "onResume");
         try {
             Boolean asyncTaskCompleted=initialisationAsync.get();
@@ -83,3 +89,4 @@ public class InitialisationFragment extends DialogFragment {
     }
 
 }
+

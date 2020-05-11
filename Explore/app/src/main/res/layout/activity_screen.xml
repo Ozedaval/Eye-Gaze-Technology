@@ -8,9 +8,11 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
 
         <TextView
@@ -39,5 +41,6 @@
             opencv:show_fps="false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

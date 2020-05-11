@@ -16,6 +16,7 @@
         android:orientation="vertical"
      >
 
+
         <Button
             android:id="@+id/facialControllerButton"
             android:layout_width="wrap_content"
@@ -64,5 +65,6 @@
             android:onClick="startEyeGazeDenseOpticalFlow"
             android:text="Eye Gaze Dense Optical Flow"
             android:layout_margin="30dp"/>
+
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
