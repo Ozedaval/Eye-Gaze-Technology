@@ -1,6 +1,7 @@
 package com.example.uidraft;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,14 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
     private List<String> mItemList;
     private Context mContext;
-
+    int selectedItem;
     private OnItemListener onItemListener;
 
     Class[] activities = {Element1.class,Element2.class,Element3.class};
@@ -26,6 +28,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         this.mItemList = itemList;
         this.mContext = context;
         this.onItemListener = onItemListener;
+        selectedItem =-1;
     }
 
 
@@ -36,7 +39,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         return new ItemViewHolder(view, onItemListener);
     }
 
+    public void select(int position) {
+        int previousItem = selectedItem;
+        selectedItem = position;
 
+        notifyItemChanged(previousItem);
+        notifyItemChanged(position);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
@@ -47,7 +56,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         int top = dpToPx(12);
         int right = dpToPx(24);
         int bottom = dpToPx(12);
-
+        holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryLight));
+        if (selectedItem == position) {
+            holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.selected));
+        }
 
         int spanCount =3;
 
@@ -107,6 +119,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         @Override
         public void onClick(View view) {
             onItemListener.onItemClick(getAdapterPosition());
+        }
+        public void select(){
         }
     }
 
