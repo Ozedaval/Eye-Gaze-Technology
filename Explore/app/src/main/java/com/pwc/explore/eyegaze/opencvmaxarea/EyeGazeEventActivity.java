@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.opencvshape;
+package com.pwc.explore.eyegaze.opencvmaxarea;
 
 
 import android.os.Bundle;
@@ -40,6 +40,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +49,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
         eyegazeTextView=findViewById(R.id.eyeGazeTextView);
         camera = findViewById(R.id.javaCameraView);
-      
+
         Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
+
         camera.setCameraPermissionGranted();
         camera.setCvCameraViewListener( this);
 

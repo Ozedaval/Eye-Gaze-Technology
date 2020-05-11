@@ -1,17 +1,20 @@
-package com.pwc.explore.eyegaze.opencvshape;
+package com.pwc.explore.eyegaze.opencvdenseflow;
 
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
 import com.pwc.explore.R;
+
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
@@ -20,8 +23,7 @@ import org.opencv.objdetect.CascadeClassifier;
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2, DetectionListener {
 /*    TODO  (  1.Update existing UI & Link up RecyclerView UI
                3.Use Cursor Class appropriately
-               4.Need to address Activity Lifecycle
-               5.Use ViewBinding once UI is finalised)
+               4.Need to address Activity Lifecycle)
       Note: The image layout "screen" is temporary since as far
       as I have searched it appears that majority of  OpenCV implementations  uses the cameraBridgeViewBase - produces a preview.
       This preview can be hidden by changing the output of the callback:onCameraFrame.
@@ -35,9 +37,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     private CoordinatorLayout coordinatorLayout;
     private TextView eyegazeTextView;
     private Detect detect;
-    private SurfaceView surfaceView;
     private static final String TAG="EyeGazeEventActivity";
-
 
 
     @Override
@@ -48,11 +48,14 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
         eyegazeTextView=findViewById(R.id.eyeGazeTextView);
         camera = findViewById(R.id.javaCameraView);
-      
-        Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
-        camera.setCameraPermissionGranted();
-        camera.setCvCameraViewListener( this);
 
+        Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
+
+        camera.setVisibility(SurfaceView.VISIBLE);
+        camera.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
+        camera.setCameraPermissionGranted();
+        camera.disableFpsMeter();
+        camera.setCvCameraViewListener(this);
 
         detect=new Detect(this);
         faceCascade = new CascadeClassifier();
@@ -78,15 +81,11 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public void onCameraViewStopped() {
-
     }
-
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        /*Log.d(TAG,"Columns : "+   inputFrame.rgba().cols()+ " Rows :"+
-                inputFrame.rgba().rows()  );*/
-       return detect.detect(inputFrame.rgba(), faceCascade, eyesCascade);
+        return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
     }
 
     @Override
@@ -100,4 +99,5 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         camera.surfaceDestroyed(camera.getHolder());
         super.onDestroy();
     }
+
 }

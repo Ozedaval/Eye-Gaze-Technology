@@ -16,6 +16,7 @@
         android:orientation="vertical"
      >
 
+
         <Button
             android:id="@+id/facialControllerButton"
             android:layout_width="wrap_content"
@@ -29,9 +30,10 @@
             android:id="@+id/eyeGazeColorButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="startEyeGazeColor"
-            android:text="@string/eye_gaze_color"
+            android:onClick="startEyeGazeBlob"
+            android:text="@string/eye_gaze_blob"
             android:layout_margin="30dp"/>
+
         <Button
             android:id="@+id/eyeGazeShapeButton"
             android:layout_width="wrap_content"
@@ -39,7 +41,30 @@
             android:onClick="startEyeGazeShape"
             android:text="@string/eye_gaze_shape"
             android:layout_margin="30dp"/>
+        <Button
+            android:id="@+id/eyeGazeMaxAreaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startEyeGazeMaxArea"
+            android:text="@string/eye_gaze_max_area"
+            android:layout_margin="30dp"/>
 
+        <Button
+            android:id="@+id/eyeGazeSparseOpticalFlowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startEyeGazeSparseOpticalFlow"
+            android:text="@string/eye_gaze_sparse_optical_flow"
+            android:layout_margin="30dp"/>
+
+
+        <Button
+            android:id="@+id/eyeGazeDenseOpticalFlowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startEyeGazeDenseOpticalFlow"
+            android:text="Eye Gaze Dense Optical Flow"
+            android:layout_margin="30dp"/>
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

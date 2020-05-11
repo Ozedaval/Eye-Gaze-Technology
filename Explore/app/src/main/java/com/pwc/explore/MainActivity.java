@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +27,11 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     private final int PERMISSION_REQUEST_CODE = 1;
-    private MainViewModel mainViewModel=null;
+    private MainViewModel mainViewModel;
     private Boolean isFirstRun;
     private ActivityMainBinding binding;
-    private   FragmentTransaction fragmentTransaction;
+    private FragmentTransaction fragmentTransaction;
+    private static final String TAG="MainActivity";
 
 
     @Override
@@ -61,63 +61,24 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(Boolean aBoolean) {
                     if (!aBoolean) {
-                        Log.d(getClass().getSimpleName()+ " OnChangedLiveData","Changed to "+aBoolean);
+
+                        Log.d(TAG," OnChangedLiveData"+"Changed to "+aBoolean);
                         Snackbar.make(binding.mainCoordinatorLayout,
                                 getString(R.string.initialisation_done_msg),
                                 Snackbar.LENGTH_LONG).show();
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        Log.d(getClass().getSimpleName(), "Initialisation done");
+                        Log.d(TAG, "Initialisation done");
                         SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE).edit();
                         sharedPreferencesEditor.putBoolean(getString(R.string.first_run_preference_key), false);
                         sharedPreferencesEditor.apply();
-                        Log.d(getClass().getSimpleName(), "Files present " + Arrays.toString(fileList()));
+                        Log.d(TAG, "Files present " + Arrays.toString(fileList()));
                         isFirstRun= false;
                         mainViewModel.getIsFirstRun().removeObserver(this);
                     }
                 }
             });
+
         }
-        Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
-    }
-
-
-    public void startFaceEvent(View view) {
-        Intent faceEventIntent = new Intent(this, FaceEventActivity.class);
-        startActivity(faceEventIntent);
-    }
-
-    public void startEyeGazeColor(View view) {
-        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvcolor.EyeGazeEventActivity.class);
-        startActivity(eyeGazeIntent);
-    }
-
-    public void startEyeGazeShape(View view) {
-        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity.class);
-        startActivity(eyeGazeIntent);
-    }
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (isFirstRun) {
-            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(getClass().getSimpleName() +" onResume","ViewmodelLivedataisa" +mainViewModel.getIsFirstRun().getValue());
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Log.d(getClass().getSimpleName() + " onResume", "Called");
-
-                Fragment prev = getSupportFragmentManager().findFragmentByTag(getString(R.string.mainActivity_Fragment_Tag));
-                if (prev != null) {
-                    fragmentTransaction.remove(prev);
-                }
-                DialogFragment initialisationFragment = new InitialisationFragment();
-                initialisationFragment.setCancelable(false);
-                initialisationFragment.show(fragmentTransaction, getString(R.string.mainActivity_Fragment_Tag));
-            }
-        }
+        Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
     }
 
     @Override
@@ -126,7 +87,60 @@ public class MainActivity extends AppCompatActivity {
             if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 finish();
             }
+
+        }
+        Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isFirstRun) {
+            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
+                Log.d(TAG ," onResume "+"ViewModel LiveData isa" +mainViewModel.getIsFirstRun().getValue());
+                Log.d(TAG , "on Resume Called");
+
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.mainActivity_Fragment_Tag));
+                if (fragment != null) {
+                    fragmentTransaction.remove(fragment);
+                }
+                DialogFragment initialisationFragment = new InitialisationFragment();
+                initialisationFragment.setCancelable(false);
+                initialisationFragment.show(fragmentTransaction, getString(R.string.mainActivity_Fragment_Tag));
+            }
         }
     }
+
+    public void startFaceEvent(View view) {
+        Intent faceEventIntent = new Intent(this, FaceEventActivity.class);
+        startActivity(faceEventIntent);
+    }
+
+
+    public void startEyeGazeShape(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+    public void startEyeGazeMaxArea(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvmaxarea.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+    public void startEyeGazeBlob(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvblob.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+    public void startEyeGazeSparseOpticalFlow(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvsparseflow.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
+    public void startEyeGazeDenseOpticalFlow(View view) {
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvdenseflow.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
+
 }
 

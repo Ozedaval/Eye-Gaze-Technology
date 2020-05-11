@@ -17,6 +17,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private InputStream faceModelInputStream;
     private FileOutputStream eyeModelOutputStream;
     private FileOutputStream faceModelOutputStream;
+    private static final String TAG="Initialisation";
 
 
     Initialisation(Context context){
@@ -25,7 +26,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     @Override
     protected void onPreExecute() {
         Context context=contextWeakReference.get();
-        Log.d(getClass().getSimpleName()+ " ProgressBar","Done setup for progress bar");
+        Log.d(TAG+ " ProgressBar","Done setup for progress bar");
 
         eyeModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_eye_tree_eyeglasses);
         faceModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt);
@@ -37,8 +38,8 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
+
     //https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard
     private void write(InputStream in, FileOutputStream out) throws IOException {
         byte[] buff = new byte[1024 * 1024 * 2]; //2MB file
@@ -69,13 +70,12 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             e.printStackTrace();
             return false;
         }
-
     }
 
     @Override
     protected void onPostExecute(Boolean bool) {
         contextWeakReference.clear();
-        Log.d(getClass().getSimpleName() +" onPostExecute","Called & "+getStatus()+bool);
+        Log.d(TAG +" onPostExecute","Called & "+getStatus()+bool);
 
     }
 }
