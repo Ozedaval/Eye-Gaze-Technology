@@ -1,29 +1,35 @@
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.sparseflowSelection;
 
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.pwc.explore.DetectionListener;
-import com.pwc.explore.Direction;
+import com.pwc.explore.MainActivity;
 import com.pwc.explore.R;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
+
+public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2, ItemAdapter.OnItemListener{
 /*    TODO  (  1.Update existing UI & Link up RecyclerView UI
                3.Use Cursor Class appropriately
                4.Need to address Activity Lifecycle
@@ -42,12 +48,12 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     private TextView eyegazeTextView;
     private Detect detect;
     private static final String TAG="EyeGazeEventActivity";
-
+    ItemAdapter itemAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_screen);
+        setContentView(R.layout.activity_selection);
 
         coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
         eyegazeTextView=findViewById(R.id.eyeGazeTextView);
@@ -79,6 +85,22 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         double screenY = detect.screenXY[1];
 
         Bitmap btm = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.icon);
+
+        List<String> itemList = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            itemList.add("element"+(i+1)+"");
+        }
+
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+
+        final ItemAdapter itemAdapter = new ItemAdapter(itemList,EyeGazeEventActivity.this, this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(EyeGazeEventActivity.this,3);
+        recyclerView.setAdapter(itemAdapter);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        this.itemAdapter = itemAdapter;
+        detect.itemAdapter = itemAdapter;
+
+
 
 
     }
@@ -118,4 +140,8 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         super.onDestroy();
     }
 
+    @Override
+    public void onItemClick(int position) {
+
+    }
 }

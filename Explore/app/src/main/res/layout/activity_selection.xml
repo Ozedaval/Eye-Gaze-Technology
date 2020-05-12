@@ -5,15 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eyeGazeCoordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:layout_height="match_parent">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:layout_width="320px"
+        android:layout_height="240px">
 
         <TextView
             android:id="@+id/eyeGazeTextView"
@@ -26,9 +23,8 @@
             opencv:layout_constraintEnd_toEndOf="parent"
             opencv:layout_constraintStart_toStartOf="parent"
             opencv:layout_constraintTop_toTopOf="parent"
-         />
-
-
+            android:visibility="invisible"
+            />
 
         <org.opencv.android.JavaCameraView
             android:id="@+id/javaCameraView"
@@ -44,6 +40,12 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

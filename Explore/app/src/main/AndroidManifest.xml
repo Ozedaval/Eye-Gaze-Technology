@@ -53,6 +53,14 @@
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
         </activity>
+        <activity
+            android:name="com.pwc.explore.eyegaze.sparseflowSelection.EyeGazeEventActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+        <activity android:name="com.pwc.explore.eyegaze.sparseflowSelection.Element1"></activity>
+        <activity android:name="com.pwc.explore.eyegaze.sparseflowSelection.Element2"></activity>
+        <activity android:name="com.pwc.explore.eyegaze.sparseflowSelection.Element3"></activity>
     </application>
 
     <uses-feature android:name="android.hardware.Camera" />

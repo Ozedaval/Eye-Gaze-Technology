@@ -1,16 +1,10 @@
 
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.sparseflowSelection;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.WindowManager;
 
-import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
-import com.pwc.explore.R;
 
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
@@ -30,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Detect {
+public class Detect implements Runnable {
 
 
     private boolean isFirstPairOfIrisFound;
@@ -53,6 +47,7 @@ public class Detect {
     double eyeX=0;
     double eyeY=0;
     double[] screenXY;
+    ItemAdapter itemAdapter;
 
 
     Detect() {
@@ -133,8 +128,9 @@ public class Detect {
                     /*Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");*/
                     /*Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);*/
                     //TODO get eye width and height
-                    eyeWidth = eye.width;
-                    eyeHeight = eye.height;
+                    eyeWidth = 320;
+                    eyeHeight = 240;
+
                     /*Finding Iris*/
                     KeyPoint[] blobsArray = blobs.toArray();
                     if (blobsArray.length != 0) {
@@ -149,9 +145,28 @@ public class Detect {
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
 
                         this.screenXY = screenCoordinates(eyeX,eyeY);
-                        Log.d(TAG, "eyexy: "+eyeX+", "+eyeY);
+                        double screenx = screenXY[0];
+                        double screeny = screenXY[1];
 
-                        Log.d(TAG, "screenxy: "+screenXY[0]+", "+screenXY[1]);
+                        if(screenx >=0 && screenx <= screenWidth *0.33){
+                            Log.d(TAG, "Looking at 1");
+//                            itemAdapter.select(0);
+                        }
+                        if(screenx >screenWidth*0.33 && screenx <= screenWidth *0.66){
+                            //itemAdapter.select(1);
+                            Log.d(TAG, "Looking at 2");
+                        }
+                        if(screenx > screenWidth * 0.66 && screenx <= screenWidth){
+                           // itemAdapter.select(2);
+                            Log.d(TAG, "Looking at 3");
+
+                        }
+
+                        Log.d(TAG, "current screeny : " + screenx );
+//
+//                        Log.d(TAG, "eyexy: "+eyeX+", "+eyeY);
+//
+//                        Log.d(TAG, "screenxy: "+screenXY[0]+", "+screenXY[1]);
 
                        /* Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
                         Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Cui threaentre Y"+blobCentre.y);*/
@@ -325,5 +340,10 @@ public class Detect {
               return currentDirection;
 
       }
+    }
+
+    @Override
+    public void run() {
+
     }
 }

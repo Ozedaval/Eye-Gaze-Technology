@@ -142,5 +142,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(eyeGazeIntent);
     }
 
+    public void startsparseflowSelection(View view){
+        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.sparseflowSelection.EyeGazeEventActivity.class);
+        startActivity(eyeGazeIntent);
+    }
 }
 

@@ -21,10 +21,9 @@
             android:id="@+id/facialControllerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="30dp"
             android:onClick="startFaceEvent"
-            android:text="@string/face_event"
-          android:layout_margin="30dp"
-            />
+            android:text="@string/face_event" />
 
         <Button
             android:id="@+id/eyeGazeColorButton"
@@ -65,6 +64,13 @@
             android:onClick="startEyeGazeDenseOpticalFlow"
             android:text="Eye Gaze Dense Optical Flow"
             android:layout_margin="30dp"/>
+
+        <Button
+            android:id="@+id/sparseflowselection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startsparseflowSelection"
+            android:text="sparseflowselction" />
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
