@@ -105,11 +105,11 @@ public class GazeEstimator {
                     double xDiff=currentPoint.x-prevPoint.x;
                     if(xDiff<-threshold){
                         /*Log.d(TAG,"xDiff is" +xDiff);*/
-                        insertInDirections(directions,Direction.LEFT);
+                        insertInDirections(directions,Direction.RIGHT);
                     }
                     else if(xDiff>threshold){
                         /*Log.d(TAG,"xDiff is" +xDiff);*/
-                        insertInDirections(directions,Direction.RIGHT);
+                        insertInDirections(directions,Direction.LEFT);
                     }
                     else{
                         /*Log.d(TAG,"xDiff is" +xDiff);*/

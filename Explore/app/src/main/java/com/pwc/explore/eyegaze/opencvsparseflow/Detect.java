@@ -15,11 +15,9 @@ import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import static com.pwc.explore.Direction.LEFT;
 import static com.pwc.explore.Direction.NEUTRAL;
@@ -44,8 +42,7 @@ public class Detect {
     private Rect prevFace;
     private static final float FACE_MOVEMENT_THRESHOLD=0.1f;
     private GazeStatus currentGazeStatus;
-    enum GazeStatus{ON_THE_WAY_TO_NEUTRAL,LEFT,RIGHT,UNKNOWN,NEUTRAL};
-    private Queue<Direction> neutralQueue;
+    private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
 
 
@@ -56,7 +53,8 @@ public class Detect {
         sparseOpticalFlowDetector = new SparseOpticalFlowDetector(new Size(30, 30), 2);
         gazeEstimator = new GazeEstimator(0.33f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
-        neutralQueue = new LinkedList();
+        isNeutralQueue = new LinkedList<>();
+        currentGazeStatus=GazeStatus.UNKNOWN;
 
     }
 
@@ -165,7 +163,7 @@ public class Detect {
             HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.predictPoints(frameGray);
             /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
             direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
-            Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " ");
+            Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
             Point[][][] irisPredictedSparsePointss = new Point[][][]
                     {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
             for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
@@ -189,7 +187,7 @@ public class Detect {
         }
         else{
             float xDiff= Math.abs(prevFace.x-currentFace.x);
-            float yDiff=Math.abs(prevFace.y-currentFace.y);
+            float yDiff= Math.abs(prevFace.y-currentFace.y);
             /*   Log.d(TAG,"Face Movement xDiff:"+xDiff+" yDiff"+yDiff+"Threshold value "+prevFace.x*FACE_MOVEMENT_THRESHOLD);*/
             if(xDiff<(prevFace.x*FACE_MOVEMENT_THRESHOLD)&&yDiff<(prevFace.y*FACE_MOVEMENT_THRESHOLD)){
                 prevFace=currentFace;
@@ -250,21 +248,23 @@ public class Detect {
         return false;
     }
 
-    private Direction directionEstimator(Direction currentDirection, HashMap<Integer, Point[]> currentPoints){
+    private Direction directionEstimator(Direction currentDirection,HashMap<Integer,Point[]>currentPoints){
         if(prevDirection==null){
             prevDirection=currentDirection;
             return currentDirection;
         }
-
+        Direction estimatedDirection=null;
+        /*Log.d(TAG,"Before "+currentGazeStatus.toString()+ " CurrentDirection"+currentDirection.toString());*/
         if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
-                    if (prevDirection == NEUTRAL || prevDirection == LEFT) {
+                   if (prevDirection == NEUTRAL || prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.LEFT;
 
-                    } else if (prevDirection == RIGHT) {
+                    }  if (prevDirection == RIGHT) {
                         currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
                     }
+                   estimatedDirection=LEFT;
                     break;
                 case RIGHT:
                     if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
@@ -273,36 +273,49 @@ public class Detect {
                     } else if (prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
                     }
+                    estimatedDirection=RIGHT;
                     break;
                 case NEUTRAL:
-                    currentGazeStatus = GazeStatus.NEUTRAL;
+                    if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus==GazeStatus.RIGHT)){
+                        currentGazeStatus = GazeStatus.NEUTRAL;
+                        estimatedDirection=NEUTRAL;
+                    }
+                    else{
+                        estimatedDirection=prevDirection;
+                    }
+
 
             }
         }
         else{
-            neutralQueue.add(currentDirection);
+
+            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints));
             if(isStableNeutral()){
                 currentGazeStatus=GazeStatus.NEUTRAL;
                 prevDirection=NEUTRAL;
+                /*Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");*/
                 return NEUTRAL;
             }
 
         }
-        if(currentGazeStatus==GazeStatus.ON_THE_WAY_TO_NEUTRAL){
-            return NEUTRAL;
+        if(estimatedDirection!=null){
+            prevDirection=estimatedDirection;
+           /* Log.d(TAG," if estimateddirection !=null : Estimated Direction "+estimatedDirection);*/
+            return estimatedDirection;
         }
+        /*Log.d(TAG," if estimateddirection ==null : Current Direction "+currentDirection);*/
         prevDirection=currentDirection;
         return currentDirection;    }
 
 
     private boolean isStableNeutral(){
-        if(neutralQueue.size()< STABLE_NEUTRAL_QUEUE_THRESHOLD){
+        if(isNeutralQueue.size()< STABLE_NEUTRAL_QUEUE_THRESHOLD){
             return false;
         }
         else{
             boolean isStableNeutral=true;
-            while(neutralQueue.size()!=0){
-                isStableNeutral=isStableNeutral && neutralQueue.poll()==NEUTRAL;
+            while(!isNeutralQueue.isEmpty()){
+                isStableNeutral=isStableNeutral && isNeutralQueue.poll();
             }
             return  isStableNeutral;
         }
