@@ -87,10 +87,10 @@ public class GazeEstimator {
 
 
 
-    Direction estimateGaze(HashMap<Integer,Point[]> prevPoints, HashMap<Integer,Point[]> currentPoints){
+
 
         /*TODO Consider gaze*/
-
+Direction estimateGaze(HashMap<Integer,Point[]> prevPoints, HashMap<Integer,Point[]> currentPoints){
         return estimateMovement(prevPoints,currentPoints);
     }
 
