@@ -1,10 +1,10 @@
 package com.pwc.explore.eyegaze.opencvblob;
 
 
+
 import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
-
 import org.opencv.core.Algorithm;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
@@ -20,12 +20,10 @@ import org.opencv.video.DenseOpticalFlow;
 import org.opencv.video.FarnebackOpticalFlow;
 import org.opencv.video.SparseOpticalFlow;
 import org.opencv.video.SparsePyrLKOpticalFlow;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import static com.pwc.explore.Direction.BOTTOM;
 import static com.pwc.explore.Direction.BOTTOM_LEFT;
 import static com.pwc.explore.Direction.BOTTOM_RIGHT;
@@ -38,6 +36,7 @@ import static com.pwc.explore.Direction.TOP_RIGHT;
 
 
 public class Detect {
+
 
     private DetectionListener dl;
     /*private DetectionSmoother[] dsEyes;*/
@@ -140,6 +139,7 @@ public class Detect {
                         blobCentre.y=blobCentre.y+eye.y;
                         Imgproc.circle(frame,blobCentre,2,new Scalar(255,0,0),4);
                         blobID.add(i);
+                        Log.d(TAG + "eye gaze point " , blobCentre.x + " "+  blobCentre.y);
 
                     }
 

@@ -27,7 +27,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     protected void onPreExecute() {
         Context context=contextWeakReference.get();
         Log.d(TAG," ProgressBar Done setup for progress bar");
-
         eyeModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_eye_tree_eyeglasses);
         faceModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt);
 

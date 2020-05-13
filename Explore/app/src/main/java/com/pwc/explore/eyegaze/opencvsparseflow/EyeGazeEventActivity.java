@@ -1,20 +1,18 @@
 package com.pwc.explore.eyegaze.opencvsparseflow;
 
 
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
 import com.pwc.explore.R;
-
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;

@@ -1,12 +1,12 @@
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.sparseflowSelection;
 
-import android.util.Log;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Size;
 import org.opencv.video.SparseOpticalFlow;
 import org.opencv.video.SparsePyrLKOpticalFlow;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -22,12 +22,10 @@ class SparseOpticalFlowDetector {
     SparseOpticalFlowDetector(Size winSize,Integer numROI){
         sparseOpticalFlow = SparsePyrLKOpticalFlow.create(winSize);
         roiPoints=new HashMap<>(numROI);
-
-        /*Thread.dumpStack();*/
+        Thread.dumpStack();
     }
 
-    HashMap<Integer,Point[]> predictPoints(Mat currentFrame){
-
+    void predictPoints(Mat currentFrame){
         if(prevFrame==null){
             /*Log.d(TAG,"predicting Points for the first time");*/
             fillUpMatPoints();
@@ -36,23 +34,18 @@ class SparseOpticalFlowDetector {
         else{
             /*Log.d(TAG,"predicting Points");*/
             Mat status=new Mat();
-
-            Mat nextPoints=new Mat(); // For ease of debugging
+            Mat nextPoints=new Mat();//For ease of debugging
             /*Log.d(TAG,"Eye A: 1st Prev Point is"+ "["+Arrays.toString(roiPointsMat.get(0,0))+","+ Arrays.toString(roiPointsMat.get(0, 1))+"]");
             Log.d(TAG,"Eye B: 1st Prev Point is"+ "["+Arrays.toString(roiPointsMat.get(1, 0))+","+ Arrays.toString(roiPointsMat.get(1, 1))+"]");*/
             sparseOpticalFlow.calc(prevFrame,currentFrame, roiPointsMat,nextPoints,status);
-          /*Log.d(TAG,"Eye A: 1st Next Point is"+ "["+Arrays.toString(nextPoints.get(0,0))+","+ Arrays.toString(nextPoints.get(0, 1))+"]");
+/*            Log.d(TAG,"Eye A: 1st Next Point is"+ "["+Arrays.toString(nextPoints.get(0,0))+","+ Arrays.toString(nextPoints.get(0, 1))+"]");
             Log.d(TAG,"Eye B: 1st Next Point is"+ "["+Arrays.toString(nextPoints.get(1, 0))+","+ Arrays.toString(nextPoints.get(1, 1))+"]");*/
             prevFrame=currentFrame;
             roiPointsMat=nextPoints;
             unpackPrediction();
             fillUpMatPoints();
-            status.release();//TODO check if it will cause problem
-            nextPoints.release();
         }
-
-        return roiPoints; }
-
+    }
 
 
     /*Will unpack the predictions in roiPointsMat to the roiPoint HashMap*/
@@ -116,7 +109,6 @@ class SparseOpticalFlowDetector {
     HashMap<Integer, Point[]> getROIPoints() {
         return roiPoints;
     }
-
 
     void resetSparseOpticalFlow(){
         if(sparseOpticalFlow!=null ) {

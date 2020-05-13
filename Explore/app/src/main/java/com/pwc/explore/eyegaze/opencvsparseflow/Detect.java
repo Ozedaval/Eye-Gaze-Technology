@@ -25,6 +25,7 @@ import static com.pwc.explore.Direction.RIGHT;
 import static com.pwc.explore.Direction.UNKNOWN;
 
 
+
 public class Detect {
 
 
@@ -56,6 +57,7 @@ public class Detect {
         isNeutralQueue = new LinkedList<>();
         currentGazeStatus=GazeStatus.UNKNOWN;
 
+
     }
 
 
@@ -77,7 +79,8 @@ public class Detect {
         faceCascade.detectMultiScale(frameGray, faces);
 
 
-        List<Rect> eyeBoundary=null;
+
+        List<Rect> eyeBoundary=null;//TODO pull it down 
         HashMap<Integer, Point[]> blob = new HashMap<>();
         Rect face = null;
 
@@ -85,12 +88,14 @@ public class Detect {
         List<Rect> listOfFaces = faces.toList();
         if (!listOfFaces.isEmpty()) {
             face = listOfFaces.get(0);
+
             /*Detections made smoother*/
             face=faceDetectionSmoother.updateCoord(face);
 
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
+
 
 
             if (!isFirstPairOfIrisFound || needCalibration) {
@@ -112,7 +117,9 @@ public class Detect {
 
                     /*Cropping an eye Image*/
                     eyesROI[i] = frame.submat(eye);
+
                     eyeBoundary.add(eye.clone());// avoiding references to the actual object
+
 
                     /*Displaying boundary of the detected eye*/
                     Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
@@ -126,20 +133,25 @@ public class Detect {
                     /*Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");*/
                     /*Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);*/
 
+
+
                     /*Finding Iris*/
                     KeyPoint[] blobsArray = blobs.toArray();
                     if (blobsArray.length != 0) {
                         Point blobCentre = blobsArray[0].pt;
                         blobCentre.x = blobCentre.x + eye.x;
                         blobCentre.y = blobCentre.y + eye.y;
+
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
                        /* Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
                         Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Centre Y"+blobCentre.y);*/
+
                         float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
                         blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
                     }
                 }
             }
+
         }
         else {
             direction= UNKNOWN;
@@ -171,6 +183,7 @@ public class Detect {
                     if (points != null) {
                         for (Point point : points) {
                             Imgproc.circle(frame, point, 3, new Scalar(255, 0, 0));
+
                         }
                     }
                 }
@@ -180,6 +193,7 @@ public class Detect {
     }
 
 
+
     private boolean hasFaceMoved(Rect currentFace){
         if(prevFace==null){
             prevFace=currentFace;
@@ -187,8 +201,10 @@ public class Detect {
         }
         else{
             float xDiff= Math.abs(prevFace.x-currentFace.x);
+
             float yDiff= Math.abs(prevFace.y-currentFace.y);
             /*   Log.d(TAG,"Face Movement xDiff:"+xDiff+" yDiff"+yDiff+"Threshold value "+prevFace.x*FACE_MOVEMENT_THRESHOLD);*/
+
             if(xDiff<(prevFace.x*FACE_MOVEMENT_THRESHOLD)&&yDiff<(prevFace.y*FACE_MOVEMENT_THRESHOLD)){
                 prevFace=currentFace;
                 return false;
@@ -232,7 +248,9 @@ public class Detect {
 
     Direction getDirection() {
         if (direction == null) {
+
             return UNKNOWN;
+
         }
         return direction;
     }
@@ -244,9 +262,11 @@ public class Detect {
                 /*First point wont be the same*/
                 if(blob.get(0)[0]!=null && blob.get(1)[0]!=null )
                     return blob.get(0)[0] != blob.get(1)[0];
+
         }
         return false;
     }
+
 
     private Direction directionEstimator(Direction currentDirection,HashMap<Integer,Point[]>currentPoints){
         if(prevDirection==null){
@@ -363,6 +383,7 @@ public class Detect {
         }
     }
 */
+
 
 
 }

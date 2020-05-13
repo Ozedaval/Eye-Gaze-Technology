@@ -19,5 +19,12 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+    <style name = "CustomToolbarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">#009688</item>
+    </style>
+
+    <style name = "CustomPopupbarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">#C0E8E4</item>
+    </style>
 
 </resources>

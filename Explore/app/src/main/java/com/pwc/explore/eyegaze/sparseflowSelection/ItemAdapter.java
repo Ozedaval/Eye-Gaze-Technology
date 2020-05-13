@@ -1,21 +1,21 @@
-package com.example.uidraft;
+package com.pwc.explore.eyegaze.sparseflowSelection;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+import com.pwc.explore.R;
+
+import java.util.List;
+
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> implements Runnable{
 
     private List<String> mItemList;
     private Context mContext;
@@ -42,7 +42,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void select(int position) {
         int previousItem = selectedItem;
         selectedItem = position;
-
         notifyItemChanged(previousItem);
         notifyItemChanged(position);
     }
@@ -100,6 +99,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public int getItemCount() {
         return mItemList.size();
+    }
+
+    @Override
+    public void run() {
+
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

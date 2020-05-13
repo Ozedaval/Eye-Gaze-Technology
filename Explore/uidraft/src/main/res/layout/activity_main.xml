@@ -7,22 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include
-        layout = "@layout/app_bar"
-        android:id="@+id/app_bar">
-
-
-    </include>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="356dp"
+        tools:layout_editor_absoluteY="248dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="right"
+        android:inputType="textPersonName"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="120dp" />
+        tools:layout_editor_absoluteY="248dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

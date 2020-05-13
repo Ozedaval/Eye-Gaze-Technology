@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +39,30 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.OnIte
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
-        ItemAdapter itemAdapter = new ItemAdapter(itemList,MainActivity.this, this);
+        final ItemAdapter itemAdapter = new ItemAdapter(itemList,MainActivity.this, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,3);
         recyclerView.setAdapter(itemAdapter);
         recyclerView.setLayoutManager(gridLayoutManager);
         this.itemAdapter = itemAdapter;
 
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                EditText editText = (EditText) findViewById(R.id.editText2);
+                String input = editText.getText().toString();
+                int index = Integer.parseInt(input); // selection index
+//https://androidnoon.com/highlight-selected-item-in-recyclerview-on-click-android-studio/ -> highlighting
+                itemAdapter.select(index);
+
+            }
+        });
+
+
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
