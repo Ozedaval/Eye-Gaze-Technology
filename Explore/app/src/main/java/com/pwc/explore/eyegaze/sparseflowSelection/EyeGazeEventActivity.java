@@ -49,6 +49,13 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     private Detect detect;
     private static final String TAG="EyeGazeEventActivity";
     ItemAdapter itemAdapter;
+    int calibrated = 0;
+    double []leftTop = new double[2]; // left top
+    double[] rightBottom = new double[2];
+    double[] middle = new double[2];
+    int leftTopCount=0;
+    int rightBottomCount=0;
+    int middleCount=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +65,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
         eyegazeTextView=findViewById(R.id.eyeGazeTextView);
         camera = findViewById(R.id.javaCameraView);
+        leftTop[0]=-1; leftTop[1]=-1;
+        rightBottom[0]=-1; rightBottom[1]=-1;
+        middle[0]=-1; middle[1]=-1;
 
         Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
 
@@ -105,7 +115,67 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     }
 
+    public void calibrate(View view){
+        if(calibrated ==0){
+            for(int i=0; i<10000; i++){
+                if(leftTop[0]==-1)
+                    leftTop[0] = detect.eyeX;
+                else leftTop[0]+= detect.eyeX;
 
+                if(leftTop[1]==-1)
+                    leftTop[1] = detect.eyeY;
+                else leftTop[1] +=detect.eyeY;
+
+                leftTopCount++;
+            }
+            leftTop[0] = leftTop[0]/leftTopCount;
+            leftTop[1]/=leftTopCount;
+            detect.calibratedLeftTop = leftTop;
+            calibrated++;
+
+        }
+        if(calibrated ==1){
+            for(int i=0; i<10000; i++){
+                if(rightBottom[0]==-1)
+                    rightBottom[0] = detect.eyeX;
+                else rightBottom[0]+= detect.eyeX;
+
+                if(rightBottom[1]==-1)
+                    rightBottom[1] = detect.eyeY;
+                else rightBottom[1] +=detect.eyeY;
+
+                rightBottomCount++;
+            }
+            rightBottom[0] = rightBottom[0]/rightBottomCount;
+            rightBottom[1]/=rightBottomCount;
+            detect.calibratedRightBottom = rightBottom;
+            calibrated++;
+
+        }
+        if(calibrated ==3){
+            for(int i=0; i<10000; i++){
+                if(middle[0]==-1)
+                    middle[0] = detect.eyeX;
+                else middle[0]+= detect.eyeX;
+
+                if(middle[1]==-1)
+                    middle[1] = detect.eyeY;
+                else middle[1] +=detect.eyeY;
+
+                middleCount++;
+            }
+            middle[0] = middle[0]/middleCount;
+            middle[1]/=middleCount;
+            detect.calibrateMiddle = middle;
+            calibrated++;
+
+        }
+
+
+        detect.buttonClicked++;
+
+
+    }
 
     @Override
     public void onCameraViewStarted(int width, int height) {

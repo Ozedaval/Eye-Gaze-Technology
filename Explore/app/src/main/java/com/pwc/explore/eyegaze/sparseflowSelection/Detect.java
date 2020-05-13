@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Detect implements Runnable {
+public class Detect {
 
 
     private boolean isFirstPairOfIrisFound;
@@ -48,6 +48,14 @@ public class Detect implements Runnable {
     double eyeY=0;
     double[] screenXY;
     ItemAdapter itemAdapter;
+    double spX ;
+    double spY ;
+    boolean firstCalibration;
+    double[] calibratedLeftTop;
+    double[] calibratedRightBottom;
+    double[] calibrateMiddle;
+    int buttonClicked=0;
+    boolean calibrationDone = false;
 
 
     Detect() {
@@ -58,6 +66,11 @@ public class Detect implements Runnable {
         gazeEstimator = new GazeEstimator(1f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         screenXY = new double[2];
+        calibratedLeftTop = new double[2];
+        calibrateMiddle = new double[2];
+        calibratedRightBottom = new double[2];
+
+        firstCalibration = false;
 
 
 
@@ -128,8 +141,11 @@ public class Detect implements Runnable {
                     /*Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");*/
                     /*Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);*/
                     //TODO get eye width and height
-                    eyeWidth = 320;
-                    eyeHeight = 240;
+                    if(buttonClicked==2){
+                        eyeWidth = Math.abs( calibratedRightBottom[0]- calibratedLeftTop[0]);
+                        eyeHeight = Math.abs(calibratedRightBottom[1]- calibratedLeftTop[1]);
+                        calibrationDone=true;
+                    }
 
                     /*Finding Iris*/
                     KeyPoint[] blobsArray = blobs.toArray();
@@ -143,6 +159,13 @@ public class Detect implements Runnable {
                         eyeY = blobCentre.y;
 
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
+
+                        if(!firstCalibration&&calibrationDone &&buttonClicked==3){ // calirbationwhen looking at the middle of the screen
+                            spX = calibrateMiddle[0]- eyeWidth/2;
+                            spY = calibrateMiddle[1]- eyeHeight/2;
+                            firstCalibration=true;
+                        }
+
 
                         this.screenXY = screenCoordinates(eyeX,eyeY);
                         double screenx = screenXY[0];
@@ -213,8 +236,13 @@ public class Detect implements Runnable {
     }
     double[] screenCoordinates(double x, double y){ //eyex and eyey
         double [] result = new double[2];
-        result[0] = (screenWidth*x)/eyeWidth; // screenX : eyeX = screenWidth : eyeWidth // x1: x = c : a
-        result[1] = (screenHeight*y)/eyeHeight;
+
+
+
+
+        result[0] = ((x-spX )* screenWidth) / eyeWidth;
+        result[1] = ((y-spY) * screenHeight) / eyeHeight;
+
 
         return result;
     }
@@ -342,8 +370,4 @@ public class Detect implements Runnable {
       }
     }
 
-    @Override
-    public void run() {
-
-    }
 }
