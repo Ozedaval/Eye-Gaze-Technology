@@ -48,6 +48,7 @@
             android:text="@string/eye_gaze_max_area"
             android:layout_margin="30dp"/>
 
+
         <Button
             android:id="@+id/eyeGazeSparseOpticalFlowButton"
             android:layout_width="wrap_content"
@@ -58,6 +59,7 @@
 
 
         <Button
+
             android:id="@+id/eyeGazeDenseOpticalFlowButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,12 +67,15 @@
             android:text="Eye Gaze Dense Optical Flow"
             android:layout_margin="30dp"/>
 
+
         <Button
             android:id="@+id/sparseflowselection"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startsparseflowSelection"
-            android:text="sparseflowselction" />
+            android:text="sparseflowselction" 
+            android:layout_margin="30dp"/>
+
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

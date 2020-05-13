@@ -1,23 +1,18 @@
 package com.pwc.explore.eyegaze.opencvsparseflow;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
 import com.pwc.explore.R;
-
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
@@ -69,18 +64,6 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        detect.screenHeight = displayMetrics.heightPixels;
-        detect.screenWidth = displayMetrics.widthPixels;
-
-        double screenX = detect.screenXY[0];
-        double screenY = detect.screenXY[1];
-
-        Bitmap btm = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.icon);
-
-
     }
 
 

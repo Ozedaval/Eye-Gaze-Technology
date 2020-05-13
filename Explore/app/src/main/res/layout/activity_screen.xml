@@ -17,9 +17,9 @@
 
         <TextView
             android:id="@+id/eyeGazeTextView"
-            android:layout_width="320px"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="39sp"
+            android:textSize="40sp"
             android:text="Neutral"
             android:textColor="@color/colorWhite"
             opencv:layout_constraintBottom_toBottomOf="parent"
@@ -27,7 +27,6 @@
             opencv:layout_constraintStart_toStartOf="parent"
             opencv:layout_constraintTop_toTopOf="parent"
          />
-
 
 
         <org.opencv.android.JavaCameraView
@@ -40,7 +39,6 @@
             opencv:layout_constraintStart_toStartOf="parent"
             opencv:layout_constraintTop_toTopOf="parent"
             opencv:show_fps="false" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

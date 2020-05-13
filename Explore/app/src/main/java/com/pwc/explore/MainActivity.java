@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
     public void startEyeGazeSparseOpticalFlow(View view) {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvsparseflow.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
+
     }
 
     public void startEyeGazeDenseOpticalFlow(View view) {
@@ -146,5 +147,6 @@ public class MainActivity extends AppCompatActivity {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.sparseflowSelection.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
     }
+
 }
 

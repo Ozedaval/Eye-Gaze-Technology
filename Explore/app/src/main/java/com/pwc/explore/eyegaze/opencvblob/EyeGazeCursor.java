@@ -1,6 +1,5 @@
 package com.pwc.explore.eyegaze.opencvblob;
 
-import com.pwc.explore.Cursor;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -39,4 +38,5 @@ public class EyeGazeCursor extends Object implements Parcelable {
 
     // main activity -> Bundle data = getIntent().getExtras();
     // EyeGazeCursor cursor = (EyeGazeCursor) data.getParcelable("cursor");
+
 }

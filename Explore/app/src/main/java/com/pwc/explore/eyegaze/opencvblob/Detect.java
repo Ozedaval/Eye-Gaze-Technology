@@ -1,17 +1,10 @@
 package com.pwc.explore.eyegaze.opencvblob;
 
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 
+import android.util.Log;
 import com.pwc.explore.DetectionListener;
 import com.pwc.explore.Direction;
-import com.pwc.explore.R;
-
 import org.opencv.core.Algorithm;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
@@ -27,12 +20,10 @@ import org.opencv.video.DenseOpticalFlow;
 import org.opencv.video.FarnebackOpticalFlow;
 import org.opencv.video.SparseOpticalFlow;
 import org.opencv.video.SparsePyrLKOpticalFlow;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import static com.pwc.explore.Direction.BOTTOM;
 import static com.pwc.explore.Direction.BOTTOM_LEFT;
 import static com.pwc.explore.Direction.BOTTOM_RIGHT;
@@ -46,16 +37,13 @@ import static com.pwc.explore.Direction.TOP_RIGHT;
 
 public class Detect {
 
-    //Display display = getWindowManager().getDefaultDisplay();
-   // int width = display.getWidth();
-   // int height = display.getHeight();
 
     private DetectionListener dl;
     /*private DetectionSmoother[] dsEyes;*/
     private  DetectionSmoother dsFace;
     private SimpleBlobDetector simpleBlobDetector;
     private static final String TAG="Detect";
-    private Bitmap cursor = BitmapFactory.decodeResource(null, R.drawable.icon);
+
     
     Detect(DetectionListener dl){
         this.dl=dl;
@@ -152,6 +140,7 @@ public class Detect {
                         Imgproc.circle(frame,blobCentre,2,new Scalar(255,0,0),4);
                         blobID.add(i);
                         Log.d(TAG + "eye gaze point " , blobCentre.x + " "+  blobCentre.y);
+
                     }
 
                 }
