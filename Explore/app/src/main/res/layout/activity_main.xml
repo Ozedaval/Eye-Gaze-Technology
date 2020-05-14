@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,16 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:padding="30dp"
+        android:weightSum="13"
         android:orientation="vertical"
-     >
+        >
 
 
         <Button
             android:id="@+id/facialControllerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
             android:onClick="startFaceEvent"
+            android:layout_weight="1"
             android:text="@string/face_event" />
 
         <Button
@@ -30,23 +31,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startEyeGazeBlob"
+            android:layout_weight="1"
             android:text="@string/eye_gaze_blob"
-            android:layout_margin="30dp"/>
+            />
 
         <Button
             android:id="@+id/eyeGazeShapeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="startEyeGazeShape"
             android:text="@string/eye_gaze_shape"
-            android:layout_margin="30dp"/>
+            />
+
         <Button
             android:id="@+id/eyeGazeMaxAreaButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startEyeGazeMaxArea"
+            android:layout_weight="1"
             android:text="@string/eye_gaze_max_area"
-            android:layout_margin="30dp"/>
+            />
 
 
         <Button
@@ -54,8 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startEyeGazeSparseOpticalFlow"
+            android:layout_weight="1"
             android:text="@string/eye_gaze_sparse_optical_flow"
-            android:layout_margin="30dp"/>
+            />
 
 
         <Button
@@ -64,8 +70,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startEyeGazeDenseOpticalFlow"
+            android:layout_weight="1"
             android:text="Eye Gaze Dense Optical Flow"
-            android:layout_margin="30dp"/>
+            />
 
 
         <Button
@@ -73,8 +80,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startsparseflowSelection"
-            android:text="sparseflowselction" 
-            android:layout_margin="30dp"/>
+            android:layout_weight="1"
+            android:text="sparseflowselction" />
 
 
     </LinearLayout>
