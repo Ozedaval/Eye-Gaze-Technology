@@ -279,31 +279,29 @@ public class Detect {
             switch (currentDirection) {
                 case LEFT:
                    if (prevDirection == NEUTRAL || prevDirection == LEFT) {
-                        currentGazeStatus = GazeStatus.LEFT;
+                       estimatedDirection=LEFT;
 
                     }  if (prevDirection == RIGHT) {
-                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                       estimatedDirection=NEUTRAL;
                     }
-                   estimatedDirection=LEFT;
-                    break;
+                   break;
                 case RIGHT:
                     if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
-                        currentGazeStatus = GazeStatus.RIGHT;
+                        estimatedDirection=RIGHT;
 
                     } else if (prevDirection == LEFT) {
-                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                        estimatedDirection=NEUTRAL;
                     }
-                    estimatedDirection=RIGHT;
                     break;
                 case NEUTRAL:
                     if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus==GazeStatus.RIGHT)){
-                        currentGazeStatus = GazeStatus.NEUTRAL;
                         estimatedDirection=NEUTRAL;
                     }
                     else{
                         estimatedDirection=prevDirection;
                     }
-
+                default:
+                    estimatedDirection = currentDirection;
 
             }
         }
