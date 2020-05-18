@@ -1,4 +1,6 @@
-# Techlauncher Eye-Gaze-Technology   
+# Track Pupils  
+## TechLauncher Project 2020 S1 | 20-S1-2-C Track Pupils
+
 ![Android CI](https://github.com/Ozedaval/Eye-Gaze-Technology/workflows/Android%20CI/badge.svg?branch=master)
 
 <h2><a name = "content"> Table of Contents </a></h2>
@@ -36,9 +38,9 @@
 <h2><a name = "Title4"> 4. Documentation</a></h2>
 
 - [**All**](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ)
-  * [Decision Making](https://drive.google.com/open?id=1saNyL4HzxOY_hxSUxgXdmyMEt44hYi6K)
+  * [Decision Log](https://drive.google.com/open?id=1saNyL4HzxOY_hxSUxgXdmyMEt44hYi6K)
   * [Output](https://drive.google.com/open?id=1OQ9x4_ARRlfDZPdr63_p5DNzwD6NIkFe)
-  * [Feedback & Reflection](https://drive.google.com/open?id=1Ez3zpXuvb3K82JIZOckS8c_vj4hy5sOG)
+  * [Feedback & Reflection Log](https://drive.google.com/open?id=1Ez3zpXuvb3K82JIZOckS8c_vj4hy5sOG)
   * [Meeting Minutes](https://drive.google.com/open?id=1XRX-F2_kUdTftGIQKBF57nrPVdt4L3jy)
   * [Research & Analysis](https://drive.google.com/open?id=1FrzmrwSpPv-w4EeVi7kL5PmxduSmQMSS)
   * [Communication(Slack, Google Hangout & Whatsapp)](https://docs.google.com/document/d/11kMMIePdj8zBedOwhiEBjDGIca44rmw-yMDsSldIoTc/edit?usp=sharing)
