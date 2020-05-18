@@ -24,7 +24,7 @@ import static com.pwc.explore.Direction.NEUTRAL;
 import static com.pwc.explore.Direction.RIGHT;
 import static com.pwc.explore.Direction.UNKNOWN;
 
-
+import android.os.Handler;
 
 public class Detect {
 
@@ -45,7 +45,7 @@ public class Detect {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
-
+    final Handler handler = new Handler();
 
     Detect() {
         direction = UNKNOWN;
@@ -278,31 +278,21 @@ public class Detect {
         if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
-                   if (prevDirection == NEUTRAL || prevDirection == LEFT) {
                        estimatedDirection=LEFT;
-
-                    }  if (prevDirection == RIGHT) {
-                       estimatedDirection=NEUTRAL;
-                    }
                    break;
                 case RIGHT:
-                    if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
                         estimatedDirection=RIGHT;
-
-                    } else if (prevDirection == LEFT) {
-                        estimatedDirection=NEUTRAL;
-                    }
                     break;
                 case NEUTRAL:
-                    if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus==GazeStatus.RIGHT)){
-                        estimatedDirection=NEUTRAL;
-                    }
-                    else{
-                        estimatedDirection=prevDirection;
-                    }
+                    if (prevDirection != NEUTRAL){
+                        handler.postDelayed(
+                            estimatedDirection=prevDirection, 3000);
+                        estimatedDirection = NEUTRAL;}
+                    estimatedDirection = NEUTRAL;
+                    break;
                 default:
                     estimatedDirection = currentDirection;
-
+                    break;
             }
         }
         else{
