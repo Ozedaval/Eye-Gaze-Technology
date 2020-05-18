@@ -40,22 +40,16 @@ public class Detect {
     private Rect prevFace;
     private Direction prevDirection;
     private static final float FACE_MOVEMENT_THRESHOLD=0.1f;
-    double screenWidth;
-    double screenHeight;
-    double eyeWidth;
-    double eyeHeight;
-    double eyeX=0;
-    double eyeY=0;
-    double[] screenXY;
+    double cb_eyeX; // calibration eye x, y
+    double cb_eyeY;
+    int calibration_status = 0;
+    double averageX;
+    double averageY;
+    double SCREEN_WIDTH;
+    double SCREEN_HEIGHT;
     ItemAdapter itemAdapter;
-    double spX ;
-    double spY ;
-    boolean firstCalibration;
-    double[] calibratedLeftTop;
-    double[] calibratedRightBottom;
-    double[] calibrateMiddle;
-    int buttonClicked=0;
-    boolean calibrationDone = false;
+    boolean calibrateStart =false;
+
 
 
     Detect() {
@@ -65,13 +59,6 @@ public class Detect {
         sparseOpticalFlowDetector = new SparseOpticalFlowDetector(new Size(30, 30), 2);
         gazeEstimator = new GazeEstimator(1f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
-        screenXY = new double[2];
-        calibratedLeftTop = new double[2];
-        calibrateMiddle = new double[2];
-        calibratedRightBottom = new double[2];
-
-        firstCalibration = false;
-
 
 
     }
@@ -140,12 +127,7 @@ public class Detect {
                     simpleBlobDetector.detect(eyeROICanny, blobs);
                     /*Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");*/
                     /*Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);*/
-                    //TODO get eye width and height
-                    if(buttonClicked==2){
-                        eyeWidth = Math.abs( calibratedRightBottom[0]- calibratedLeftTop[0]);
-                        eyeHeight = Math.abs(calibratedRightBottom[1]- calibratedLeftTop[1]);
-                        calibrationDone=true;
-                    }
+
 
                     /*Finding Iris*/
                     KeyPoint[] blobsArray = blobs.toArray();
@@ -154,50 +136,32 @@ public class Detect {
                         blobCentre.x = blobCentre.x + eye.x;
                         blobCentre.y = blobCentre.y + eye.y;
 
-                        //TODO get eye x and y coordinates
-                        eyeX = blobCentre.x;
-                        eyeY = blobCentre.y;
-
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
+                        cb_eyeX = blobCentre.x;
+                        cb_eyeY = blobCentre.y;
 
-                        if(!firstCalibration&&calibrationDone &&buttonClicked==3){ // calirbationwhen looking at the middle of the screen
-                            spX = calibrateMiddle[0]- eyeWidth/2;
-                            spY = calibrateMiddle[1]- eyeHeight/2;
-                            firstCalibration=true;
+                        if(calibration_status == 1){ // center has been calculated
+                            Log.d(TAG, "Center of the eye is: x = "+ averageX + " y = " + averageY);
+                            Point cb_centre = new Point(averageX,averageY);
+                            calibration_status=0;
                         }
 
+                       /* if(blobCentre.x < averageX){
+                            Log.d(TAG, "The user is looking at the element two");
+                        }else{
+                            Log.d(TAG, "The user is looking at the element one");
+                        }*/
 
-                        this.screenXY = screenCoordinates(eyeX,eyeY);
-                        double screenx = screenXY[0];
-                        double screeny = screenXY[1];
-
-                        if(screenx >=0 && screenx <= screenWidth *0.33){
-                            Log.d(TAG, "Looking at 1");
-//                            itemAdapter.select(0);
-                        }
-                        if(screenx >screenWidth*0.33 && screenx <= screenWidth *0.66){
-                            //itemAdapter.select(1);
-                            Log.d(TAG, "Looking at 2");
-                        }
-                        if(screenx > screenWidth * 0.66 && screenx <= screenWidth){
-                           // itemAdapter.select(2);
-                            Log.d(TAG, "Looking at 3");
-
-                        }
-
-                        Log.d(TAG, "current screeny : " + screenx );
-//
-//                        Log.d(TAG, "eyexy: "+eyeX+", "+eyeY);
-//
-//                        Log.d(TAG, "screenxy: "+screenXY[0]+", "+screenXY[1]);
-
-                       /* Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
-                        Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Cui threaentre Y"+blobCentre.y);*/
                         float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
                         blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
+
+
                     }
+
+
                 }
             }
+
 
             /*sparseOpticalFlow Initiator/Calibration Alternator*/
             if ((!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)) {
@@ -234,18 +198,7 @@ public class Detect {
         }
         return frame;
     }
-    double[] screenCoordinates(double x, double y){ //eyex and eyey
-        double [] result = new double[2];
 
-
-
-
-        result[0] = ((x-spX )* screenWidth) / eyeWidth;
-        result[1] = ((y-spY) * screenHeight) / eyeHeight;
-
-
-        return result;
-    }
 
 
     private boolean hasFaceMoved(Rect currentFace){

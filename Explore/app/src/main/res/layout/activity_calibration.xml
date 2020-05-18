@@ -41,36 +41,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="calibrate"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="620dp"
         android:text="Calibrate" />
-
-    <TextView
-        android:id="@+id/calibrationCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text=""
-        android:textColor="#F60404"
-        android:textSize="24sp" />
-
-    <ImageView
-        android:id="@+id/aim"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        opencv:srcCompat="@drawable/aim" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

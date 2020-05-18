@@ -1,14 +1,18 @@
 package com.pwc.explore.eyegaze.sparseflowSelection;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -25,7 +29,9 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -46,6 +52,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     private CameraBridgeViewBase camera;
     private CoordinatorLayout coordinatorLayout;
     private TextView eyegazeTextView;
+    TextView calibrationCircle;
     private Detect detect;
     private static final String TAG="EyeGazeEventActivity";
     ItemAdapter itemAdapter;
@@ -56,6 +63,11 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     int leftTopCount=0;
     int rightBottomCount=0;
     int middleCount=0;
+    ArrayList<Double> cb_eyeX_li = new ArrayList<>();
+    ArrayList<Double> cb_eyeY_li = new ArrayList<>();
+    boolean doingCalibration=false;
+    int frameCount=0;
+    ImageView aimImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +90,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         camera.setCvCameraViewListener(this);
 
         detect=new Detect();
+        aimImage = (ImageView) findViewById(R.id.aim);
+        calibrationCircle = (TextView) findViewById(R.id.calibrationCircle);
+
         faceCascade = new CascadeClassifier();
         eyesCascade = new CascadeClassifier();
         /*Log.d(TAG, Arrays.toString(fileList()));
@@ -88,93 +103,107 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        detect.screenHeight = displayMetrics.heightPixels;
-        detect.screenWidth = displayMetrics.widthPixels;
-
-        double screenX = detect.screenXY[0];
-        double screenY = detect.screenXY[1];
-
         Bitmap btm = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.icon);
 
         List<String> itemList = new ArrayList<>();
-        for(int i=0; i<3; i++){
+        for(int i=0; i<2; i++){
             itemList.add("element"+(i+1)+"");
         }
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
         final ItemAdapter itemAdapter = new ItemAdapter(itemList,EyeGazeEventActivity.this, this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(EyeGazeEventActivity.this,3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(EyeGazeEventActivity.this,2);
         recyclerView.setAdapter(itemAdapter);
         recyclerView.setLayoutManager(gridLayoutManager);
         this.itemAdapter = itemAdapter;
+        detect.SCREEN_HEIGHT = itemAdapter.itemHeight;
+        detect.SCREEN_WIDTH = itemAdapter.itemWidth;
+
         detect.itemAdapter = itemAdapter;
-
-
 
 
     }
 
     public void calibrate(View view){
-        if(calibrated ==0){
-            for(int i=0; i<10000; i++){
-                if(leftTop[0]==-1)
-                    leftTop[0] = detect.eyeX;
-                else leftTop[0]+= detect.eyeX;
+        AlertDialog.Builder builder
+                = new AlertDialog
+                .Builder(EyeGazeEventActivity.this);
+        // Set the message show for the Alert time
+        builder.setMessage("Click OK to proceed the calibration. Please look at the aim placed on the middle of the screen" +
+                "until the aim is disappeared");
 
-                if(leftTop[1]==-1)
-                    leftTop[1] = detect.eyeY;
-                else leftTop[1] +=detect.eyeY;
+        // Set Alert Title
+        builder.setTitle("Calibration");
+        builder.setCancelable(false);
+        builder.setPositiveButton(
+                        "OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                doingCalibration = true;
+                                frameCount=0;
+                                aimImage.setVisibility(View.VISIBLE);
 
-                leftTopCount++;
+
+                            }
+                        });
+        builder.setNegativeButton(
+                        "NO",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = builder.create();
+
+        // Show the Alert Dialog box
+        alertDialog.show();
+//        for(int i = 0 ; i < 10000 ; i++){
+//               cb_eyeX_li.add(detect.cb_eyeX);
+//               cb_eyeY_li.add(detect.cb_eyeY);
+//            }
+//           cb_eyeX_li = filter_outliers(cb_eyeX_li); cb_eyeY_li = filter_outliers(cb_eyeY_li);
+//           // average of X, Y -> Center of the rectangle
+//            detect.averageX = sum(cb_eyeX_li) / cb_eyeX_li.size();
+//            detect.averageY = sum(cb_eyeY_li) / cb_eyeY_li.size();
+//            detect.calibration_status ++;
+    }
+
+
+    static ArrayList<Double> filter_outliers(ArrayList<Double> list){
+        int[] IQR = get_IQR(list);
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i) < IQR[0] - 1.5*IQR[2] || (list.get(i) > IQR[1] + 1.5*IQR[2])){
+                list.remove(i);
             }
-            leftTop[0] = leftTop[0]/leftTopCount;
-            leftTop[1]/=leftTopCount;
-            detect.calibratedLeftTop = leftTop;
-            calibrated++;
-
         }
-        if(calibrated ==1){
-            for(int i=0; i<10000; i++){
-                if(rightBottom[0]==-1)
-                    rightBottom[0] = detect.eyeX;
-                else rightBottom[0]+= detect.eyeX;
+        return list;
+    }
+    static int[] get_IQR(ArrayList<Double> coordinates){
+        // get IQR
+        Collections.sort(coordinates);
+        int mid_index = median(coordinates, 0, coordinates.size());
+        // Median of first half
+        double Q1 = coordinates.get(median(coordinates,0,mid_index));
+        double Q3 = coordinates.get(median(coordinates, mid_index+1, coordinates.size()));
 
-                if(rightBottom[1]==-1)
-                    rightBottom[1] = detect.eyeY;
-                else rightBottom[1] +=detect.eyeY;
+        int[] result = {(int)Q1,(int)Q3,(int)(Q3-Q1)};
+        return result;
+    }
 
-                rightBottomCount++;
-            }
-            rightBottom[0] = rightBottom[0]/rightBottomCount;
-            rightBottom[1]/=rightBottomCount;
-            detect.calibratedRightBottom = rightBottom;
-            calibrated++;
+    static int median(ArrayList<Double> a, int l, int r){
+        int n = r - 1 + 1;
+        n = ((n+1) / 2) -1;
+        return n+1;
+    }
 
-        }
-        if(calibrated ==3){
-            for(int i=0; i<10000; i++){
-                if(middle[0]==-1)
-                    middle[0] = detect.eyeX;
-                else middle[0]+= detect.eyeX;
-
-                if(middle[1]==-1)
-                    middle[1] = detect.eyeY;
-                else middle[1] +=detect.eyeY;
-
-                middleCount++;
-            }
-            middle[0] = middle[0]/middleCount;
-            middle[1]/=middleCount;
-            detect.calibrateMiddle = middle;
-            calibrated++;
-
-        }
-
-
-        detect.buttonClicked++;
-
-
+    static int sum(ArrayList<Double> a){
+        double sum = 0;
+        for(int i = 0 ; i < a.size() ; i++){
+            sum += a.get(i);
+        } return (int) sum;
     }
 
     @Override
@@ -191,10 +220,39 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
        eyegazeTextView.post(new Runnable() {
            @Override
            public void run() {
+               if(doingCalibration){
+                   frameCount++;
+                   if(frameCount>2){
 
+                       cb_eyeX_li.add(detect.cb_eyeX);
+                       cb_eyeY_li.add(detect.cb_eyeY);
+                   }
+                   if(frameCount>22){
+                       cb_eyeX_li = filter_outliers(cb_eyeX_li); cb_eyeY_li = filter_outliers(cb_eyeY_li);
+                       // average of X, Y -> Center of the rectangle
+                       detect.averageX = sum(cb_eyeX_li) / cb_eyeX_li.size();
+                       detect.averageY = sum(cb_eyeY_li) / cb_eyeY_li.size();
+                       detect.calibration_status ++;
+                       frameCount=0;
+                       doingCalibration=false;
+                       aimImage.setVisibility(View.INVISIBLE);
+
+                   }
+               }
                eyegazeTextView.setText(detect.getDirection()+"");
+               if(detect.calibration_status == 1){
+
+               }
+
+               if(detect.cb_eyeX > detect.averageX){
+                   itemAdapter.select(0); // consider that it's mirror image
+               }else{
+                   itemAdapter.select(1);
+               }
            }
        });
+
+
         return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
     }
 
