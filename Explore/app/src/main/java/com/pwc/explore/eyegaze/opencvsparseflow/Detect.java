@@ -189,6 +189,8 @@ public class Detect {
                 }
             }
         }
+
+
         return frame;
     }
 
@@ -311,7 +313,7 @@ public class Detect {
             if(isStableNeutral()){
                 currentGazeStatus=GazeStatus.NEUTRAL;
                 prevDirection=NEUTRAL;
-                /*Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");*/
+                Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");
                 return NEUTRAL;
             }
 
@@ -333,9 +335,14 @@ public class Detect {
         }
         else{
             boolean isStableNeutral=true;
-            while(!isNeutralQueue.isEmpty()){
-                isStableNeutral=isStableNeutral && isNeutralQueue.poll();
-            }
+           for(int i=0;i<STABLE_NEUTRAL_QUEUE_THRESHOLD+1;i++){
+                   Boolean isNeutralVal = isNeutralQueue.poll();
+                   if (isNeutralVal != null) {
+                       isStableNeutral = isStableNeutral && isNeutralVal;
+                   }
+
+           }
+           isNeutralQueue.clear();
             return  isStableNeutral;
         }
 
