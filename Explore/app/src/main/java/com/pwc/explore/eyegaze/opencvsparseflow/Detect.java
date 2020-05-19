@@ -303,8 +303,6 @@ public class Detect {
                     else{
                         estimatedDirection=prevDirection;
                     }
-
-
             }
         }
         else{
@@ -325,7 +323,8 @@ public class Detect {
         }
         /*Log.d(TAG," if estimateddirection ==null : Current Direction "+currentDirection);*/
         prevDirection=currentDirection;
-        return currentDirection;    }
+        return currentDirection;
+    }
 
 
     private boolean isStableNeutral(){
