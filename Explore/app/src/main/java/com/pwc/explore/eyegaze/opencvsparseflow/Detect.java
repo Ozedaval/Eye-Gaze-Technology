@@ -47,6 +47,7 @@ public class Detect {
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
 
 
+
     Detect() {
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
@@ -157,7 +158,8 @@ public class Detect {
             direction= UNKNOWN;
         }
 
-        /*sparseOpticalFlow Initiator/Calibration Alternator*/
+        /*Boolean isRecalibrationFrame=false;*/
+        /*sparseOpticalFlow Initiator/re-Calibration*/
         if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
             sparseOpticalFlowDetector.resetSparseOpticalFlow();
             for (Integer roiID : blob.keySet()) {
@@ -166,18 +168,19 @@ public class Detect {
             gazeEstimator.updateEyesBoundary(eyeBoundary);
             calculateNeedCalibration(true,hasFaceMoved(face));
             isFirstPairOfIrisFound = true;
+           /* isRecalibrationFrame=true;*/
         }
 
 
         if (isFirstPairOfIrisFound) {
             HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowDetector.getROIPoints().clone();// For ease of debugging
             /*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*/
-            HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.predictPoints(frameGray);
+            HashMap<Integer, Point[]> currentPoints = sparseOpticalFlowDetector.predictPoints(frameGray);
             /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
-            direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
+            direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,currentPoints),currentPoints);
             Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
             Point[][][] irisPredictedSparsePointss = new Point[][][]
-                    {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
+                    {{currentPoints.get(0)}, {currentPoints.get(1)}};
             for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
                 for (Point[] points : irisPredictedSparsePoints) {
                     if (points != null) {
@@ -270,11 +273,18 @@ public class Detect {
     }
 
 
-    private Direction directionEstimator(Direction currentDirection,HashMap<Integer,Point[]>currentPoints){
+    private Direction directionEstimator(Direction currentDirection, HashMap<Integer, Point[]> currentPoints){
         if(prevDirection==null){
             prevDirection=currentDirection;
             return currentDirection;
         }
+/*        if(isRecalibrationFrame){
+            if(gazeEstimator.isNeutral(currentPoints)){
+                prevDirection=NEUTRAL;
+                currentGazeStatus=GazeStatus.NEUTRAL;
+                return NEUTRAL;
+            }
+        }*/
         Direction estimatedDirection=null;
         /*Log.d(TAG,"Before "+currentGazeStatus.toString()+ " CurrentDirection"+currentDirection.toString());*/
         if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {

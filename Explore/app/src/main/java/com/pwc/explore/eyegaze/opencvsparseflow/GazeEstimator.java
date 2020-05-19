@@ -39,8 +39,8 @@ public class GazeEstimator {
         }
     }
 
-    boolean isNeutral(HashMap<Integer,Point[]> currentPoint){
 
+    boolean isNeutral(HashMap<Integer,Point[]> currentPoint){
         boolean isInNeutralBoundary=false;
         if(eyeNeutralBoundary!=null){
             for(Map.Entry<Integer, Point[]> entry:currentPoint.entrySet()){
