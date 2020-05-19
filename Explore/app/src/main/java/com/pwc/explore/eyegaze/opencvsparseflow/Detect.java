@@ -286,8 +286,8 @@ public class Detect {
                 case NEUTRAL:
                     if (prevDirection != NEUTRAL){
                         handler.postDelayed(
-                            estimatedDirection=prevDirection, 3000);
-                        estimatedDirection = NEUTRAL;}
+                            estimatedDirection=prevDirection, 1000);
+                    }
                     estimatedDirection = NEUTRAL;
                     break;
                 default:
