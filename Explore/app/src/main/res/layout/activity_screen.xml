@@ -40,6 +40,15 @@
             opencv:layout_constraintTop_toTopOf="parent"
             opencv:show_fps="false" />
 
+        <Button
+            android:id="@+id/reCalibrateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/re_calibrate"
+            android:onClick="reCalibrate"
+            opencv:layout_constraintEnd_toEndOf="parent"
+            opencv:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

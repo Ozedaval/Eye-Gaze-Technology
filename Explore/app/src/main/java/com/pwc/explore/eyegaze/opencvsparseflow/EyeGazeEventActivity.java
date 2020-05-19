@@ -5,6 +5,8 @@ package com.pwc.explore.eyegaze.opencvsparseflow;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +50,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         eyegazeTextView=findViewById(R.id.eyeGazeTextView);
         camera = findViewById(R.id.javaCameraView);
 
+
         Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
 
         camera.setVisibility(SurfaceView.VISIBLE);
@@ -65,6 +68,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
     }
+
 
 
 
@@ -101,4 +105,8 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         super.onDestroy();
     }
 
+    public void reCalibrate(View view) {
+        detect=new Detect();
+        System.gc();
+    }
 }

@@ -158,7 +158,7 @@ public class Detect {
             direction= UNKNOWN;
         }
 
-        /*Boolean isRecalibrationFrame=false;*/
+        /*boolean isRecalibrationFrame=false;*/
         /*sparseOpticalFlow Initiator/re-Calibration*/
         if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
             sparseOpticalFlowDetector.resetSparseOpticalFlow();
@@ -168,7 +168,7 @@ public class Detect {
             gazeEstimator.updateEyesBoundary(eyeBoundary);
             calculateNeedCalibration(true,hasFaceMoved(face));
             isFirstPairOfIrisFound = true;
-           /* isRecalibrationFrame=true;*/
+         /*   isRecalibrationFrame=true;*/
         }
 
 
@@ -278,8 +278,8 @@ public class Detect {
             prevDirection=currentDirection;
             return currentDirection;
         }
-/*        if(isRecalibrationFrame){
-            if(gazeEstimator.isNeutral(currentPoints)){
+     /*   if(isRecalibrationFrame){
+            if(gazeEstimator.isNeutral(currentPoints,true)){
                 prevDirection=NEUTRAL;
                 currentGazeStatus=GazeStatus.NEUTRAL;
                 return NEUTRAL;
@@ -319,7 +319,7 @@ public class Detect {
         }
         else{
 
-            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints));
+            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,false));
             if(isStableNeutral()){
                 currentGazeStatus=GazeStatus.NEUTRAL;
                 prevDirection=NEUTRAL;

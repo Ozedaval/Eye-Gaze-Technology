@@ -40,18 +40,46 @@ public class GazeEstimator {
     }
 
 
-    boolean isNeutral(HashMap<Integer,Point[]> currentPoint){
-        boolean isInNeutralBoundary=false;
-        if(eyeNeutralBoundary!=null){
-            for(Map.Entry<Integer, Point[]> entry:currentPoint.entrySet()){
-                Point[] points=entry.getValue();
-                Point centrePoint = points[0];
-                isInNeutralBoundary=isInNeutralBoundary||eyeNeutralBoundary.get(entry.getKey()).contains(centrePoint);
+    boolean isNeutral(HashMap<Integer,Point[]> currentPoint,boolean toIncludeAll) {
+        if (toIncludeAll) {
+            if (eyeNeutralBoundary != null) {
+                HashMap<Boolean, Integer> neutralHashMap = new HashMap<>();
+                for (Map.Entry<Integer, Point[]> entry : currentPoint.entrySet()) {
+                    Point[] points = entry.getValue();
+                    for (Point point : points) {
+                        Boolean isInNeutralBoundary = eyeNeutralBoundary.get(entry.getKey()).contains(point);
+                        if (!neutralHashMap.containsKey(isInNeutralBoundary)) {
+                            neutralHashMap.put(isInNeutralBoundary, 1);
+                        } else {
+                            neutralHashMap.put(isInNeutralBoundary, neutralHashMap.get(isInNeutralBoundary) + 1);
+                        }
+
+                    }
+                }
+                int maxValue = Collections.max(neutralHashMap.values());
+                for (Map.Entry<Boolean, Integer> neutralStatusEntry : neutralHashMap.entrySet()) {
+                    if (neutralStatusEntry.getValue() == maxValue) {
+
+                        Log.d(TAG, neutralStatusEntry.getKey().toString() + " has the max at " + neutralStatusEntry.getValue() + "");
+
+                        return neutralStatusEntry.getKey();
+                    }
+                }
             }
+        } else {
+            boolean isInNeutralBoundary = false;
+            if (eyeNeutralBoundary != null) {
+                for (Map.Entry<Integer, Point[]> entry : currentPoint.entrySet()) {
+                    Point[] points = entry.getValue();
+                    Point centrePoint = points[0];
+                    isInNeutralBoundary = isInNeutralBoundary || eyeNeutralBoundary.get(entry.getKey()).contains(centrePoint);
+                }
+            }
+
+
+            return isInNeutralBoundary;
         }
-
-
-        return isInNeutralBoundary ;}
+  return false;  }
 
 /*
     boolean isNeutral(HashMap<Integer,Point[]> currentPoint){
