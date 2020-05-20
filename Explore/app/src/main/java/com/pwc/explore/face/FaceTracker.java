@@ -85,6 +85,5 @@ public class FaceTracker extends Tracker {
     @Override
     public void onDone() {
         super.onDone();
-        super.onDone();
     }
 }

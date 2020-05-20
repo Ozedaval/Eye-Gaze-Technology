@@ -117,20 +117,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void startEyeGazeShape(View view) {
-        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity.class);
-        startActivity(eyeGazeIntent);
-    }
-
-    public void startEyeGazeMaxArea(View view) {
-        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvmaxarea.EyeGazeEventActivity.class);
-        startActivity(eyeGazeIntent);
-    }
-
-    public void startEyeGazeBlob(View view) {
-        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvblob.EyeGazeEventActivity.class);
-        startActivity(eyeGazeIntent);
-    }
 
     public void startEyeGazeSparseFlow(View view) {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvsparseflow.EyeGazeEventActivity.class);
@@ -138,14 +124,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void startSparseflowSelection(View view){
-        Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.sparseflowSelection.EyeGazeEventActivity.class);
-        startActivity(eyeGazeIntent);
-    }
 
     public void startEyeGazeSparseFlowUI(View view) {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvsparseflowui.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
+    }
+
+
+    public void startMiscActivity(View view) {
+        Intent miscIntent = new Intent(this, Miscellaneous.class);
+        startActivity(miscIntent);
     }
 }
 

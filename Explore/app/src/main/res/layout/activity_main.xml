@@ -13,45 +13,18 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="30dp"
-        android:weightSum="13"
+        android:weightSum="6"
         android:orientation="vertical"
         >
 
 
         <Button
-            android:id="@+id/facialControllerButton"
+            android:id="@+id/faceButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startFaceEvent"
             android:layout_weight="1"
             android:text="@string/face_event" />
-
-        <Button
-            android:id="@+id/eyeGazeColorButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="startEyeGazeBlob"
-            android:layout_weight="1"
-            android:text="@string/eye_gaze_blob"
-            />
-
-        <Button
-            android:id="@+id/eyeGazeShapeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="startEyeGazeShape"
-            android:text="@string/eye_gaze_shape"
-            />
-
-        <Button
-            android:id="@+id/eyeGazeMaxAreaButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="startEyeGazeMaxArea"
-            android:layout_weight="1"
-            android:text="@string/eye_gaze_max_area"
-            />
 
 
         <Button
@@ -60,7 +33,7 @@
             android:layout_height="wrap_content"
             android:onClick="startEyeGazeSparseFlow"
             android:layout_weight="1"
-            android:text="@string/eye_gaze_sparse_optical_flow"
+            android:text="@string/eye_gaze_optical_flow"
             />
 
 
@@ -70,17 +43,19 @@
             android:layout_height="wrap_content"
             android:onClick="startEyeGazeSparseFlowUI"
             android:layout_weight="1"
-            android:text="Eye Gaze Optical Flow UI"
+            android:text="@string/eye_gaze_optical_flow_ui"
             />
 
 
         <Button
-            android:id="@+id/sparseflowselection"
+            android:id="@+id/miscButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="startSparseflowSelection"
+            android:onClick="startMiscActivity"
             android:layout_weight="1"
-            android:text="sparseflowselction" />
+            android:text="Miscellaneous"
+            />
+
 
 
     </LinearLayout>
