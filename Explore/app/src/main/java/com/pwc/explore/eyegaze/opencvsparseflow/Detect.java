@@ -24,7 +24,7 @@ import static com.pwc.explore.Direction.NEUTRAL;
 import static com.pwc.explore.Direction.RIGHT;
 import static com.pwc.explore.Direction.UNKNOWN;
 
-
+import android.os.Handler;
 
 public class Detect {
 
@@ -45,6 +45,7 @@ public class Detect {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
+    final Handler handler = new Handler();
 
 
 
@@ -290,27 +291,15 @@ public class Detect {
         if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
-                   if (prevDirection == NEUTRAL || prevDirection == LEFT) {
-                        currentGazeStatus = GazeStatus.LEFT;
-
-                    }  if (prevDirection == RIGHT) {
-                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
-                    }
-                   estimatedDirection=LEFT;
-                    break;
+                       estimatedDirection=LEFT;
+                   break;
                 case RIGHT:
-                    if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
-                        currentGazeStatus = GazeStatus.RIGHT;
-
-                    } else if (prevDirection == LEFT) {
-                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
-                    }
-                    estimatedDirection=RIGHT;
+                        estimatedDirection=RIGHT;
                     break;
                 case NEUTRAL:
-                    if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus==GazeStatus.RIGHT)){
-                        currentGazeStatus = GazeStatus.NEUTRAL;
-                        estimatedDirection=NEUTRAL;
+                    if (prevDirection != NEUTRAL){
+                        handler.postDelayed(
+                            estimatedDirection=prevDirection, 1000);
                     }
                     else{
                         estimatedDirection=prevDirection;

@@ -21,8 +21,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     private Context mContext;
     int selectedItem;
     private OnItemListener onItemListener;
-
-    Class[] activities = {Element1.class,Element2.class,Element3.class};
+    double itemWidth;
+    double itemHeight;
+    Class[] activities = {Element1.class,Element2.class};
 
     public ItemAdapter(List<String> itemList, Context context, OnItemListener onItemListener){
         this.mItemList = itemList;
@@ -60,7 +61,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.selected));
         }
 
-        int spanCount =3;
+        int spanCount =2;
+        itemWidth = holder.itemView.getWidth();
+        itemHeight = holder.itemView.getHeight();
 
         boolean isFirst2Items = position <spanCount;
         boolean isLast2Items = position > getItemCount() - spanCount-1;
