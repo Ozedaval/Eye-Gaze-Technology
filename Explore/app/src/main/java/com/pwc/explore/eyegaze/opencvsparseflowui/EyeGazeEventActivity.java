@@ -1,8 +1,9 @@
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.opencvsparseflowui;
 
 
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
@@ -10,12 +11,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.snackbar.Snackbar;
+import com.pwc.explore.Direction;
 import com.pwc.explore.R;
-import com.pwc.explore.databinding.ActivityEventBinding;
+import com.pwc.explore.databinding.ActivityEventUiBinding;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
+
+import static android.view.View.VISIBLE;
 
 
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
@@ -32,28 +36,30 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     static{ System.loadLibrary( "opencv_java4" );}
     private CascadeClassifier faceCascade;
     private CascadeClassifier eyesCascade;
+    private ActivityEventUiBinding binding;
     private Detect detect;
     private static final String TAG="EyeGazeEventActivity";
-    private ActivityEventBinding binding;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityEventBinding.inflate(getLayoutInflater());
+         binding=ActivityEventUiBinding.inflate(getLayoutInflater());
         View view =binding.getRoot();
         setContentView(view);
+        Snackbar.make(binding.eventUICoordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
 
-        Snackbar.make(binding.eventCoordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
-        binding.openCVCameraView.setVisibility(SurfaceView.VISIBLE);
+        binding.reCalibrateButton.setVisibility(VISIBLE);
+        binding.openCVCameraView.setVisibility(VISIBLE);
         binding.openCVCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
         binding.openCVCameraView.setCameraPermissionGranted();
         binding.openCVCameraView.disableFpsMeter();
         binding.openCVCameraView.setCvCameraViewListener(this);
-        binding.reCalibrateButton.setVisibility(View.VISIBLE);
         detect=new Detect();
         faceCascade = new CascadeClassifier();
         eyesCascade = new CascadeClassifier();
+        binding.openCVCameraView.bringToFront();
+
         /*Log.d(TAG, Arrays.toString(fileList()));
         Log.d(TAG, getFileStreamPath("eyeModel.xml").getAbsolutePath());
         Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
@@ -75,11 +81,32 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-      binding.eventTextView.post(new Runnable() {
+        /* TODO make use of abstraction*/
+        binding.linearLayoutLeft.post(new Runnable() {
             @Override
             public void run() {
+                if(detect.getDirection()== Direction.LEFT){
+                    scaleNormalOrUp(binding.linearLayoutLeft,MotionEvent.AXIS_PRESSURE);
+                    binding.leftTextView.setText("Viewing Left");
+                }
+                else{
+                    scaleNormalOrUp(binding.linearLayoutLeft,MotionEvent.ACTION_BUTTON_RELEASE);
+                    binding.leftTextView.setText("Left");
+                }
+            }
+        });
 
-                binding.eventTextView.setText(detect.getDirection()+"");
+        binding.linearLayoutRight.post(new Runnable() {
+            @Override
+            public void run() {
+                if(detect.getDirection()== Direction.RIGHT){
+                    scaleNormalOrUp(binding.linearLayoutRight,MotionEvent.AXIS_PRESSURE);
+                    binding.rightTextView.setText("Viewing Right");
+                }
+                else{
+                    scaleNormalOrUp(binding.linearLayoutRight,MotionEvent.ACTION_BUTTON_RELEASE);
+                    binding.rightTextView.setText("Right");
+                }
             }
         });
         return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
@@ -89,6 +116,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     public void onResume()
     {  super.onResume();
         binding.openCVCameraView.enableView();
+
     }
 
     @Override
@@ -101,4 +129,24 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         detect=new Detect();
         System.gc();
     }
+
+    public static void scaleNormalOrUp(final View v, final int motion){
+        v.post(new Runnable() {
+            @Override
+            public void run() {
+                if(motion== MotionEvent.AXIS_PRESSURE){
+                    v.setScaleX(1.10f);
+                    v.setScaleY(1.10f);}
+                else{
+                    v.setScaleX(1);
+                    v.setScaleY(1);
+
+                }
+
+            }
+
+        });}
+
+
+
 }

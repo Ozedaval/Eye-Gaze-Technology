@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.opencvsparseflowui;
 
 
 import android.util.Log;
@@ -24,9 +24,10 @@ import static com.pwc.explore.Direction.NEUTRAL;
 import static com.pwc.explore.Direction.RIGHT;
 import static com.pwc.explore.Direction.UNKNOWN;
 
-import android.os.Handler;
+
 
 public class Detect {
+
 
 
     private boolean isFirstPairOfIrisFound;
@@ -45,7 +46,6 @@ public class Detect {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
-    final Handler handler = new Handler();
 
 
 
@@ -291,15 +291,27 @@ public class Detect {
         if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
-                       estimatedDirection=LEFT;
-                   break;
+                   if (prevDirection == NEUTRAL || prevDirection == LEFT) {
+                        currentGazeStatus = GazeStatus.LEFT;
+
+                    }  if (prevDirection == RIGHT) {
+                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                    }
+                   estimatedDirection=LEFT;
+                    break;
                 case RIGHT:
-                        estimatedDirection=RIGHT;
+                    if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
+                        currentGazeStatus = GazeStatus.RIGHT;
+
+                    } else if (prevDirection == LEFT) {
+                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                    }
+                    estimatedDirection=RIGHT;
                     break;
                 case NEUTRAL:
-                    if (prevDirection != NEUTRAL){
-                        handler.postDelayed(
-                            estimatedDirection=prevDirection, 1000);
+                    if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus==GazeStatus.RIGHT)){
+                        currentGazeStatus = GazeStatus.NEUTRAL;
+                        estimatedDirection=NEUTRAL;
                     }
                     else{
                         estimatedDirection=prevDirection;

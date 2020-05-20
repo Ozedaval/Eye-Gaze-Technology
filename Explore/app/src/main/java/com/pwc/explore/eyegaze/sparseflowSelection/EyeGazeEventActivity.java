@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.internal.VisibilityAwareImageButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.pwc.explore.MainActivity;
 import com.pwc.explore.R;
 
 import org.opencv.android.CameraBridgeViewBase;
@@ -72,9 +71,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-        coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
-        eyegazeTextView=findViewById(R.id.eyeGazeTextView);
-        camera = findViewById(R.id.javaCameraView);
+        coordinatorLayout=findViewById(R.id.eventCoordinatorLayout);
+        eyegazeTextView=findViewById(R.id.eventTextView);
+        camera = findViewById(R.id.openCVCameraView);
         leftTop[0]=-1; leftTop[1]=-1;
         rightBottom[0]=-1; rightBottom[1]=-1;
         middle[0]=-1; middle[1]=-1;

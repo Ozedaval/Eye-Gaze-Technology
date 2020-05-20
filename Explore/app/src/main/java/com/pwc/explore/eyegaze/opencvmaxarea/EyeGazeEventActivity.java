@@ -44,11 +44,11 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_screen);
+        setContentView(R.layout.activity_event);
 
-        coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
-        eyegazeTextView=findViewById(R.id.eyeGazeTextView);
-        camera = findViewById(R.id.javaCameraView);
+        coordinatorLayout=findViewById(R.id.eventCoordinatorLayout);
+        eyegazeTextView=findViewById(R.id.eventTextView);
+        camera = findViewById(R.id.openCVCameraView);
 
         Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
 

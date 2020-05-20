@@ -10,74 +10,51 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Miscellaneous"></activity>
         <activity
-            android:name="com.pwc.explore.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.pwc.explore.face.FaceEventActivity"
+            android:name=".face.FaceEventActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.pwc.explore.eyegaze.opencvshape.EyeGazeEventActivity"
+            android:name=".eyegaze.opencvshape.EyeGazeEventActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.pwc.explore.eyegaze.opencvmaxarea.EyeGazeEventActivity"
-
+            android:name=".eyegaze.opencvmaxarea.EyeGazeEventActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.pwc.explore.eyegaze.opencvblob.EyeGazeEventActivity"
+            android:name=".eyegaze.opencvblob.EyeGazeEventActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
-        android:name="com.pwc.explore.eyegaze.opencvsparseflow.EyeGazeEventActivity"
-        android:screenOrientation="landscape"
-        tools:ignore="LockedOrientationActivity">
-    </activity>
-        <activity
-            android:name="com.pwc.explore.eyegaze.opencvdenseflow.EyeGazeEventActivity"
+            android:name=".eyegaze.opencvsparseflow.EyeGazeEventActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.pwc.explore.eyegaze.opencvblob.EyeGazeEventActivity"
+            android:name=".eyegaze.sparseflowSelection.EyeGazeEventActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
-        android:name="com.pwc.explore.eyegaze.opencvsparseflow.EyeGazeEventActivity"
-        android:screenOrientation="landscape"
-        tools:ignore="LockedOrientationActivity">
-    </activity>
-        <activity
-            android:name="com.pwc.explore.eyegaze.opencvdenseflow.EyeGazeEventActivity"
+            android:name=".eyegaze.opencvsparseflowui.EyeGazeEventActivity"
             android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
-        <activity
-            android:name="com.pwc.explore.eyegaze.sparseflowSelection.EyeGazeEventActivity"
-            android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
-        <activity android:name="com.pwc.explore.eyegaze.sparseflowSelection.Element1"></activity>
-        <activity android:name="com.pwc.explore.eyegaze.sparseflowSelection.Element2"></activity>
-        <activity android:name="com.pwc.explore.eyegaze.sparseflowSelection.Element3"></activity>
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".eyegaze.sparseflowSelection.Element1" />
+        <activity android:name=".eyegaze.sparseflowSelection.Element2" />
+        <activity android:name=".eyegaze.sparseflowSelection.Element3" />
     </application>
 
     <uses-feature android:name="android.hardware.Camera" />

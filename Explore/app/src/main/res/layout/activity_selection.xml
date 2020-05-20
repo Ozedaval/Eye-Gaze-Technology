@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/eyeGazeCoordinatorLayout"
+    android:id="@+id/eventCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,7 +13,7 @@
         android:layout_height="240px">
 
         <TextView
-            android:id="@+id/eyeGazeTextView"
+            android:id="@+id/eventTextView"
             android:layout_width="320px"
             android:layout_height="wrap_content"
             android:textSize="39sp"
@@ -27,7 +27,7 @@
             />
 
         <org.opencv.android.JavaCameraView
-            android:id="@+id/javaCameraView"
+            android:id="@+id/openCVCameraView"
             android:layout_width="320px"
             android:layout_height="240px"
             android:keepScreenOn="true"

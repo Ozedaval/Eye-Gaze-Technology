@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.opencvsparseflow;
+package com.pwc.explore.eyegaze.opencvsparseflowui;
 
 import android.util.Log;
 import com.pwc.explore.Direction;
