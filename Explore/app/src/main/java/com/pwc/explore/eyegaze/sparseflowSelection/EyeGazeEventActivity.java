@@ -99,7 +99,6 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        Bitmap btm = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.icon);
 
         List<String> itemList = new ArrayList<>();
         for(int i=0; i<2; i++){
@@ -137,7 +136,16 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        aimImage.setVisibility(View.VISIBLE);
+                       calibration = true;
+                       aimImage.setVisibility(View.VISIBLE);
+                        for(int i = 0 ; i < 15000 ; i++){
+                            cb_eyeX_li.add(detect.cb_eyeX);
+                            cb_eyeY_li.add(detect.cb_eyeY);
+                        }
+                        cb_eyeX_li = filter_outliers(cb_eyeX_li); cb_eyeY_li = filter_outliers(cb_eyeY_li);
+                        // average of X, Y -> Center of the rectangle
+                        detect.averageX = sum(cb_eyeX_li) / cb_eyeX_li.size();
+                        detect.averageY = sum(cb_eyeY_li) / cb_eyeY_li.size();
                     }
                 });
         builder.setNegativeButton(
@@ -152,16 +160,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
         // Show the Alert Dialog box
         alertDialog.show();
-        calibration = true;
-        for(int i = 0 ; i < 10000 ; i++){
-            cb_eyeX_li.add(detect.cb_eyeX);
-            cb_eyeY_li.add(detect.cb_eyeY);
-        }
-        cb_eyeX_li = filter_outliers(cb_eyeX_li); cb_eyeY_li = filter_outliers(cb_eyeY_li);
-        // average of X, Y -> Center of the rectangle
-        detect.averageX = sum(cb_eyeX_li) / cb_eyeX_li.size();
-        detect.averageY = sum(cb_eyeY_li) / cb_eyeY_li.size();
-        detect.calibration_status ++;
+
     }
 
 
@@ -214,13 +213,11 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
             @Override
             public void run() {
                 eyegazeTextView.setText(detect.getDirection()+"");
-                if(detect.calibration_status == 1){
 
-                }
-                if(detect.cb_eyeX > detect.averageX){
-                    itemAdapter.select(1); // consider that it's mirror image
+                if( detect.cb_eyeX > detect.averageX){
+                    itemAdapter.select(0); // consider that it's mirror image
                 }else{
-                    itemAdapter.select(0);
+                    itemAdapter.select(1);
                 }
             }
         });
