@@ -56,7 +56,7 @@ public class FaceEventActivity extends AppCompatActivity {
 
 
         String apiReady=detector.isOperational()?"ready":"not ready";
-        Snackbar.make(binding.faceCoordinatorLayout,"API is " + apiReady+ "!",Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.eventUICoordinatorLayout,"API is " + apiReady+ "!",Snackbar.LENGTH_LONG).show();
     }
     public static void scaleNormalOrUp(final View v, final int motion){
         v.post(new Runnable() {

@@ -48,11 +48,11 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_screen);
+        setContentView(R.layout.activity_event);
 
-        coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
+        coordinatorLayout=findViewById(R.id.eventCoordinatorLayout);
         Snackbar.make(coordinatorLayout,R.string.in_development_note_msg,Snackbar.LENGTH_LONG).show();
-        camera = findViewById(R.id.javaCameraView);
+        camera = findViewById(R.id.openCVCameraView);
         camera.setVisibility(SurfaceView.VISIBLE);
         camera.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
         camera.setCameraPermissionGranted();
@@ -70,8 +70,6 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     }
 
     /*Iris Detection
-    Face & Eye detection is  inspired from:
-    https://github.com/opencv/opencv/blob/master/samples/java/tutorial_code/objectDetection/cascade_classifier/ObjectDetectionDemo.java
     */
     public Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
         Mat frameGray = new Mat();

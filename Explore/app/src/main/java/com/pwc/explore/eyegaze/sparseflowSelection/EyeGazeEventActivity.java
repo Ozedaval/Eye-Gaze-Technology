@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.pwc.explore.MainActivity;
 import com.pwc.explore.R;
 
 import org.opencv.android.CameraBridgeViewBase;
@@ -62,9 +59,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-        coordinatorLayout=findViewById(R.id.eyeGazeCoordinatorLayout);
-        eyegazeTextView=findViewById(R.id.eyeGazeTextView);
-        camera = findViewById(R.id.javaCameraView);
+        coordinatorLayout=findViewById(R.id.eventCoordinatorLayout);
+        eyegazeTextView=findViewById(R.id.eventTextView);
+        camera = findViewById(R.id.openCVCameraView);
         leftTop[0]=-1; leftTop[1]=-1;
         rightBottom[0]=-1; rightBottom[1]=-1;
         middle[0]=-1; middle[1]=-1;

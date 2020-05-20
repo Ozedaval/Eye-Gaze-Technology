@@ -58,20 +58,19 @@
             android:id="@+id/eyeGazeSparseOpticalFlowButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="startEyeGazeSparseOpticalFlow"
+            android:onClick="startEyeGazeSparseFlow"
             android:layout_weight="1"
             android:text="@string/eye_gaze_sparse_optical_flow"
             />
 
 
         <Button
-
-            android:id="@+id/eyeGazeDenseOpticalFlowButton"
+            android:id="@+id/sparseOpticalFlowUI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="startEyeGazeDenseOpticalFlow"
+            android:onClick="startEyeGazeSparseFlowUI"
             android:layout_weight="1"
-            android:text="Eye Gaze Dense Optical Flow"
+            android:text="Eye Gaze Optical Flow UI"
             />
 
 
@@ -79,7 +78,7 @@
             android:id="@+id/sparseflowselection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="startsparseflowSelection"
+            android:onClick="startSparseflowSelection"
             android:layout_weight="1"
             android:text="sparseflowselction" />
 

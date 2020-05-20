@@ -1,4 +1,4 @@
-package com.pwc.explore.eyegaze.mlkitnormal;
+package com.pwc.explore.eyegaze.opencvsparseflowui;
 
 import com.pwc.explore.Cursor;
 

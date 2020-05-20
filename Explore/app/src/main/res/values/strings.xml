@@ -18,6 +18,8 @@
     <string name="eye_gaze_sparse_optical_flow">Eye gaze Sparse Optical Flow</string>
     <string name="settings_name">Settings</string>
     <string name="re_calibrate">Re-Calibrate</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
 
 
 </resources>

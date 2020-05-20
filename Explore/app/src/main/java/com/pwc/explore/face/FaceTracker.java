@@ -1,6 +1,7 @@
 package com.pwc.explore.face;
 
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
@@ -35,43 +36,55 @@ public class FaceTracker extends Tracker {
     public void onUpdate(Detector.Detections detections, Object o) {
         // Since from the camera perspective left is right & vice versa
         ActivityEventUiBinding binding= weakReferenceBinding.get();
+
         Face face= (Face) detections.getDetectedItems().valueAt(0);
-        float eulerY= face.getEulerY();
-        Boolean isRightEyeClosed= face.getIsLeftEyeOpenProbability()<0.3;
-        Boolean isLeftEyeClosed=face.getIsRightEyeOpenProbability()<0.3;
-        String rightEyeIs= isRightEyeClosed?"not open":"open";
-        String leftEyeIs= isLeftEyeClosed?"not open":"open";
-        Log.d(getClass().getName(),"Tracking At Euler Y "+face.getEulerY() + "/n Tracking At Euler X"+face.getEulerZ()+"\n Left Eye is "+leftEyeIs+"\n Right Eye is "+rightEyeIs);
 
-        if(eulerY>15){
-            // face turns left
+            float eulerY = face.getEulerY();
+            Boolean isRightEyeClosed = face.getIsLeftEyeOpenProbability() < 0.3;
+            Boolean isLeftEyeClosed = face.getIsRightEyeOpenProbability() < 0.3;
+            String rightEyeIs = isRightEyeClosed ? "not open" : "open";
+            String leftEyeIs = isLeftEyeClosed ? "not open" : "open";
+            Log.d(getClass().getName(), "Tracking At Euler Y " + face.getEulerY() + "/n Tracking At Euler X" + face.getEulerZ() + "\n Left Eye is " + leftEyeIs + "\n Right Eye is " + rightEyeIs);
 
-            scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.AXIS_PRESSURE);
-            if(isRightEyeClosed||isLeftEyeClosed) { setText(binding.yesTextView,"SELECTED YES");}
-            else{setText(binding.yesTextView,"YES");} }
-        else if (eulerY<-30) {
-            // face turns right
-            scaleNormalOrUp(binding.linearLayoutNo, MotionEvent.AXIS_PRESSURE);
-            if(isRightEyeClosed||isLeftEyeClosed) { setText(binding.noTextView,"Selected NO");}
-            else{setText(binding.noTextView,"NO");}
-        }
+            if (eulerY > 15) {
+                /*face turns left*/
 
-        else{
-            setText(binding.yesTextView,"YES");
-            setText(binding.noTextView,"NO");
-            scaleNormalOrUp(binding.linearLayoutYes,MotionEvent.ACTION_CANCEL);
-            scaleNormalOrUp(binding.linearLayoutNo,MotionEvent.ACTION_CANCEL);
-        }
+                scaleNormalOrUp(binding.linearLayoutLeft, MotionEvent.AXIS_PRESSURE);
+                if (isRightEyeClosed || isLeftEyeClosed) {
+                    setText(binding.leftTextView, "Selected Left");
+                } else {
+                    setText(binding.leftTextView, "Left");
+                }
+            } else if (eulerY < -30) {
+                // face turns right
+                scaleNormalOrUp(binding.linearLayoutRight, MotionEvent.AXIS_PRESSURE);
+                if (isRightEyeClosed || isLeftEyeClosed) {
+                    setText(binding.rightTextView, "Selected Right ");
+                } else {
+                    setText(binding.rightTextView, "Right");
+                }
+            } else {
+                setNormal(binding);
+            }
 
+    }
+
+    private void setNormal(ActivityEventUiBinding binding){
+        setText(binding.leftTextView, "Left");
+        setText(binding.rightTextView, "Right");
+        scaleNormalOrUp(binding.linearLayoutLeft, MotionEvent.ACTION_CANCEL);
+        scaleNormalOrUp(binding.linearLayoutRight, MotionEvent.ACTION_CANCEL);
     }
 
     @Override
     public void onMissing(Detector.Detections detections) {
         super.onMissing(detections);
+        setNormal(weakReferenceBinding.get());
     }
 
     @Override
     public void onDone() {
+        super.onDone();
         super.onDone();
     }
 }
