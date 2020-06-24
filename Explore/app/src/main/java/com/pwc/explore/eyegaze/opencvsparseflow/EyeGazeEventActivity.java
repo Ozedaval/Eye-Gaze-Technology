@@ -97,7 +97,8 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         super.onDestroy();
     }
 
-
+    /**
+     * To reset the tracking */
     public void reCalibrate(View view) {
         detect=new Detect();
         System.gc();
