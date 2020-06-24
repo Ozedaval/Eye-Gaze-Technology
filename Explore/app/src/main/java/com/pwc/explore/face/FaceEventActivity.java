@@ -13,8 +13,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pwc.explore.databinding.ActivityEventUiBinding;
 import java.io.IOException;
 
+/* Handles face tracking Activity*/
 public class FaceEventActivity extends AppCompatActivity {
-// TODO(1.Need to address Activity Lifecycle)
+    /*TODO(1.Need to address Activity Lifecycle)*/
 
     private ActivityEventUiBinding binding;
     private CameraSource cameraSource;
@@ -29,9 +30,7 @@ public class FaceEventActivity extends AppCompatActivity {
         View view =binding.getRoot();
         setContentView(view);
 
-
-
-    detector = new FaceDetector.Builder(getApplicationContext())
+        detector = new FaceDetector.Builder(getApplicationContext())
                 .setProminentFaceOnly(true)
                 .setMode(FaceDetector.ACCURATE_MODE)
                 .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
@@ -53,11 +52,23 @@ public class FaceEventActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         String apiReady=detector.isOperational()?"ready":"not ready";
         Snackbar.make(binding.eventUICoordinatorLayout,"API is " + apiReady+ "!",Snackbar.LENGTH_LONG).show();
     }
+
+
+    @Override
+    protected void onDestroy() {
+        detector.release();
+        cameraSource.release();
+        super.onDestroy();
+    }
+
+
+    /**
+     * Sets the view object - scaled up or normal depending on the user's action
+     * @param v: View object upon which Scaling or return to normal state occurs
+     * @param motion : User's action*/
     public static void scaleNormalOrUp(final View v, final int motion){
         v.post(new Runnable() {
             @Override
@@ -68,14 +79,16 @@ public class FaceEventActivity extends AppCompatActivity {
                 else{
                     v.setScaleX(1);
                     v.setScaleY(1);
-
                 }
-
             }
+        });
+    }
 
-        });}
 
-
+    /**
+     * Sets the TextView to the given text
+     * @param text: The text which needs to be set.
+     * @param v: The TextView which needs to be set to the text. */
     public static void setText(final TextView v, final String text){
         v.post(new Runnable() {
             @Override
@@ -83,13 +96,6 @@ public class FaceEventActivity extends AppCompatActivity {
                 v.setText(text);
             }
         });
-
     }
 
-    @Override
-    protected void onDestroy() {
-        detector.release();
-        cameraSource.release();
-        super.onDestroy();
-    }
 }

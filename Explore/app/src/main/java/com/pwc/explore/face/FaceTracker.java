@@ -30,51 +30,39 @@ public class FaceTracker extends Tracker {
     }
 
 
-
-
     @Override
     public void onUpdate(Detector.Detections detections, Object o) {
         // Since from the camera perspective left is right & vice versa
         ActivityEventUiBinding binding= weakReferenceBinding.get();
-
         Face face= (Face) detections.getDetectedItems().valueAt(0);
+        float eulerY = face.getEulerY();
+        Boolean isRightEyeClosed = face.getIsLeftEyeOpenProbability() < 0.3;
+        Boolean isLeftEyeClosed = face.getIsRightEyeOpenProbability() < 0.3;
+        String rightEyeIs = isRightEyeClosed ? "not open" : "open";
+        String leftEyeIs = isLeftEyeClosed ? "not open" : "open";
+        Log.d(getClass().getName(), "Tracking At Euler Y " + face.getEulerY() + "/n Tracking At Euler X" + face.getEulerZ() + "\n Left Eye is " + leftEyeIs + "\n Right Eye is " + rightEyeIs);
 
-            float eulerY = face.getEulerY();
-            Boolean isRightEyeClosed = face.getIsLeftEyeOpenProbability() < 0.3;
-            Boolean isLeftEyeClosed = face.getIsRightEyeOpenProbability() < 0.3;
-            String rightEyeIs = isRightEyeClosed ? "not open" : "open";
-            String leftEyeIs = isLeftEyeClosed ? "not open" : "open";
-            Log.d(getClass().getName(), "Tracking At Euler Y " + face.getEulerY() + "/n Tracking At Euler X" + face.getEulerZ() + "\n Left Eye is " + leftEyeIs + "\n Right Eye is " + rightEyeIs);
-
-            if (eulerY > 15) {
-                /*face turns left*/
-
-                scaleNormalOrUp(binding.linearLayoutLeft, MotionEvent.AXIS_PRESSURE);
-                if (isRightEyeClosed || isLeftEyeClosed) {
-                    setText(binding.leftTextView, "Selected Left");
-                } else {
-                    setText(binding.leftTextView, "Left");
-                }
-            } else if (eulerY < -30) {
-                // face turns right
-                scaleNormalOrUp(binding.linearLayoutRight, MotionEvent.AXIS_PRESSURE);
-                if (isRightEyeClosed || isLeftEyeClosed) {
-                    setText(binding.rightTextView, "Selected Right ");
-                } else {
-                    setText(binding.rightTextView, "Right");
-                }
+        if (eulerY > 15) {
+            /*face turns left*/
+            scaleNormalOrUp(binding.linearLayoutLeft, MotionEvent.AXIS_PRESSURE);
+            if (isRightEyeClosed || isLeftEyeClosed) {
+                setText(binding.leftTextView, "Selected Left");
             } else {
-                setNormal(binding);
+                setText(binding.leftTextView, "Left");
             }
-
+        } else if (eulerY < -30) {
+            // face turns right
+            scaleNormalOrUp(binding.linearLayoutRight, MotionEvent.AXIS_PRESSURE);
+            if (isRightEyeClosed || isLeftEyeClosed) {
+                setText(binding.rightTextView, "Selected Right ");
+            } else {
+                setText(binding.rightTextView, "Right");
+            }
+        } else {
+            setNormal(binding);
+        }
     }
 
-    private void setNormal(ActivityEventUiBinding binding){
-        setText(binding.leftTextView, "Left");
-        setText(binding.rightTextView, "Right");
-        scaleNormalOrUp(binding.linearLayoutLeft, MotionEvent.ACTION_CANCEL);
-        scaleNormalOrUp(binding.linearLayoutRight, MotionEvent.ACTION_CANCEL);
-    }
 
     @Override
     public void onMissing(Detector.Detections detections) {
@@ -82,8 +70,21 @@ public class FaceTracker extends Tracker {
         setNormal(weakReferenceBinding.get());
     }
 
+
     @Override
     public void onDone() {
         super.onDone();
+    }
+
+
+    /**
+     * Sets the state of associated TextView and Buttons back to normal
+     * @param binding : Binding of the the associated activity
+     */
+    private void setNormal(ActivityEventUiBinding binding){
+        setText(binding.leftTextView, "Left");
+        setText(binding.rightTextView, "Right");
+        scaleNormalOrUp(binding.linearLayoutLeft, MotionEvent.ACTION_CANCEL);
+        scaleNormalOrUp(binding.linearLayoutRight, MotionEvent.ACTION_CANCEL);
     }
 }

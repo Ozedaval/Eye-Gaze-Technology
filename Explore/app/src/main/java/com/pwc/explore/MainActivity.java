@@ -23,7 +23,7 @@ import com.pwc.explore.databinding.ActivityMainBinding;
 import com.pwc.explore.face.FaceEventActivity;
 import java.util.Arrays;
 
-
+/* Allows Selections to different Activities and operates Initialisation on the first run */
 public class MainActivity extends AppCompatActivity {
 
     private final int PERMISSION_REQUEST_CODE = 1;
@@ -40,15 +40,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
             }
         }
-
         isFirstRun = ( getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
                 .getBoolean(getString(R.string.first_run_preference_key), true));
 
@@ -61,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(Boolean aBoolean) {
                     if (!aBoolean) {
-
                         Log.d(TAG," OnChangedLiveData"+"Changed to "+aBoolean);
                         Snackbar.make(binding.mainCoordinatorLayout,
                                 getString(R.string.initialisation_done_msg),
@@ -76,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -87,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 finish();
             }
-
         }
         Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
     }
+
 
     @Override
     protected void onResume() {
@@ -99,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
             if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
                 Log.d(TAG ," onResume "+"ViewModel LiveData isa" +mainViewModel.getIsFirstRun().getValue());
                 Log.d(TAG , "on Resume Called");
-
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.mainActivity_Fragment_Tag));
                 if (fragment != null) {
                     fragmentTransaction.remove(fragment);
@@ -111,17 +106,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void startFaceEvent(View view) {
         Intent faceEventIntent = new Intent(this, FaceEventActivity.class);
         startActivity(faceEventIntent);
     }
 
 
-
     public void startEyeGazeSparseFlow(View view) {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvsparseflow.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
-
     }
 
 

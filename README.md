@@ -40,14 +40,8 @@
 - [**Quick Link to All**](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ)
 - [**Decision Log**](https://drive.google.com/open?id=1saNyL4HzxOY_hxSUxgXdmyMEt44hYi6K)
 - [**Output**](https://drive.google.com/open?id=1OQ9x4_ARRlfDZPdr63_p5DNzwD6NIkFe)
-  * [Poster](https://drive.google.com/open?id=1Tf-jNvo5ETsVZwgpfkMDWFGXLBfwSDNn)
-  * [User & Technology research report (Deliverable 1)](https://drive.google.com/drive/u/0/folders/1qXI4LmHowGDC6aszJpiddp329ib0YbYz)
-  * [Two Exploratory Tools (Deliverable 2)](https://github.com/Ozedaval/Eye-Gaze-Technology)
 - [**Feedback & Reflection Log**](https://drive.google.com/open?id=1Ez3zpXuvb3K82JIZOckS8c_vj4hy5sOG)
 - [**Meeting Minutes**](https://drive.google.com/open?id=1XRX-F2_kUdTftGIQKBF57nrPVdt4L3jy)
-  * [Team Meeting Minutes](https://drive.google.com/drive/folders/1IZgwqb_4f53m_PR0vJdjBIqYTdWT-82J)
-  * [Client Meeting Minutes](https://drive.google.com/drive/folders/16wLaSN5cZVYHuX18_cbq75Alj2pD0NF4)
-  * [ANU Legal Meeting Minutes](https://drive.google.com/drive/folders/1XWIGLGIQPxaU93vPAcupO6cVdFF_qySh)
 - [**Communication(Slack, Google Hangout & Whatsapp)**](https://docs.google.com/document/d/11kMMIePdj8zBedOwhiEBjDGIca44rmw-yMDsSldIoTc/edit?usp=sharing)
 
 

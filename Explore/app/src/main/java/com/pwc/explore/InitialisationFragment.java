@@ -1,6 +1,5 @@
 package com.pwc.explore;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import java.util.concurrent.ExecutionException;
 
-
+/*Fragment which shows the initialisation loading Bar*/
 public class InitialisationFragment extends DialogFragment {
 
     private Initialisation initialisationAsync;
@@ -32,6 +31,7 @@ public class InitialisationFragment extends DialogFragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,18 +39,13 @@ public class InitialisationFragment extends DialogFragment {
         initialisationAsync.execute();
         mainViewModelProvider=new ViewModelProvider(requireActivity())
                 .get(MainViewModel.class);
-
-
-
         Log.d(TAG,"onCreate Called");
-
-
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-
         Log.d(TAG, "onResume");
         try {
             Boolean asyncTaskCompleted=initialisationAsync.get();
@@ -62,16 +57,14 @@ public class InitialisationFragment extends DialogFragment {
                 if (fragment != null) {
                     Log.d(TAG," Fragment removed");
                     fragmentTransaction.remove(fragment);
-
                 }
-                /*Temporarily here to make a smooth UI transition*/
+                /*Temporarily here to make a smooth UI transition (Visually)*/
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         onDestroyView();
                     }
                 },3000);
-
             }
             else {
                 while (!initialisationAsync.isCancelled()) {
@@ -79,14 +72,10 @@ public class InitialisationFragment extends DialogFragment {
                 }
                 initialisationAsync.execute();
             }
-
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
-
 }
-

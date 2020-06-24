@@ -1,6 +1,5 @@
 package com.pwc.explore.eyegaze.opencvsparseflow;
 
-import android.util.Log;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -11,7 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-
+/*Takes care of the SparseOpticalFlow*/
 class SparseOpticalFlowDetector {
     private SparseOpticalFlow sparseOpticalFlow;
     private Mat prevFrame;
@@ -22,10 +21,14 @@ class SparseOpticalFlowDetector {
     SparseOpticalFlowDetector(Size winSize,Integer numROI){
         sparseOpticalFlow = SparsePyrLKOpticalFlow.create(winSize);
         roiPoints=new HashMap<>(numROI);
-
         /*Thread.dumpStack();*/
     }
 
+
+    /**
+     * Predicts the "Sparse" points based upon the current frame
+     * @param currentFrame : The current Frame based upon which the prediction should occur
+     * @return a Map with the predicted "Sparse" points */
     HashMap<Integer,Point[]> predictPoints(Mat currentFrame){
 
         if(prevFrame==null){
@@ -50,12 +53,11 @@ class SparseOpticalFlowDetector {
             status.release();//TODO check if it will cause problem
             nextPoints.release();
         }
-
         return roiPoints; }
 
 
-
-    /*Will unpack the predictions in roiPointsMat to the roiPoint HashMap*/
+    /**
+     * Unpack the predictions in roiPointsMat to the roiPoint HashMap*/
     private void unpackPrediction(){
         if(roiPointsMat !=null){
             /*Log.d(TAG,"Unpacking Prediction Mat: roiPointMat has rows"+roiPointsMat.rows());*/
@@ -80,7 +82,8 @@ class SparseOpticalFlowDetector {
     }
 
 
-    /*Will use the roiPoint HashMap to fill up roiPointMat */
+    /**
+     * Uses the roiPoint HashMap to fill up roiPointMat */
     private void fillUpMatPoints() {
         int totalSparsePoints = 0;
 
@@ -90,9 +93,7 @@ class SparseOpticalFlowDetector {
                 /*Log.d(TAG, r + "th Iris Point Size :" + roiPoints.get(r).length);*/
             }
         }
-
         /*Log.d(TAG,"Filling up Mat Points:  roiPoint - totalSparsePoints "+totalSparsePoints);*/
-
         int matCounter=0;
         roiPointsMat = new Mat(totalSparsePoints, 2, CvType.CV_32F);
         for (Integer roiID : roiPoints.keySet()) {
@@ -108,16 +109,19 @@ class SparseOpticalFlowDetector {
         }
     }
 
+
     void setROIPoints(int roiID, Point[] points) {
         roiPoints.put(roiID,points);
         /*Log.d(TAG,"Setting up ROIPoints.Minor Check - Point 1 X"+ roiPoints.get(roiID)[0].x);*/
     }
 
+
     HashMap<Integer, Point[]> getROIPoints() {
         return roiPoints;
     }
 
-
+    /**
+     * Resets the SparseOpticalFlow Algorithm and clears the Previous Frame */
     void resetSparseOpticalFlow(){
         if(sparseOpticalFlow!=null ) {
             sparseOpticalFlow.clear();
