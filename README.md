@@ -1,5 +1,5 @@
 # Track Pupils  
-## TechLauncher Project 2020 S1 | 20-S1-2-C Track Pupils
+## TechLauncher Project 2020 S2 | 20-S1-2-C Track Pupils
 
 ![Android CI](https://github.com/Ozedaval/Eye-Gaze-Technology/workflows/Android%20CI/badge.svg?branch=master)
 
