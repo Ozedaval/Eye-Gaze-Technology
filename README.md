@@ -50,8 +50,10 @@
 
 
 <h2><a name = "Title3"> 3. Project Administration </a></h2>
+<img src="https://github.com/Ozedaval/Eye-Gaze-Technology/blob/master/Resources/team%20roles.png" height="350" width="700" >
 
 * [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Team-Members-&-Roles)
+
 
 <h2><a name = "Title4"> 4. Traceability of Progress & Teamwork</a></h2>
 
@@ -63,7 +65,7 @@
 - [**Decision Log**](https://drive.google.com/drive/folders/18C8N5hQrXN94pWgNyDpYCfhkNWzhSczE)
 - [**Output**](https://drive.google.com/drive/folders/11VEx6xQj-KdvEMwhQfAj3t7v0ngSZa2l)
 - [**Feedback & Reflection Log**](https://drive.google.com/drive/folders/1Tty_NjlyNDwHHwNLGD4vDpX-9KjvH998)
-- [**Meeting Minutes**]
+- **Meeting Minutes**
     + [Team Meeting](https://drive.google.com/drive/folders/1HjPLR9FZ_2_iRm91MV_KgGgtAlXXAkB5)
     + [Client Meeting](https://drive.google.com/drive/folders/1JjdIRBprHv1TsyhMA9yGrYzDufUeJb3o)
 - [**Communication(Slack, Google Hangout & Whatsapp)**](https://docs.google.com/document/d/11kMMIePdj8zBedOwhiEBjDGIca44rmw-yMDsSldIoTc/edit?usp=sharing)
