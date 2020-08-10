@@ -3,24 +3,25 @@
 
 ![Android CI](https://github.com/Ozedaval/Eye-Gaze-Technology/workflows/Android%20CI/badge.svg?branch=master)
 
+
 <h2><a name = "content"> Contents </a></h2>
 
 <a href = "#Title1"><b> 1. Project Overview </b></a><br/>
 <a href = "#Title2"><b> 2. Project Administration </b></a><br/>
-<a href = "#Title3"><b> 3. Deliverables </b></a><br/>
-<a href = "#Title4"><b> 4. Traceability of Progress & Teamwork </b></a><br/> 
-<a href = "#Title5"><b> 5. Documentation </b></a><br/> 
-<a href = "#Title6"><b> 6. Technical Tools and Constraints </b></a><br/>
+<a href = "#Title3"><b> 3. Traceability of Progress & Teamwork </b></a><br/> 
+<a href = "#Title4"><b> 4. Documentation </b></a><br/> 
+<a href = "#Title5"><b> 5. Technical Tools and Constraints </b></a><br/>
 
-<img align = "left" src="https://github.com/Ozedaval/Eye-Gaze-Technology/blob/master/Resources/link.png" width = "30" height = "30">
-<h2> Quick Link </h2><br />
+<details>
+<summary><img align = "left" src="Resources/link.png" width = "30" height = "30"><h2> Quick Link Dropdown</h2></summary>
 
 - [**Decision Log**](https://drive.google.com/drive/folders/18C8N5hQrXN94pWgNyDpYCfhkNWzhSczE)
 - [**Feedback & Reflection Log**](https://drive.google.com/drive/folders/1Tty_NjlyNDwHHwNLGD4vDpX-9KjvH998)
 - [**Meeting Minutes**](https://drive.google.com/drive/u/0/folders/1g2xm1F1sIsowuf-SHqJrCLEgR9KNZMet)
 - [**Risk Management**](https://docs.google.com/document/d/1h8wtWSBGq10KgU5FjX3noPZQz0TSMrlTSjl1m9pVcEc/edit)
 - [**Statement of Work**](https://drive.google.com/drive/u/0/folders/10dU-jHv65cApRlDtr3pOAqkEij3sBB)
-- [**Communication(Slack, Google Hangout & Whatsapp)**](https://docs.google.com/document/d/11kMMIePdj8zBedOwhiEBjDGIca44rmw-yMDsSldIoTc/edit?usp=sharing)
+- [**Communication(Slack, Google Hangout,Whatsapp and Zoom)**](https://docs.google.com/document/d/1fOy_x4CNGdVu6nbyG_zbYGBBXU7Pvlio7XnqYfclkDY/edit)
+</details>
 
 
 <br />
@@ -35,50 +36,37 @@
 
 * [**Stakeholders of the Project**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Stakeholders)
 
-<h2><a name = "Title2"> 2. Deliverables </a></h2>
 
-- <h4> Deliverable 1 : Accuracy Improvement of Eye Gaze detection & Documentation of Approaches </h4>
-   At least 3 approaches,which strives for Accuracy Improvement, to be implemented.<br />
-   Well Defined Documentation on the processes taken to achieve Accuracy Improvement.<br />
-- <h4> Deliverable 2 : Comms Board functionality </h4>
-  Users will be able to communicate by touching visually appealing elements on the screen.Upon touching the elements there will be an audio feedback which dictates the respective word associated with the element.<br />
-  Content: Will contain a dictionary of around 25 words<br />
+<h2><a name = "Title2"> 2. Project Administration </a></h2>
 
-
+* [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Team-Members-&-Roles)
+* [**Deliverables**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 * [**Statement of Work**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 
 
-
-<h2><a name = "Title3"> 3. Project Administration </a></h2>
-<img src="https://github.com/Ozedaval/Eye-Gaze-Technology/blob/master/Resources/team%20roles.png" height="350" width="700" >
-
-* [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Team-Members-&-Roles)
-
-
-<h2><a name = "Title4"> 4. Traceability of Progress & Teamwork</a></h2>
+<h2><a name = "Title3"> 3. Traceability of Progress & Teamwork</a></h2>
 
 * [**Trello**](https://trello.com/b/GnYy2QBX/track-pupils)
     
 
-<h2><a name = "Title5"> 5. Documentation</a></h2>
+<h2><a name = "Title4"> 4. Documentation</a></h2>
 
 - [**Decision Log**](https://drive.google.com/drive/folders/18C8N5hQrXN94pWgNyDpYCfhkNWzhSczE)
 - [**Output**](https://drive.google.com/drive/folders/11VEx6xQj-KdvEMwhQfAj3t7v0ngSZa2l)
 - [**Feedback & Reflection Log**](https://drive.google.com/drive/folders/1Tty_NjlyNDwHHwNLGD4vDpX-9KjvH998)
-- **Meeting Minutes**
+- [**Meeting Minutes**](https://drive.google.com/drive/folders/1bz6aJNaLhqgxjfCjiWHxQpbSfh9tgEOj?usp=sharing)
     + [Team Meeting](https://drive.google.com/drive/folders/1HjPLR9FZ_2_iRm91MV_KgGgtAlXXAkB5)
     + [Client Meeting](https://drive.google.com/drive/folders/1JjdIRBprHv1TsyhMA9yGrYzDufUeJb3o)
-- [**Communication(Slack, Google Hangout & Whatsapp)**](https://docs.google.com/document/d/11kMMIePdj8zBedOwhiEBjDGIca44rmw-yMDsSldIoTc/edit?usp=sharing)
+- [**Risk Register**](https://docs.google.com/document/d/1h8wtWSBGq10KgU5FjX3noPZQz0TSMrlTSjl1m9pVcEc/edit?usp=sharing)
+- [**Communication(Slack, Google Hangout,Whatsapp and Zoom)**](https://docs.google.com/document/d/1fOy_x4CNGdVu6nbyG_zbYGBBXU7Pvlio7XnqYfclkDY/edit)
 
 
-<h2><a name = "Title6"> 6. Technical Tools and Constraints</a></h2>
+<h2><a name = "Title5"> 5. Technical Tools and Constraints</a></h2>
   
  * [**Technical Tools**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Technical-Tools)
 
  * [**Project Constraints**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Project-Constraints)
  
- <h2><a name = "Title7"> 7. Risk Register </a></h2>
-<img src="https://github.com/Ozedaval/Eye-Gaze-Technology/blob/master/Resources/risk_register.png" >
  
  <h2><a name = "Miscellaneous">Miscellaneous</a></h2>
 
