@@ -57,6 +57,7 @@
 - [**Meeting Minutes**](https://drive.google.com/drive/folders/1bz6aJNaLhqgxjfCjiWHxQpbSfh9tgEOj?usp=sharing)
     + [Team Meeting](https://drive.google.com/drive/folders/1HjPLR9FZ_2_iRm91MV_KgGgtAlXXAkB5)
     + [Client Meeting](https://drive.google.com/drive/folders/1JjdIRBprHv1TsyhMA9yGrYzDufUeJb3o)
+- [**User Story Map**](https://miro.com/app/board/o9J_kodemu8=/)
 - [**Risk Register**](https://docs.google.com/document/d/1h8wtWSBGq10KgU5FjX3noPZQz0TSMrlTSjl1m9pVcEc/edit?usp=sharing)
 - [**Communication(Slack, Google Hangout,Whatsapp and Zoom)**](https://docs.google.com/document/d/1fOy_x4CNGdVu6nbyG_zbYGBBXU7Pvlio7XnqYfclkDY/edit)
 
