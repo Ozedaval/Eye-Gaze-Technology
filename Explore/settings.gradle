@@ -1,4 +1,0 @@
-include ':app'
-rootProject.name='Explore'
-include ':OpenCVLibrary'
-include ':uidraft'
