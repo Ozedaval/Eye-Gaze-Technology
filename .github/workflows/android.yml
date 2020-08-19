@@ -29,4 +29,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: Explore_APK
-        path: ./ProjectSpace/explore/build/outputs/apk/debug/app-debug.apk
+        path: ./ProjectSpace/explore/build/outputs/apk/debug/explore-debug.apk
