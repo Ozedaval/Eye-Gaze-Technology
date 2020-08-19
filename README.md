@@ -39,14 +39,18 @@
 
 <h2><a name = "Title2"> 2. Project Administration </a></h2>
 
+
 * [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Team-Members-&-Roles)
+* [**Schedule**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Schedule)
 * [**Deliverables**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 * [**Statement of Work**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
+
 
 
 <h2><a name = "Title3"> 3. Traceability of Progress & Teamwork</a></h2>
 
 * [**Trello**](https://trello.com/b/GnYy2QBX/track-pupils)
+
     
 
 <h2><a name = "Title4"> 4. Documentation</a></h2>

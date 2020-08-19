@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eyeGazeCoordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="320px"
+        android:layout_height="240px">
+
+        <TextView
+            android:id="@+id/eyeGazeTextView"
+            android:layout_width="320px"
+            android:layout_height="wrap_content"
+            android:textSize="39sp"
+            android:text="Neutral"
+            android:textColor="@color/colorWhite"
+            opencv:layout_constraintBottom_toBottomOf="parent"
+            opencv:layout_constraintEnd_toEndOf="parent"
+            opencv:layout_constraintStart_toStartOf="parent"
+            opencv:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"
+            />
+
+        <org.opencv.android.JavaCameraView
+            android:id="@+id/javaCameraView"
+            android:layout_width="320px"
+            android:layout_height="240px"
+            android:keepScreenOn="true"
+            android:visibility="visible"
+            opencv:camera_id="front"
+            opencv:layout_constraintStart_toStartOf="parent"
+            opencv:layout_constraintTop_toTopOf="parent"
+            opencv:show_fps="false" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="calibrate"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="620dp"
+        android:text="Calibrate" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
