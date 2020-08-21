@@ -10,10 +10,10 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="/mnt/sData/Shared/Study/COMP3500/_master branch/Eye-Gaze-Technology/ProjectSpace" />
-            <option value="/mnt/sData/Shared/Study/COMP3500/_master branch/Eye-Gaze-Technology/ProjectSpace/OpenCVLibrary" />
-            <option value="/mnt/sData/Shared/Study/COMP3500/_master branch/Eye-Gaze-Technology/ProjectSpace/commsgaze" />
-            <option value="/mnt/sData/Shared/Study/COMP3500/_master branch/Eye-Gaze-Technology/ProjectSpace/explore" />
+            <option value="/mnt/sData/Shared/Study/COMP3500/_updating-environment_/Eye-Gaze-Technology/ProjectSpace" />
+            <option value="/mnt/sData/Shared/Study/COMP3500/_updating-environment_/Eye-Gaze-Technology/ProjectSpace/OpenCVLibrary" />
+            <option value="/mnt/sData/Shared/Study/COMP3500/_updating-environment_/Eye-Gaze-Technology/ProjectSpace/commsgaze" />
+            <option value="/mnt/sData/Shared/Study/COMP3500/_updating-environment_/Eye-Gaze-Technology/ProjectSpace/explore" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
