@@ -16,17 +16,17 @@ jobs:
         java-version: 1.8
 
     - name: Giving Permission for Accessing Gradle file
-      run: chmod +x ./Explore/gradlew
+      run: chmod +x ./ProjectSpace/gradlew
 
     - name: Compiling Project using Gradle
-      run: ./Explore/gradlew build
+      run: ./ProjectSpace/gradlew build
 
     - name: Building Explore APK artifact
       run: |
-       ./Explore/gradlew assembleDebug  -b Explore/OpenCVLibrary/build.gradle
-       ./Explore/gradlew assembleDebug  -b Explore/app/build.gradle
+       ./ProjectSpace/gradlew assembleDebug  -b ProjectSpace/OpenCVLibrary/build.gradle
+       ./ProjectSpace/gradlew assembleDebug  -b ProjectSpace/explore/build.gradle
 
     - uses: actions/upload-artifact@v1
       with:
         name: Explore_APK
-        path: ./Explore/app/build/outputs/apk/debug/app-debug.apk
+        path: ./ProjectSpace/explore/build/outputs/apk/debug/explore-debug.apk
