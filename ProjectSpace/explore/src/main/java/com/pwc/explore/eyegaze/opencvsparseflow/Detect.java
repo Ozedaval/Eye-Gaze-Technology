@@ -93,7 +93,7 @@ public class Detect {
         Rect face = null;
 
         /*TODO: Remove later @eyeGaze Team  Testing if Tracking API is working or not*/
-        TrackerTLD trackerTLD=TrackerTLD.create();
+        
         /*Using the First Detected Face*/
         List<Rect> listOfFaces = faces.toList();
         if (!listOfFaces.isEmpty()) {
