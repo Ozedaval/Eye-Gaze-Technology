@@ -13,7 +13,7 @@
 <a href = "#Title5"><b> 5. Technical Tools and Constraints </b></a><br/>
 
 <details>
-<summary><img align = "left" src="Resources/Proof_of_Concept.gif" width = "30" height = "30"><h2> Quick Link Dropdown</h2></summary>
+<summary><img align = "left" src="Resources/link.png" width = "30" height = "30"><h2> Quick Link Dropdown</h2></summary>
 
 - [**All Documentations**](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ?usp=sharing)
 - [**Decision Log**](https://drive.google.com/drive/folders/18C8N5hQrXN94pWgNyDpYCfhkNWzhSczE)
@@ -27,7 +27,7 @@
 
 <br />
 <p align="center">
-<img src="Resources/Sample_communication_application.jpg"  width="45%" length="45%" >
+<img src="Resources/Proof_of_Concept.jpg"  width="45%" length="45%" >
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
