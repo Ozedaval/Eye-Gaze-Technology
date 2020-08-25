@@ -38,12 +38,21 @@
 
 
         <Button
-            android:id="@+id/sparseOpticalFlowUI"
+            android:id="@+id/sparseOpticalFlowUIButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startEyeGazeSparseFlowUI"
             android:layout_weight="1"
             android:text="@string/eye_gaze_optical_flow_ui"
+            />
+
+        <Button
+            android:id="@+id/objTrackingCSRTButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startObjTrackingCSRT"
+            android:layout_weight="1"
+            android:text="@string/eye_gaze_obj_tracking_csrt"
             />
 
 

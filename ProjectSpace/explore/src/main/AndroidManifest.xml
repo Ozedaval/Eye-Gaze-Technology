@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Miscellaneous"></activity>
         <activity
             android:name=".face.FaceEventActivity"
             android:screenOrientation="landscape"
@@ -49,6 +50,10 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".eyegaze.opencvsparseflowui.EyeGazeEventActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".eyegaze.opencvobjtrackingcsrt.EyeGazeEventActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
         <activity android:name=".eyegaze.sparseflowSelection.Element1" />
