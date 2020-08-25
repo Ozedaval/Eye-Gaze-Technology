@@ -27,7 +27,7 @@
 
 <br />
 <p align="center">
-<img src="Resources/Proof_of_Concept.gif"  width="50%" length="50%" >
+<a href="Resources/Proof_of_Concept.gif">Full Montage of Proof of Concept App</a> 
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
