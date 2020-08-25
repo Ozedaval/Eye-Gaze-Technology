@@ -27,10 +27,9 @@
 
 <br />
 <p align="center">
-<figure>
-  <img src="Resources/Proof_of_Concept.gif" width = 50% height = "50%">
-  <figcaption align = "center">Full Montage of Proof of Concept</figcaption>
-</figure>
+<img src="Resources/Proof_of_Concept.gif"  width="45%" length="45%" >
+</p>
+<p align="center"><a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Full Montage of Proof of Concept App</a> 
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
