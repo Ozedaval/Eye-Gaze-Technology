@@ -28,8 +28,8 @@
 <br />
 <p align="center">
 <figure>
-  <img src="Resources/Proof_of_Concept.gif" width = 100% height = "100%">
-  <figcaption>Full Montage of Proof of Concept</figcaption>
+  <img src="Resources/Proof_of_Concept.gif" width = 50% height = "50%">
+  <figcaption align = "center">Full Montage of Proof of Concept</figcaption>
 </figure>
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
