@@ -31,7 +31,7 @@
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
-* According to the World Health Organization, roughly 15% of the world's population live with some form of disability. Technology like Eye Gaze Technology can help disabled people who have neural diseases which prevent them from interacting physically with ease.However, Commercial products which use Eye gaze technology are usually expensive.To promote the inclusivity of this technology , we are seeking to recreate this technology to leverage the smartphone platform and thus making eye gaze technology more affordable.
+* According to the World Health Organization, roughly 15% of the world's population live with some form of disability. Technology like Eye Gaze Technology can help disabled people who have neural diseases which prevent them from interacting physically with ease. However, Commercial products which use Eye gaze technology are usually expensive. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform and thus making eye gaze technology more affordable.
 
 * [**Stakeholders of the Project**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Stakeholders)
 
