@@ -27,7 +27,7 @@
 
 <br />
 <p align="center">
-<img src="Resources/Proof_of_Concept.gif"  width="100%" length="100%" >
+<img src="Resources/Proof_of_Concept.gif"  width="50%" length="50%" >
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
