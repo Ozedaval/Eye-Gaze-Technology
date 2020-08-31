@@ -179,7 +179,7 @@ public class Detect {
             HashMap<Integer, Point[]> currentPoints = sparseOpticalFlowDetector.predictPoints(frameGray);
             /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
             direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,currentPoints),currentPoints);
-            Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
+            /*Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );*/
             Point[][][] irisPredictedSparsePointss = new Point[][][]
                     {{currentPoints.get(0)}, {currentPoints.get(1)}};
             for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {

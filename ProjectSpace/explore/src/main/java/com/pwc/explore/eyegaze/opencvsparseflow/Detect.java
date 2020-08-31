@@ -1,10 +1,11 @@
 package com.pwc.explore.eyegaze.opencvsparseflow;
 
 import android.util.Log;
+
 import com.pwc.explore.Direction;
+
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
-import org.opencv.tracking.Tracker;
 import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
@@ -14,13 +15,13 @@ import org.opencv.core.Size;
 import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.tracking.TrackerTLD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
 import static com.pwc.explore.Direction.LEFT;
 import static com.pwc.explore.Direction.NEUTRAL;
 import static com.pwc.explore.Direction.RIGHT;
@@ -92,8 +93,8 @@ public class Detect {
         HashMap<Integer, Point[]> blob = new HashMap<>();
         Rect face = null;
 
-        /*TODO: Remove later @eyeGaze Team  Testing if Tracking API is working or not*/
-        
+
+
         /*Using the First Detected Face*/
         List<Rect> listOfFaces = faces.toList();
         if (!listOfFaces.isEmpty()) {

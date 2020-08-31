@@ -27,11 +27,11 @@
 
 <br />
 <p align="center">
-<img src="Resources/Proof_of_Concept.gif"  width="45%" length="45%" >
+<img src="Resources/Proof_of_Concept.gif"  width="50%" length="50%" >
 </p>
 <p align="center">
-     Snippet based on Proof of Concept App </br>
-<a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Link to Full Video</a> 
+     Snippet based on proof of concept app </br>
+<a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Link to full video</a> 
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 

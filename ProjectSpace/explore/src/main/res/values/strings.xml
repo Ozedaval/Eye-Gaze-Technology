@@ -22,6 +22,7 @@
     <string name="right">Right</string>
     <string name="eye_gaze_optical_flow_ui">Eye Gaze Optical Flow UI</string>
     <string name="calibration">Calibration</string>
+    <string name="eye_gaze_obj_tracking_csrt">EYE GAZE OBJ TRACKING CSRT</string>
 
 
 </resources>

@@ -129,5 +129,11 @@ public class MainActivity extends AppCompatActivity {
         Intent miscIntent = new Intent(this, Miscellaneous.class);
         startActivity(miscIntent);
     }
+
+
+    public void startObjTrackingCSRT(View view) {
+        Intent miscIntent = new Intent(this, com.pwc.explore.eyegaze.opencvobjtrackingcsrt.EyeGazeEventActivity.class);
+        startActivity(miscIntent);
+    }
 }
 
