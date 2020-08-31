@@ -1,5 +1,4 @@
 include ':commsgaze'
 include ':explore'
 rootProject.name='ProjectSpace'
-include ':OpenCVLibrary'
-
+include ':opencv'

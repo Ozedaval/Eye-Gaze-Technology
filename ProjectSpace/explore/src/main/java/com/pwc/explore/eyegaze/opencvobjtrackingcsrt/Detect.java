@@ -101,6 +101,7 @@ public class Detect {
 
         /*TODO: This is for testing purposes*/
         Rect2d eye1Rect2d =null;
+        TrackerCSRT trackerCSRT = TrackerCSRT.create();
 
         /*Using the First Detected Face*/
         List<Rect> listOfFaces = faces.toList();
