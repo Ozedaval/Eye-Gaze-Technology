@@ -31,7 +31,7 @@
 </p>
 <p align="center">
      Snippet based on proof of concept app </br>
-<a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Link to Full Video</a> 
+<a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Link to full video</a> 
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
