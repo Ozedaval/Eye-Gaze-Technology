@@ -35,7 +35,14 @@
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
-* According to the World Health Organization, roughly 15% of the world's population live with some form of disability. Technology like Eye Gaze Technology can help disabled people who have neural diseases which prevent them from interacting physically with ease. However, Commercial products which use Eye gaze technology are usually expensive. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform and thus making eye gaze technology more affordable.
+* Background : According to the World Health Organization, roughly 15% of the world's population live with some form of disability. Technology like Eye Gaze Technology can help disabled people who have neural diseases which prevent them from interacting physically with ease. However, Commercial products which use Eye gaze technology are usually expensive. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform and thus making eye gaze technology more affordable.
+
+ **For Who?** : People who has difficulties communicating using speech and can't afford the current AAC(Augmentative and Alternative Communication) devices. </br>
+ Our Project is to create an **AAC tool** that is leveraged by smartphone front cameras. Unlike currently existing AAC devices, this will be more affordable as it operates on normal smartphone devices rather than special hardwares </br>
+
+<p align="center">
+<img src="Resources/trackPupils.png"  width="50%" length="50%">
+</p>
 
 * [**Stakeholders of the Project**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Stakeholders)
 
