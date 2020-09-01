@@ -24,8 +24,6 @@
 - [**Communication(Slack, Google Hangout,Whatsapp and Zoom)**](https://docs.google.com/document/d/1fOy_x4CNGdVu6nbyG_zbYGBBXU7Pvlio7XnqYfclkDY/edit)
 </details>
 
-
-<br />
 <p align="center">
 <img src="Resources/Proof_of_Concept.gif"  width="50%" length="50%" >
 </p>
@@ -36,16 +34,16 @@
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
 * Background : According to the World Health Organization, roughly 15% of the world's population live with some form of disability. Technology like Eye Gaze Technology can help disabled people who have neural diseases which prevent them from interacting physically with ease. However, Commercial products which use Eye gaze technology are usually expensive. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform and thus making eye gaze technology more affordable.
-* Our Project is to create an **AAC tool** that is leveraged by smartphone front cameras. Unlike currently existing AAC devices, this will be more affordable as it operates on normal smartphone devices rather than special hardwares
+* Our Project attempts to build an Augmentative and Alternative Communication **(AAC)** tool which can be used with eye gaze as an control.
 
- * **For Who?** : People who have difficulties communicating using speech and can't afford the current AAC (Augmentative and Alternative Communication) devices. </br>
- </br>
-
-<p align="center">
-<img src="Resources/trackPupils.png"  width="30%" length="30%" border="2">
-</p>
+* **For Who?** : People who have difficulties interacting with mobile devices and communicating using speech with ease. 
 
 * [**Stakeholders of the Project**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Stakeholders)
+</br>
+
+<p align="center">
+<img src="Resources/trackPupils.png" width="30%" length="30%" border="2">
+</p>
 
 
 <h2><a name = "Title2"> 2. Project Administration </a></h2>
