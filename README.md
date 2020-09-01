@@ -44,7 +44,7 @@
 
 
 * [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Team-Members-&-Roles)
-* [**Schedule**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Schedule)
+* [**Estimated Schedule**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Estimated-Schedule)
 * [**Deliverables**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 * [**Statement of Work**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 
