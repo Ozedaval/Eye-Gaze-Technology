@@ -95,12 +95,14 @@ public class Detect {
         MatOfRect faces = new MatOfRect();
         faceCascade.detectMultiScale(frameGray, faces);
 
-        List<Rect> eyeBoundary=null;
+        List<Rect> eyeBoundary= null;
         HashMap<Integer, Point[]> blob = new HashMap<>();
         Rect face = null;
 
-        /*TODO: This is for testing purposes*/
+        /*TODO: This is for testing the whether the extra module work or not*/
         Rect2d eye1Rect2d =null;
+        TrackerCSRT trackerCSRT = TrackerCSRT.create();
+        trackerCSRT.setInitialMask(Mat.eye(2,2,2));;
 
         /*Using the First Detected Face*/
         List<Rect> listOfFaces = faces.toList();
@@ -167,8 +169,8 @@ public class Detect {
         }
 
         /*sparseOpticalFlow Initiator/Calibration Alternator*/
-        if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
-            /*TODO : Insert object Tracking functionality here based on blob - iris co -ordinates (Cause we wanna do object tracking on the iris )*/
+        /* if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
+         *//*TODO : Insert object Tracking functionality here based on blob - iris co -ordinates (Cause we wanna do object tracking on the iris )*//*
             eye1Rect2d = changeRectType(eyeBoundary.get(0));//To be removed
             if (eye1Rect2d != null) {//To be removed
 
@@ -182,7 +184,7 @@ public class Detect {
                 trackerCSRT.update(frame,eye1Rect2d);//To be removed
             Rect eye1Rect = changeRectType(eye1Rect2d);//To be removed
             Imgproc.rectangle(frame,eye1Rect,new Scalar(244, 0, 10));//To be removed
-        }
+        }*/
         return frame;
     }
 

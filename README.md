@@ -24,27 +24,33 @@
 - [**Communication(Slack, Google Hangout,Whatsapp and Zoom)**](https://docs.google.com/document/d/1fOy_x4CNGdVu6nbyG_zbYGBBXU7Pvlio7XnqYfclkDY/edit)
 </details>
 
-
-<br />
 <p align="center">
-<img src="Resources/Proof_of_Concept.gif"  width="45%" length="45%" >
+<img src="Resources/Proof_of_Concept.gif"  width="50%" length="50%" >
 </p>
 <p align="center">
-     </br>
-<a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Link </a>  to Full Montage of Proof of Concept App
+     Snippet based on proof of concept app </br>
+<a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Link to full video</a> 
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
-* According to the World Health Organization, roughly 15% of the world's population live with some form of disability. Technology like Eye Gaze Technology can help disabled people who have neural diseases which prevent them from interacting physically with ease. However, Commercial products which use Eye gaze technology are usually expensive. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform and thus making eye gaze technology more affordable.
+* Background : According to the World Health Organization, roughly 15% of the world's population live with some form of disability. Technology like Eye Gaze Technology can help disabled people who have neural diseases which prevent them from interacting physically with ease. However, Commercial products which use Eye gaze technology are usually expensive. To promote the inclusivity of this technology, we are seeking to recreate this technology to leverage the smartphone platform and thus making eye gaze technology more affordable.
+* Our Project attempts to build an Augmentative and Alternative Communication **(AAC)** tool which can be used with eye gaze as an control.
+
+* **For Who?** : People who have difficulties interacting with mobile devices and communicating using speech with ease. 
 
 * [**Stakeholders of the Project**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Stakeholders)
+</br>
+
+<p align="center">
+<img src="Resources/trackPupils.png" width="30%" length="30%" border="2">
+</p>
 
 
 <h2><a name = "Title2"> 2. Project Administration </a></h2>
 
 
 * [**Team Members & Roles**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Team-Members-&-Roles)
-* [**Schedule**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Schedule)
+* [**Estimated Schedule**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Estimated-Schedule)
 * [**Deliverables**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 * [**Statement of Work**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
 
