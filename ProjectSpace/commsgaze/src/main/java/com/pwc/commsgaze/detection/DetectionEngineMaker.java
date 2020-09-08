@@ -2,7 +2,6 @@ package com.pwc.commsgaze.detection;
 
 /*If let's say the user wants to change the gaze detection approach*/
 public class DetectionEngineMaker {
-    /*TODO make sure */
     private Approach activeApproach;
     private static DetectionEngineMaker instance;
     private Detector detector;
@@ -17,8 +16,11 @@ public class DetectionEngineMaker {
     }
 
     public void setActiveApproach(Approach approach){
-      /*TODO add another data calsse containing various info for detector and use it's instance as a parameter for this function*/
+      /*TODO add another data class containing various info for detector and use it's instance as a parameter for this function*/
         detector = getDetector(approach);
+        if(approach != activeApproach && detector!= null){
+            detector.reset();
+        }
     }
 
 
