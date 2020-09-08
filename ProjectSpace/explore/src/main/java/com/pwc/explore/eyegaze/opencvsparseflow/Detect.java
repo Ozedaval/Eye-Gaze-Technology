@@ -46,9 +46,10 @@ public class Detect {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
+    private CascadeClassifier faceCascade;
+    private CascadeClassifier eyesCascade;
 
-
-    Detect() {
+    Detect(CascadeClassifier faceCascade,CascadeClassifier eyesCascade) {
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false*/
@@ -56,7 +57,9 @@ public class Detect {
         gazeEstimator = new GazeEstimator(0.33f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         isNeutralQueue = new LinkedList<>();
-        currentGazeStatus=GazeStatus.UNKNOWN;
+        currentGazeStatus = GazeStatus.UNKNOWN;
+        this.faceCascade = faceCascade;
+        this.eyesCascade = eyesCascade;
     }
 
 
@@ -71,12 +74,12 @@ public class Detect {
      * Note: "Sparse" Points are re-calibrated every 30 frames or if the face has significantly moved,given that Iris can be detected.
      * See https://docs.google.com/presentation/d/1f_IIDERz56QFGvuWGBGN9E3q1qTx5n0Pq30BDqufBJk/edit#slide=id.g857a29acf1_0_2481
      * @param frame: OpenCV multidimensional array like form of the Image.
-     * @param faceCascade: Classifier object to detect faces
-     * @param eyesCascade: Classifier object to detect eyes */
-    Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
+    */
+    Mat detect(Mat frame) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
         calculateNeedCalibration(false,false);
+
         Mat frameGray = new Mat();
 
         /*Creating a Grayscale version of the Image*/
@@ -87,7 +90,9 @@ public class Detect {
 
         /*Detecting faces*/
         MatOfRect faces = new MatOfRect();
+
         faceCascade.detectMultiScale(frameGray, faces);
+
 
         List<Rect> eyeBoundary=null;
         HashMap<Integer, Point[]> blob = new HashMap<>();
@@ -101,7 +106,7 @@ public class Detect {
             face = listOfFaces.get(0);
 
             /*Detections made smoother*/
-            face=faceDetectionSmoother.updateCoord(face);
+            face = faceDetectionSmoother.updateCoord(face);
 
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));

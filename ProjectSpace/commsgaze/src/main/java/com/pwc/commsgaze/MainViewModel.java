@@ -22,7 +22,7 @@ public class MainViewModel extends ViewModel {
         return isFirstRun;
     }
 
-    void initialisationDone() {
+    public void initialisationDone() {
         Log.d(TAG," InitialisationDone Called");
         isFirstRun.setValue(false);
     }

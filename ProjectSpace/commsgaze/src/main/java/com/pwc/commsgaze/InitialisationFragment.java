@@ -64,7 +64,7 @@ public class InitialisationFragment extends DialogFragment {
                     public void run() {
                         onDestroyView();
                     }
-                },3000);
+                },6000);
             }
             else {
                 while (!initialisationAsync.isCancelled()) {

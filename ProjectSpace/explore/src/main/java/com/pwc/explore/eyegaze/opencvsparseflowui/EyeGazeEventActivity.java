@@ -55,7 +55,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         binding.openCVCameraView.setCameraPermissionGranted();
         binding.openCVCameraView.disableFpsMeter();
         binding.openCVCameraView.setCvCameraViewListener(this);
-        detect=new Detect();
+
         faceCascade = new CascadeClassifier();
         eyesCascade = new CascadeClassifier();
         binding.openCVCameraView.bringToFront();
@@ -65,6 +65,8 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
+
+        detect=new Detect(faceCascade,eyesCascade);
     }
 
 
@@ -109,7 +111,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
                 }
             }
         });
-        return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
+        return detect.detect(inputFrame.rgba());
     }
 
     @Override
@@ -126,7 +128,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     }
 
     public void reCalibrate(View view) {
-        detect=new Detect();
+        detect=new Detect(faceCascade,eyesCascade);
         System.gc();
     }
 

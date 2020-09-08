@@ -29,13 +29,13 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected void onPreExecute() {
-        Context context=contextWeakReference.get();
+        Context context = contextWeakReference.get();
         Log.d(TAG," ProgressBar Done setup for progress bar");
         eyeModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_eye_tree_eyeglasses);
         faceModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt);
         try {
-            eyeModelOutputStream=context.openFileOutput("eyeModel.xml", MODE_PRIVATE);
-            faceModelOutputStream=context.openFileOutput("faceModel.xml", MODE_PRIVATE);
+            eyeModelOutputStream = context.openFileOutput("eyeModel.xml", MODE_PRIVATE);
+            faceModelOutputStream = context.openFileOutput("faceModel.xml", MODE_PRIVATE);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -44,7 +44,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... voids) {
-        /*TODO 1( Need to delete xml attached to apk in res/raw)*/
+        /*TODO (Need to delete xml attached to apk in res/raw)*/
         try {
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);

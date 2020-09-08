@@ -1,8 +1,10 @@
-package com.pwc.explore.eyegaze.opencvsparseflowui;
-
+package com.pwc.commsgaze.gazedetection.opencvsparseflow;
 
 import android.util.Log;
-import com.pwc.explore.Direction;
+import com.pwc.commsgaze.Direction;
+import com.pwc.commsgaze.gazedetection.DetectionEngine;
+import com.pwc.commsgaze.gazedetection.DirectionListener;
+
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -19,16 +21,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import static com.pwc.explore.Direction.LEFT;
-import static com.pwc.explore.Direction.NEUTRAL;
-import static com.pwc.explore.Direction.RIGHT;
-import static com.pwc.explore.Direction.UNKNOWN;
+import static com.pwc.commsgaze.Direction.LEFT;
+import static com.pwc.commsgaze.Direction.NEUTRAL;
+import static com.pwc.commsgaze.Direction.RIGHT;
+import static com.pwc.commsgaze.Direction.UNKNOWN;
 
-
-
-public class Detect {
-
-
+/* Does the Detection and tracking of the Iris*/
+public class Detect  {
 
     private boolean isFirstPairOfIrisFound;
     private SimpleBlobDetector simpleBlobDetector;
@@ -46,10 +45,9 @@ public class Detect {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
-    private CascadeClassifier faceCascade;
-    private CascadeClassifier eyesCascade;
 
-    Detect(CascadeClassifier faceCascade,CascadeClassifier eyesCascade){
+
+    Detect() {
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false*/
@@ -58,15 +56,23 @@ public class Detect {
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         isNeutralQueue = new LinkedList<>();
         currentGazeStatus=GazeStatus.UNKNOWN;
-        this.faceCascade =faceCascade;
-        this.eyesCascade = eyesCascade;
-
-
     }
 
 
-    /*Iris Detection*/
-    Mat detect(Mat frame) {
+    /**
+     * Detects and Tracks the Iris
+     * Firstly, Face and Eyes are detected using Object Detection via the respective classifiers.
+     * Then,the iris is detected via Blob Detection.
+     * Sparse Optical Flow is used;5 "Sparse" Points are set on the iris.
+     * Then the gaze is estimated based on :
+     *  Detected motion based on previous "Sparse" points and current "Sparse" points
+     *  Previous GazeStatus
+     * Note: "Sparse" Points are re-calibrated every 30 frames or if the face has significantly moved,given that Iris can be detected.
+     * See https://docs.google.com/presentation/d/1f_IIDERz56QFGvuWGBGN9E3q1qTx5n0Pq30BDqufBJk/edit#slide=id.g857a29acf1_0_2481
+     * @param frame: OpenCV multidimensional array like form of the Image.
+     * @param faceCascade: Classifier object to detect faces
+     * @param eyesCascade: Classifier object to detect eyes */
+    Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
         calculateNeedCalibration(false,false);
@@ -82,11 +88,11 @@ public class Detect {
         MatOfRect faces = new MatOfRect();
         faceCascade.detectMultiScale(frameGray, faces);
 
-
-
-        List<Rect> eyeBoundary=null;//TODO pull it down 
+        List<Rect> eyeBoundary=null;
         HashMap<Integer, Point[]> blob = new HashMap<>();
         Rect face = null;
+
+
 
         /*Using the First Detected Face*/
         List<Rect> listOfFaces = faces.toList();
@@ -94,13 +100,11 @@ public class Detect {
             face = listOfFaces.get(0);
 
             /*Detections made smoother*/
-            face=faceDetectionSmoother.updateCoord(face);
+            face = faceDetectionSmoother.updateCoord(face);
 
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
-
-
 
             if (!isFirstPairOfIrisFound || needCalibration) {
 
@@ -114,7 +118,6 @@ public class Detect {
                 for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
                     Rect eye = listOfEyes.get(i);
 
-
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x = face.x + eye.x;
                     eye.y = face.y + eye.y;
@@ -123,7 +126,6 @@ public class Detect {
                     eyesROI[i] = frame.submat(eye);
 
                     eyeBoundary.add(eye.clone());// avoiding references to the actual object
-
 
                     /*Displaying boundary of the detected eye*/
                     Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
@@ -137,32 +139,26 @@ public class Detect {
                     /*Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");*/
                     /*Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);*/
 
-
-
                     /*Finding Iris*/
                     KeyPoint[] blobsArray = blobs.toArray();
                     if (blobsArray.length != 0) {
                         Point blobCentre = blobsArray[0].pt;
                         blobCentre.x = blobCentre.x + eye.x;
                         blobCentre.y = blobCentre.y + eye.y;
-
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
                        /* Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
                         Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Centre Y"+blobCentre.y);*/
-
                         float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
                         blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
                     }
                 }
             }
-
         }
         else {
             direction= UNKNOWN;
         }
 
-        /*boolean isRecalibrationFrame=false;*/
-        /*sparseOpticalFlow Initiator/re-Calibration*/
+        /*sparseOpticalFlow Initiator/Calibration Alternator*/
         if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
             sparseOpticalFlowDetector.resetSparseOpticalFlow();
             for (Integer roiID : blob.keySet()) {
@@ -171,37 +167,34 @@ public class Detect {
             gazeEstimator.updateEyesBoundary(eyeBoundary);
             calculateNeedCalibration(true,hasFaceMoved(face));
             isFirstPairOfIrisFound = true;
-         /*   isRecalibrationFrame=true;*/
         }
-
-
         if (isFirstPairOfIrisFound) {
             HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowDetector.getROIPoints().clone();// For ease of debugging
             /*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*/
-            HashMap<Integer, Point[]> currentPoints = sparseOpticalFlowDetector.predictPoints(frameGray);
+            HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.predictPoints(frameGray);
             /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
-            direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,currentPoints),currentPoints);
-            /*Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );*/
+            direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
+            Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
             Point[][][] irisPredictedSparsePointss = new Point[][][]
-                    {{currentPoints.get(0)}, {currentPoints.get(1)}};
+                    {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
             for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
                 for (Point[] points : irisPredictedSparsePoints) {
                     if (points != null) {
                         for (Point point : points) {
                             Imgproc.circle(frame, point, 3, new Scalar(255, 0, 0));
-
                         }
                     }
                 }
             }
         }
-
-
         return frame;
     }
 
 
-
+    /**
+     * Checks if face has moved based on a threshold value and previous position of the Face
+     * @param currentFace: A Section of the current frame which focuses on the Face
+     * @return Value which mentions on whether face has moved or not*/
     private boolean hasFaceMoved(Rect currentFace){
         if(prevFace==null){
             prevFace=currentFace;
@@ -209,10 +202,8 @@ public class Detect {
         }
         else{
             float xDiff= Math.abs(prevFace.x-currentFace.x);
-
             float yDiff= Math.abs(prevFace.y-currentFace.y);
             /*   Log.d(TAG,"Face Movement xDiff:"+xDiff+" yDiff"+yDiff+"Threshold value "+prevFace.x*FACE_MOVEMENT_THRESHOLD);*/
-
             if(xDiff<(prevFace.x*FACE_MOVEMENT_THRESHOLD)&&yDiff<(prevFace.y*FACE_MOVEMENT_THRESHOLD)){
                 prevFace=currentFace;
                 return false;
@@ -223,7 +214,10 @@ public class Detect {
     }
 
 
-    /*Helper function to re-calibrate Optical Flow by using iris detection after N frames & when eyes are detected again*/
+    /**
+     * Helper function to re-calibrate Optical Flow by using iris detection after N frames & when iris are detected again
+     * @param calibrationIrisIdentified: If iris has been found
+     * @param hasFaceMoved: If face has moved in the current frame in comparison to the previous frame*/
     private void calculateNeedCalibration(boolean calibrationIrisIdentified,boolean hasFaceMoved) {
         if (!calibrationIrisIdentified) {
             frameCount++;
@@ -240,9 +234,14 @@ public class Detect {
                 needCalibration = true;
             }
         }
-
     }
 
+
+    /**
+     *Creates Points in relation to the iris centre co-ordinates and the iris radius
+     * @param irisCentre : Co-ordinates of the iris-centre
+     * @param irisRadius : Radius of the Iris
+     * @return A Point Array which has the relevant "Sparse" Points*/
     private Point[] getIrisSparsePoint(float irisRadius, Point irisCentre) {
         Point[] sparsePoints = new Point[5];
         sparsePoints[0] = irisCentre;
@@ -254,16 +253,20 @@ public class Detect {
     }
 
 
-    Direction getDirection() {
+
+    public Direction getDirection() {
         if (direction == null) {
-
             return UNKNOWN;
-
         }
         return direction;
     }
 
 
+    /**
+     * Check if the Iris detected are not redundant and are  2 unique Iris
+     * @param blob : Map which consist of the identified iris
+     * @return  true if Unique Iris is identified
+     */
     private boolean isUniqueIrisIdentified(HashMap<Integer, Point[]> blob) {
         if (blob.size() == 2) {
             if (blob.get(0) != null && blob.get(1) != null)
@@ -276,30 +279,26 @@ public class Detect {
     }
 
 
-    private Direction directionEstimator(Direction currentDirection, HashMap<Integer, Point[]> currentPoints){
+    /**
+     * Estimates the gaze direction based on current Gaze Direction and the current "Sparse" points
+     * @param currentDirection : Gaze Direction based on current frame
+     * @param currentPoints : Map which consists of the newly predicted/created "Sparse" Points*/
+    private Direction directionEstimator(Direction currentDirection,HashMap<Integer,Point[]>currentPoints){
         if(prevDirection==null){
             prevDirection=currentDirection;
             return currentDirection;
         }
-     /*   if(isRecalibrationFrame){
-            if(gazeEstimator.isNeutral(currentPoints,true)){
-                prevDirection=NEUTRAL;
-                currentGazeStatus=GazeStatus.NEUTRAL;
-                return NEUTRAL;
-            }
-        }*/
         Direction estimatedDirection=null;
         /*Log.d(TAG,"Before "+currentGazeStatus.toString()+ " CurrentDirection"+currentDirection.toString());*/
         if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
-                   if (prevDirection == NEUTRAL || prevDirection == LEFT) {
+                    if (prevDirection == NEUTRAL || prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.LEFT;
-
                     }  if (prevDirection == RIGHT) {
-                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
-                    }
-                   estimatedDirection=LEFT;
+                    currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                }
+                    estimatedDirection=LEFT;
                     break;
                 case RIGHT:
                     if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
@@ -321,19 +320,17 @@ public class Detect {
             }
         }
         else{
-
-            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,false));
+            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,true));
             if(isStableNeutral()){
                 currentGazeStatus=GazeStatus.NEUTRAL;
                 prevDirection=NEUTRAL;
                 Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");
                 return NEUTRAL;
             }
-
         }
         if(estimatedDirection!=null){
             prevDirection=estimatedDirection;
-           /* Log.d(TAG," if estimateddirection !=null : Estimated Direction "+estimatedDirection);*/
+            /* Log.d(TAG," if estimateddirection !=null : Estimated Direction "+estimatedDirection);*/
             return estimatedDirection;
         }
         /*Log.d(TAG," if estimateddirection ==null : Current Direction "+currentDirection);*/
@@ -342,67 +339,23 @@ public class Detect {
     }
 
 
+    /**
+     * Checks if the estimated Gaze Direction(Neutral) is a "True Positive"
+     * @return true if the estimated Neutral is actually neutral */
     private boolean isStableNeutral(){
         if(isNeutralQueue.size()< STABLE_NEUTRAL_QUEUE_THRESHOLD){
             return false;
         }
         else{
             boolean isStableNeutral=true;
-           for(int i=0;i<STABLE_NEUTRAL_QUEUE_THRESHOLD+1;i++){
-                   Boolean isNeutralVal = isNeutralQueue.poll();
-                   if (isNeutralVal != null) {
-                       isStableNeutral = isStableNeutral && isNeutralVal;
-                   }
-
-           }
-           isNeutralQueue.clear();
+            for(int i=0;i<STABLE_NEUTRAL_QUEUE_THRESHOLD+1;i++){
+                Boolean isNeutralVal = isNeutralQueue.poll();
+                if (isNeutralVal != null) {
+                    isStableNeutral = isStableNeutral && isNeutralVal;
+                }
+            }
+            isNeutralQueue.clear();
             return  isStableNeutral;
         }
-
     }
-  /*   private Direction directionEstimator(Direction currentDirection, HashMap<Integer, Point[]> currentPoints){
-        if(prevDirection==null){
-            prevDirection=currentDirection;
-            return currentDirection;
-        }
-
-        switch(prevDirection){
-            case NEUTRAL:
-                if(currentDirection== LEFT || currentDirection== RIGHT){
-                    return  currentDirection;
-                }
-            case LEFT:
-                if(currentDirection== NEUTRAL){
-                    if(gazeEstimator.isNeutral(currentPoints)){
-                        prevDirection = NEUTRAL;
-                        return NEUTRAL;
-                    }
-                    prevDirection= LEFT;
-                    return LEFT;
-                }else if(currentDirection== RIGHT){
-                    prevDirection= RIGHT;
-                    return NEUTRAL;
-                }
-            case RIGHT:
-                if(currentDirection== NEUTRAL){
-                    if(gazeEstimator.isNeutral(currentPoints)){
-                        prevDirection= NEUTRAL;
-                        return NEUTRAL;
-                    }
-                    Log.d(TAG,"NEUTRAL");
-                    prevDirection= RIGHT;
-                    return RIGHT;
-                }else if(currentDirection== LEFT){
-                    prevDirection= LEFT;
-                    return NEUTRAL;
-                }
-            default:
-                return currentDirection;
-
-        }
-    }
-*/
-
-
-
 }
