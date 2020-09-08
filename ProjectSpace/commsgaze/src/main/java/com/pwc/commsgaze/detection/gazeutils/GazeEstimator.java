@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.gazedetection.opencvsparseflow;
+package com.pwc.commsgaze.detection.gazeutils;
 
 import android.util.Log;
 import com.pwc.commsgaze.Direction;
@@ -16,12 +16,12 @@ public class GazeEstimator {
 
     private List<Rect> eyes;
     private Float threshold;
-    private static final String TAG= "GazeEstimator";
+    private static final String TAG = "GazeEstimator";
     /*The region within which if "Sparse" Points are expected to be if iris is in the "Neutral"*/
     private List<Rect> eyeNeutralBoundary;
 
 
-    GazeEstimator(Float threshold){
+    public GazeEstimator(Float threshold){
         this.threshold=threshold;
     }
 
@@ -29,7 +29,7 @@ public class GazeEstimator {
     /**
      * Calculates the "Neutral" Boundary  and updates eyeNeutralBoundary
      * @param eyes: The List of eye Boundaries */
-    void updateEyesBoundary(List<Rect> eyes) {
+    public void updateEyesBoundary(List<Rect> eyes) {
         this.eyes = eyes;
         eyeNeutralBoundary = new ArrayList<>();
         for (Rect eye : eyes) {
@@ -49,7 +49,7 @@ public class GazeEstimator {
      * @param currentPoint : Map of current "Sparse" points
      * @param toIncludeAll : Denotes whether to considerall "Sparse" points need to be within the eyeNeutralBoundary
      * @return When toIncludeAll is false, then True if majority of "Sparse" points within the eyeNeurtal Boundary  */
-    boolean isNeutral(HashMap<Integer,Point[]> currentPoint,boolean toIncludeAll) {
+    public boolean isNeutral(HashMap<Integer, Point[]> currentPoint, boolean toIncludeAll) {
         if (toIncludeAll) {
             if (eyeNeutralBoundary != null) {
                 HashMap<Boolean, Integer> neutralHashMap = new HashMap<>();
@@ -92,7 +92,7 @@ public class GazeEstimator {
      * Estimates the Eye Gaze based upon Previous "Sparse" points and Current "Sparse" points
      * @param currentPoints : Map consisting of current "Sparse" points
      * @param prevPoints : Map consisting of Previous "Sparse" points*/
-    Direction estimateGaze(HashMap<Integer,Point[]> prevPoints, HashMap<Integer,Point[]> currentPoints){
+    public Direction estimateGaze(HashMap<Integer, Point[]> prevPoints, HashMap<Integer, Point[]> currentPoints){
         return estimateMovement(prevPoints,currentPoints);
     }
 

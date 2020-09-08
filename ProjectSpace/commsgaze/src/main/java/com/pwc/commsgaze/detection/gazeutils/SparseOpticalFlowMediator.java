@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.gazedetection.opencvsparseflow;
+package com.pwc.commsgaze.detection.gazeutils;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -12,14 +12,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /*Takes care of the SparseOpticalFlow*/
-class SparseOpticalFlowDetector {
+public class SparseOpticalFlowMediator {
     private SparseOpticalFlow sparseOpticalFlow;
     private Mat prevFrame;
     private HashMap<Integer, Point[]> roiPoints;
     private Mat roiPointsMat;
-    private static final String TAG="SparseOFDetector";
+    private static final String TAG = "SparseOFDetector";
 
-    SparseOpticalFlowDetector(Size winSize,Integer numROI){
+    public SparseOpticalFlowMediator(Size winSize, Integer numROI){
         sparseOpticalFlow = SparsePyrLKOpticalFlow.create(winSize);
         roiPoints=new HashMap<>(numROI);
         /*Thread.dumpStack();*/
@@ -30,7 +30,7 @@ class SparseOpticalFlowDetector {
      * Predicts the "Sparse" points based upon the current frame
      * @param currentFrame : The current Frame based upon which the prediction should occur
      * @return a Map with the predicted "Sparse" points */
-    HashMap<Integer,Point[]> predictPoints(Mat currentFrame){
+    public HashMap<Integer,Point[]> predictPoints(Mat currentFrame){
 
         if(prevFrame==null){
             /*Log.d(TAG,"predicting Points for the first time");*/
@@ -111,19 +111,19 @@ class SparseOpticalFlowDetector {
     }
 
 
-    void setROIPoints(int roiID, Point[] points) {
+    public void setROIPoints(int roiID, Point[] points) {
         roiPoints.put(roiID,points);
         /*Log.d(TAG,"Setting up ROIPoints.Minor Check - Point 1 X"+ roiPoints.get(roiID)[0].x);*/
     }
 
 
-    HashMap<Integer, Point[]> getROIPoints() {
+    public HashMap<Integer, Point[]> getROIPoints() {
         return roiPoints;
     }
 
     /**
      * Resets the SparseOpticalFlow Algorithm and clears the Previous Frame */
-    void resetSparseOpticalFlow(){
+    public void resetSparseOpticalFlow(){
         if(sparseOpticalFlow!=null ) {
             sparseOpticalFlow.clear();
         }

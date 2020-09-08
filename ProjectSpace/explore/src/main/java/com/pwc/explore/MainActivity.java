@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean isFirstRun;
     private ActivityMainBinding binding;
     private FragmentTransaction fragmentTransaction;
-    private static final String TAG="MainActivity";
+    private static final String TAG = "MainActivity";
 
 
     @Override

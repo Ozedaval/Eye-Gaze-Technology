@@ -1,9 +1,12 @@
-package com.pwc.commsgaze.gazedetection.opencvsparseflow;
+package com.pwc.commsgaze.detection;
 
 import android.util.Log;
+
 import com.pwc.commsgaze.Direction;
-import com.pwc.commsgaze.gazedetection.DetectionEngine;
-import com.pwc.commsgaze.gazedetection.DirectionListener;
+import com.pwc.commsgaze.detection.gazeutils.DetectionSmoother;
+import com.pwc.commsgaze.detection.gazeutils.GazeEstimator;
+import com.pwc.commsgaze.detection.gazeutils.GazeStatus;
+import com.pwc.commsgaze.detection.gazeutils.SparseOpticalFlowMediator;
 
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
@@ -27,11 +30,11 @@ import static com.pwc.commsgaze.Direction.RIGHT;
 import static com.pwc.commsgaze.Direction.UNKNOWN;
 
 /* Does the Detection and tracking of the Iris*/
-public class Detect  {
+public class SparseFlowDetector extends Detector {
 
     private boolean isFirstPairOfIrisFound;
     private SimpleBlobDetector simpleBlobDetector;
-    private SparseOpticalFlowDetector sparseOpticalFlowDetector;
+    private SparseOpticalFlowMediator sparseOpticalFlowMediator;
     private static final String TAG = "Detect";
     private boolean needCalibration;
     private int frameCount;
@@ -47,11 +50,11 @@ public class Detect  {
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
 
 
-    Detect() {
+     SparseFlowDetector() {
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false*/
-        sparseOpticalFlowDetector = new SparseOpticalFlowDetector(new Size(30, 30), 2);
+        sparseOpticalFlowMediator = new SparseOpticalFlowMediator(new Size(30, 30), 2);
         gazeEstimator = new GazeEstimator(0.33f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         isNeutralQueue = new LinkedList<>();
@@ -160,18 +163,18 @@ public class Detect  {
 
         /*sparseOpticalFlow Initiator/Calibration Alternator*/
         if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
-            sparseOpticalFlowDetector.resetSparseOpticalFlow();
+            sparseOpticalFlowMediator.resetSparseOpticalFlow();
             for (Integer roiID : blob.keySet()) {
-                sparseOpticalFlowDetector.setROIPoints(roiID, blob.get(roiID));
+                sparseOpticalFlowMediator.setROIPoints(roiID, blob.get(roiID));
             }
             gazeEstimator.updateEyesBoundary(eyeBoundary);
             calculateNeedCalibration(true,hasFaceMoved(face));
             isFirstPairOfIrisFound = true;
         }
         if (isFirstPairOfIrisFound) {
-            HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowDetector.getROIPoints().clone();// For ease of debugging
+            HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowMediator.getROIPoints().clone();// For ease of debugging
             /*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*/
-            HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.predictPoints(frameGray);
+            HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowMediator.predictPoints(frameGray);
             /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
             direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
             Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
@@ -253,12 +256,17 @@ public class Detect  {
     }
 
 
-
+    @Override
     public Direction getDirection() {
         if (direction == null) {
             return UNKNOWN;
         }
         return direction;
+    }
+
+    @Override
+   public void reset() {
+        sparseOpticalFlowMediator.resetSparseOpticalFlow();
     }
 
 

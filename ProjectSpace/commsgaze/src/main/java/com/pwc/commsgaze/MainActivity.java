@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
+
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private Boolean isFirstRun;
     private ActivityMainBinding binding;
     private FragmentTransaction fragmentTransaction;
-    private static final String TAG="MainActivity";
+    private static final String TAG = "MainActivity";
+
 
 
     @Override
@@ -43,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
             }
         }
-        isFirstRun = ( getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
-                .getBoolean(getString(R.string.main_first_run_preference_key), true));
+        isFirstRun = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
+                .getBoolean(getString(R.string.main_first_run_preference_key), true);
 
         if (isFirstRun) {
             fragmentTransaction= getSupportFragmentManager().beginTransaction();
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
+
+
     }
 
 

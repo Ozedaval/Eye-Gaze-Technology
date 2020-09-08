@@ -1,27 +1,29 @@
-package com.pwc.commsgaze.gazedetection.opencvsparseflow;
+package com.pwc.commsgaze.detection.gazeutils;
 
 import android.util.Log;
 
 import org.opencv.core.Rect;
 
-/*Removes Jittery effect caused by Object Detection by using previous Rect of the
-* detected object;Uses Area or Co-ordinates based constraints to decide on
-* whether to readjust the Rect or not */
-class DetectionSmoother {
+/**
+ * Removes Jittery effect caused by Object Detection by using previous Rect of the
+ * detected object;Uses Area or Co-ordinates based constraints to decide on
+ * whether to readjust the Rect or not
+ * */
+public class DetectionSmoother {
 
     private Rect prevRect =null;
     private float THRESHOLD;
-    private static final String TAG="DetectionSmoother";
+    private static final String TAG = "DetectionSmoother";
 
-    DetectionSmoother(final float THRESHOLD){
-        this.THRESHOLD=THRESHOLD;
+    public DetectionSmoother(final float THRESHOLD){
+        this.THRESHOLD = THRESHOLD;
     }
 
     /**
      * Updates the Rect if the object detected has moved away based on the  Co-ordinates and THRESHOLD value
      * @param currentRect: The current Rect(section of the Frame/ Boundary of the object detected)  of the Object detected
      * @return The Updated Rect*/
-    Rect updateCoord(Rect currentRect){
+    public Rect updateCoord(Rect currentRect){
         if(prevRect == null){
             prevRect = currentRect;
             return currentRect;

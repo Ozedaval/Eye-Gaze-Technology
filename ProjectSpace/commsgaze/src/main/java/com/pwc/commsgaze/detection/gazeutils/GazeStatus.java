@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.gazedetection.opencvsparseflow;
+package com.pwc.commsgaze.detection.gazeutils;
 
 /*Describes the status of the gaze*/
 public enum GazeStatus {

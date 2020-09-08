@@ -102,7 +102,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     /**
      * To reset the tracking */
     public void reCalibrate(View view) {
-        detect=new Detect(faceCascade,eyesCascade);
+        detect = new Detect(faceCascade,eyesCascade);
         System.gc();
     }
 }
