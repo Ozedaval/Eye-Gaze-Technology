@@ -79,7 +79,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... voids) {
-        /*TODO: Need to delete xml attached to apk in res/raw*/
+        /*TODO: Need to delete xml and content data, which will attached to apk*/
         try {
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
