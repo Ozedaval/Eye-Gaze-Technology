@@ -73,7 +73,7 @@ public class NormalBayesClassifier extends StatModel {
     //
 
     /**
-     * Predicts the response for sample(s).
+     * Predicts the response for content_topic1_sample(s).
      *
      *     The method estimates the most probable classes for input vectors. Input vectors (one or more)
      *     are stored as rows of the matrix inputs. In case of multiple input vectors, there should be one
@@ -91,7 +91,7 @@ public class NormalBayesClassifier extends StatModel {
     }
 
     /**
-     * Predicts the response for sample(s).
+     * Predicts the response for content_topic1_sample(s).
      *
      *     The method estimates the most probable classes for input vectors. Input vectors (one or more)
      *     are stored as rows of the matrix inputs. In case of multiple input vectors, there should be one

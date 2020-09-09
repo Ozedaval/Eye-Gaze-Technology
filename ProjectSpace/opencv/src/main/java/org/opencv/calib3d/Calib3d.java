@@ -2772,7 +2772,7 @@ public class Calib3d {
      *    <b>CALIB_CB_EXHAUSTIVE</b> Run an exhaustive search to improve detection rate.
      *   </li>
      *   <li>
-     *    <b>CALIB_CB_ACCURACY</b> Up sample input image to improve sub-pixel accuracy due to aliasing effects.
+     *    <b>CALIB_CB_ACCURACY</b> Up content_topic1_sample input image to improve sub-pixel accuracy due to aliasing effects.
      *   </li>
      *   <li>
      *    <b>CALIB_CB_LARGER</b> The detected pattern is allowed to be larger than patternSize (see description).
@@ -2823,7 +2823,7 @@ public class Calib3d {
      * various environments. In addition, because of the localized radon
      * transformation it is beneficial to use round corners for the field corners
      * which are located on the outside of the board. The following figure illustrates
-     * a sample checkerboard optimized for the detection. However, any other checkerboard
+     * a content_topic1_sample checkerboard optimized for the detection. However, any other checkerboard
      * can be used as well.
      * ![Checkerboard](pics/checkerboard_radon.png)
      * @return automatically generated
@@ -10033,7 +10033,7 @@ public class Calib3d {
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
      * @param newImageSize New image resolution after rectification. The same size should be passed to
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * @param validPixROI1 Optional output rectangles inside the rectified images where all the pixels
@@ -10100,7 +10100,7 @@ public class Calib3d {
      * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
-     * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
+     * See below the screenshot from the stereo_calib.cpp content_topic1_sample. Some red horizontal lines pass through
      * the corresponding image regions. This means that the images are well rectified, which is what most
      * stereo correspondence algorithms rely on. The green rectangles are roi1 and roi2 . You see that
      * their interiors are all valid pixels.
@@ -10155,7 +10155,7 @@ public class Calib3d {
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
      * @param newImageSize New image resolution after rectification. The same size should be passed to
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * @param validPixROI1 Optional output rectangles inside the rectified images where all the pixels
@@ -10221,7 +10221,7 @@ public class Calib3d {
      * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
-     * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
+     * See below the screenshot from the stereo_calib.cpp content_topic1_sample. Some red horizontal lines pass through
      * the corresponding image regions. This means that the images are well rectified, which is what most
      * stereo correspondence algorithms rely on. The green rectangles are roi1 and roi2 . You see that
      * their interiors are all valid pixels.
@@ -10274,7 +10274,7 @@ public class Calib3d {
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
      * @param newImageSize New image resolution after rectification. The same size should be passed to
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -10339,7 +10339,7 @@ public class Calib3d {
      * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
-     * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
+     * See below the screenshot from the stereo_calib.cpp content_topic1_sample. Some red horizontal lines pass through
      * the corresponding image regions. This means that the images are well rectified, which is what most
      * stereo correspondence algorithms rely on. The green rectangles are roi1 and roi2 . You see that
      * their interiors are all valid pixels.
@@ -10389,7 +10389,7 @@ public class Calib3d {
      * pixels from the original images from the cameras are retained in the rectified images (no source
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -10454,7 +10454,7 @@ public class Calib3d {
      * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
-     * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
+     * See below the screenshot from the stereo_calib.cpp content_topic1_sample. Some red horizontal lines pass through
      * the corresponding image regions. This means that the images are well rectified, which is what most
      * stereo correspondence algorithms rely on. The green rectangles are roi1 and roi2 . You see that
      * their interiors are all valid pixels.
@@ -10503,7 +10503,7 @@ public class Calib3d {
      * pixels from the original images from the cameras are retained in the rectified images (no source
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -10568,7 +10568,7 @@ public class Calib3d {
      * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
-     * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
+     * See below the screenshot from the stereo_calib.cpp content_topic1_sample. Some red horizontal lines pass through
      * the corresponding image regions. This means that the images are well rectified, which is what most
      * stereo correspondence algorithms rely on. The green rectangles are roi1 and roi2 . You see that
      * their interiors are all valid pixels.
@@ -10616,7 +10616,7 @@ public class Calib3d {
      * pixels from the original images from the cameras are retained in the rectified images (no source
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -10681,7 +10681,7 @@ public class Calib3d {
      * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
-     * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
+     * See below the screenshot from the stereo_calib.cpp content_topic1_sample. Some red horizontal lines pass through
      * the corresponding image regions. This means that the images are well rectified, which is what most
      * stereo correspondence algorithms rely on. The green rectangles are roi1 and roi2 . You see that
      * their interiors are all valid pixels.
@@ -11155,7 +11155,7 @@ public class Calib3d {
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
      *     @param newImageSize New image resolution after rectification. The same size should be passed to
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     @param balance Sets the new focal length in range between the min focal length and the max focal
@@ -11190,7 +11190,7 @@ public class Calib3d {
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
      *     @param newImageSize New image resolution after rectification. The same size should be passed to
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     @param balance Sets the new focal length in range between the min focal length and the max focal
@@ -11224,7 +11224,7 @@ public class Calib3d {
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
      *     @param newImageSize New image resolution after rectification. The same size should be passed to
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     length. Balance is in range of [0, 1].
@@ -11256,7 +11256,7 @@ public class Calib3d {
      *     rectified views. And if the flag is not set, the function may still shift the images in the
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     initUndistortRectifyMap (see the stereo_calib.cpp content_topic1_sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     length. Balance is in range of [0, 1].
