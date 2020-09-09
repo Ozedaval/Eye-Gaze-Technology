@@ -46,8 +46,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             eyeModelOutputStream = context.openFileOutput("eyeModel.xml", MODE_PRIVATE);
             faceModelOutputStream = context.openFileOutput("faceModel.xml", MODE_PRIVATE);
 
-
-
             /*Loading content Streams*/
             Field[] fields = R.raw.class.getFields();
             contentOutputStreams = new ArrayList<>(fields.length);
@@ -90,7 +88,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
                 write(contentInputStreams.get(i),contentOutputStreams.get(i));
             }
 
-            /*TODO: Remove this once code - review is done */
+            /*TODO: Remove this once code - review is done, also remove the .jpg or add .jpg extension to all images under res/raw*/
             for(File file:contentExternalFiles) {
                 Log.d(TAG,"Abs "+file.getAbsolutePath());
                 Log.d(TAG,"Can "+file.getCanonicalPath());
