@@ -51,10 +51,10 @@ public class Detect {
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
     private TrackerCSRT trackerCSRT;
+    private CascadeClassifier faceCascade;
+    private CascadeClassifier eyesCascade;
 
-
-
-    Detect() {
+    Detect(CascadeClassifier faceCascade,CascadeClassifier eyesCascade){
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false*/
@@ -62,6 +62,8 @@ public class Detect {
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         isNeutralQueue = new LinkedList<>();
         currentGazeStatus= GazeStatus.UNKNOWN;
+        this.faceCascade = faceCascade;
+        this.eyesCascade = eyesCascade;
         //trackerCSRT= TrackerCSRT.create();
     }
 
@@ -77,9 +79,8 @@ public class Detect {
      * Note: "Sparse" Points are re-calibrated every 30 frames or if the face has significantly moved,given that Iris can be detected.
      * See https://docs.google.com/presentation/d/1f_IIDERz56QFGvuWGBGN9E3q1qTx5n0Pq30BDqufBJk/edit#slide=id.g857a29acf1_0_2481
      * @param frame: OpenCV multidimensional array like form of the Image.
-     * @param faceCascade: Classifier object to detect faces
-     * @param eyesCascade: Classifier object to detect eyes */
-    Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
+     */
+    Mat detect(Mat frame) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
         calculateNeedCalibration(false,false);

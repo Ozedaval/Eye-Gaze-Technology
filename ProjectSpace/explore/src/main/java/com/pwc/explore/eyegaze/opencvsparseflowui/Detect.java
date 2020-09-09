@@ -46,10 +46,10 @@ public class Detect {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
+    private CascadeClassifier faceCascade;
+    private CascadeClassifier eyesCascade;
 
-
-
-    Detect() {
+    Detect(CascadeClassifier faceCascade,CascadeClassifier eyesCascade){
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false*/
@@ -58,13 +58,15 @@ public class Detect {
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         isNeutralQueue = new LinkedList<>();
         currentGazeStatus=GazeStatus.UNKNOWN;
+        this.faceCascade =faceCascade;
+        this.eyesCascade = eyesCascade;
 
 
     }
 
 
     /*Iris Detection*/
-    Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
+    Mat detect(Mat frame) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
         calculateNeedCalibration(false,false);

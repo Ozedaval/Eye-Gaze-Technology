@@ -4,6 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     ndkVersion "21.3.6528147"
+
     viewBinding {
         enabled = true
     }
@@ -15,8 +16,20 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-    }
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
 
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -41,5 +54,4 @@ dependencies {
     implementation project(path: ':opencv')
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.quickbirdstudios:opencv:4.3.0-contrib'
 }
