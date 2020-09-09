@@ -1,12 +1,17 @@
 package com.pwc.commsgaze;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -42,12 +47,15 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     }
 
 
+
     @Override
     protected Boolean doInBackground(Void... voids) {
         /*TODO (Need to delete xml attached to apk in res/raw)*/
         try {
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
+            createExternalStoragePrivateFile();
+            Log.d(TAG,"External App - Specific Storage  has Sample?" + hasExternalStoragePrivatePicture());
             return true;
         } catch (IOException  e) {
             e.printStackTrace();
@@ -78,7 +86,37 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         } finally {
             in.close();
             out.close();
+
         }
         Log.d("Initialisation ", "Done  Copying");
+    }
+
+    /**
+     * TODO Add JavaDocs later
+     * https://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String)*/
+    void createExternalStoragePrivateFile() {
+        Context context = contextWeakReference.get();
+        File file = new File(context.getExternalFilesDir(null), "Sample.jpg");
+
+        try {
+            InputStream in = context.getResources().openRawResource(R.raw.sample);
+            OutputStream out = new FileOutputStream(file);
+            byte[] data = new byte[in.available()];
+            in.read(data);
+            out.write(data);
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            Log.w("ExternalStorage", "Error writing " + file, e);
+        }
+    }
+
+    /*https://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String)*/
+    boolean hasExternalStoragePrivatePicture() {
+        // Get path for the file on external storage.  If external
+        // storage is not currently mounted this will fail.
+        Context context = contextWeakReference.get();
+        File file = new File(context.getExternalFilesDir(null), "Sample.jpg");
+        return file.exists();
     }
 }
