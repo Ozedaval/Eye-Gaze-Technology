@@ -40,10 +40,10 @@ public class BackgroundSubtractorKNN extends BackgroundSubtractor {
     //
 
     /**
-     * Returns the threshold on the squared distance between the pixel and the sample
+     * Returns the threshold on the squared distance between the pixel and the content_topic1_sample
      *
-     *     The threshold on the squared distance between the pixel and the sample to decide whether a pixel is
-     *     close to a data sample.
+     *     The threshold on the squared distance between the pixel and the content_topic1_sample to decide whether a pixel is
+     *     close to a data content_topic1_sample.
      * @return automatically generated
      */
     public double getDist2Threshold() {

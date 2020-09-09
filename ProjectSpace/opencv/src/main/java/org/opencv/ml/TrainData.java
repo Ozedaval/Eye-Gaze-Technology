@@ -363,9 +363,9 @@ public class TrainData {
      *         (CV_32S) containing 0-based variable indices or byte vector (CV_8U) containing a mask of
      *         active variables.
      *     @param sampleIdx vector specifying which samples to use for training. It can be an integer
-     *         vector (CV_32S) containing 0-based sample indices or byte vector (CV_8U) containing a mask
+     *         vector (CV_32S) containing 0-based content_topic1_sample indices or byte vector (CV_8U) containing a mask
      *         of training samples.
-     *     @param sampleWeights optional vector with weights for each sample. It should have CV_32F type.
+     *     @param sampleWeights optional vector with weights for each content_topic1_sample. It should have CV_32F type.
      *     @param varType optional vector of type CV_8U and size `&lt;number_of_variables_in_samples&gt; +
      *         &lt;number_of_variables_in_responses&gt;`, containing types of each input and output variable. See
      *         ml::VariableTypes.
@@ -388,9 +388,9 @@ public class TrainData {
      *         (CV_32S) containing 0-based variable indices or byte vector (CV_8U) containing a mask of
      *         active variables.
      *     @param sampleIdx vector specifying which samples to use for training. It can be an integer
-     *         vector (CV_32S) containing 0-based sample indices or byte vector (CV_8U) containing a mask
+     *         vector (CV_32S) containing 0-based content_topic1_sample indices or byte vector (CV_8U) containing a mask
      *         of training samples.
-     *     @param sampleWeights optional vector with weights for each sample. It should have CV_32F type.
+     *     @param sampleWeights optional vector with weights for each content_topic1_sample. It should have CV_32F type.
      *         &lt;number_of_variables_in_responses&gt;`, containing types of each input and output variable. See
      *         ml::VariableTypes.
      * @return automatically generated
@@ -412,7 +412,7 @@ public class TrainData {
      *         (CV_32S) containing 0-based variable indices or byte vector (CV_8U) containing a mask of
      *         active variables.
      *     @param sampleIdx vector specifying which samples to use for training. It can be an integer
-     *         vector (CV_32S) containing 0-based sample indices or byte vector (CV_8U) containing a mask
+     *         vector (CV_32S) containing 0-based content_topic1_sample indices or byte vector (CV_8U) containing a mask
      *         of training samples.
      *         &lt;number_of_variables_in_responses&gt;`, containing types of each input and output variable. See
      *         ml::VariableTypes.
@@ -434,7 +434,7 @@ public class TrainData {
      *     @param varIdx vector specifying which variables to use for training. It can be an integer vector
      *         (CV_32S) containing 0-based variable indices or byte vector (CV_8U) containing a mask of
      *         active variables.
-     *         vector (CV_32S) containing 0-based sample indices or byte vector (CV_8U) containing a mask
+     *         vector (CV_32S) containing 0-based content_topic1_sample indices or byte vector (CV_8U) containing a mask
      *         of training samples.
      *         &lt;number_of_variables_in_responses&gt;`, containing types of each input and output variable. See
      *         ml::VariableTypes.
@@ -455,7 +455,7 @@ public class TrainData {
      *         categorical)
      *         (CV_32S) containing 0-based variable indices or byte vector (CV_8U) containing a mask of
      *         active variables.
-     *         vector (CV_32S) containing 0-based sample indices or byte vector (CV_8U) containing a mask
+     *         vector (CV_32S) containing 0-based content_topic1_sample indices or byte vector (CV_8U) containing a mask
      *         of training samples.
      *         &lt;number_of_variables_in_responses&gt;`, containing types of each input and output variable. See
      *         ml::VariableTypes.

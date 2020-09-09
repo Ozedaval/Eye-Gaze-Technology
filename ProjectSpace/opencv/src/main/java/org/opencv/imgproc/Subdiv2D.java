@@ -243,7 +243,7 @@ public class Subdiv2D {
      *   </li>
      * </ul>
      *
-     *     ![sample output](pics/quadedge.png)
+     *     ![content_topic1_sample output](pics/quadedge.png)
      *
      *     @return edge ID related to the input edge.
      */

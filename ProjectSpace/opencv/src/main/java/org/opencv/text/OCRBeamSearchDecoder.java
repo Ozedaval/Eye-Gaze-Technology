@@ -15,7 +15,7 @@ import org.opencv.text.OCRBeamSearchDecoder;
  * <ul>
  *   <li>
  *       (C++) An example on using OCRBeamSearchDecoder recognition combined with scene text detection can
- *         be found at the demo sample:
+ *         be found at the demo content_topic1_sample:
  *         &lt;https://github.com/opencv/opencv_contrib/blob/master/modules/text/samples/word_recognition.cpp&gt;
  *   </li>
  * </ul>

@@ -18,19 +18,19 @@ import org.opencv.core.Mat;
  * <b>Note:</b>
  * <ul>
  *   <li>
- *    (C++) A basic sample on using the %VideoCapture interface can be found at
+ *    (C++) A basic content_topic1_sample on using the %VideoCapture interface can be found at
  *     {@code OPENCV_SOURCE_CODE/samples/cpp/videocapture_starter.cpp}
  *   </li>
  *   <li>
- *    (Python) A basic sample on using the %VideoCapture interface can be found at
+ *    (Python) A basic content_topic1_sample on using the %VideoCapture interface can be found at
  *     {@code OPENCV_SOURCE_CODE/samples/python/video.py}
  *   </li>
  *   <li>
- *    (Python) A multi threaded video processing sample can be found at
+ *    (Python) A multi threaded video processing content_topic1_sample can be found at
  *     {@code OPENCV_SOURCE_CODE/samples/python/video_threaded.py}
  *   </li>
  *   <li>
- *    (Python) %VideoCapture sample showcasing some features of the Video4Linux2 backend
+ *    (Python) %VideoCapture content_topic1_sample showcasing some features of the Video4Linux2 backend
  *     {@code OPENCV_SOURCE_CODE/samples/python/video_v4l2.py}
  *   </li>
  * </ul>
