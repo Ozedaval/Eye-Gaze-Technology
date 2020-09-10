@@ -60,7 +60,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
 
-        detect=new Detect(faceCascade,eyesCascade);
+        detect=new Detect();
     }
 
 
@@ -83,7 +83,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
                 binding.eventTextView.setText(detect.getDirection()+"");
             }
         });
-        return detect.detect(inputFrame.rgba());
+        return detect.detect(inputFrame.rgba(), faceCascade, eyesCascade);
     }
 
 
@@ -103,7 +103,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     /**
      * To reset the tracking */
     public void reCalibrate(View view) {
-        detect=new Detect(faceCascade,eyesCascade);
+        detect=new Detect();
         System.gc();
     }
 }
