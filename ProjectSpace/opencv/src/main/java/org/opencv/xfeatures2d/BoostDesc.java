@@ -14,7 +14,7 @@ import org.opencv.xfeatures2d.BoostDesc;
  * desc type of descriptor to use, BoostDesc::BINBOOST_256 is default (256 bit long dimension)
  * Available types are: BoostDesc::BGM, BoostDesc::BGM_HARD, BoostDesc::BGM_BILINEAR, BoostDesc::LBGM,
  * BoostDesc::BINBOOST_64, BoostDesc::BINBOOST_128, BoostDesc::BINBOOST_256
- * use_orientation content_topic1_sample patterns using keypoints orientation, enabled by default
+ * use_orientation content_topic1_sample1 patterns using keypoints orientation, enabled by default
  * scale_factor adjust the sampling window of detected keypoints
  * 6.25f is default and fits for KAZE, SURF detected keypoints window ratio
  * 6.75f should be the scale for SIFT detected keypoints window ratio

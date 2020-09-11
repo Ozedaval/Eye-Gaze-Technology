@@ -126,7 +126,7 @@ public class BackgroundSubtractorMOG2 extends BackgroundSubtractor {
     /**
      * Returns the variance threshold for the pixel-model match
      *
-     *     The main threshold on the squared Mahalanobis distance to decide if the content_topic1_sample is well described by
+     *     The main threshold on the squared Mahalanobis distance to decide if the content_topic1_sample1 is well described by
      *     the background model or not. Related to Cthr from the paper.
      * @return automatically generated
      */
@@ -142,7 +142,7 @@ public class BackgroundSubtractorMOG2 extends BackgroundSubtractor {
     /**
      * Returns the variance threshold for the pixel-model match used for new mixture component generation
      *
-     *     Threshold for the squared Mahalanobis distance that helps decide when a content_topic1_sample is close to the
+     *     Threshold for the squared Mahalanobis distance that helps decide when a content_topic1_sample1 is close to the
      *     existing components (corresponds to Tg in the paper). If a pixel is not close to any component, it
      *     is considered foreground or added as a new component. 3 sigma =&gt; Tg=3\*3=9 is default. A smaller Tg
      *     value generates more components. A higher Tg value may result in a small number of components but

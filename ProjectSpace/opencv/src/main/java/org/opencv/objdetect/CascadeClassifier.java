@@ -425,7 +425,7 @@ public class CascadeClassifier {
      *     For each resulting detection, {@code levelWeights} will then contain the certainty of classification at the final stage.
      *     This value can then be used to separate strong from weaker classifications.
      *
-     *     A code content_topic1_sample on how to use it efficiently can be found below:
+     *     A code content_topic1_sample1 on how to use it efficiently can be found below:
      *     <code>
      *     Mat img;
      *     vector&lt;double&gt; weights;
@@ -460,7 +460,7 @@ public class CascadeClassifier {
      *     For each resulting detection, {@code levelWeights} will then contain the certainty of classification at the final stage.
      *     This value can then be used to separate strong from weaker classifications.
      *
-     *     A code content_topic1_sample on how to use it efficiently can be found below:
+     *     A code content_topic1_sample1 on how to use it efficiently can be found below:
      *     <code>
      *     Mat img;
      *     vector&lt;double&gt; weights;
@@ -494,7 +494,7 @@ public class CascadeClassifier {
      *     For each resulting detection, {@code levelWeights} will then contain the certainty of classification at the final stage.
      *     This value can then be used to separate strong from weaker classifications.
      *
-     *     A code content_topic1_sample on how to use it efficiently can be found below:
+     *     A code content_topic1_sample1 on how to use it efficiently can be found below:
      *     <code>
      *     Mat img;
      *     vector&lt;double&gt; weights;
@@ -527,7 +527,7 @@ public class CascadeClassifier {
      *     For each resulting detection, {@code levelWeights} will then contain the certainty of classification at the final stage.
      *     This value can then be used to separate strong from weaker classifications.
      *
-     *     A code content_topic1_sample on how to use it efficiently can be found below:
+     *     A code content_topic1_sample1 on how to use it efficiently can be found below:
      *     <code>
      *     Mat img;
      *     vector&lt;double&gt; weights;
@@ -559,7 +559,7 @@ public class CascadeClassifier {
      *     For each resulting detection, {@code levelWeights} will then contain the certainty of classification at the final stage.
      *     This value can then be used to separate strong from weaker classifications.
      *
-     *     A code content_topic1_sample on how to use it efficiently can be found below:
+     *     A code content_topic1_sample1 on how to use it efficiently can be found below:
      *     <code>
      *     Mat img;
      *     vector&lt;double&gt; weights;
@@ -590,7 +590,7 @@ public class CascadeClassifier {
      *     For each resulting detection, {@code levelWeights} will then contain the certainty of classification at the final stage.
      *     This value can then be used to separate strong from weaker classifications.
      *
-     *     A code content_topic1_sample on how to use it efficiently can be found below:
+     *     A code content_topic1_sample1 on how to use it efficiently can be found below:
      *     <code>
      *     Mat img;
      *     vector&lt;double&gt; weights;
@@ -620,7 +620,7 @@ public class CascadeClassifier {
      *     For each resulting detection, {@code levelWeights} will then contain the certainty of classification at the final stage.
      *     This value can then be used to separate strong from weaker classifications.
      *
-     *     A code content_topic1_sample on how to use it efficiently can be found below:
+     *     A code content_topic1_sample1 on how to use it efficiently can be found below:
      *     <code>
      *     Mat img;
      *     vector&lt;double&gt; weights;

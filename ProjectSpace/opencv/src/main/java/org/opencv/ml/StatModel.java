@@ -137,7 +137,7 @@ public class StatModel extends Algorithm {
     //
 
     /**
-     * Predicts response(s) for the provided content_topic1_sample(s)
+     * Predicts response(s) for the provided content_topic1_sample1(s)
      *
      *     @param samples The input samples, floating-point matrix
      *     @param results The optional output matrix of results.
@@ -149,7 +149,7 @@ public class StatModel extends Algorithm {
     }
 
     /**
-     * Predicts response(s) for the provided content_topic1_sample(s)
+     * Predicts response(s) for the provided content_topic1_sample1(s)
      *
      *     @param samples The input samples, floating-point matrix
      *     @param results The optional output matrix of results.
@@ -160,7 +160,7 @@ public class StatModel extends Algorithm {
     }
 
     /**
-     * Predicts response(s) for the provided content_topic1_sample(s)
+     * Predicts response(s) for the provided content_topic1_sample1(s)
      *
      *     @param samples The input samples, floating-point matrix
      * @return automatically generated

@@ -135,21 +135,21 @@ public class EM extends StatModel {
 
 
     //
-    // C++:  Vec2d cv::ml::EM::predict2(Mat content_topic1_sample, Mat& probs)
+    // C++:  Vec2d cv::ml::EM::predict2(Mat content_topic1_sample1, Mat& probs)
     //
 
     /**
      * Returns a likelihood logarithm value and an index of the most probable mixture component
-     *     for the given content_topic1_sample.
+     *     for the given content_topic1_sample1.
      *
-     *     @param sample A content_topic1_sample for classification. It should be a one-channel matrix of
+     *     @param sample A content_topic1_sample1 for classification. It should be a one-channel matrix of
      *         \(1 \times dims\) or \(dims \times 1\) size.
      *     @param probs Optional output matrix that contains posterior probabilities of each component
-     *         given the content_topic1_sample. It has \(1 \times nclusters\) size and CV_64FC1 type.
+     *         given the content_topic1_sample1. It has \(1 \times nclusters\) size and CV_64FC1 type.
      *
      *     The method returns a two-element double vector. Zero element is a likelihood logarithm value for
-     *     the content_topic1_sample. First element is an index of the most probable mixture component for the given
-     *     content_topic1_sample.
+     *     the content_topic1_sample1. First element is an index of the most probable mixture component for the given
+     *     content_topic1_sample1.
      * @return automatically generated
      */
     public double[] predict2(Mat sample, Mat probs) {
@@ -169,7 +169,7 @@ public class EM extends StatModel {
      *     \(S_k\) of mixture components.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param means0 Initial means \(a_k\) of mixture components. It is a one-channel matrix of
      *         \(nclusters \times dims\) size. If the matrix does not have CV_64F type it will be
@@ -181,12 +181,12 @@ public class EM extends StatModel {
      *     @param weights0 Initial weights \(\pi_k\) of mixture components. It should be a one-channel
      *         floating-point matrix with \(1 \times nclusters\) or \(nclusters \times 1\) size.
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
-     *     @param labels The optional output "class label" for each content_topic1_sample:
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *     @param labels The optional output "class label" for each content_topic1_sample1:
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
      *     @param probs The optional output matrix that contains posterior probabilities of each Gaussian
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -202,7 +202,7 @@ public class EM extends StatModel {
      *     \(S_k\) of mixture components.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param means0 Initial means \(a_k\) of mixture components. It is a one-channel matrix of
      *         \(nclusters \times dims\) size. If the matrix does not have CV_64F type it will be
@@ -214,11 +214,11 @@ public class EM extends StatModel {
      *     @param weights0 Initial weights \(\pi_k\) of mixture components. It should be a one-channel
      *         floating-point matrix with \(1 \times nclusters\) or \(nclusters \times 1\) size.
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
-     *     @param labels The optional output "class label" for each content_topic1_sample:
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *     @param labels The optional output "class label" for each content_topic1_sample1:
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -234,7 +234,7 @@ public class EM extends StatModel {
      *     \(S_k\) of mixture components.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param means0 Initial means \(a_k\) of mixture components. It is a one-channel matrix of
      *         \(nclusters \times dims\) size. If the matrix does not have CV_64F type it will be
@@ -246,10 +246,10 @@ public class EM extends StatModel {
      *     @param weights0 Initial weights \(\pi_k\) of mixture components. It should be a one-channel
      *         floating-point matrix with \(1 \times nclusters\) or \(nclusters \times 1\) size.
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -265,7 +265,7 @@ public class EM extends StatModel {
      *     \(S_k\) of mixture components.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param means0 Initial means \(a_k\) of mixture components. It is a one-channel matrix of
      *         \(nclusters \times dims\) size. If the matrix does not have CV_64F type it will be
@@ -276,10 +276,10 @@ public class EM extends StatModel {
      *         further computing.
      *     @param weights0 Initial weights \(\pi_k\) of mixture components. It should be a one-channel
      *         floating-point matrix with \(1 \times nclusters\) or \(nclusters \times 1\) size.
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -295,7 +295,7 @@ public class EM extends StatModel {
      *     \(S_k\) of mixture components.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param means0 Initial means \(a_k\) of mixture components. It is a one-channel matrix of
      *         \(nclusters \times dims\) size. If the matrix does not have CV_64F type it will be
@@ -305,10 +305,10 @@ public class EM extends StatModel {
      *         do not have CV_64F type they will be converted to the inner matrices of such type for the
      *         further computing.
      *         floating-point matrix with \(1 \times nclusters\) or \(nclusters \times 1\) size.
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -324,7 +324,7 @@ public class EM extends StatModel {
      *     \(S_k\) of mixture components.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param means0 Initial means \(a_k\) of mixture components. It is a one-channel matrix of
      *         \(nclusters \times dims\) size. If the matrix does not have CV_64F type it will be
@@ -333,10 +333,10 @@ public class EM extends StatModel {
      *         do not have CV_64F type they will be converted to the inner matrices of such type for the
      *         further computing.
      *         floating-point matrix with \(1 \times nclusters\) or \(nclusters \times 1\) size.
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -357,25 +357,25 @@ public class EM extends StatModel {
      *
      *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
      *     responses (class labels or function values) as input. Instead, it computes the *Maximum
-     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample set, stores all the
+     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample1 set, stores all the
      *     parameters inside the structure: \(p_{i,k}\) in probs, \(a_k\) in means , \(S_k\) in
      *     covs[k], \(\pi_k\) in weights , and optionally computes the output "class label" for each
-     *     content_topic1_sample: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
-     *     probable mixture component for each content_topic1_sample).
+     *     content_topic1_sample1: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
+     *     probable mixture component for each content_topic1_sample1).
      *
      *     The trained model can be used further for prediction, just like any other classifier. The
      *     trained model is similar to the NormalBayesClassifier.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
-     *     @param labels The optional output "class label" for each content_topic1_sample:
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *     @param labels The optional output "class label" for each content_topic1_sample1:
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
      *     @param probs The optional output matrix that contains posterior probabilities of each Gaussian
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -391,24 +391,24 @@ public class EM extends StatModel {
      *
      *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
      *     responses (class labels or function values) as input. Instead, it computes the *Maximum
-     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample set, stores all the
+     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample1 set, stores all the
      *     parameters inside the structure: \(p_{i,k}\) in probs, \(a_k\) in means , \(S_k\) in
      *     covs[k], \(\pi_k\) in weights , and optionally computes the output "class label" for each
-     *     content_topic1_sample: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
-     *     probable mixture component for each content_topic1_sample).
+     *     content_topic1_sample1: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
+     *     probable mixture component for each content_topic1_sample1).
      *
      *     The trained model can be used further for prediction, just like any other classifier. The
      *     trained model is similar to the NormalBayesClassifier.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
-     *     @param labels The optional output "class label" for each content_topic1_sample:
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *     @param labels The optional output "class label" for each content_topic1_sample1:
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -424,23 +424,23 @@ public class EM extends StatModel {
      *
      *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
      *     responses (class labels or function values) as input. Instead, it computes the *Maximum
-     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample set, stores all the
+     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample1 set, stores all the
      *     parameters inside the structure: \(p_{i,k}\) in probs, \(a_k\) in means , \(S_k\) in
      *     covs[k], \(\pi_k\) in weights , and optionally computes the output "class label" for each
-     *     content_topic1_sample: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
-     *     probable mixture component for each content_topic1_sample).
+     *     content_topic1_sample1: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
+     *     probable mixture component for each content_topic1_sample1).
      *
      *     The trained model can be used further for prediction, just like any other classifier. The
      *     trained model is similar to the NormalBayesClassifier.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -456,22 +456,22 @@ public class EM extends StatModel {
      *
      *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
      *     responses (class labels or function values) as input. Instead, it computes the *Maximum
-     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample set, stores all the
+     *     Likelihood Estimate* of the Gaussian mixture parameters from an input content_topic1_sample1 set, stores all the
      *     parameters inside the structure: \(p_{i,k}\) in probs, \(a_k\) in means , \(S_k\) in
      *     covs[k], \(\pi_k\) in weights , and optionally computes the output "class label" for each
-     *     content_topic1_sample: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
-     *     probable mixture component for each content_topic1_sample).
+     *     content_topic1_sample1: \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most
+     *     probable mixture component for each content_topic1_sample1).
      *
      *     The trained model can be used further for prediction, just like any other classifier. The
      *     trained model is similar to the NormalBayesClassifier.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -491,16 +491,16 @@ public class EM extends StatModel {
      *     \(p_{i,k}\) to use this option.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param probs0 the probabilities
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
-     *     @param labels The optional output "class label" for each content_topic1_sample:
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *     @param labels The optional output "class label" for each content_topic1_sample1:
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
      *     @param probs The optional output matrix that contains posterior probabilities of each Gaussian
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -515,15 +515,15 @@ public class EM extends StatModel {
      *     \(p_{i,k}\) to use this option.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param probs0 the probabilities
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
-     *     @param labels The optional output "class label" for each content_topic1_sample:
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *     @param labels The optional output "class label" for each content_topic1_sample1:
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -538,14 +538,14 @@ public class EM extends StatModel {
      *     \(p_{i,k}\) to use this option.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param probs0 the probabilities
      *     @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -560,13 +560,13 @@ public class EM extends StatModel {
      *     \(p_{i,k}\) to use this option.
      *
      *     @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
-     *         one-channel matrix, each row of which is a content_topic1_sample. If the matrix does not have CV_64F type
+     *         one-channel matrix, each row of which is a content_topic1_sample1. If the matrix does not have CV_64F type
      *         it will be converted to the inner matrix of such type for the further computing.
      *     @param probs0 the probabilities
-     *         each content_topic1_sample. It has \(nsamples \times 1\) size and CV_64FC1 type.
+     *         each content_topic1_sample1. It has \(nsamples \times 1\) size and CV_64FC1 type.
      *         \(\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N\) (indices of the most probable
-     *         mixture component for each content_topic1_sample). It has \(nsamples \times 1\) size and CV_32SC1 type.
-     *         mixture component given the each content_topic1_sample. It has \(nsamples \times nclusters\) size and
+     *         mixture component for each content_topic1_sample1). It has \(nsamples \times 1\) size and CV_32SC1 type.
+     *         mixture component given the each content_topic1_sample1. It has \(nsamples \times nclusters\) size and
      *         CV_64FC1 type.
      * @return automatically generated
      */
@@ -584,7 +584,7 @@ public class EM extends StatModel {
      *
      *     @param samples The input samples, floating-point matrix
      *     @param results The optional output \( nSamples \times nClusters\) matrix of results. It contains
-     *     posterior probabilities for each content_topic1_sample from the input
+     *     posterior probabilities for each content_topic1_sample1 from the input
      *     @param flags This parameter will be ignored
      * @return automatically generated
      */
@@ -597,7 +597,7 @@ public class EM extends StatModel {
      *
      *     @param samples The input samples, floating-point matrix
      *     @param results The optional output \( nSamples \times nClusters\) matrix of results. It contains
-     *     posterior probabilities for each content_topic1_sample from the input
+     *     posterior probabilities for each content_topic1_sample1 from the input
      * @return automatically generated
      */
     public float predict(Mat samples, Mat results) {
@@ -608,7 +608,7 @@ public class EM extends StatModel {
      * Returns posterior probabilities for the provided samples
      *
      *     @param samples The input samples, floating-point matrix
-     *     posterior probabilities for each content_topic1_sample from the input
+     *     posterior probabilities for each content_topic1_sample1 from the input
      * @return automatically generated
      */
     public float predict(Mat samples) {
@@ -723,7 +723,7 @@ public class EM extends StatModel {
     // C++:  TermCriteria cv::ml::EM::getTermCriteria()
     private static native double[] getTermCriteria_0(long nativeObj);
 
-    // C++:  Vec2d cv::ml::EM::predict2(Mat content_topic1_sample, Mat& probs)
+    // C++:  Vec2d cv::ml::EM::predict2(Mat content_topic1_sample1, Mat& probs)
     private static native double[] predict2_0(long nativeObj, long sample_nativeObj, long probs_nativeObj);
 
     // C++:  bool cv::ml::EM::trainE(Mat samples, Mat means0, Mat covs0 = Mat(), Mat weights0 = Mat(), Mat& logLikelihoods = Mat(), Mat& labels = Mat(), Mat& probs = Mat())

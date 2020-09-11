@@ -443,10 +443,10 @@ public class Imgcodecs {
      *   <li>
      *  PNG images with an alpha channel can be saved using this function. To do this, create
      * 8-bit (or 16-bit) 4-channel image BGRA, where the alpha channel goes last. Fully transparent pixels
-     * should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535 (see the code content_topic1_sample below).
+     * should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535 (see the code content_topic1_sample1 below).
      *   </li>
      *   <li>
-     *  Multiple images (vector of Mat) can be saved in TIFF format (see the code content_topic1_sample below).
+     *  Multiple images (vector of Mat) can be saved in TIFF format (see the code content_topic1_sample1 below).
      *   </li>
      * </ul>
      *
@@ -454,7 +454,7 @@ public class Imgcodecs {
      * Mat::convertTo and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
      * functions to save the image to XML or YAML format.
      *
-     * The content_topic1_sample below shows how to create a BGRA image, how to set custom compression parameters and save it to a PNG file.
+     * The content_topic1_sample1 below shows how to create a BGRA image, how to set custom compression parameters and save it to a PNG file.
      * It also demonstrates how to save multiple images in a TIFF file:
      * INCLUDE: snippets/imgcodecs_imwrite.cpp
      * @param filename Name of the file.
@@ -487,10 +487,10 @@ public class Imgcodecs {
      *   <li>
      *  PNG images with an alpha channel can be saved using this function. To do this, create
      * 8-bit (or 16-bit) 4-channel image BGRA, where the alpha channel goes last. Fully transparent pixels
-     * should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535 (see the code content_topic1_sample below).
+     * should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535 (see the code content_topic1_sample1 below).
      *   </li>
      *   <li>
-     *  Multiple images (vector of Mat) can be saved in TIFF format (see the code content_topic1_sample below).
+     *  Multiple images (vector of Mat) can be saved in TIFF format (see the code content_topic1_sample1 below).
      *   </li>
      * </ul>
      *
@@ -498,7 +498,7 @@ public class Imgcodecs {
      * Mat::convertTo and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
      * functions to save the image to XML or YAML format.
      *
-     * The content_topic1_sample below shows how to create a BGRA image, how to set custom compression parameters and save it to a PNG file.
+     * The content_topic1_sample1 below shows how to create a BGRA image, how to set custom compression parameters and save it to a PNG file.
      * It also demonstrates how to save multiple images in a TIFF file:
      * INCLUDE: snippets/imgcodecs_imwrite.cpp
      * @param filename Name of the file.
