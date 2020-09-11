@@ -136,8 +136,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         /*TODO: Need to delete xml and content data, which will attached to apk*/
         try {
 
-
-
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
 

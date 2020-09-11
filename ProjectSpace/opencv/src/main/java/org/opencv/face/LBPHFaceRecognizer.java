@@ -35,8 +35,8 @@ public class LBPHFaceRecognizer extends FaceRecognizer {
     /**
      * @param radius The radius used for building the Circular Local Binary Pattern. The greater the
      *     radius, the smoother the image but more spatial information you can get.
-     *     @param neighbors The number of content_topic1_sample1 points to build a Circular Local Binary Pattern from. An
-     *     appropriate value is to use {@code 8} content_topic1_sample1 points. Keep in mind: the more content_topic1_sample1 points you include,
+     *     @param neighbors The number of sample points to build a Circular Local Binary Pattern from. An
+     *     appropriate value is to use {@code 8} sample points. Keep in mind: the more sample points you include,
      *     the higher the computational cost.
      *     @param grid_x The number of cells in the horizontal direction, 8 is a common value used in
      *     publications. The more cells, the finer the grid, the higher the dimensionality of the resulting
@@ -94,8 +94,8 @@ public class LBPHFaceRecognizer extends FaceRecognizer {
     /**
      * @param radius The radius used for building the Circular Local Binary Pattern. The greater the
      *     radius, the smoother the image but more spatial information you can get.
-     *     @param neighbors The number of content_topic1_sample1 points to build a Circular Local Binary Pattern from. An
-     *     appropriate value is to use {@code 8} content_topic1_sample1 points. Keep in mind: the more content_topic1_sample1 points you include,
+     *     @param neighbors The number of sample points to build a Circular Local Binary Pattern from. An
+     *     appropriate value is to use {@code 8} sample points. Keep in mind: the more sample points you include,
      *     the higher the computational cost.
      *     @param grid_x The number of cells in the horizontal direction, 8 is a common value used in
      *     publications. The more cells, the finer the grid, the higher the dimensionality of the resulting
@@ -152,8 +152,8 @@ public class LBPHFaceRecognizer extends FaceRecognizer {
     /**
      * @param radius The radius used for building the Circular Local Binary Pattern. The greater the
      *     radius, the smoother the image but more spatial information you can get.
-     *     @param neighbors The number of content_topic1_sample1 points to build a Circular Local Binary Pattern from. An
-     *     appropriate value is to use {@code 8} content_topic1_sample1 points. Keep in mind: the more content_topic1_sample1 points you include,
+     *     @param neighbors The number of sample points to build a Circular Local Binary Pattern from. An
+     *     appropriate value is to use {@code 8} sample points. Keep in mind: the more sample points you include,
      *     the higher the computational cost.
      *     @param grid_x The number of cells in the horizontal direction, 8 is a common value used in
      *     publications. The more cells, the finer the grid, the higher the dimensionality of the resulting
@@ -209,8 +209,8 @@ public class LBPHFaceRecognizer extends FaceRecognizer {
     /**
      * @param radius The radius used for building the Circular Local Binary Pattern. The greater the
      *     radius, the smoother the image but more spatial information you can get.
-     *     @param neighbors The number of content_topic1_sample1 points to build a Circular Local Binary Pattern from. An
-     *     appropriate value is to use {@code 8} content_topic1_sample1 points. Keep in mind: the more content_topic1_sample1 points you include,
+     *     @param neighbors The number of sample points to build a Circular Local Binary Pattern from. An
+     *     appropriate value is to use {@code 8} sample points. Keep in mind: the more sample points you include,
      *     the higher the computational cost.
      *     publications. The more cells, the finer the grid, the higher the dimensionality of the resulting
      *     feature vector.
@@ -265,7 +265,7 @@ public class LBPHFaceRecognizer extends FaceRecognizer {
     /**
      * @param radius The radius used for building the Circular Local Binary Pattern. The greater the
      *     radius, the smoother the image but more spatial information you can get.
-     *     appropriate value is to use {@code 8} content_topic1_sample1 points. Keep in mind: the more content_topic1_sample1 points you include,
+     *     appropriate value is to use {@code 8} sample points. Keep in mind: the more sample points you include,
      *     the higher the computational cost.
      *     publications. The more cells, the finer the grid, the higher the dimensionality of the resulting
      *     feature vector.
@@ -319,7 +319,7 @@ public class LBPHFaceRecognizer extends FaceRecognizer {
 
     /**
      *     radius, the smoother the image but more spatial information you can get.
-     *     appropriate value is to use {@code 8} content_topic1_sample1 points. Keep in mind: the more content_topic1_sample1 points you include,
+     *     appropriate value is to use {@code 8} sample points. Keep in mind: the more sample points you include,
      *     the higher the computational cost.
      *     publications. The more cells, the finer the grid, the higher the dimensionality of the resulting
      *     feature vector.

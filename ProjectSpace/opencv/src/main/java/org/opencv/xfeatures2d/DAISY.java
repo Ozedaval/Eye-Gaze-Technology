@@ -22,7 +22,7 @@ import org.opencv.xfeatures2d.DAISY;
  * DAISY::NRM_SIFT mean that descriptors are normalized for L2 norm equal to 1.0 but no individual one is bigger than 0.154 as in SIFT
  * H optional 3x3 homography matrix used to warp the grid of daisy but sampling keypoints remains unwarped on image
  * interpolation switch to disable interpolation for speed improvement at minor quality loss
- * use_orientation content_topic1_sample1 patterns using keypoints orientation, disabled by default.
+ * use_orientation sample patterns using keypoints orientation, disabled by default.
  */
 public class DAISY extends Feature2D {
 

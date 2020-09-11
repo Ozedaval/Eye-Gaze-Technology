@@ -127,9 +127,9 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
-     * @param hitsThreshold How many positives the content_topic1_sample1 must get before it will be considered as a possible replacement.
+     * @param hitsThreshold How many positives the sample must get before it will be considered as a possible replacement.
      * @param alpha Scale coefficient for threshold.
      * @param beta Bias coefficient for threshold.
      * @param blinkingSupressionDecay Blinking supression decay factor.
@@ -149,9 +149,9 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
-     * @param hitsThreshold How many positives the content_topic1_sample1 must get before it will be considered as a possible replacement.
+     * @param hitsThreshold How many positives the sample must get before it will be considered as a possible replacement.
      * @param alpha Scale coefficient for threshold.
      * @param beta Bias coefficient for threshold.
      * @param blinkingSupressionDecay Blinking supression decay factor.
@@ -170,9 +170,9 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
-     * @param hitsThreshold How many positives the content_topic1_sample1 must get before it will be considered as a possible replacement.
+     * @param hitsThreshold How many positives the sample must get before it will be considered as a possible replacement.
      * @param alpha Scale coefficient for threshold.
      * @param beta Bias coefficient for threshold.
      * @param blinkingSupressionDecay Blinking supression decay factor.
@@ -190,9 +190,9 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
-     * @param hitsThreshold How many positives the content_topic1_sample1 must get before it will be considered as a possible replacement.
+     * @param hitsThreshold How many positives the sample must get before it will be considered as a possible replacement.
      * @param alpha Scale coefficient for threshold.
      * @param beta Bias coefficient for threshold.
      * @param blinkingSupressionDecay Blinking supression decay factor.
@@ -209,9 +209,9 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
-     * @param hitsThreshold How many positives the content_topic1_sample1 must get before it will be considered as a possible replacement.
+     * @param hitsThreshold How many positives the sample must get before it will be considered as a possible replacement.
      * @param alpha Scale coefficient for threshold.
      * @param beta Bias coefficient for threshold.
      * @return automatically generated
@@ -227,9 +227,9 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
-     * @param hitsThreshold How many positives the content_topic1_sample1 must get before it will be considered as a possible replacement.
+     * @param hitsThreshold How many positives the sample must get before it will be considered as a possible replacement.
      * @param alpha Scale coefficient for threshold.
      * @return automatically generated
      */
@@ -244,9 +244,9 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
-     * @param hitsThreshold How many positives the content_topic1_sample1 must get before it will be considered as a possible replacement.
+     * @param hitsThreshold How many positives the sample must get before it will be considered as a possible replacement.
      * @return automatically generated
      */
     public static BackgroundSubtractorGSOC createBackgroundSubtractorGSOC(int mc, int nSamples, float replaceRate, float propagationRate, int hitsThreshold) {
@@ -260,7 +260,7 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @param propagationRate Probability of propagating to neighbors.
      * @return automatically generated
      */
@@ -275,7 +275,7 @@ public class Bgsegm {
      *
      * @param mc Whether to use camera motion compensation.
      * @param nSamples Number of samples to maintain at each point of the frame.
-     * @param replaceRate Probability of replacing the old content_topic1_sample1 - how fast the model will update itself.
+     * @param replaceRate Probability of replacing the old sample - how fast the model will update itself.
      * @return automatically generated
      */
     public static BackgroundSubtractorGSOC createBackgroundSubtractorGSOC(int mc, int nSamples, float replaceRate) {
@@ -340,7 +340,7 @@ public class Bgsegm {
      * @param noiseRemovalThresholdFacBG Strength of the noise removal for background points.
      * @param noiseRemovalThresholdFacFG Strength of the noise removal for foreground points.
      * @param LSBPthreshold Threshold for LSBP binary string.
-     * @param minCount Minimal number of matches for content_topic1_sample1 to be considered as foreground.
+     * @param minCount Minimal number of matches for sample to be considered as foreground.
      * @return automatically generated
      */
     public static BackgroundSubtractorLSBP createBackgroundSubtractorLSBP(int mc, int nSamples, int LSBPRadius, float Tlower, float Tupper, float Tinc, float Tdec, float Rscale, float Rincdec, float noiseRemovalThresholdFacBG, float noiseRemovalThresholdFacFG, int LSBPthreshold, int minCount) {

@@ -1730,7 +1730,7 @@ public class Ximgproc {
      * @param windowCols The number of cols in the window.
      * The window size parameters control the accuracy of the estimation.
      * The sliding window moves over the entire image from the top-left corner
-     * to the bottom right corner. Each location of the window represents a content_topic1_sample1.
+     * to the bottom right corner. Each location of the window represents a sample.
      * If the window is the size of the image, then this gives the exact covariance matrix.
      * For all other cases, the sizes of the window will impact the number of samples
      * and the number of elements in the estimated covariance matrix.

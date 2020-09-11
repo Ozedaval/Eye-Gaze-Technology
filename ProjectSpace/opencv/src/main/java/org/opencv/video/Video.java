@@ -64,8 +64,8 @@ public class Video {
      * Creates KNN Background Subtractor
      *
      * @param history Length of the history.
-     * @param dist2Threshold Threshold on the squared distance between the pixel and the content_topic1_sample1 to decide
-     * whether a pixel is close to that content_topic1_sample1. This parameter does not affect the background update.
+     * @param dist2Threshold Threshold on the squared distance between the pixel and the sample to decide
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
      * @param detectShadows If true, the algorithm will detect shadows and mark them. It decreases the
      * speed a bit, so if you do not need this feature, set the parameter to false.
      * @return automatically generated
@@ -78,8 +78,8 @@ public class Video {
      * Creates KNN Background Subtractor
      *
      * @param history Length of the history.
-     * @param dist2Threshold Threshold on the squared distance between the pixel and the content_topic1_sample1 to decide
-     * whether a pixel is close to that content_topic1_sample1. This parameter does not affect the background update.
+     * @param dist2Threshold Threshold on the squared distance between the pixel and the sample to decide
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
      * speed a bit, so if you do not need this feature, set the parameter to false.
      * @return automatically generated
      */
@@ -91,7 +91,7 @@ public class Video {
      * Creates KNN Background Subtractor
      *
      * @param history Length of the history.
-     * whether a pixel is close to that content_topic1_sample1. This parameter does not affect the background update.
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
      * speed a bit, so if you do not need this feature, set the parameter to false.
      * @return automatically generated
      */
@@ -102,7 +102,7 @@ public class Video {
     /**
      * Creates KNN Background Subtractor
      *
-     * whether a pixel is close to that content_topic1_sample1. This parameter does not affect the background update.
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
      * speed a bit, so if you do not need this feature, set the parameter to false.
      * @return automatically generated
      */
@@ -187,12 +187,12 @@ public class Video {
      * function returns the rotated rectangle structure that includes the object position, size, and
      * orientation. The next position of the search window can be obtained with RotatedRect::boundingRect()
      *
-     * See the OpenCV content_topic1_sample1 camshiftdemo.c that tracks colored objects.
+     * See the OpenCV sample camshiftdemo.c that tracks colored objects.
      *
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *    (Python) A content_topic1_sample1 explaining the camshift tracking algorithm can be found at
+     *    (Python) A sample explaining the camshift tracking algorithm can be found at
      *     opencv_source_code/samples/python/camshift.py
      *   </li>
      * </ul>
@@ -322,7 +322,7 @@ public class Video {
      * (e.g., a simple euclidean/similarity transform that allows for the images showing the same image
      * content approximately). Use inverse warping in the second image to take an image close to the first
      * one, i.e. use the flag WARP_INVERSE_MAP with warpAffine or warpPerspective. See also the OpenCV
-     * content_topic1_sample1 image_alignment.cpp that demonstrates the use of the function. Note that the function throws
+     * sample image_alignment.cpp that demonstrates the use of the function. Note that the function throws
      * an exception if algorithm does not converges.
      *
      * SEE:
