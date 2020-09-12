@@ -13,14 +13,14 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/*An AsyncTask class which is used for initialising intensive background tasks.*/
+/*An AsyncTask class which is used for initialising intensive background tasks.
+* TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
 class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
-    private WeakReference<Context> contextWeakReference;
+    private WeakReference<InitialisationFragment> initialisationFragmentWeakReference;
     private InputStream eyeModelInputStream;
     private InputStream faceModelInputStream;
     private FileOutputStream eyeModelOutputStream;
@@ -34,19 +34,15 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private ArrayList<File> contentAudioExternalFiles;
 
 
-
-
-
-    Initialisation(Context context,TextToSpeech textToSpeech){
-        contextWeakReference=new WeakReference<>(context);
-        this.textToSpeech = textToSpeech;
-
+    Initialisation(InitialisationFragment initialisationFragment,TextToSpeech textToSpeech){
+        initialisationFragmentWeakReference =new WeakReference<>(initialisationFragment);
+        this.textToSpeech =textToSpeech;
     }
 
 
     @Override
     protected void onPreExecute() {
-        Context context = contextWeakReference.get();
+        Context context = initialisationFragmentWeakReference.get().requireContext();
         Log.d(TAG," ProgressBar Done setup for progress bar");
         eyeModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_eye_tree_eyeglasses);
         faceModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt);
@@ -127,14 +123,12 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             }
 
             Log.d(TAG,"Text to Audio is called");
-        /*    while(!isTextToSpeechEngineInitialised){
-
-            }*/
 
             convertTextToAudio();
 
 
             textToSpeech.shutdown();
+
 
             /*TODO: Remove this once code - review is done*/
             for(File file: contentPicExternalFiles) {
@@ -161,7 +155,8 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected void onPostExecute(Boolean bool) {
-        contextWeakReference.clear();
+        initialisationFragmentWeakReference.get().closeFragment();
+        initialisationFragmentWeakReference.clear();
         Log.d(TAG ," onPostExecute Called & "+getStatus()+bool);
     }
 
@@ -188,7 +183,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     /*https://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String)*/
     boolean hasExternalStoragePrivateData(String fileName) {
-        Context context = contextWeakReference.get();
+        Context context = initialisationFragmentWeakReference.get().requireContext();
         File file = new File(context.getExternalFilesDir(null),fileName);
         return file.exists();
     }

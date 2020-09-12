@@ -12,17 +12,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
-import java.util.concurrent.ExecutionException;
+
+import java.util.Locale;
 
 /*Fragment which shows the initialisation loading Bar*/
 public class InitialisationFragment extends DialogFragment {
 
 
-    private TextToSpeechInit textToSpeechInitAsync;
-    private MainViewModel mainViewModelProvider;
+    private TextToSpeech textToSpeech;
+    private MainViewModel mainViewModel;
     private static final String TAG = "Initialisation Fragment";
     private Initialisation initialisationAsync;
+
 
 
     @Override
@@ -35,50 +38,54 @@ public class InitialisationFragment extends DialogFragment {
     }
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        textToSpeechInitAsync = new TextToSpeechInit(requireContext());
-        textToSpeechInitAsync.execute();
-        mainViewModelProvider = new ViewModelProvider(requireActivity())
+        final InitialisationFragment initialisationFragment = this;
+        textToSpeech = new TextToSpeech(requireContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    System.out.println("onInit");
+                    initialisationAsync  = new Initialisation(initialisationFragment,textToSpeech);
+                    initialisationAsync.execute();
+                    int result = textToSpeech.setLanguage(Locale.US);
+                    if (result == TextToSpeech.LANG_MISSING_DATA ||
+                            result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e(TAG, "This Language is not supported");
+                    }
+                } else
+                    Log.e(TAG, "Initialisation Failed!");
+            }
+        });
+        mainViewModel = new ViewModelProvider(requireActivity())
                 .get(MainViewModel.class);
         Log.d(TAG, "onCreate Called");
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume");
+    public void closeFragment(){
+        mainViewModel.initialisationDone();
+        final Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.main_fragment_tag));
+        final FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        if (fragment != null) {
+            Log.d(TAG, " Fragment removed");
 
-        TextToSpeech textToSpeech = null;
-        try {
-            textToSpeech = textToSpeechInitAsync.get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, String.valueOf("TextToSpeechInitAsync completed " + textToSpeech != null));
-
-
-            Log.d(TAG, "onResume Async task completed");
-            mainViewModelProvider.initialisationDone();
-            Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.main_fragment_tag));
-            FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            if (fragment != null) {
-                Log.d(TAG, " Fragment removed");
-                fragmentTransaction.remove(fragment);
-            }
-            /*Temporarily here to make a smooth UI transition (Visually)*/
+            /*Temporarily here to make a smooth UI transition (Visually) */
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    onDestroyView();
+                    fragmentTransaction.remove(fragment).commit();
                 }
             }, 6000);
-
-
-
+        }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        initialisationAsync.cancel(true);
+    }
+
 }
