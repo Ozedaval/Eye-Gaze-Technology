@@ -27,7 +27,6 @@ public class TextToSpeechInit extends AsyncTask<Void,Void, TextToSpeech> {
     }
 
 
-
     @Override
     protected TextToSpeech doInBackground(Void... voids) {
         Context context = contextWeakReference.get();
@@ -40,8 +39,7 @@ public class TextToSpeechInit extends AsyncTask<Void,Void, TextToSpeech> {
     protected void onPostExecute(TextToSpeech textToSpeech) {
         Log.d(TAG,"Done with background activity");
         initialisationAsync = new Initialisation(contextWeakReference.get(),textToSpeech);
-        initialisationAsync.execute();
-        contextWeakReference.clear();
+
     }
     public Initialisation getInitialisationAsync() {
         return initialisationAsync;
@@ -53,6 +51,8 @@ public class TextToSpeechInit extends AsyncTask<Void,Void, TextToSpeech> {
         public void onInit(int status) {
             if (status == TextToSpeech.SUCCESS) {
                 System.out.println("onInit");
+                initialisationAsync.execute();
+                contextWeakReference.clear();
                 int result = textToSpeech.setLanguage(Locale.US);
                 if (result == TextToSpeech.LANG_MISSING_DATA ||
                         result == TextToSpeech.LANG_NOT_SUPPORTED) {
