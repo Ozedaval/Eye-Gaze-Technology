@@ -13,10 +13,8 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 /*An AsyncTask class which is used for initialising intensive background tasks.*/
@@ -39,8 +37,9 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
 
 
-    Initialisation(Context context){
+    Initialisation(Context context,TextToSpeech textToSpeech){
         contextWeakReference=new WeakReference<>(context);
+        this.textToSpeech = textToSpeech;
 
     }
 
@@ -67,22 +66,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
        Need a fix for majority of the Devices later on*/
             File externalFileDir = context.getExternalFilesDir(null);
 
-
-            textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
-                @Override
-                public void onInit(int status) {
-                    if (status == TextToSpeech.SUCCESS) {
-                        System.out.println("onInit");
-                        int result = textToSpeech.setLanguage(Locale.US);
-                        if (result == TextToSpeech.LANG_MISSING_DATA ||
-                                result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                            Log.e(TAG, "This Language is not supported");
-                        }
-
-                    } else
-                        Log.e(TAG, "Initialisation Failed!");
-                }
-            });
 
             String name;
             int resourceID;
@@ -151,7 +134,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             convertTextToAudio();
 
 
-
+            textToSpeech.shutdown();
 
             /*TODO: Remove this once code - review is done*/
             for(File file: contentPicExternalFiles) {
@@ -169,7 +152,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             }
 
             return true;
-        } catch (IOException  e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }

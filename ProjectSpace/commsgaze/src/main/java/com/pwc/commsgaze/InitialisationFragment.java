@@ -2,6 +2,7 @@ package com.pwc.commsgaze;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +18,17 @@ import java.util.concurrent.ExecutionException;
 /*Fragment which shows the initialisation loading Bar*/
 public class InitialisationFragment extends DialogFragment {
 
-    private Initialisation initialisationAsync;
+
+    private TextToSpeechInit textToSpeechInitAsync;
     private MainViewModel mainViewModelProvider;
-    private static final String TAG="Initialisation Fragment";
+    private static final String TAG = "Initialisation Fragment";
+    private Initialisation initialisationAsync;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragment=inflater.inflate(R.layout.fragment_initialisation, container, false);
+        View fragment = inflater.inflate(R.layout.fragment_initialisation, container, false);
         ProgressBar progressBar = fragment.findViewById(R.id.initialisationProgressBar);
         progressBar.animate();
         return fragment;
@@ -35,11 +38,11 @@ public class InitialisationFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialisationAsync= new Initialisation(requireContext());
-        initialisationAsync.execute();
-        mainViewModelProvider=new ViewModelProvider(requireActivity())
+        textToSpeechInitAsync = new TextToSpeechInit(requireContext());
+        textToSpeechInitAsync.execute();
+        mainViewModelProvider = new ViewModelProvider(requireActivity())
                 .get(MainViewModel.class);
-        Log.d(TAG,"onCreate Called");
+        Log.d(TAG, "onCreate Called");
     }
 
 
@@ -47,35 +50,35 @@ public class InitialisationFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+
+        TextToSpeech textToSpeech = null;
         try {
-            Boolean asyncTaskCompleted=initialisationAsync.get();
-            if(asyncTaskCompleted){
-                Log.d(TAG, "onResume Async task completed");
-                mainViewModelProvider.initialisationDone();
-                Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.main_fragment_tag));
-                FragmentTransaction fragmentTransaction=requireActivity().getSupportFragmentManager().beginTransaction();
-                if (fragment != null) {
-                    Log.d(TAG," Fragment removed");
-                    fragmentTransaction.remove(fragment);
-                }
-                /*Temporarily here to make a smooth UI transition (Visually)*/
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onDestroyView();
-                    }
-                },6000);
-            }
-            else {
-                while (!initialisationAsync.isCancelled()) {
-                    initialisationAsync.cancel(true);
-                }
-                initialisationAsync.execute();
-            }
+            textToSpeech = textToSpeechInitAsync.get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, String.valueOf("TextToSpeechInitAsync completed " + textToSpeech != null));
+
+
+            Log.d(TAG, "onResume Async task completed");
+            mainViewModelProvider.initialisationDone();
+            Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.main_fragment_tag));
+            FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            if (fragment != null) {
+                Log.d(TAG, " Fragment removed");
+                fragmentTransaction.remove(fragment);
+            }
+            /*Temporarily here to make a smooth UI transition (Visually)*/
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onDestroyView();
+                }
+            }, 6000);
+
+
+
     }
 }
