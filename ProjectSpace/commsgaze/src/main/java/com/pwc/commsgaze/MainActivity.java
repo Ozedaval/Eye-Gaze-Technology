@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
     private Boolean isFirstRun;
     private ActivityMainBinding binding;
-    private FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
     private static final String TAG = "MainActivity";
 
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 .getBoolean(getString(R.string.main_first_run_preference_key), true);
 
         if (isFirstRun) {
-            fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            fragmentManager = getSupportFragmentManager();
             mainViewModel = new ViewModelProvider(this)
                     .get(MainViewModel.class);
 
@@ -68,9 +68,21 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Files present " + Arrays.toString(fileList()));
                         isFirstRun= false;
                         mainViewModel.getIsFirstRun().removeObserver(this);
+                        Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.init_fragment_tag));
+                        if(fragment != null){
+                            fragmentManager.beginTransaction().remove(fragment).commit();
+                        }
                     }
                 }
             });
+            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
+                Log.d(TAG ," onResume "+"ViewModel LiveData isa" + mainViewModel.getIsFirstRun().getValue());
+                Log.d(TAG , "on Resume Called");
+
+                DialogFragment initialisationFragment = new InitialisationFragment();
+                initialisationFragment.setCancelable(false);
+                initialisationFragment.show(fragmentManager, getString(R.string.init_fragment_tag));
+            }
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
@@ -89,22 +101,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (isFirstRun) {
-            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(TAG ," onResume "+"ViewModel LiveData isa" + mainViewModel.getIsFirstRun().getValue());
-                Log.d(TAG , "on Resume Called");
-                Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.main_fragment_tag));
-                if (fragment != null) {
-                    fragmentTransaction.remove(fragment);
-                }
-                DialogFragment initialisationFragment = new InitialisationFragment();
-                initialisationFragment.setCancelable(false);
-                initialisationFragment.show(fragmentTransaction, getString(R.string.main_fragment_tag));
-            }
-        }
-    }
 
 }

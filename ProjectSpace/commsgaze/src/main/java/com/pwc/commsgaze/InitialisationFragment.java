@@ -66,20 +66,16 @@ public class InitialisationFragment extends DialogFragment {
 
 
     public void closeFragment(){
-        mainViewModel.initialisationDone();
-        final Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(requireActivity().getString(R.string.main_fragment_tag));
-        final FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        if (fragment != null) {
-            Log.d(TAG, " Fragment removed");
-
+        Log.d(TAG," closeFragment called");
             /*Temporarily here to make a smooth UI transition (Visually) */
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    fragmentTransaction.remove(fragment).commit();
+                    initialisationAsync.cancel(true);
+                    mainViewModel.initialisationDone();
+
                 }
-            }, 6000);
-        }
+            }, 2000);
     }
 
     @Override
