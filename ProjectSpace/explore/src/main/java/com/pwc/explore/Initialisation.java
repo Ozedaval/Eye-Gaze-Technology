@@ -67,7 +67,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
      *Writes onto the OutputStream  based on the InputStream values
      * @param in:The Stream which consist of the writable data.
      * @param out:The Stream upon which data is to be written.
-     * https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard*/
+     * Based on https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard*/
     private void write(InputStream in, FileOutputStream out) throws IOException {
         byte[] buff = new byte[1024 * 1024 * 2]; //2MB file
         int read = 0;
