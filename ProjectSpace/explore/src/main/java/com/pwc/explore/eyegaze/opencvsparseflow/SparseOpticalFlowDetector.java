@@ -38,9 +38,9 @@ class SparseOpticalFlowDetector {
         }
         else{
             /*Log.d(TAG,"predicting Points");*/
-            Mat status=new Mat();
+            Mat status = new Mat();
 
-            Mat nextPoints=new Mat(); // For ease of debugging
+            Mat nextPoints = new Mat(); // For ease of debugging
             /*Log.d(TAG,"Eye A: 1st Prev Point is"+ "["+Arrays.toString(roiPointsMat.get(0,0))+","+ Arrays.toString(roiPointsMat.get(0, 1))+"]");
             Log.d(TAG,"Eye B: 1st Prev Point is"+ "["+Arrays.toString(roiPointsMat.get(1, 0))+","+ Arrays.toString(roiPointsMat.get(1, 1))+"]");*/
             sparseOpticalFlow.calc(prevFrame,currentFrame, roiPointsMat,nextPoints,status);

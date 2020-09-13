@@ -170,7 +170,7 @@ public class Detect {
             isFirstPairOfIrisFound = true;
         }
         if (isFirstPairOfIrisFound) {
-            HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowDetector.getROIPoints().clone();// For ease of debugging
+            HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowDetector.getROIPoints().clone(); // For ease of debugging
             /*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*/
             HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.predictPoints(frameGray);
             /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
