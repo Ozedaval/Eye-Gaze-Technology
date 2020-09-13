@@ -85,6 +85,8 @@
  
  <h2><a name = "Miscellaneous">Miscellaneous</a></h2>
 
+ * [**References**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/References)
+
  * [**Feedback**](https://drive.google.com/open?id=1j--azvBIf_7xkufhe8fR2g7GvuG47eTfvsKeAyDyk6Y)
 
  * [**Installation Instructions**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Installation-Instructions)
