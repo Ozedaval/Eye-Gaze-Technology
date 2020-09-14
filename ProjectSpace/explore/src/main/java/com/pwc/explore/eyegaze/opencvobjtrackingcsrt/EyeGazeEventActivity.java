@@ -83,7 +83,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
                 binding.eventTextView.setText(detect.getDirection()+"");
             }
         });
-        return detect.detect(inputFrame.rgba());
+        return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
     }
 
 
