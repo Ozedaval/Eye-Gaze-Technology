@@ -51,6 +51,8 @@ public class Detect {
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
     private TrackerCSRT[] trackerCSRTs;
+    private CascadeClassifier faceCascade;
+    private CascadeClassifier eyesCascade;
 
     Detect(CascadeClassifier faceCascade,CascadeClassifier eyesCascade){
         direction = UNKNOWN;
@@ -63,6 +65,9 @@ public class Detect {
 
         /* Creating 2 TrackCSRT for 2 irises */
         trackerCSRTs = new TrackerCSRT[]{TrackerCSRT.create(),TrackerCSRT.create()};
+
+        this.eyesCascade = eyesCascade;
+        this.faceCascade = faceCascade;
     }
 
 
