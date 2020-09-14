@@ -121,7 +121,8 @@ public class Detect {
             face = faceDetectionSmoother.updateCoord(face);
 
             /*TODO remove*/
-            faceMat = new Mat(frameRGB,face);
+            prevFaceMat = new Mat(frameGray,face);
+            Log.d(TAG,"Face frame Mat "+ prevFaceMat.size());
 
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
@@ -141,6 +142,7 @@ public class Detect {
                     Rect eye = listOfEyes.get(eyeIndex);
 
                     /*TODO Remove this later*/
+                    Log.d(TAG,eye.clone().toString());
                     eyeBoundaryOrigin.add(eye.clone());
 
 
@@ -199,13 +201,13 @@ public class Detect {
 
 
             /*Rect2d eyeSecond = changeRectType(eyeBoundary.get(1));*/
-            trackerCSRTs[0].setInitialMask(prevFaceMat);
+          /*  trackerCSRTs[0].setInitialMask(prevFaceMat);*/
 
 
             /*Reset the Tracker */
-            if(eyeFirst!=null) {
+            if(eyeFirst!=null && prevFaceMat!=null) {
                 trackerCSRTs[0].init(prevFaceMat, eyeFirstOrigin);
-                Log.d(TAG,"EyeFirst details "+eyeFirstOrigin.toString());
+                Log.d(TAG,"EyeFirst details "+ eyeFirstOrigin.toString());
             }
             /*if(eyeSecond!=null) {
                 trackerCSRTs[1].init(frameRGB, eyeSecond);
@@ -223,7 +225,8 @@ public class Detect {
 
             Log.d(TAG,"Updating Tracker");
             if(faceMat!=null) {
-                trackerCSRTs[0].update(faceMat, updatedEyeFirstBoundary);
+                trackerCSRTs[0].update(prevFaceMat, updatedEyeFirstBoundary);
+                Log.d(TAG,updatedEyeFirstBoundary.toString());
                 updatedEyeFirstBoundary.x = updatedEyeFirstBoundary.x + face.x;
                 updatedEyeFirstBoundary.y = updatedEyeFirstBoundary.y + face.y;
             }
