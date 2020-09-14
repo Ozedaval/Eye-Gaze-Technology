@@ -1,5 +1,6 @@
 package com.pwc.commsgaze;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     /*TODO use data from Room Database instead of temporary data*/
-
+    public final static String TAG = "MainRecyclerViewAdapter";
     private String[] data;
 
     @NonNull
@@ -38,14 +39,21 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
        return (data == null) ? 0 : Integer.MAX_VALUE;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
         public ImageView imageView;
         public TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             imageView = itemView.findViewById(R.id.imageView_main_adapter);
             textView = itemView.findViewById(R.id.textView_main_adapter);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG,"View " +textView.getText() +" is selected");
+
         }
     }
 
