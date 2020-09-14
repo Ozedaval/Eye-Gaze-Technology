@@ -40,7 +40,7 @@ public class Detect {
     private static final String TAG = "Detect";
     private boolean needCalibration;
     private int frameCount;
-    private static final int FRAME_CALIBRATION_RATE = 30;
+    private static final int FRAME_CALIBRATION_RATE = 90;
     private GazeEstimator gazeEstimator;
     private Direction direction;
     private Direction prevDirection;
@@ -53,6 +53,9 @@ public class Detect {
     private TrackerCSRT[] trackerCSRTs;
     private CascadeClassifier faceCascade;
     private CascadeClassifier eyesCascade;
+
+    /*TODO remoev this*/
+    private Mat prevFaceMat;
 
     Detect(CascadeClassifier faceCascade,CascadeClassifier eyesCascade){
         direction = UNKNOWN;
@@ -104,7 +107,9 @@ public class Detect {
         faceCascade.detectMultiScale(frameGray, faces);
 
         List<Rect> eyeBoundary = null;
+        List<Rect> eyeBoundaryOrigin = null;
         HashMap<Integer, Point[]> blob = new HashMap<>();
+        Mat faceMat= null;
         Rect face = null;
 
         /*Using the First Detected Face*/
@@ -114,6 +119,9 @@ public class Detect {
 
             /*Detections made smoother*/
             face = faceDetectionSmoother.updateCoord(face);
+
+            /*TODO remove*/
+            faceMat = new Mat(frameRGB,face);
 
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
@@ -125,11 +133,16 @@ public class Detect {
                 MatOfRect eyes = new MatOfRect();
                 eyesCascade.detectMultiScale(faceROI, eyes);
                 List<Rect> listOfEyes = eyes.toList();
-                eyeBoundary = new ArrayList<>();
+                eyeBoundary = new ArrayList<>(2);
+                eyeBoundaryOrigin = new ArrayList<>(2);
                 Mat[] eyesROI = new Mat[listOfEyes.size()];
 
                 for (int eyeIndex = 0; eyeIndex < listOfEyes.size(); eyeIndex++) {
                     Rect eye = listOfEyes.get(eyeIndex);
+
+                    /*TODO Remove this later*/
+                    eyeBoundaryOrigin.add(eye.clone());
+
 
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x = face.x + eye.x;
@@ -179,23 +192,25 @@ public class Detect {
 
         /*sparseOpticalFlow Initiator/Calibration Alternator*/
         if (face!= null && (!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob) && eyeBoundary.size() == 2) {
-
+            trackerCSRTs[0].clear();
             /*Converting Rect eye to Rect2D eye*/
             Rect2d eyeFirst = changeRectType(eyeBoundary.get(0));
-            Rect2d eyeSecond = changeRectType(eyeBoundary.get(1));
+            Rect2d eyeFirstOrigin = changeRectType(eyeBoundaryOrigin.get(0));
 
 
+            /*Rect2d eyeSecond = changeRectType(eyeBoundary.get(1));*/
+            trackerCSRTs[0].setInitialMask(prevFaceMat);
 
 
             /*Reset the Tracker */
             if(eyeFirst!=null) {
-                trackerCSRTs[0].init(frameRGB, eyeFirst);
-                Log.d(TAG,"EyeFirst details "+eyeFirst.toString());
+                trackerCSRTs[0].init(prevFaceMat, eyeFirstOrigin);
+                Log.d(TAG,"EyeFirst details "+eyeFirstOrigin.toString());
             }
-            if(eyeSecond!=null) {
+            /*if(eyeSecond!=null) {
                 trackerCSRTs[1].init(frameRGB, eyeSecond);
                 Log.d(TAG,"EyeSecond details "+eyeSecond.toString());
-            }
+            }*/
             gazeEstimator.updateEyesBoundary(eyeBoundary);
             calculateNeedCalibration(true,hasFaceMoved(face));
             isFirstPairOfIrisFound = true;
@@ -204,25 +219,29 @@ public class Detect {
         if (isFirstPairOfIrisFound) {
             /*TODO get predicted points here*/
             Rect2d updatedEyeFirstBoundary = new Rect2d();
-            Rect2d updatedEyeSecondBoundary = new Rect2d();
+        /*    Rect2d updatedEyeSecondBoundary = new Rect2d();*/
 
             Log.d(TAG,"Updating Tracker");
-            trackerCSRTs[0].update(frameRGB,updatedEyeFirstBoundary);
-            trackerCSRTs[1].update(frameRGB,updatedEyeSecondBoundary);
+            if(faceMat!=null) {
+                trackerCSRTs[0].update(faceMat, updatedEyeFirstBoundary);
+                updatedEyeFirstBoundary.x = updatedEyeFirstBoundary.x + face.x;
+                updatedEyeFirstBoundary.y = updatedEyeFirstBoundary.y + face.y;
+            }
+            /*trackerCSRTs[1].update(frameRGB,updatedEyeSecondBoundary);*/
            /* Log.d(TAG,"Updated Rect Size "+ updatedEyeFirstBoundary.width);*/
 
 
             /*Converting to Rect*/
             Rect updatedEyeFirstBoundaryRect= (Rect) changeRectType(updatedEyeFirstBoundary);
-            Rect updatedEyeSecondBoundaryRect= (Rect) changeRectType(updatedEyeFirstBoundary);
+            /*Rect updatedEyeSecondBoundaryRect= (Rect) changeRectType(updatedEyeFirstBoundary);*/
             if(updatedEyeFirstBoundaryRect!= null) {
                 Imgproc.rectangle(frame, updatedEyeFirstBoundaryRect, new Scalar(255, 0, 0), 4);
                 Log.d(TAG,"Updated EyeFirst details "+updatedEyeFirstBoundaryRect.toString());
             }
-            if(updatedEyeSecondBoundaryRect!= null) {
+        /*    if(updatedEyeSecondBoundaryRect!= null) {
                 Imgproc.rectangle(frame, updatedEyeSecondBoundaryRect, new Scalar(255, 0, 0), 4);
                 Log.d(TAG,"Updated EyeSecond details "+updatedEyeSecondBoundaryRect.toString());
-            }
+            }*/
             /*         HashMap<Integer, Point[]> prevPoints = null;// For ease of debugging
              *//*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*//*
             HashMap<Integer, Point[]> predictionsMap = null;
