@@ -6,6 +6,7 @@ import com.pwc.explore.Direction;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
+import org.opencv.core.MatOfRect2d;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Rect2d;
@@ -13,8 +14,10 @@ import org.opencv.core.Scalar;
 import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+import org.opencv.tracking.MultiTracker;
 import org.opencv.tracking.TrackerCSRT;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +50,7 @@ public class Detect {
     private CascadeClassifier faceCascade;
     private CascadeClassifier eyesCascade;
     private boolean isTrackerInitialised;
+    private MultiTracker multiTracker;
 
 
 
@@ -60,9 +64,9 @@ public class Detect {
         isNeutralQueue = new LinkedList<>();
         currentGazeStatus= GazeStatus.UNKNOWN;
         trackerCSRT = TrackerCSRT.create();
+        multiTracker = MultiTracker.create();
         this.eyesCascade = eyesCascade;
         this.faceCascade = faceCascade;
-
     }
 
 
@@ -106,31 +110,41 @@ public class Detect {
                 MatOfRect eyes = new MatOfRect();
                 eyesCascade.detectMultiScale(faceROI, eyes);
                 List<Rect> listOfEyes = eyes.toList();
-                /*get a single eye TODO: need to convert to 2 eyes */
-                if (listOfEyes.size() != 0) {
-                    Rect eye = listOfEyes.get(0);
+                List<Rect2d> listOfEyesRect2d  = new ArrayList<>(2);
+
+                for(Rect eye:listOfEyes) {
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x = face.x + eye.x;
                     eye.y = face.y + eye.y;
 
                     Rect2d eyeRect2d = changeRectType(eye.clone());
-                    Log.d(TAG, "TrackerKCF  init ");
+                    Log.d(TAG, "TrackerCSRT  init ");
                     Log.d(TAG, "eyeRect2d " + eyeRect2d.toString());
-                    trackerCSRT.init(frameRGB, eyeRect2d);
+                    listOfEyesRect2d.add(eyeRect2d);
+                }
+
+                /*TODO find unique Rect2d*/
+                if(listOfEyesRect2d.size() == 2 && listOfEyes.get(0).x!= listOfEyes.get(1).x) {
+                    multiTracker.add(TrackerCSRT.create(), frameRGB, listOfEyesRect2d.get(0));
+                    multiTracker.add(TrackerCSRT.create(), frameRGB, listOfEyesRect2d.get(1));
                     isTrackerInitialised = true;
+                    Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
                 }
             }
 
         }
 
-           if(isTrackerInitialised){
-                Log.d(TAG,"Tracker is going to be updated");
-                Rect2d updatedTrackerBox = new Rect2d();
-                trackerCSRT.update(frameRGB,updatedTrackerBox);
-                Log.d(TAG,"Updated Tracker Bounding box "+ updatedTrackerBox.toString());
-                Rect updatedTrackerBoxRect = changeRectType(updatedTrackerBox);
-                Imgproc.rectangle(frame,updatedTrackerBoxRect,new Scalar(0,255,0),2);
+        if(isTrackerInitialised) {
+            Log.d(TAG, "Tracker is going to be updated");
+            MatOfRect2d updatedTrackerBoxes = new MatOfRect2d();
+            multiTracker.update(frameRGB, updatedTrackerBoxes);
+            Rect2d[] updatedRect2ds = updatedTrackerBoxes.toArray();
+            for (Rect2d updatedTrackingBox : updatedRect2ds) {
+                Log.d(TAG, "Updated Tracker Bounding box " + updatedTrackingBox);
+                Rect updatedTrackingBoxRect = changeRectType(updatedTrackingBox);
+                Imgproc.rectangle(frame, updatedTrackingBoxRect, new Scalar(0, 255, 0), 2);
             }
+        }
 
 
         return frame;
