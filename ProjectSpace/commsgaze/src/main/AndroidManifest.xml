@@ -13,7 +13,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             android:theme="@style/FullscreenTheme"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

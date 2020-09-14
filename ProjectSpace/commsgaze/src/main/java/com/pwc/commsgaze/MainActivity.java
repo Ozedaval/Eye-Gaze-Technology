@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -30,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FragmentManager fragmentManager;
     private static final String TAG = "MainActivity";
+    private MainRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager gridLayoutManager;
+
+    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
+    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run"};
 
 
 
@@ -85,6 +93,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
+
+        recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
+        gridLayoutManager = new GridLayoutManager(this,4);
+
+
+        binding.recyclerViewMain.setHasFixedSize(true);
+        binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
+        binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
+        binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
 
 
     }
