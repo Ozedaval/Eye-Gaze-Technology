@@ -4,6 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     ndkVersion "21.3.6528147"
+
     viewBinding {
         enabled = true
     }
@@ -14,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
 
     }
 
@@ -41,5 +43,4 @@ dependencies {
     implementation project(path: ':opencv')
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.quickbirdstudios:opencv:4.3.0-contrib'
 }

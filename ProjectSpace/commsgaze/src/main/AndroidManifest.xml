@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pwc.commsgaze">
 
     <application
@@ -9,7 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullscreenTheme"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,5 +23,9 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-feature android:name="android.hardware.Camera" />
+
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

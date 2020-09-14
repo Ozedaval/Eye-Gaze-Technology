@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CommsGaze</string>
+    <string name="init_fragment_tag">Main Activity Init Fragment Tag</string>
+    <string name="main_first_run_preference_key">First run preference key</string>
+    <string name="main_preference_key">Main preference key</string>
+    <string name="main_initialisation_done_msg">Initialisation done</string>
+    <string name="initialisation_library_please_wait_msg">Initialising \n Hang on! </string>
 </resources>
