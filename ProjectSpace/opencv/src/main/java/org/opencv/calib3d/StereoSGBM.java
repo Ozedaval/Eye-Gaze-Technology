@@ -72,7 +72,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P2 The second parameter controlling the disparity smoothness. The larger the values are,
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     @param disp12MaxDiff Maximum allowed difference (in integer pixel units) in the left-right
@@ -115,7 +115,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P2 The second parameter controlling the disparity smoothness. The larger the values are,
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     @param disp12MaxDiff Maximum allowed difference (in integer pixel units) in the left-right
@@ -157,7 +157,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P2 The second parameter controlling the disparity smoothness. The larger the values are,
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     @param disp12MaxDiff Maximum allowed difference (in integer pixel units) in the left-right
@@ -198,7 +198,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P2 The second parameter controlling the disparity smoothness. The larger the values are,
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     @param disp12MaxDiff Maximum allowed difference (in integer pixel units) in the left-right
@@ -238,7 +238,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P2 The second parameter controlling the disparity smoothness. The larger the values are,
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     @param disp12MaxDiff Maximum allowed difference (in integer pixel units) in the left-right
@@ -277,7 +277,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P2 The second parameter controlling the disparity smoothness. The larger the values are,
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     @param disp12MaxDiff Maximum allowed difference (in integer pixel units) in the left-right
@@ -315,7 +315,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P2 The second parameter controlling the disparity smoothness. The larger the values are,
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     disparity check. Set it to a non-positive value to disable the check.
@@ -351,7 +351,7 @@ public class StereoSGBM extends StereoMatcher {
      *     @param P1 The first parameter controlling the disparity smoothness. See below.
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     disparity check. Set it to a non-positive value to disable the check.
@@ -386,7 +386,7 @@ public class StereoSGBM extends StereoMatcher {
      *     somewhere in the 3..11 range.
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     disparity check. Set it to a non-positive value to disable the check.
@@ -420,7 +420,7 @@ public class StereoSGBM extends StereoMatcher {
      *     somewhere in the 3..11 range.
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     disparity check. Set it to a non-positive value to disable the check.
@@ -453,7 +453,7 @@ public class StereoSGBM extends StereoMatcher {
      *     somewhere in the 3..11 range.
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     disparity check. Set it to a non-positive value to disable the check.
@@ -485,7 +485,7 @@ public class StereoSGBM extends StereoMatcher {
      *     somewhere in the 3..11 range.
      *     the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
      *     between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
-     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp content_topic1_sample where some reasonably good
+     *     pixels. The algorithm requires P2 &gt; P1 . See stereo_match.cpp sample where some reasonably good
      *     P1 and P2 values are shown (like 8\*number_of_image_channels\*blockSize\*blockSize and
      *     32\*number_of_image_channels\*blockSize\*blockSize , respectively).
      *     disparity check. Set it to a non-positive value to disable the check.

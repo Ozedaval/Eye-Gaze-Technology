@@ -14,8 +14,8 @@ import org.opencv.xfeatures2d.VGG;
  * desc type of descriptor to use, VGG::VGG_120 is default (120 dimensions float)
  * Available types are VGG::VGG_120, VGG::VGG_80, VGG::VGG_64, VGG::VGG_48
  * isigma gaussian kernel value for image blur (default is 1.4f)
- * img_normalize use image content_topic1_sample intensity normalization (enabled by default)
- * use_orientation content_topic1_sample patterns using keypoints orientation, enabled by default
+ * img_normalize use image sample intensity normalization (enabled by default)
+ * use_orientation sample patterns using keypoints orientation, enabled by default
  * scale_factor adjust the sampling window of detected keypoints to 64.0f (VGG sampling window)
  * 6.25f is default and fits for KAZE, SURF detected keypoints window ratio
  * 6.75f should be the scale for SIFT detected keypoints window ratio

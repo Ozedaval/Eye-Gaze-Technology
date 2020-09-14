@@ -83,7 +83,7 @@ public class KNearest extends StatModel {
      *         {@code &lt;number_of_samples&gt; * k} size.
      *     @param k Number of used nearest neighbors. Should be greater than 1.
      *     @param results Vector with results of prediction (regression or classification) for each input
-     *         content_topic1_sample. It is a single-precision floating-point vector with {@code &lt;number_of_samples&gt;} elements.
+     *         sample. It is a single-precision floating-point vector with {@code &lt;number_of_samples&gt;} elements.
      *     @param neighborResponses Optional output values for corresponding neighbors. It is a single-
      *         precision floating-point matrix of {@code &lt;number_of_samples&gt; * k} size.
      *     @param dist Optional output distances from the input vectors to the corresponding neighbors. It
@@ -115,7 +115,7 @@ public class KNearest extends StatModel {
      *         {@code &lt;number_of_samples&gt; * k} size.
      *     @param k Number of used nearest neighbors. Should be greater than 1.
      *     @param results Vector with results of prediction (regression or classification) for each input
-     *         content_topic1_sample. It is a single-precision floating-point vector with {@code &lt;number_of_samples&gt;} elements.
+     *         sample. It is a single-precision floating-point vector with {@code &lt;number_of_samples&gt;} elements.
      *     @param neighborResponses Optional output values for corresponding neighbors. It is a single-
      *         precision floating-point matrix of {@code &lt;number_of_samples&gt; * k} size.
      *         is a single-precision floating-point matrix of {@code &lt;number_of_samples&gt; * k} size.
@@ -146,7 +146,7 @@ public class KNearest extends StatModel {
      *         {@code &lt;number_of_samples&gt; * k} size.
      *     @param k Number of used nearest neighbors. Should be greater than 1.
      *     @param results Vector with results of prediction (regression or classification) for each input
-     *         content_topic1_sample. It is a single-precision floating-point vector with {@code &lt;number_of_samples&gt;} elements.
+     *         sample. It is a single-precision floating-point vector with {@code &lt;number_of_samples&gt;} elements.
      *         precision floating-point matrix of {@code &lt;number_of_samples&gt; * k} size.
      *         is a single-precision floating-point matrix of {@code &lt;number_of_samples&gt; * k} size.
      *

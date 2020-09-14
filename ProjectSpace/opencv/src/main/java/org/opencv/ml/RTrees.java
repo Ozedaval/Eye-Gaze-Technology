@@ -132,9 +132,9 @@ public class RTrees extends DTrees {
     /**
      * Returns the result of each individual tree in the forest.
      *     In case the model is a regression problem, the method will return each of the trees'
-     *     results for each of the content_topic1_sample cases. If the model is a classifier, it will return
+     *     results for each of the sample cases. If the model is a classifier, it will return
      *     a Mat with samples + 1 rows, where the first row gives the class number and the
-     *     following rows return the votes each class had for each content_topic1_sample.
+     *     following rows return the votes each class had for each sample.
      *         @param samples Array containing the samples for which votes will be calculated.
      *         @param results Array where the result of the calculation will be written.
      *         @param flags Flags for defining the type of RTrees.

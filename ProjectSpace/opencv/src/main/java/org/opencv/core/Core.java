@@ -901,7 +901,7 @@ public class Core {
      *
      * The function kmeans implements a k-means algorithm that finds the centers of cluster_count clusters
      * and groups the input samples around the clusters. As an output, \(\texttt{bestLabels}_i\) contains a
-     * 0-based cluster index for the content_topic1_sample stored in the \(i^{th}\) row of the samples matrix.
+     * 0-based cluster index for the sample stored in the \(i^{th}\) row of the samples matrix.
      *
      * <b>Note:</b>
      * <ul>
@@ -923,7 +923,7 @@ public class Core {
      *   <li>
      *    std::vector&lt;cv::Point2f&gt; points(sampleCount);
      * @param K Number of clusters to split the set by.
-     * @param bestLabels Input/output integer array that stores the cluster indices for every content_topic1_sample.
+     * @param bestLabels Input/output integer array that stores the cluster indices for every sample.
      * @param criteria The algorithm termination criteria, that is, the maximum number of iterations and/or
      * the desired accuracy. The accuracy is specified as criteria.epsilon. As soon as each of the cluster
      * centers moves by less than criteria.epsilon on some iteration, the algorithm stops.
@@ -951,7 +951,7 @@ public class Core {
      *
      * The function kmeans implements a k-means algorithm that finds the centers of cluster_count clusters
      * and groups the input samples around the clusters. As an output, \(\texttt{bestLabels}_i\) contains a
-     * 0-based cluster index for the content_topic1_sample stored in the \(i^{th}\) row of the samples matrix.
+     * 0-based cluster index for the sample stored in the \(i^{th}\) row of the samples matrix.
      *
      * <b>Note:</b>
      * <ul>
@@ -973,7 +973,7 @@ public class Core {
      *   <li>
      *    std::vector&lt;cv::Point2f&gt; points(sampleCount);
      * @param K Number of clusters to split the set by.
-     * @param bestLabels Input/output integer array that stores the cluster indices for every content_topic1_sample.
+     * @param bestLabels Input/output integer array that stores the cluster indices for every sample.
      * @param criteria The algorithm termination criteria, that is, the maximum number of iterations and/or
      * the desired accuracy. The accuracy is specified as criteria.epsilon. As soon as each of the cluster
      * centers moves by less than criteria.epsilon on some iteration, the algorithm stops.
@@ -1059,7 +1059,7 @@ public class Core {
      * This version of #norm calculates the absolute norm of src1. The type of norm to calculate is specified using #NormTypes.
      *
      * As example for one array consider the function \(r(x)= \begin{pmatrix} x \\ 1-x \end{pmatrix}, x \in [-1;1]\).
-     * The \( L_{1}, L_{2} \) and \( L_{\infty} \) norm for the content_topic1_sample value \(r(-1) = \begin{pmatrix} -1 \\ 2 \end{pmatrix}\)
+     * The \( L_{1}, L_{2} \) and \( L_{\infty} \) norm for the sample value \(r(-1) = \begin{pmatrix} -1 \\ 2 \end{pmatrix}\)
      * is calculated as follows
      * \(align*}
      *     \| r(-1) \|_{L_1} &amp;= |-1| + |2| = 3 \\
@@ -1101,7 +1101,7 @@ public class Core {
      * This version of #norm calculates the absolute norm of src1. The type of norm to calculate is specified using #NormTypes.
      *
      * As example for one array consider the function \(r(x)= \begin{pmatrix} x \\ 1-x \end{pmatrix}, x \in [-1;1]\).
-     * The \( L_{1}, L_{2} \) and \( L_{\infty} \) norm for the content_topic1_sample value \(r(-1) = \begin{pmatrix} -1 \\ 2 \end{pmatrix}\)
+     * The \( L_{1}, L_{2} \) and \( L_{\infty} \) norm for the sample value \(r(-1) = \begin{pmatrix} -1 \\ 2 \end{pmatrix}\)
      * is calculated as follows
      * \(align*}
      *     \| r(-1) \|_{L_1} &amp;= |-1| + |2| = 3 \\
@@ -1142,7 +1142,7 @@ public class Core {
      * This version of #norm calculates the absolute norm of src1. The type of norm to calculate is specified using #NormTypes.
      *
      * As example for one array consider the function \(r(x)= \begin{pmatrix} x \\ 1-x \end{pmatrix}, x \in [-1;1]\).
-     * The \( L_{1}, L_{2} \) and \( L_{\infty} \) norm for the content_topic1_sample value \(r(-1) = \begin{pmatrix} -1 \\ 2 \end{pmatrix}\)
+     * The \( L_{1}, L_{2} \) and \( L_{\infty} \) norm for the sample value \(r(-1) = \begin{pmatrix} -1 \\ 2 \end{pmatrix}\)
      * is calculated as follows
      * \(align*}
      *     \| r(-1) \|_{L_1} &amp;= |-1| + |2| = 3 \\
@@ -2974,7 +2974,7 @@ public class Core {
      * current implementation). Such an efficient DFT size can be calculated using the getOptimalDFTSize
      * method.
      *
-     * The content_topic1_sample below illustrates how to calculate a DFT-based convolution of two 2D real arrays:
+     * The sample below illustrates how to calculate a DFT-based convolution of two 2D real arrays:
      * <code>
      *     void convolveDFT(InputArray A, InputArray B, OutputArray C)
      *     {
@@ -3016,7 +3016,7 @@ public class Core {
      *         // all the temporary buffers will be deallocated automatically
      *     }
      * </code>
-     * To optimize this content_topic1_sample, consider the following approaches:
+     * To optimize this sample, consider the following approaches:
      * <ul>
      *   <li>
      *    Since nonzeroRows != 0 is passed to the forward transform calls and since A and B are copied to
@@ -3152,7 +3152,7 @@ public class Core {
      * current implementation). Such an efficient DFT size can be calculated using the getOptimalDFTSize
      * method.
      *
-     * The content_topic1_sample below illustrates how to calculate a DFT-based convolution of two 2D real arrays:
+     * The sample below illustrates how to calculate a DFT-based convolution of two 2D real arrays:
      * <code>
      *     void convolveDFT(InputArray A, InputArray B, OutputArray C)
      *     {
@@ -3194,7 +3194,7 @@ public class Core {
      *         // all the temporary buffers will be deallocated automatically
      *     }
      * </code>
-     * To optimize this content_topic1_sample, consider the following approaches:
+     * To optimize this sample, consider the following approaches:
      * <ul>
      *   <li>
      *    Since nonzeroRows != 0 is passed to the forward transform calls and since A and B are copied to
@@ -3329,7 +3329,7 @@ public class Core {
      * current implementation). Such an efficient DFT size can be calculated using the getOptimalDFTSize
      * method.
      *
-     * The content_topic1_sample below illustrates how to calculate a DFT-based convolution of two 2D real arrays:
+     * The sample below illustrates how to calculate a DFT-based convolution of two 2D real arrays:
      * <code>
      *     void convolveDFT(InputArray A, InputArray B, OutputArray C)
      *     {
@@ -3371,7 +3371,7 @@ public class Core {
      *         // all the temporary buffers will be deallocated automatically
      *     }
      * </code>
-     * To optimize this content_topic1_sample, consider the following approaches:
+     * To optimize this sample, consider the following approaches:
      * <ul>
      *   <li>
      *    Since nonzeroRows != 0 is passed to the forward transform calls and since A and B are copied to
@@ -3837,7 +3837,7 @@ public class Core {
      * @param dst output array whose size and type depend on the flags.
      * @param flags operation flags (see dft and #DftFlags).
      * @param nonzeroRows number of dst rows to process; the rest of the rows have undefined content (see
-     * the convolution content_topic1_sample in dft description.
+     * the convolution sample in dft description.
      */
     public static void idft(Mat src, Mat dst, int flags, int nonzeroRows) {
         idft_0(src.nativeObj, dst.nativeObj, flags, nonzeroRows);
@@ -3853,7 +3853,7 @@ public class Core {
      * @param src input floating-point real or complex array.
      * @param dst output array whose size and type depend on the flags.
      * @param flags operation flags (see dft and #DftFlags).
-     * the convolution content_topic1_sample in dft description.
+     * the convolution sample in dft description.
      */
     public static void idft(Mat src, Mat dst, int flags) {
         idft_1(src.nativeObj, dst.nativeObj, flags);
@@ -3868,7 +3868,7 @@ public class Core {
      * SEE: dft, dct, idct, mulSpectrums, getOptimalDFTSize
      * @param src input floating-point real or complex array.
      * @param dst output array whose size and type depend on the flags.
-     * the convolution content_topic1_sample in dft description.
+     * the convolution sample in dft description.
      */
     public static void idft(Mat src, Mat dst) {
         idft_2(src.nativeObj, dst.nativeObj);

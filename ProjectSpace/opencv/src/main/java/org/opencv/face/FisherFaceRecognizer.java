@@ -63,7 +63,7 @@ public class FisherFaceRecognizer extends BasicFaceRecognizer {
      *         eigenvalue).
      *   </li>
      *   <li>
-     *        mean The content_topic1_sample mean calculated from the training data.
+     *        mean The sample mean calculated from the training data.
      *   </li>
      *   <li>
      *        projections The projections of the training data.
@@ -121,7 +121,7 @@ public class FisherFaceRecognizer extends BasicFaceRecognizer {
      *         eigenvalue).
      *   </li>
      *   <li>
-     *        mean The content_topic1_sample mean calculated from the training data.
+     *        mean The sample mean calculated from the training data.
      *   </li>
      *   <li>
      *        projections The projections of the training data.
@@ -178,7 +178,7 @@ public class FisherFaceRecognizer extends BasicFaceRecognizer {
      *         eigenvalue).
      *   </li>
      *   <li>
-     *        mean The content_topic1_sample mean calculated from the training data.
+     *        mean The sample mean calculated from the training data.
      *   </li>
      *   <li>
      *        projections The projections of the training data.

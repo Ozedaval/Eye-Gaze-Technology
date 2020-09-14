@@ -15,7 +15,7 @@ import org.opencv.text.OCRHMMDecoder;
  * <ul>
  *   <li>
  *       (C++) An example on using OCRHMMDecoder recognition combined with scene text detection can
- *         be found at the webcam_demo content_topic1_sample:
+ *         be found at the webcam_demo sample:
  *         &lt;https://github.com/opencv/opencv_contrib/blob/master/modules/text/samples/webcam_demo.cpp&gt;
  *   </li>
  * </ul>

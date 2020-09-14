@@ -11,7 +11,7 @@ import org.opencv.xfeatures2d.BriefDescriptorExtractor;
  * Class for computing BRIEF descriptors described in CITE: calon2010 .
  *
  * bytes legth of the descriptor in bytes, valid values are: 16, 32 (default) or 64 .
- * use_orientation content_topic1_sample patterns using keypoints orientation, disabled by default.
+ * use_orientation sample patterns using keypoints orientation, disabled by default.
  */
 public class BriefDescriptorExtractor extends Feature2D {
 

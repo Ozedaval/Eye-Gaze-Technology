@@ -56,7 +56,7 @@ import org.opencv.utils.Converters;
  *     database!).
  *   </li>
  *   <li>
- *    <b>Prediction</b> of a given content_topic1_sample image, that means a face. The image is given as a Mat.
+ *    <b>Prediction</b> of a given sample image, that means a face. The image is given as a Mat.
  *   </li>
  *   <li>
  *    <b>Loading/Saving</b> the model state from/to a given XML or YAML.
@@ -219,7 +219,7 @@ public class FaceRecognizer extends Algorithm {
      *     using namespace cv;
      *     // Do your initialization here (create the cv::FaceRecognizer model) ...
      *     // ...
-     *     // Read in a content_topic1_sample image:
+     *     // Read in a sample image:
      *     Mat img = imread("person1/3.jpg", IMREAD_GRAYSCALE);
      *     // And get a prediction from the cv::FaceRecognizer:
      *     int predicted = model-&gt;predict(img);

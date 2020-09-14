@@ -28,7 +28,7 @@ public class DetectionEngineMaker {
         /*TODO*/
         switch (approach){
             case OPEN_CV_SPARSE_FLOW:
-
+                return new SparseFlowDetector();
         }
 
     return null;}

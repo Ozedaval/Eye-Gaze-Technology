@@ -1,14 +1,12 @@
 package com.pwc.commsgaze;
 
 /**
- * Defined Directions for Eye Tracking;Implements runnable as to access main UI thread
+ * Defined Directions for Eye Tracking;
  */
 
-public enum Direction implements Runnable {
+public enum Direction {
     TOP,LEFT,NEUTRAL,RIGHT,BOTTOM,UNKNOWN;
 
 
-    @Override
-    public void run() {
-    }
+
 }

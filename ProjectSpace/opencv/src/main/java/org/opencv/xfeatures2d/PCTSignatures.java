@@ -65,7 +65,7 @@ public class PCTSignatures extends Algorithm {
     //
 
     /**
-     * Creates PCTSignatures algorithm using content_topic1_sample and seed count.
+     * Creates PCTSignatures algorithm using sample and seed count.
      * It generates its own sets of sampling points and clusterization seed indexes.
      * @param initSampleCount Number of points used for image sampling.
      * @param initSeedCount Number of initial clusterization seeds.
@@ -79,7 +79,7 @@ public class PCTSignatures extends Algorithm {
     }
 
     /**
-     * Creates PCTSignatures algorithm using content_topic1_sample and seed count.
+     * Creates PCTSignatures algorithm using sample and seed count.
      * It generates its own sets of sampling points and clusterization seed indexes.
      * @param initSampleCount Number of points used for image sampling.
      * @param initSeedCount Number of initial clusterization seeds.
@@ -92,7 +92,7 @@ public class PCTSignatures extends Algorithm {
     }
 
     /**
-     * Creates PCTSignatures algorithm using content_topic1_sample and seed count.
+     * Creates PCTSignatures algorithm using sample and seed count.
      * It generates its own sets of sampling points and clusterization seed indexes.
      * @param initSampleCount Number of points used for image sampling.
      * Must be lower or equal to initSampleCount
@@ -104,7 +104,7 @@ public class PCTSignatures extends Algorithm {
     }
 
     /**
-     * Creates PCTSignatures algorithm using content_topic1_sample and seed count.
+     * Creates PCTSignatures algorithm using sample and seed count.
      * It generates its own sets of sampling points and clusterization seed indexes.
      * Must be lower or equal to initSampleCount
      * Available: UNIFORM, REGULAR, NORMAL.
@@ -384,7 +384,7 @@ public class PCTSignatures extends Algorithm {
     /**
      * Size of the texture sampling window used to compute contrast and entropy
      * (center of the window is always in the pixel selected by x,y coordinates
-     * of the corresponding feature content_topic1_sample).
+     * of the corresponding feature sample).
      * @return automatically generated
      */
     public int getWindowRadius() {
@@ -637,7 +637,7 @@ public class PCTSignatures extends Algorithm {
     //
 
     /**
-     * Sets sampling points used to content_topic1_sample the input image.
+     * Sets sampling points used to sample the input image.
      * @param samplingPoints Vector of sampling points in range [0..1)
      * <b>Note:</b> Number of sampling points must be greater or equal to clusterization seed count.
      */
@@ -844,7 +844,7 @@ public class PCTSignatures extends Algorithm {
     /**
      * Size of the texture sampling window used to compute contrast and entropy
      * (center of the window is always in the pixel selected by x,y coordinates
-     * of the corresponding feature content_topic1_sample).
+     * of the corresponding feature sample).
      * @param radius automatically generated
      */
     public void setWindowRadius(int radius) {

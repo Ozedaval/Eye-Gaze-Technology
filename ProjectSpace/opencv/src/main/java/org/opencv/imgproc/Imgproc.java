@@ -1704,9 +1704,9 @@ public class Imgproc {
      * value, correspondingly. When measureDist=false , the return value is +1, -1, and 0, respectively.
      * Otherwise, the return value is a signed distance between the point and the nearest contour edge.
      *
-     * See below a content_topic1_sample output of the function where each image pixel is tested against the contour:
+     * See below a sample output of the function where each image pixel is tested against the contour:
      *
-     * ![content_topic1_sample output](pics/pointpolygon.png)
+     * ![sample output](pics/pointpolygon.png)
      *
      * @param contour Input contour.
      * @param pt Point tested against the contour.
@@ -3179,7 +3179,7 @@ public class Imgproc {
      *
      * See the line detection example below:
      * INCLUDE: snippets/imgproc_HoughLinesP.cpp
-     * This is a content_topic1_sample picture the function parameters have been tuned for:
+     * This is a sample picture the function parameters have been tuned for:
      *
      * ![image](pics/building.jpg)
      *
@@ -3212,7 +3212,7 @@ public class Imgproc {
      *
      * See the line detection example below:
      * INCLUDE: snippets/imgproc_HoughLinesP.cpp
-     * This is a content_topic1_sample picture the function parameters have been tuned for:
+     * This is a sample picture the function parameters have been tuned for:
      *
      * ![image](pics/building.jpg)
      *
@@ -3244,7 +3244,7 @@ public class Imgproc {
      *
      * See the line detection example below:
      * INCLUDE: snippets/imgproc_HoughLinesP.cpp
-     * This is a content_topic1_sample picture the function parameters have been tuned for:
+     * This is a sample picture the function parameters have been tuned for:
      *
      * ![image](pics/building.jpg)
      *
@@ -6482,7 +6482,7 @@ public class Imgproc {
      *
      * The function retrieves contours from the binary image using the algorithm CITE: Suzuki85 . The contours
      * are a useful tool for shape analysis and object detection and recognition. See squares.cpp in the
-     * OpenCV content_topic1_sample directory.
+     * OpenCV sample directory.
      * <b>Note:</b> Since opencv 3.2 source image is not modified by this function.
      *
      * @param image Source, an 8-bit single-channel image. Non-zero pixels are treated as 1's. Zero
@@ -6515,7 +6515,7 @@ public class Imgproc {
      *
      * The function retrieves contours from the binary image using the algorithm CITE: Suzuki85 . The contours
      * are a useful tool for shape analysis and object detection and recognition. See squares.cpp in the
-     * OpenCV content_topic1_sample directory.
+     * OpenCV sample directory.
      * <b>Note:</b> Since opencv 3.2 source image is not modified by this function.
      *
      * @param image Source, an 8-bit single-channel image. Non-zero pixels are treated as 1's. Zero

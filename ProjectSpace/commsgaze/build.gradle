@@ -13,21 +13,8 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++11"
-                arguments "-DANDROID_STL=c++_shared"
-            }
-        }
-    }
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
-        }
     }
 
 
@@ -50,5 +37,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+   /*debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'*/
 
 }

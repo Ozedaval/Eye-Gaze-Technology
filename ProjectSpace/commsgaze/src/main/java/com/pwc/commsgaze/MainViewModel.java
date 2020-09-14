@@ -28,7 +28,7 @@ public class MainViewModel extends ViewModel {
     /*Check on UI thread for shared preference before calling this*/
     LiveData<Boolean> getIsFirstRun() {
         if (isFirstRun == null) {
-            isFirstRun= new MutableLiveData<Boolean>();
+            isFirstRun = new MutableLiveData<Boolean>();
             isFirstRun.setValue(true);
             Log.d(TAG,"getIsFirstRunCalled");
         }
