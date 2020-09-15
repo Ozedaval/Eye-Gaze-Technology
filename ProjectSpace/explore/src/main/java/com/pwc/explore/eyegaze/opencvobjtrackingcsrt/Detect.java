@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.pwc.explore.Direction;
 
+import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.MatOfRect2d;
 import org.opencv.core.Point;
@@ -110,6 +112,8 @@ public class Detect {
                 MatOfRect eyes = new MatOfRect();
                 eyesCascade.detectMultiScale(faceROI, eyes);
                 List<Rect> listOfEyes = eyes.toList();
+                ArrayList eyeBoundary=new ArrayList<>();
+                Mat[] eyesROI=new Mat[listOfEyes.size()];
                 List<Rect2d> listOfEyesRect2d  = new ArrayList<>(2);
 
                 for(Rect eye:listOfEyes) {
@@ -120,13 +124,36 @@ public class Detect {
                     Rect2d eyeRect2d = changeRectType(eye.clone());
                     Log.d(TAG, "TrackerCSRT  init ");
                     Log.d(TAG, "eyeRect2d " + eyeRect2d.toString());
+
                     listOfEyesRect2d.add(eyeRect2d);
                 }
 
                 /*TODO find unique Rect2d*/
                 if(listOfEyesRect2d.size() == 2 && listOfEyes.get(0).x!= listOfEyes.get(1).x) {
-                    multiTracker.add(TrackerCSRT.create(), frameRGB, listOfEyesRect2d.get(0));
-                    multiTracker.add(TrackerCSRT.create(), frameRGB, listOfEyesRect2d.get(1));
+                    for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
+                        Rect eye = listOfEyes.get(i);
+                        eyesROI[i]=frame.submat(eye);
+                        eyeBoundary.add(eye.clone());
+                        Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
+                        Mat eyeROICanny = new Mat();
+                        Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 2);
+                        MatOfKeyPoint blobs = new MatOfKeyPoint();
+                        Log.d(TAG, "eyeroi"+eyeROICanny.empty());
+                        Log.d(TAG, "eyeroi"+eye);
+                        simpleBlobDetector.detect(eyeROICanny, blobs);
+                        Log.d(TAG, "blobs: "+blobs.size().toString());
+                        Log.d(TAG, "blobs: "+blobs.empty());
+                        List<KeyPoint> blobArray=blobs.toList();
+                        Log.d(TAG, "blobslist: "+blobArray.isEmpty());
+                        Log.d(TAG, "blobslist: "+blobArray.size());
+                        Log.d(TAG, "blobs: "+blobArray.get(0));
+                        Log.d(TAG, "eye"+eye.x+"y is"+eye.y);
+                        Log.d(TAG, "eye size"+eye.height+";"+eye.width);
+                        Point blobcentre=blobArray.get(0).pt;
+                        blobcentre.x=eye.x+blobcentre.x;
+                        blobcentre.y=eye.y+blobcentre.y;
+                        Rect2d eyerect=new Rect2d(blobcentre.x,blobcentre.y,eye.clone().width/4,eye.clone().height/4);
+                        multiTracker.add(TrackerCSRT.create(),frameRGB, eyerect);}
                     isTrackerInitialised = true;
                     Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
                 }
