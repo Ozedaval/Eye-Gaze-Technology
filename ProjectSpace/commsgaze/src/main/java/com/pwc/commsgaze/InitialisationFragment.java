@@ -36,7 +36,7 @@ public class InitialisationFragment extends DialogFragment {
     private static final String TAG = "Initialisation Fragment";
     private Initialisation initialisationAsync;
     private Stack<File> contentAudioExternalFileStack = new Stack<>();
-    private MutableLiveData<Boolean> isInitialisationAsyncDone;
+    private boolean isInitialisationAsyncDone;
     private boolean isTTSConversationDone;
 
 
@@ -54,15 +54,6 @@ public class InitialisationFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isInitialisationAsyncDone = new MutableLiveData<>();
-        isInitialisationAsyncDone.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(isTTSConversationDone && aBoolean){
-                    closeFragment();
-                }
-            }
-        });
 
         final InitialisationFragment initialisationFragment = this;
         textToSpeech = new TextToSpeech(requireContext(), new TextToSpeech.OnInitListener() {
@@ -85,9 +76,8 @@ public class InitialisationFragment extends DialogFragment {
                                 textToSpeech.synthesizeToFile(parseTextFromFileName(audioFile), null, audioFile, TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID);
                             } else {
                                 isTTSConversationDone=true;
-                                boolean isInitAsyncDoneLocal = isInitialisationAsyncDone.getValue()!= null?isInitialisationAsyncDone.getValue():false;
-                                Log.d(TAG,"TTS onDone initAsyncDone? "+ isInitAsyncDoneLocal);
-                                if(isInitAsyncDoneLocal) {
+                                Log.d(TAG,"TTS onDone initAsyncDone? "+ isInitialisationAsyncDone);
+                                if(isInitialisationAsyncDone) {
                                     if(getActivity()!= null)
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
@@ -161,6 +151,8 @@ public class InitialisationFragment extends DialogFragment {
 
 
     void closeFragment(){
+        textToSpeech.shutdown();
+        textToSpeech = null;
         Log.d(TAG," closeFragment called");
         /*Temporarily here to make a smooth UI transition (Visually) */
         new Handler().postDelayed(new Runnable() {
@@ -174,7 +166,10 @@ public class InitialisationFragment extends DialogFragment {
     }
 
     void setInitialisationAsyncDone(){
-        isInitialisationAsyncDone.setValue(true);
+        isInitialisationAsyncDone = true;
+        if(isTTSConversationDone){
+            closeFragment();
+        }
     }
 
     @Override
