@@ -69,10 +69,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             final MediaPlayer  mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setAudioAttributes(
-                    new AudioAttributes.Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .build()
+            new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build()
             );
             try {
                 mediaPlayer.setDataSource(v.getContext(), audioUri);
@@ -86,7 +86,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

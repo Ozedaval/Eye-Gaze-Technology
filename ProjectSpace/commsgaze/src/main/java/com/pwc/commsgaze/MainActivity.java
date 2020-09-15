@@ -22,6 +22,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 
@@ -87,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
             if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(TAG ," onResume "+"ViewModel LiveData isa" + mainViewModel.getIsFirstRun().getValue());
+                Log.d(TAG ," onResume "+"ViewModel LiveData is a" + mainViewModel.getIsFirstRun().getValue());
                 Log.d(TAG , "on Resume Called");
 
                 DialogFragment initialisationFragment = new InitialisationFragment();
@@ -99,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
         recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
-        gridLayoutManager = new GridLayoutManager(this,3);
-        binding.recyclerViewMain.setHasFixedSize(true);
+        gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
         binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
@@ -115,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*configs go away when app activity is re-opened*/
+        hideSystemUI();
     }
 
     /*Hides System UI

@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:id="@+id/mainCoordinatorLayout"
     android:background="#FFFFFF"
+    android:fitsSystemWindows="false"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
