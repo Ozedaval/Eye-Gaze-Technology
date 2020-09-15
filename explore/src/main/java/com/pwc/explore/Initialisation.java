@@ -20,6 +20,10 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private FileOutputStream eyeModelOutputStream;
     private FileOutputStream faceModelOutputStream;
     private static final String TAG="Initialisation";
+    private InputStream ssdCMInputStream;
+    private InputStream ssdPTInputStream;
+    private FileOutputStream ssdCMOutputStream;
+    private FileOutputStream ssdPTOutputStream;
 
 
     Initialisation(Context context){
@@ -31,9 +35,13 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     protected void onPreExecute() {
         Context context=contextWeakReference.get();
         Log.d(TAG," ProgressBar Done setup for progress bar");
+        ssdCMInputStream = context.getResources().openRawResource(R.raw.mobilenetssd_deploy_cm);
+        ssdPTInputStream = context.getResources().openRawResource(R.raw.mobilenetssd_deploy_pt);
         eyeModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_eye_tree_eyeglasses);
         faceModelInputStream = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt);
         try {
+            ssdCMOutputStream = context.openFileOutput("mobilenetssd_deploy_cm.caffemodel",MODE_PRIVATE);
+            ssdPTOutputStream = context.openFileOutput("mobilenetssd_deploy_pt.prototxt",MODE_PRIVATE);
             eyeModelOutputStream=context.openFileOutput("eyeModel.xml", MODE_PRIVATE);
             faceModelOutputStream=context.openFileOutput("faceModel.xml", MODE_PRIVATE);
         } catch (FileNotFoundException e) {
@@ -46,6 +54,8 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     protected Boolean doInBackground(Void... voids) {
         /*TODO 1( Need to delete xml attached to apk in res/raw)*/
         try {
+            write(ssdPTInputStream,ssdPTOutputStream);
+            write(ssdCMInputStream,ssdCMOutputStream);
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
             return true;
@@ -69,7 +79,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
      * @param out:The Stream upon which data is to be written.
      * https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard*/
     private void write(InputStream in, FileOutputStream out) throws IOException {
-        byte[] buff = new byte[1024 * 1024 * 2]; //2MB file
+        byte[] buff = new byte[1024 * 1024 * 40]; //2MB file
         int read = 0;
         try {
             while ((read = in.read(buff)) > 0) {

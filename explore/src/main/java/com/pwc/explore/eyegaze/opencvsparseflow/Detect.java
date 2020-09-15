@@ -81,12 +81,18 @@ public class Detect {
         /*Log.d(TAG,"Detect method called");*/
         calculateNeedCalibration(false,false);
         Mat frameGray = new Mat();
+        Mat frameRGB = new Mat();
+
+
+        Imgproc.cvtColor(frame,frameRGB,Imgproc.COLOR_RGBA2RGB);
 
         /*Creating a Grayscale version of the Image*/
         Imgproc.cvtColor(frame, frameGray, Imgproc.COLOR_BGR2GRAY);
 
         /*Increasing contrast & brightness of the image appropriately*/
         Imgproc.equalizeHist(frameGray, frameGray);
+
+
 
         /*Detecting faces*/
         // MatOfRect faces = new MatOfRect();
@@ -98,7 +104,8 @@ public class Detect {
         final double IN_SCALE_FACTOR = 0.007843;
         final double MEAN_VAL = 127.5;
         final double THRESHOLD = 0.2;
-        Mat pts = Dnn.blobFromImage(frameGray, IN_SCALE_FACTOR,
+
+        Mat pts = Dnn.blobFromImage(frameRGB, IN_SCALE_FACTOR,
                 new Size(IN_WIDTH, IN_HEIGHT),
                 new Scalar(MEAN_VAL, MEAN_VAL, MEAN_VAL), /*swapRB*/false, /*crop*/false);
         // Pass the blobs through the network and obtain the detections and predictions

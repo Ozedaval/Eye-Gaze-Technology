@@ -3,6 +3,7 @@ package com.pwc.explore.eyegaze.opencvsparseflow;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import org.opencv.core.Mat;
 import org.opencv.dnn.Dnn;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.dnn.Net;
+
+import java.util.Arrays;
 
 /* Handles Gaze tracking Activity*/
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
@@ -59,9 +62,11 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         /*Load the pre-trained network.
         protocol file: MobileNetSSD_deploy.prototext
         model file: MobileNetSSD_deploy.caffemodel*/
-        String proto = "../../MobileNetSSD/MobileNetSSD_deploy.prototxt";
-        String weights = "../../MobileNetSSD/MobileNetSSD_deploy.caffemodel";
+        String proto = getFileStreamPath("mobilenetssd_deploy_pt.prototxt").getAbsolutePath();
+        String weights = getFileStreamPath("mobilenetssd_deploy_cm.caffemodel").getAbsolutePath();
+        Log.d(TAG, Arrays.toString(fileList()));
         net = Dnn.readNetFromCaffe(proto, weights);
+
         // Log.i(TAG, "Network loaded successfully");
         /*Log.d(TAG, Arrays.toString(fileList()));
         Log.d(TAG, getFileStreamPath("eyeModel.xml").getAbsolutePath());
