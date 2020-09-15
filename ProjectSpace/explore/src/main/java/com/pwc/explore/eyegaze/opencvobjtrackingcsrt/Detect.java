@@ -148,13 +148,15 @@ public class Detect {
 //                        Log.d(TAG, "blobs: "+blobArray.get(0));
 //                        Log.d(TAG, "eye"+eye.x+"y is"+eye.y);
 //                        Log.d(TAG, "eye size"+eye.height+";"+eye.width);
-                        Point blobcentre=blobArray.get(0).pt;
-                        blobcentre.x=eye.x+blobcentre.x;
-                        blobcentre.y=eye.y+blobcentre.y;
-                        Rect2d eyeRect2d = new Rect2d(eye.x, eye.y, eye.width, eye.height);
-                        Rect2d eyerect=new Rect2d(blobcentre.x,blobcentre.y,eye.clone().width/4,eye.clone().height/4);
-                        multiTracker.add(TrackerCSRT.create(),frameRGB, eyeRect2d);
-                        multiTracker.add(TrackerCSRT.create(),frameRGB, eyerect);
+                        if (blobArray.size() != 0) {
+                            Point blobcentre = blobArray.get(0).pt;
+                            blobcentre.x = eye.x + blobcentre.x;
+                            blobcentre.y = eye.y + blobcentre.y;
+                            Rect2d eyeRect2d = new Rect2d(eye.x, eye.y, eye.width, eye.height);
+                            Rect2d eyerect = new Rect2d(blobcentre.x, blobcentre.y, eye.clone().width / 4, eye.clone().height / 4);
+                            multiTracker.add(TrackerCSRT.create(), frameRGB, eyeRect2d);
+                            multiTracker.add(TrackerCSRT.create(), frameRGB, eyerect);
+                        }
                     }
                     isTrackerInitialised = true;
                     Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
