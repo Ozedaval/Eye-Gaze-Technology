@@ -1,5 +1,6 @@
 package com.pwc.commsgaze;
 
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Arrays;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     /*TODO use data from Room Database instead of temporary data*/
@@ -53,6 +56,14 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         @Override
         public void onClick(View v) {
             Log.d(TAG,"View " +textView.getText() +" is selected");
+            Log.d(TAG, Arrays.toString(itemView.getContext().getExternalFilesDirs(null)));
+        /*    MediaPlayer mediaPlayer = MediaPlayer.create(itemView.getContext(),)
+            mediaPlayer.setAudioAttributes(
+                    AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
+            );*/
 
         }
     }

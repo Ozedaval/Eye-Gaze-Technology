@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
         recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
-        gridLayoutManager = new GridLayoutManager(this,4);
+        gridLayoutManager = new GridLayoutManager(this,3);
 
 
         binding.recyclerViewMain.setHasFixedSize(true);
