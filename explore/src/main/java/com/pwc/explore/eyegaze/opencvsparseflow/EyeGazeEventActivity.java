@@ -18,7 +18,6 @@ import org.opencv.core.Mat;
 import org.opencv.dnn.Dnn;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.dnn.Net;
-import org.opencv.dnn.Dnn;
 
 /* Handles Gaze tracking Activity*/
 public class EyeGazeEventActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
@@ -37,6 +36,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     private Detect detect;
     private static final String TAG="EyeGazeEventActivity";
     private ActivityEventBinding binding;
+    private Net net;
 
 
     @Override
@@ -61,7 +61,6 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         model file: MobileNetSSD_deploy.caffemodel*/
         String proto = "../../MobileNetSSD/MobileNetSSD_deploy.prototxt";
         String weights = "../../MobileNetSSD/MobileNetSSD_deploy.caffemodel";
-        Net net;
         net = Dnn.readNetFromCaffe(proto, weights);
         // Log.i(TAG, "Network loaded successfully");
         /*Log.d(TAG, Arrays.toString(fileList()));
