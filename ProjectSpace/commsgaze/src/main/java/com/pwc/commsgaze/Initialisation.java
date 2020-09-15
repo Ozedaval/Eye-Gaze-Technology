@@ -2,7 +2,6 @@ package com.pwc.commsgaze;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
 import java.io.File;

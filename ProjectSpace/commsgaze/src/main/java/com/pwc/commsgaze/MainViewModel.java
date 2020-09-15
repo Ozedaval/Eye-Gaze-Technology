@@ -1,11 +1,11 @@
 package com.pwc.commsgaze;
 
 import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.DetectionEngineMaker;
 import com.pwc.commsgaze.detection.Detector;
 
