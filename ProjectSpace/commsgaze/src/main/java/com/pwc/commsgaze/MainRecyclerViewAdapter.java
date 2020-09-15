@@ -11,26 +11,53 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     /*TODO use data from Room Database instead of temporary data*/
     public final static String TAG = "MainRecyclerViewAdapter";
     private String[] data;
+    private MutableLiveData<Set<ViewHolder>> mutableLiveDataViewHolders;
+
+
+    public LiveData<Set<ViewHolder>> getAllBoundedViewHolders() {
+        return (LiveData<Set<ViewHolder>>) mutableLiveDataViewHolders;
+    }
+
 
     @NonNull
     @Override
     public MainRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_main_adapter,parent,false);
-        return new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+        if(mutableLiveDataViewHolders.getValue()!=null) {
+            Set<ViewHolder> viewHolderSet = mutableLiveDataViewHolders.getValue();
+            viewHolderSet.add(viewHolder);
+            mutableLiveDataViewHolders.setValue(viewHolderSet);
+        }
+        Log.d(TAG,"Adding to boundedViewHolder " + mutableLiveDataViewHolders.getValue().toString());
+        return viewHolder;
     }
 
 
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
+      /*  boundedViewHolder.remove(holder);*/
+    }
+
     public MainRecyclerViewAdapter(String[] data){
         this.data = data;
+        mutableLiveDataViewHolders = new MutableLiveData<>();
+        mutableLiveDataViewHolders.setValue(new HashSet<ViewHolder>());
+
     }
 
     @Override
@@ -59,7 +86,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG,"View " +textView.getText() +" is selected");
+            Log.d(TAG,"View " + textView.getText() +" is selected");
             File externalFileDir = v.getContext().getExternalFilesDir(null);
 
 

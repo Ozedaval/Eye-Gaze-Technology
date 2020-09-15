@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -103,6 +104,14 @@ public class MainActivity extends AppCompatActivity {
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
         binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
+
+        recyclerViewAdapter.getAllBoundedViewHolders().observe(this, new Observer<Set<MainRecyclerViewAdapter.ViewHolder>>() {
+            @Override
+            public void onChanged(Set<MainRecyclerViewAdapter.ViewHolder> viewHolders) {
+                Log.d(TAG,"Total Visible View Holder " + viewHolders.toString());
+            }
+        });
+
     }
 
 
@@ -119,8 +128,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG," onResume called ");
         /*configs go away when app activity is re-opened*/
         hideSystemUI();
+
+
     }
 
     /*Hides System UI
