@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pwc.explore.Miscellaneous">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:weightSum="5">
+
+    <Button
+        android:id="@+id/calibrationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startCalibrationSelection"
+        android:layout_weight="1"
+        android:text="@string/calibration" />
+
+    <Button
+        android:id="@+id/eyeGazeColorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startEyeGazeBlob"
+        android:layout_weight="1"
+        android:text="@string/eye_gaze_blob"
+        />
+
+    <Button
+        android:id="@+id/eyeGazeShapeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="startEyeGazeShape"
+        android:text="@string/eye_gaze_shape"
+        />
+
+    <Button
+        android:id="@+id/eyeGazeMaxAreaButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startEyeGazeMaxArea"
+        android:layout_weight="1"
+        android:text="@string/eye_gaze_max_area"
+        />
+
+
+
+
+
+   </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

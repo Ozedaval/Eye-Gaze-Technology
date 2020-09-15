@@ -1,0 +1,31 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:1-6:12
+	package
+		ADDED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:3:7-27
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:5:7-34
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml:4:7-33
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+uses-sdk
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+		ADDED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
+		INJECTED from D:\University\ANU 2020\COMP4500\Eye-Gaze-Technology-master\ProjectSpace\OpenCVLibrary\src\main\AndroidManifest.xml
