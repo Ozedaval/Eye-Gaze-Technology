@@ -28,8 +28,8 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
       This preview can be hidden by changing the output of the callback:onCameraFrame.
       The Output produced by the camera is flipped & needs to be addressed.This is an already existing underlying issue in OpenCV*/
 
-//
- static{ System.loadLibrary( "opencv_java4" );}
+    //
+    static{ System.loadLibrary( "opencv_java4" );}
 
     private CascadeClassifier faceCascade;
     private CascadeClassifier eyesCascade;
@@ -60,7 +60,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
         faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
         eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
 
-        detect=new Detect();
+        detect=new Detect(faceCascade,eyesCascade);
     }
 
 
@@ -77,13 +77,13 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-      binding.eventTextView.post(new Runnable() {
+        binding.eventTextView.post(new Runnable() {
             @Override
             public void run() {
                 binding.eventTextView.setText(detect.getDirection()+"");
             }
         });
-        return detect.detect(inputFrame.rgba(), faceCascade, eyesCascade);
+        return detect.detect(inputFrame.rgba());
     }
 
 
@@ -103,7 +103,7 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
     /**
      * To reset the tracking */
     public void reCalibrate(View view) {
-        detect=new Detect();
+        detect=new Detect(faceCascade,eyesCascade);
         System.gc();
     }
 }
