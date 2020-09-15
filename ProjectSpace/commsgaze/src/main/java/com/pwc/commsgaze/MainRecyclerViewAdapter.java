@@ -1,6 +1,8 @@
 package com.pwc.commsgaze;
 
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
@@ -56,14 +60,32 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         @Override
         public void onClick(View v) {
             Log.d(TAG,"View " +textView.getText() +" is selected");
-            Log.d(TAG, Arrays.toString(itemView.getContext().getExternalFilesDirs(null)));
-        /*    MediaPlayer mediaPlayer = MediaPlayer.create(itemView.getContext(),)
+            File externalFileDir = v.getContext().getExternalFilesDir(null);
+
+
+            /*Sample is being used here*/
+            File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
+            Uri audioUri = Uri.fromFile(sampleAudioFilePath);
+            final MediaPlayer  mediaPlayer = new MediaPlayer();
+
             mediaPlayer.setAudioAttributes(
-                    AudioAttributes.Builder()
+                    new AudioAttributes.Builder()
                             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                             .setUsage(AudioAttributes.USAGE_MEDIA)
                             .build()
-            );*/
+            );
+            try {
+                mediaPlayer.setDataSource(v.getContext(), audioUri);
+                mediaPlayer.prepareAsync();
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mediaPlayer.start();
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }

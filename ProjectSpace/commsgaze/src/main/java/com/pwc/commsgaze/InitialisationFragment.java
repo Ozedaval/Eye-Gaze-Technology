@@ -134,7 +134,7 @@ public class InitialisationFragment extends DialogFragment {
         });
 
 
-        initialisationAsync  = new Initialisation(initialisationFragment,textToSpeech);
+        initialisationAsync  = new Initialisation(initialisationFragment);
         initialisationAsync.execute();
 
         mainViewModel = new ViewModelProvider(requireActivity())
@@ -160,7 +160,6 @@ public class InitialisationFragment extends DialogFragment {
             public void run() {
                 initialisationAsync.cancel(true);
                 mainViewModel.initialisationDone();
-
             }
         }, 2000);
     }

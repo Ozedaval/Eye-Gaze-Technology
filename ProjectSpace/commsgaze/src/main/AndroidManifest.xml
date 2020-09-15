@@ -14,7 +14,7 @@
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|screenSize"
             android:screenOrientation="landscape"
-            android:theme="@style/FullscreenTheme"
+            android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

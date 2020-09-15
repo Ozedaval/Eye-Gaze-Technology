@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
+import static com.pwc.commsgaze.utils.FileUtil.hasExternalStoragePrivateData;
 
 /*An AsyncTask class which is used for initialising intensive background tasks.
 * TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
@@ -32,13 +33,13 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private ArrayList<InputStream> contentInputStreams;
     private ArrayList<FileOutputStream> contentOutputStreams;
     private ArrayList<File> contentPicExternalFiles;
-    private TextToSpeech textToSpeech;
 
 
 
-    Initialisation(InitialisationFragment initialisationFragment,TextToSpeech textToSpeech){
+
+    Initialisation(InitialisationFragment initialisationFragment){
         initialisationFragmentWeakReference =new WeakReference<>(initialisationFragment);
-        this.textToSpeech =textToSpeech;
+
     }
 
 
@@ -109,7 +110,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
                 Log.d(TAG,"Abs "+file.getAbsolutePath());
                 Log.d(TAG,"Can "+file.getCanonicalPath());
                 Log.d(TAG,"fName "+file.getName());
-                Log.d(TAG,"External App - Specific Storage has Picture? " + hasExternalStoragePrivateData(file.getName()));
+                Log.d(TAG,"External App - Specific Storage has Picture? " + hasExternalStoragePrivateData(file.getName(),initialisationFragmentWeakReference.get().requireContext()));
             }
 
             return true;
@@ -148,10 +149,5 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     }
 
 
-    /*https://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String)*/
-    boolean hasExternalStoragePrivateData(String fileName) {
-        Context context = initialisationFragmentWeakReference.get().requireContext();
-        File file = new File(context.getExternalFilesDir(null),fileName);
-        return file.exists();
-    }
+
 }
