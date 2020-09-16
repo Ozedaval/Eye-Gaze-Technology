@@ -9,11 +9,13 @@ import androidx.room.PrimaryKey;
 public class Content {
     @PrimaryKey(autoGenerate = true)
     int id;
-    @ColumnInfo(name = "Content")
+    @ColumnInfo(name = "Word")
     String word;
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    byte [] image;
-    @ColumnInfo()
+    @ColumnInfo(name = "Image")
+    String imageDirPath;
+    @ColumnInfo(name = "Audio")
+    String audioDirPath;
+
 
 
     public int getId() {
@@ -24,8 +26,10 @@ public class Content {
         return word;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getImage() { return imageDirPath; }
+
+    public String getAudio() {
+        return audioDirPath;
     }
 
     public void setId(int id){
@@ -36,7 +40,9 @@ public class Content {
         this.word = word;
     }
 
-    public void setImage(byte[] image){
-        this.image = image;
+    public void setImage(String imageDirPath){
+        this.imageDirPath = imageDirPath;
     }
+
+    public void setAudio(String audioDirPath) {this.audioDirPath = audioDirPath;}
 }
