@@ -141,98 +141,98 @@ public class Detect {
         
         // Using the First Detected Face
         // List<Rect> listOfFaces = faces.toList();
-        List<Rect> listOfFaces = faces;
-        if (!listOfFaces.isEmpty()) {
-            face = listOfFaces.get(0);
-
-            //*Detections made smoother*//*
-            face=faceDetectionSmoother.updateCoord(face);
-
-            //*Displaying the boundary of the detected face*//*
-            Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
-            Mat faceROI = frameGray.submat(face);
-
-            if (!isFirstPairOfIrisFound || needCalibration) {
-
-                //*Detecting Eyes of the face*//*
-                MatOfRect eyes = new MatOfRect();
-                eyesCascade.detectMultiScale(faceROI, eyes);
-                List<Rect> listOfEyes = eyes.toList();
-                eyeBoundary=new ArrayList<>();
-                Mat[] eyesROI = new Mat[listOfEyes.size()];
-
-                for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
-                    Rect eye = listOfEyes.get(i);
-
-                    //Making changes so to get x & y co-ordinates with respective to the frame
-                    eye.x = face.x + eye.x;
-                    eye.y = face.y + eye.y;
-
-                    //Cropping an eye Image
-                    eyesROI[i] = frame.submat(eye);
-
-                    eyeBoundary.add(eye.clone());// avoiding references to the actual object
-
-                    //Displaying boundary of the detected eye
-                    Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
-
-                    //Iris Detection via Blob Detection
-                    Mat eyeROICanny = new Mat();
-                    Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 3);
-
-                    MatOfKeyPoint blobs = new MatOfKeyPoint();
-                    simpleBlobDetector.detect(eyeROICanny, blobs);
-                    // Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");
-                    // Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);
-
-                    /*Finding Iris*/
-                    KeyPoint[] blobsArray = blobs.toArray();
-                    if (blobsArray.length != 0) {
-                        Point blobCentre = blobsArray[0].pt;
-                        blobCentre.x = blobCentre.x + eye.x;
-                        blobCentre.y = blobCentre.y + eye.y;
-                        Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
-                        // Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
-                        // Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Centre Y"+blobCentre.y);
-                        float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
-                        blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
-                    }
-                }
-            }
-        }
-        else {
-            direction= UNKNOWN;
-        }
-
-        /*sparseOpticalFlow Initiator/Calibration Alternator*/
-        if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
-            sparseOpticalFlowDetector.resetSparseOpticalFlow();
-            for (Integer roiID : blob.keySet()) {
-                sparseOpticalFlowDetector.setROIPoints(roiID, blob.get(roiID));
-            }
-            gazeEstimator.updateEyesBoundary(eyeBoundary);
-            calculateNeedCalibration(true,hasFaceMoved(face));
-            isFirstPairOfIrisFound = true;
-        }
-        if (isFirstPairOfIrisFound) {
-            HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowDetector.getROIPoints().clone();// For ease of debugging
-            /*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*/
-            HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.predictPoints(frameGray);
-            /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
-            direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
-            Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
-            Point[][][] irisPredictedSparsePointss = new Point[][][]
-                    {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
-            for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
-                for (Point[] points : irisPredictedSparsePoints) {
-                    if (points != null) {
-                        for (Point point : points) {
-                            Imgproc.circle(frame, point, 3, new Scalar(255, 0, 0));
-                        }
-                    }
-                }
-            }
-        }
+//        List<Rect> listOfFaces = faces;
+//        if (!listOfFaces.isEmpty()) {
+//            face = listOfFaces.get(0);
+//
+//            //*Detections made smoother*//*
+//            face=faceDetectionSmoother.updateCoord(face);
+//
+//            //*Displaying the boundary of the detected face*//*
+//            Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
+//            Mat faceROI = frameGray.submat(face);
+//
+//            if (!isFirstPairOfIrisFound || needCalibration) {
+//
+//                //*Detecting Eyes of the face*//*
+//                MatOfRect eyes = new MatOfRect();
+//                eyesCascade.detectMultiScale(faceROI, eyes);
+//                List<Rect> listOfEyes = eyes.toList();
+//                eyeBoundary=new ArrayList<>();
+//                Mat[] eyesROI = new Mat[listOfEyes.size()];
+//
+//                for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
+//                    Rect eye = listOfEyes.get(i);
+//
+//                    //Making changes so to get x & y co-ordinates with respective to the frame
+//                    eye.x = face.x + eye.x;
+//                    eye.y = face.y + eye.y;
+//
+//                    //Cropping an eye Image
+//                    eyesROI[i] = frame.submat(eye);
+//
+//                    eyeBoundary.add(eye.clone());// avoiding references to the actual object
+//
+//                    //Displaying boundary of the detected eye
+//                    Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
+//
+//                    //Iris Detection via Blob Detection
+//                    Mat eyeROICanny = new Mat();
+//                    Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 3);
+//
+//                    MatOfKeyPoint blobs = new MatOfKeyPoint();
+//                    simpleBlobDetector.detect(eyeROICanny, blobs);
+//                    // Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");
+//                    // Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);
+//
+//                    /*Finding Iris*/
+//                    KeyPoint[] blobsArray = blobs.toArray();
+//                    if (blobsArray.length != 0) {
+//                        Point blobCentre = blobsArray[0].pt;
+//                        blobCentre.x = blobCentre.x + eye.x;
+//                        blobCentre.y = blobCentre.y + eye.y;
+//                        Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
+//                        // Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
+//                        // Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Centre Y"+blobCentre.y);
+//                        float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
+//                        blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
+//                    }
+//                }
+//            }
+//        }
+//        else {
+//            direction= UNKNOWN;
+//        }
+//
+//        /*sparseOpticalFlow Initiator/Calibration Alternator*/
+//        if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
+//            sparseOpticalFlowDetector.resetSparseOpticalFlow();
+//            for (Integer roiID : blob.keySet()) {
+//                sparseOpticalFlowDetector.setROIPoints(roiID, blob.get(roiID));
+//            }
+//            gazeEstimator.updateEyesBoundary(eyeBoundary);
+//            calculateNeedCalibration(true,hasFaceMoved(face));
+//            isFirstPairOfIrisFound = true;
+//        }
+//        if (isFirstPairOfIrisFound) {
+//            HashMap<Integer, Point[]> prevPoints = (HashMap<Integer, Point[]>) sparseOpticalFlowDetector.getROIPoints().clone();// For ease of debugging
+//            /*Log.d(TAG,"Eye A Previous Points: "+ Arrays.toString(prevPoints.get(0))+"  Eye B Previous Points: "+ Arrays.toString(prevPoints.get(1)));*/
+//            HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowDetector.predictPoints(frameGray);
+//            /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
+//            direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
+//            Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
+//            Point[][][] irisPredictedSparsePointss = new Point[][][]
+//                    {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
+//            for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
+//                for (Point[] points : irisPredictedSparsePoints) {
+//                    if (points != null) {
+//                        for (Point point : points) {
+//                            Imgproc.circle(frame, point, 3, new Scalar(255, 0, 0));
+//                        }
+//                    }
+//                }
+//            }
+//        }
         return frame;
     }
 
