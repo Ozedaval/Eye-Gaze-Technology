@@ -33,7 +33,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     private String[] data;
     private MutableLiveData<Set<ViewHolder>> mutableLiveDataViewHolders;
     private List<View> itemViewList = new ArrayList<>();
+    int selectedItem;
     Context context;
+    ViewHolder viewHolder;
     public LiveData<Set<ViewHolder>> getAllBoundedViewHolders() {
         return (LiveData<Set<ViewHolder>>) mutableLiveDataViewHolders;
     }
@@ -43,9 +45,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     @Override
     public MainRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_main_adapter,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view,this.context);
-
-
+        viewHolder = new ViewHolder(view,this.context);
 
 
         if(mutableLiveDataViewHolders.getValue()!=null) {
@@ -69,6 +69,14 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         mutableLiveDataViewHolders = new MutableLiveData<>();
         mutableLiveDataViewHolders.setValue(new HashSet<ViewHolder>());
         this.context=context;
+        this.selectedItem=1073741823;
+
+    }
+    public void selectionEffect(int position){
+        int previousItem = selectedItem;
+        selectedItem = position;
+        notifyItemChanged(previousItem);
+        notifyItemChanged(position);
 
     }
 
@@ -78,6 +86,16 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         int realPos = position % data.length;
         holder.textView.setText(data[realPos]);
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
+
+        //TODO I don't know why the colour has not been updated even though in "selectionEffect(int position)" above notify it..
+        //This is the only issue
+        holder.imageView.setBackgroundColor(Color.TRANSPARENT);
+
+        if (selectedItem == position) {
+            holder.imageView.setBackgroundColor(Color.parseColor("#ffff00"));
+
+        }
+
 
 
     }
@@ -91,38 +109,41 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         public ImageView imageView;
         public TextView textView;
         HashMap<View,Boolean> selected = new HashMap<>();
+
         Context context;
 
         public ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
-            itemView.setOnClickListener(this);
             imageView = itemView.findViewById(R.id.imageView_main_adapter);
             textView = itemView.findViewById(R.id.textView_main_adapter);
             this.context=context;
+            itemView.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View v) {
             Log.d(TAG,"View " + textView.getText() +" is selected");
+//            Log.d(TAG,"View " + getAdapterPosition() +" is selected");
+
             File externalFileDir = v.getContext().getExternalFilesDir(null);
-
             // for selection effect //
-            if(selected.get(v)==null){
-                v.setBackgroundColor(Color.parseColor("#ffff00"));
-                selected.put(v,true);
-            }
-            else{
-                if(selected.get(v)==true){
-                    v.setBackground(ContextCompat.getDrawable(context, R.drawable.border_recyclerview_item));
-                    selected.put(v,false);
-                }
-                else{
-                    v.setBackgroundColor(Color.parseColor("#ffff00"));
-                    selected.put(v,true);
-                }
-            }
 
+//
+//            if(selected.get(v)==null){
+//                v.setBackgroundColor(Color.parseColor("#ffff00"));
+//                selected.put(v,true);
+//            }
+//            else{
+//                if(selected.get(v)==true){
+//                    v.setBackground(ContextCompat.getDrawable(context, R.drawable.border_recyclerview_item));
+//                    selected.put(v,false);
+//                }
+//                else{
+//                    v.setBackgroundColor(Color.parseColor("#ffff00"));
+//                    selected.put(v,true);
+//                }
+//            }
             /*Sample is being used here*/
             File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
             Uri audioUri = Uri.fromFile(sampleAudioFilePath);
@@ -147,6 +168,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
                 e.printStackTrace();
             }
         }
+
     }
+
 
 }

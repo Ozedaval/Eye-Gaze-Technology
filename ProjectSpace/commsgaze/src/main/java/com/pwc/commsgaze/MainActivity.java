@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 Log.d(TAG,"Total Visible View Holder " + viewHolders.toString());
             }
         });
+
         binding.openCVCameraView.setVisibility(VISIBLE);
         binding.openCVCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
         binding.openCVCameraView.setCameraPermissionGranted();
@@ -197,12 +198,20 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
                 // to prevent from cases where selecting elements too fast
                 // number can be changed or removed
-                if(runFrame %100==0){
+                if(runFrame %5==0){
 
                     if(detect.getDirection()==Direction.LEFT){
-
+                        recyclerViewAdapter.selectedItem-=1;
+                        if(recyclerViewAdapter.selectedItem<1073741823)
+                            recyclerViewAdapter.selectedItem=1073741828;
+                        recyclerViewAdapter.selectionEffect(recyclerViewAdapter.selectedItem);
                     }
                     else if(detect.getDirection()==Direction.RIGHT){
+                        recyclerViewAdapter.selectedItem+=1;
+                        if(recyclerViewAdapter.selectedItem==1073741829)
+                            recyclerViewAdapter.selectedItem=1073741823;
+                        recyclerViewAdapter.selectionEffect(recyclerViewAdapter.selectedItem);
+
 
                     }
                 }
@@ -211,4 +220,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         });
         return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
     }
+
+
 }
