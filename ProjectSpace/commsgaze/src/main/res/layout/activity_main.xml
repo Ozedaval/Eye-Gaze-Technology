@@ -2,12 +2,24 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/mainCoordinatorLayout"
     android:background="#FFFFFF"
     android:fitsSystemWindows="false"
     tools:context=".MainActivity">
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/openCVCameraView"
+        android:layout_width="320px"
+        android:layout_height="240px"
+        android:keepScreenOn="true"
+        android:visibility="invisible"
+        opencv:camera_id="front"
+        opencv:layout_constraintStart_toStartOf="parent"
+        opencv:layout_constraintTop_toTopOf="parent"
+        opencv:show_fps="false" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_main"

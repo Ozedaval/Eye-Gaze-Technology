@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -23,11 +24,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
+import com.pwc.commsgaze.detection.SparseFlowDetector;
+
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.core.Mat;
+import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.Arrays;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+import static android.view.View.VISIBLE;
+
+public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     private final int PERMISSION_REQUEST_CODE = 1;
     private MainViewModel mainViewModel;
@@ -38,8 +46,13 @@ public class MainActivity extends AppCompatActivity {
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager gridLayoutManager;
 
-    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
     private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run"};
+    static{ System.loadLibrary( "opencv_java4" );}
+    private CascadeClassifier faceCascade;
+    private CascadeClassifier eyesCascade;
+    public SparseFlowDetector detect;
+    int runFrame;
+    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
 
 
 
@@ -47,10 +60,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        hideSystemUI();
 
+        View view = binding.getRoot();
         setContentView(view);
+
+        hideSystemUI();
+        runFrame=0;
+
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -99,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
+        recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA,this);
         gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
@@ -111,7 +128,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"Total Visible View Holder " + viewHolders.toString());
             }
         });
+        binding.openCVCameraView.setVisibility(VISIBLE);
+        binding.openCVCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
+        binding.openCVCameraView.setCameraPermissionGranted();
+        binding.openCVCameraView.disableFpsMeter();
+        binding.openCVCameraView.setCvCameraViewListener(this);
 
+        faceCascade = new CascadeClassifier();
+        eyesCascade = new CascadeClassifier();
+        binding.openCVCameraView.bringToFront();
+        /*Log.d(TAG, Arrays.toString(fileList()));
+        Log.d(TAG, getFileStreamPath("eyeModel.xml").getAbsolutePath());
+        Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
+        faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
+        eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
+
+        detect=new SparseFlowDetector();
     }
 
 
@@ -128,9 +160,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG," onResume called ");
-        /*configs go away when app activity is re-opened*/
-        hideSystemUI();
+
+        binding.openCVCameraView.enableView();
 
 
     }
@@ -148,4 +179,36 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
+    @Override
+    public void onCameraViewStarted(int width, int height) {
+
+    }
+
+    @Override
+    public void onCameraViewStopped() {
+
+    }
+
+    @Override
+    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        binding.recyclerViewMain.post(new Runnable() {
+            @Override
+            public void run() {
+
+                // to prevent from cases where selecting elements too fast
+                // number can be changed or removed
+                if(runFrame %100==0){
+
+                    if(detect.getDirection()==Direction.LEFT){
+
+                    }
+                    else if(detect.getDirection()==Direction.RIGHT){
+
+                    }
+                }
+                runFrame++;
+            }
+        });
+        return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
+    }
 }

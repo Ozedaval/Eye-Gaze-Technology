@@ -52,7 +52,7 @@ public class SparseFlowDetector extends Detector {
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
 
 
-     SparseFlowDetector() {
+     public SparseFlowDetector() {
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false*/
@@ -61,6 +61,7 @@ public class SparseFlowDetector extends Detector {
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         isNeutralQueue = new LinkedList<>();
         currentGazeStatus=GazeStatus.UNKNOWN;
+
     }
 
 
@@ -77,7 +78,7 @@ public class SparseFlowDetector extends Detector {
      * @param frame: OpenCV multidimensional array like form of the Image.
      * @param faceCascade: Classifier object to detect faces
      * @param eyesCascade: Classifier object to detect eyes */
-    Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
+    public Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
         calculateNeedCalibration(false,false);
