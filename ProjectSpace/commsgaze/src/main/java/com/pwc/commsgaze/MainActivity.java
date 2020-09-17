@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
                 // to prevent from cases where selecting elements too fast
                 // number can be changed or removed
-                if(runFrame %5==0){
+                if(runFrame %8==0){
 
                     if(detect.getDirection()==Direction.LEFT){
                         recyclerViewAdapter.selectedItem-=1;

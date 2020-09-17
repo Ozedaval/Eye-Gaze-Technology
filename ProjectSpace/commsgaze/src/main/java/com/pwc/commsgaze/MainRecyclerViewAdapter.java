@@ -36,6 +36,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     int selectedItem;
     Context context;
     ViewHolder viewHolder;
+    @NonNull MainRecyclerViewAdapter.ViewHolder prevHolder;
     public LiveData<Set<ViewHolder>> getAllBoundedViewHolders() {
         return (LiveData<Set<ViewHolder>>) mutableLiveDataViewHolders;
     }
@@ -69,7 +70,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         mutableLiveDataViewHolders = new MutableLiveData<>();
         mutableLiveDataViewHolders.setValue(new HashSet<ViewHolder>());
         this.context=context;
-        this.selectedItem=1073741823;
+        this.selectedItem=0;
 
     }
     public void selectionEffect(int position){
@@ -86,15 +87,41 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         int realPos = position % data.length;
         holder.textView.setText(data[realPos]);
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
-
         //TODO I don't know why the colour has not been updated even though in "selectionEffect(int position)" above notify it..
         //This is the only issue
+        Log.d(TAG,"View " + "asdfasdf" +" is selected");
+        if(prevHolder!=null) prevHolder.imageView.setBackgroundColor(Color.TRANSPARENT);
         holder.imageView.setBackgroundColor(Color.TRANSPARENT);
 
         if (selectedItem == position) {
             holder.imageView.setBackgroundColor(Color.parseColor("#ffff00"));
+            File externalFileDir = holder.imageView.getContext().getExternalFilesDir(null);
+
+            File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
+            Uri audioUri = Uri.fromFile(sampleAudioFilePath);
+            final MediaPlayer  mediaPlayer = new MediaPlayer();
+
+            mediaPlayer.setAudioAttributes(
+                    new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
+            );
+            try {
+                mediaPlayer.setDataSource(holder.imageView.getContext(), audioUri);
+                mediaPlayer.prepareAsync();
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mediaPlayer.start();
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
+        prevHolder=holder;
 
 
 
