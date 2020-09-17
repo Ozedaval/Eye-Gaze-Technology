@@ -11,6 +11,8 @@ import com.pwc.commsgaze.detection.DetectionEngineMaker;
 import com.pwc.commsgaze.detection.Detector;
 import com.pwc.commsgaze.detection.data.DetectionData;
 
+import java.util.ArrayList;
+
 /*Holds details for MainActivity in a Activity life-conscious way */
 public class MainViewModel extends ViewModel {
 
@@ -18,9 +20,11 @@ public class MainViewModel extends ViewModel {
     private static final String TAG = "MainViewModel";
     private DetectionEngineMaker detectionEngineMakerInstance;
     private Detector detector;
+    private ViewGazeController viewGazeController;
+
 
     Direction getDirection(){
-      return  (detector==null)? Direction.UNKNOWN:detector.getDirection();
+        return  (detector==null)? Direction.UNKNOWN:detector.getDirection();
     }
 
     Detector getDetector(){
@@ -34,9 +38,19 @@ public class MainViewModel extends ViewModel {
 
         detectionEngineMakerInstance.createDetector(approach,detectionData);
         this.detector = detectionEngineMakerInstance.getDetector();
-
     }
 
+    void setViewGazeController(ViewGazeController viewGazeController){
+        this.viewGazeController = viewGazeController;
+    }
+
+    void updateViewGazeController(){
+        viewGazeController.updateSelectedViewHolder(getDirection());
+    }
+
+    void initialiseViewGazeHolders(ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders){
+        viewGazeController.initialiseViewHolders(viewHolders);
+    }
     /*Check on UI thread for shared preference before calling this*/
     LiveData<Boolean> getIsFirstRun() {
         if (isFirstRun == null) {

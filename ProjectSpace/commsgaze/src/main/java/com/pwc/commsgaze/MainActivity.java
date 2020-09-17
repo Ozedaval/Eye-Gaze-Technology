@@ -25,7 +25,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
-import com.pwc.commsgaze.detection.SparseFlowDetector;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
 
@@ -33,8 +32,8 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
 
 import static android.view.View.VISIBLE;
 
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager gridLayoutManager;
     private DetectionData detectionData;
+
 
     static{ System.loadLibrary( "opencv_java4" );}
 
@@ -115,21 +115,23 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
         recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
-        gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
+        gridLayoutManager = new GridLayoutManager(this,4,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
         binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
 
-        recyclerViewAdapter.getAllBoundedViewHolders().observe(this, new Observer<Set<MainRecyclerViewAdapter.ViewHolder>>() {
-            @Override
-            public void onChanged(Set<MainRecyclerViewAdapter.ViewHolder> viewHolders) {
-                Log.d(TAG,"Total Visible View Holder " + viewHolders.toString());
-            }
-        });
+
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
         initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
 
+        mainViewModel.setViewGazeController(new ViewGazeController(recyclerViewAdapter));
+        recyclerViewAdapter.getAllBoundedViewHolders().observe(this, new Observer<ArrayList<MainRecyclerViewAdapter.ViewHolder>>() {
+            @Override
+            public void onChanged(ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders) {
+                mainViewModel.initialiseViewGazeHolders(viewHolders);
+            }
+        });
     }
 
 
@@ -180,8 +182,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         mainViewModel.getDirection();
         Detector detector = mainViewModel.getDetector();
         if(detector.getApproach().equals(Approach.OPEN_CV_SPARSE_FLOW)){
-           /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
+            /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
             ((SparseFlowDetectionData) detectionData).setFrame(inputFrame.rgba());
+            mainViewModel.updateViewGazeController();
             return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();
         }
         return inputFrame.rgba();
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private void initialiseApproach(Approach approach){
         if(approach.equals(Approach.OPEN_CV_SPARSE_FLOW) ){
             /*TODO We need to only activate this if the user has set for an approach which uses opencv -- most prolly use the stored data on the approach to check  first */
-            Log.d(TAG,"Opencv camera initialisation");
+            Log.d(TAG,"opencv camera initialisation");
             binding.openCVCameraView.setVisibility(VISIBLE);
             binding.openCVCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
             binding.openCVCameraView.setCameraPermissionGranted();

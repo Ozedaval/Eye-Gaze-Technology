@@ -34,11 +34,8 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private ArrayList<File> contentPicExternalFiles;
 
 
-
-
     Initialisation(InitialisationFragment initialisationFragment){
         initialisationFragmentWeakReference =new WeakReference<>(initialisationFragment);
-
     }
 
 

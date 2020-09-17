@@ -39,7 +39,7 @@ public class SparseFlowDetector extends Detector {
     private boolean isFirstPairOfIrisFound;
     private SimpleBlobDetector simpleBlobDetector;
     private SparseOpticalFlowMediator sparseOpticalFlowMediator;
-    private static final String TAG = "Detect";
+    private static final String TAG = "SparseFlowDetector";
     private boolean needCalibration;
     private int frameCount;
     private static final int FRAME_CALIBRATION_RATE = 30;
@@ -189,7 +189,7 @@ public class SparseFlowDetector extends Detector {
             HashMap<Integer, Point[]> predictionsMap = sparseOpticalFlowMediator.predictPoints(frameGray);
             /*Log.d(TAG,"Eye A Predicted Points: "+ Arrays.toString(predictionsMap.get(0))+"  Eye B Predicted Points: "+ Arrays.toString(predictionsMap.get(1)));*/
             direction=directionEstimator(gazeEstimator.estimateGaze(prevPoints,predictionsMap),predictionsMap);
-            Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );
+            /*Log.d(TAG,"Frame Num"+frameCount+ "   is at direction "+direction + " GazeStatus"+ currentGazeStatus.toString() );*/
             Point[][][] irisPredictedSparsePointss = new Point[][][]
                     {{predictionsMap.get(0)}, {predictionsMap.get(1)}};
             for (Point[][] irisPredictedSparsePoints : irisPredictedSparsePointss) {
