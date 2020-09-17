@@ -10,6 +10,7 @@
     android:fitsSystemWindows="false"
     tools:context=".MainActivity">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_main"
         android:layout_width = "match_parent"

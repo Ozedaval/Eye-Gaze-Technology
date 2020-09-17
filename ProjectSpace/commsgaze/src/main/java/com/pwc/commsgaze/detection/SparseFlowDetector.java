@@ -3,11 +3,14 @@ package com.pwc.commsgaze.detection;
 import android.util.Log;
 
 import com.pwc.commsgaze.Direction;
+import com.pwc.commsgaze.detection.data.DetectionData;
+import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
 import com.pwc.commsgaze.detection.gazeutils.DetectionSmoother;
 import com.pwc.commsgaze.detection.gazeutils.GazeEstimator;
 import com.pwc.commsgaze.detection.gazeutils.GazeStatus;
 import com.pwc.commsgaze.detection.gazeutils.SparseOpticalFlowMediator;
 
+import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -19,7 +22,6 @@ import org.opencv.core.Size;
 import org.opencv.features2d.SimpleBlobDetector;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.tracking.TrackerCSRT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,9 +52,14 @@ public class SparseFlowDetector extends Detector {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
+    private final Approach approach = Approach.OPEN_CV_SPARSE_FLOW;
+    private  CascadeClassifier faceCascade;
+    private  CascadeClassifier eyeCascade;
 
 
-     SparseFlowDetector() {
+
+     SparseFlowDetector(DetectionData detectionData) {
+        SparseFlowDetectionData sparseFlowDetectionData = (SparseFlowDetectionData)detectionData;
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
         /*By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false*/
@@ -60,8 +67,12 @@ public class SparseFlowDetector extends Detector {
         gazeEstimator = new GazeEstimator(0.33f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
         isNeutralQueue = new LinkedList<>();
-        currentGazeStatus=GazeStatus.UNKNOWN;
+        currentGazeStatus = GazeStatus.UNKNOWN;
+        this.faceCascade = sparseFlowDetectionData.getFaceCascade();
+        this.eyeCascade = sparseFlowDetectionData.getEyeCascade();
     }
+
+
 
 
     /**
@@ -75,9 +86,8 @@ public class SparseFlowDetector extends Detector {
      * Note: "Sparse" Points are re-calibrated every 30 frames or if the face has significantly moved,given that Iris can be detected.
      * See https://docs.google.com/presentation/d/1f_IIDERz56QFGvuWGBGN9E3q1qTx5n0Pq30BDqufBJk/edit#slide=id.g857a29acf1_0_2481
      * @param frame: OpenCV multidimensional array like form of the Image.
-     * @param faceCascade: Classifier object to detect faces
-     * @param eyesCascade: Classifier object to detect eyes */
-    Mat detect(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyesCascade) {
+    */
+    Mat detect(Mat frame) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
         calculateNeedCalibration(false,false);
@@ -115,7 +125,7 @@ public class SparseFlowDetector extends Detector {
 
                 /*Detecting Eyes of the face*/
                 MatOfRect eyes = new MatOfRect();
-                eyesCascade.detectMultiScale(faceROI, eyes);
+                eyeCascade.detectMultiScale(faceROI, eyes);
                 List<Rect> listOfEyes = eyes.toList();
                 eyeBoundary=new ArrayList<>();
                 Mat[] eyesROI = new Mat[listOfEyes.size()];
@@ -270,6 +280,21 @@ public class SparseFlowDetector extends Detector {
    public void reset() {
         sparseOpticalFlowMediator.resetSparseOpticalFlow();
     }
+
+    @Override
+    public Approach getApproach() {
+        return approach;
+    }
+
+    @Override
+    public DetectionData updateDetector(DetectionData detectionData) {
+            SparseFlowDetectionData detectionDataSparse = (SparseFlowDetectionData) detectionData;
+            Mat newFrame = detect(detectionDataSparse.getFrame());
+            detectionDataSparse.updateFrame((newFrame));
+            return detectionData;
+    }
+
+
 
 
     /**
