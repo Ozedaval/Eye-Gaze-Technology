@@ -89,7 +89,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             Log.d(TAG,"View " + textView.getText() +" is selected");
             File externalFileDir = v.getContext().getExternalFilesDir(null);
 
-
             /*Sample is being used here*/
             File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
             Uri audioUri = Uri.fromFile(sampleAudioFilePath);
