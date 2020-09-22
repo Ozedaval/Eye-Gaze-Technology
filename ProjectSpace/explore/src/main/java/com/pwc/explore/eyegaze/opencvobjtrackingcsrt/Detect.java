@@ -1,9 +1,15 @@
 package com.pwc.explore.eyegaze.opencvobjtrackingcsrt;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.Log;
 
 import com.pwc.explore.Direction;
+import com.pwc.explore.R;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.CvException;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -13,12 +19,17 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Rect2d;
 import org.opencv.core.Scalar;
+import org.opencv.features2d.Params;
 import org.opencv.features2d.SimpleBlobDetector;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.tracking.MultiTracker;
 import org.opencv.tracking.TrackerCSRT;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -137,10 +148,22 @@ public class Detect {
                         Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
                         Mat eyeROICanny = new Mat();
                         Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 2);
+                        Mat binary= new Mat();
+                        Imgproc.threshold(eyesROI[i],binary,100,255,Imgproc.THRESH_BINARY);
+                        Log.d(TAG, "width: "+eyeROICanny.width());
+                        Log.d(TAG, "height: "+eyeROICanny.height());
+                        Mat reduceeyeROI= new Mat(binary, new Rect(0,0,eyeROICanny.cols(),eyeROICanny.rows()));
+                        Log.d(TAG, "width: "+reduceeyeROI.height());
+                        Log.d(TAG, "height: "+reduceeyeROI.width());
                         MatOfKeyPoint blobs = new MatOfKeyPoint();
                         Log.d(TAG, "eyeroi"+eyeROICanny.empty());
                         Log.d(TAG, "eyeroi"+eye);
-                        simpleBlobDetector.detect(eyeROICanny, blobs);
+                        simpleBlobDetector.detect(reduceeyeROI, blobs);
+                        Rect ROI= new Rect(eye.x,eye.y,eyeROICanny.width(),eyeROICanny.height());
+                        Mat dst=new Mat();
+                        Mat colorCanny=new Mat();
+                        Imgproc.cvtColor(eyeROICanny,colorCanny,Imgproc.COLOR_GRAY2BGR);
+                        /*Core.addWeighted(frame.submat(ROI),0.0,colorCanny,1.0,0.0,frame.submat(ROI));*/
                         Log.d(TAG, "blobs: "+blobs.size().toString());
                         Log.d(TAG, "blobs: "+blobs.empty());
                         List<KeyPoint> blobArray=blobs.toList();
@@ -152,10 +175,10 @@ public class Detect {
                         Point blobcentre=blobArray.get(0).pt;
                         blobcentre.x=eye.x+blobcentre.x;
                         blobcentre.y=eye.y+blobcentre.y;
-                        Rect2d eyerect=new Rect2d(blobcentre.x,blobcentre.y,eye.clone().width/4,eye.clone().height/4);
+                        Rect2d eyerect=new Rect2d(blobcentre.x,blobcentre.y,eye.clone().width/3,eye.clone().height/3);
                         multiTracker.add(TrackerCSRT.create(),frameRGB, eyerect);}
-                    isTrackerInitialised = true;
-                    Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
+                        isTrackerInitialised = true;
+                        Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
                 }
             }
 
