@@ -4,9 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,9 +34,7 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 import static android.view.View.VISIBLE;
 
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
     /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
-    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run"};
+    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
 
 
     @Override
@@ -122,55 +120,57 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-        binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
 
+        mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
 
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
         initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
 
-
-        recyclerViewAdapter.getAllBoundedViewHolders().observe(this, new Observer<ArrayList<MainRecyclerViewAdapter.ViewHolder>>() {
-            @Override
-            public void onChanged(ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders) {
-                mainViewModel.initialiseViewGazeHolders(viewHolders.size(),RC_FIXED_DIMENSION);
-            }
-        });
-
-
         mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(Integer integer) {
-                Log.d(TAG,"Selected View Holder ID " + integer);
-            /*    Objects.requireNonNull(binding.recyclerViewMain.findViewHolderForLayoutPosition(integer))
-                        .itemView.setBackgroundColor(Color.rgb(195, 246, 247));*/
-                ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders =   recyclerViewAdapter.getAllBoundedViewHolders().getValue();
-                if(viewHolders!= null && viewHolders.size() !=0) {
-                    View view = viewHolders.get(integer).itemView;
-                    boolean isViewVisible = gridLayoutManager.isViewPartiallyVisible(view,true,true);
-                    /*TODO if not visible then scroll*/
-                    Log.d(TAG,"Is Selected View Visible " + isViewVisible);
+            public void onChanged(final Integer integer) {
+                System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
+                RecyclerView.ViewHolder prevViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
+                if(prevViewHolder!=null) {
+                    prevViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_item));
                 }
+                binding.recyclerViewMain.smoothScrollToPosition(integer);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RecyclerView.ViewHolder selectedViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
+                        if (selectedViewHolder!=null) {
+                            selectedViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_selected_item));
+                        }
+                    }
+                },100);
+
+
+                    Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());
+
+
             }
         });
 
 
-        /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
-        Button[] testButtons = new Button[]{binding.mainTopButton,binding.mainLeftButton,binding.mainNeutralButton,binding.mainRightButton,binding.mainBottomButton};
-        for(Button button:testButtons){
-            button.setOnClickListener(new Button.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String buttonText = (String)((Button)v).getText();
-                    Direction decipheredDirection = customTestButtonParser(buttonText);
-                    Log.d(TAG,buttonText + "Button is pressed. Deciphered as " + decipheredDirection );
-                    mainViewModel.updateViewGazeController(decipheredDirection);
+
+                /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+                Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
+                for (Button button : testButtons) {
+                    button.setOnClickListener(new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String buttonText = (String) ((Button) v).getText();
+                            Direction decipheredDirection = customTestButtonParser(buttonText);
+                            Log.d(TAG, buttonText + "Button is pressed. Deciphered as " + decipheredDirection);
+                            mainViewModel.updateViewGazeController(decipheredDirection);
+                        }
+                    });
                 }
-            });
-        }
-    }
+        /*TODO change later in accordance*/
 
-
+            }
 
 
 
@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         /*configs go away when app activity is re-opened*/
         hideSystemUI();
         binding.openCVCameraView.enableView();
+
     }
 
     /*Hides System UI
@@ -257,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
             detectionData = new SparseFlowDetectionData(faceCascade,eyesCascade);
             mainViewModel.createDetector(Approach.OPEN_CV_SPARSE_FLOW,detectionData);
-
         }
 
     }
@@ -272,3 +272,4 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         return Direction.UNKNOWN;
     }
 }
+

@@ -11,60 +11,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     /*TODO use data from Room Database instead of temporary data*/
     public final static String TAG = "MainRecyclerViewAdapter";
     private String[] data;
-    private MutableLiveData<ArrayList<ViewHolder>> mutableLiveDataViewHolders;
 
 
-    public LiveData<ArrayList<ViewHolder>> getAllBoundedViewHolders() {
-        return (LiveData<ArrayList<ViewHolder>>) mutableLiveDataViewHolders;
-    }
 
 
     @NonNull
     @Override
     public MainRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_main_adapter,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        if(mutableLiveDataViewHolders.getValue()!=null) {
-            ArrayList<ViewHolder> viewHolderSet = mutableLiveDataViewHolders.getValue();
-            viewHolderSet.add(viewHolder);
-            mutableLiveDataViewHolders.setValue(viewHolderSet);
-        }
-        Log.d(TAG,"Adding to boundedViewHolder " + mutableLiveDataViewHolders.getValue().toString());
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
 
 
     public MainRecyclerViewAdapter(String[] data){
         this.data = data;
-        mutableLiveDataViewHolders = new MutableLiveData<>();
-        mutableLiveDataViewHolders.setValue(new ArrayList<ViewHolder>());
+
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
-        /*Idea of infinite scroll for recyclerview from https://stackoverflow.com/questions/51482227/recyclerview-infinite-scroll-in-both-directions*/
-        int realPos = position % data.length;
-        holder.textView.setText(data[realPos]);
+        holder.textView.setText(data[position]);
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
     }
 
     @Override
     public int getItemCount() {
-       return (data == null) ? 0 : Integer.MAX_VALUE;
+        return data.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
@@ -89,10 +72,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             final MediaPlayer  mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setAudioAttributes(
-            new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build()
+                    new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
             );
             try {
                 mediaPlayer.setDataSource(v.getContext(), audioUri);

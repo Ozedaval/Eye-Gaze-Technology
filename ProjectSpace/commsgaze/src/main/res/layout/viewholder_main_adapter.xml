@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/border_recyclerview_item"
+    android:background="@drawable/decor_recyclerview_item"
     android:layout_margin="20dp">
 
     <TextView

@@ -49,16 +49,24 @@ public class MainViewModel extends ViewModel {
 
     LiveData<Integer> getSelectedViewHolderID(){
         if (selectedViewHolderID == null){
-            selectedViewHolderID = new MutableLiveData<>(0);
+            selectedViewHolderID = new MutableLiveData<>();
         }
     return  selectedViewHolderID;
     }
 
-    void initialiseViewGazeHolders(int numOfViewHolders,int fixedDimension){
+    int getPreviousSelectedViewHolderID(){
+        return  viewGazeController.getPrevSelectedViewHolderIndex();
+    }
+
+
+    void initialiseViewGazeHolders(int fixedDimension,int numOfPositions){
         if(viewGazeController == null) {
-            viewGazeController = new ViewGazeController(fixedDimension);
+            viewGazeController = new ViewGazeController(fixedDimension,numOfPositions);
         }
-        viewGazeController.initialiseViewHolders(numOfViewHolders);
+        if (selectedViewHolderID == null){
+            selectedViewHolderID = new MutableLiveData<Integer>();
+            selectedViewHolderID.setValue(0);
+        }
     }
 
 
