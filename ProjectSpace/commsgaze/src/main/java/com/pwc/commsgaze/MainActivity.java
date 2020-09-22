@@ -162,11 +162,11 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 @Override
                 public void onClick(View v) {
                     String buttonText = (String)((Button)v).getText();
-                    Log.d(TAG,buttonText + "Button is pressed. Deciphered as " + customTestButtonParser(buttonText) );
-                /*    mainViewModel.updateViewGazeController(customTestButtonParser());*/
+                    Direction decipheredDirection = customTestButtonParser(buttonText);
+                    Log.d(TAG,buttonText + "Button is pressed. Deciphered as " + decipheredDirection );
+                    mainViewModel.updateViewGazeController(decipheredDirection);
                 }
             });
-
         }
     }
 

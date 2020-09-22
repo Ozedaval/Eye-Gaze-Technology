@@ -13,9 +13,13 @@ public class ViewGazeController  {
     private static final String TAG = "ViewGazeController";
     private int selectedViewHolderIndex = 0;
     private int numOfViewHolders;
-    private ArrayList<Direction> directionList = new ArrayList<>(20);
     private final int DIRECTION_THRESHOLD = 50;
     private int fixedDimension;
+    private int lastElementIndex;
+    private int lastSeqFirstElementIndex;
+    private final int firstElementIndex = 0;
+    private int firstSeqLastElementIndex;
+
 
 
     int getSelectedViewHolderIndex(){
@@ -24,26 +28,55 @@ public class ViewGazeController  {
 
 
     void updateSelectedViewHolder(Direction direction){
-       /* Log.d(TAG,"Direction "+ direction.toString());*/
+        Log.d(TAG,"Gaze Direction estimated "+ direction.toString());
+        Log.d(TAG,"Current select ViewHolder Index "+ selectedViewHolderIndex);
         /*RGB - 195,246,247 defaultLightBlue */
-
-        directionList.add(direction);
-
-            if (directionList.size() == DIRECTION_THRESHOLD) {
-                directionList.remove(0);
+        if(hasNeighbourIn(direction)) {
+            switch (direction) {
+                case LEFT:
+                    selectedViewHolderIndex--;
+                    break;
+                case RIGHT:
+                    selectedViewHolderIndex++;
+                    break;
+                case TOP:
+                    if(isOnFirstSeq(selectedViewHolderIndex)){
+                        selectedViewHolderIndex = selectedViewHolderIndex + lastSeqFirstElementIndex;
+                    }
+                    else{
+                        selectedViewHolderIndex-=fixedDimension;
+                    }
+                    break;
+                case BOTTOM:
+                    if(isOnLastSeq(selectedViewHolderIndex)){
+                        selectedViewHolderIndex = (selectedViewHolderIndex- lastSeqFirstElementIndex) + firstElementIndex;
+                    }
+                    else{
+                        selectedViewHolderIndex+=fixedDimension;
+                    }
+                    break;
             }
 
-            Direction suitableDirection = getSuitableDirection(directionList);
-           /* Log.d(TAG, "Suitable Direction is " + suitableDirection);*/
-            if (suitableDirection.equals(Direction.RIGHT)) {
+            Log.d(TAG,"Updated ViewHolder Index "+ selectedViewHolderIndex);
+        }
+    }
 
-            }
-            else if (suitableDirection.equals(Direction.LEFT)) {
+    boolean isOnFirstSeq(int selectedViewHolderIndex){
+        return (selectedViewHolderIndex>= firstElementIndex && selectedViewHolderIndex <= firstSeqLastElementIndex);
 
-            }
+    }
+    boolean isOnLastSeq(int selectedViewHolderIndex){
+        return (selectedViewHolderIndex>=lastSeqFirstElementIndex && selectedViewHolderIndex <= lastElementIndex);
 
     }
 
+
+    boolean hasNeighbourIn(Direction direction){
+        /*TODO*/
+        return true;
+    }
+
+    /*Usable when one is saving  and using the previous directions*/
     Direction getSuitableDirection(ArrayList<Direction> directions){
         HashMap<Direction,Integer> directionFreq = new HashMap<>();
 
@@ -65,6 +98,9 @@ public class ViewGazeController  {
     void initialiseViewHolders(int numOfViewHolders){
         Log.d(TAG,"Initialising  num of ViewHolders "+ numOfViewHolders);
         this.numOfViewHolders = numOfViewHolders;
+        lastElementIndex = numOfViewHolders - 1;
+        lastSeqFirstElementIndex = numOfViewHolders - fixedDimension;
+        firstSeqLastElementIndex = fixedDimension - 1;
     }
 
 
