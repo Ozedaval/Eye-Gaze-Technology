@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,12 +61,11 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run"};
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
+        final View view = binding.getRoot();
         hideSystemUI();
 
         setContentView(view);
@@ -144,17 +144,33 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 Log.d(TAG,"Selected View Holder ID " + integer);
             /*    Objects.requireNonNull(binding.recyclerViewMain.findViewHolderForLayoutPosition(integer))
                         .itemView.setBackgroundColor(Color.rgb(195, 246, 247));*/
-              ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders =   recyclerViewAdapter.getAllBoundedViewHolders().getValue();
-              if(viewHolders!= null && viewHolders.size() !=0) {
-                  View view = viewHolders.get(integer).itemView;
-                  boolean isViewVisible = gridLayoutManager.isViewPartiallyVisible(view,true,true);
-                  /*TODO if not visible then scroll*/
-                  Log.d(TAG,"Is Selected View Visible " + isViewVisible);
-              }
+                ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders =   recyclerViewAdapter.getAllBoundedViewHolders().getValue();
+                if(viewHolders!= null && viewHolders.size() !=0) {
+                    View view = viewHolders.get(integer).itemView;
+                    boolean isViewVisible = gridLayoutManager.isViewPartiallyVisible(view,true,true);
+                    /*TODO if not visible then scroll*/
+                    Log.d(TAG,"Is Selected View Visible " + isViewVisible);
+                }
             }
         });
 
+
+        /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+        Button[] testButtons = new Button[]{binding.mainTopButton,binding.mainLeftButton,binding.mainNeutralButton,binding.mainRightButton,binding.mainBottomButton};
+        for(Button button:testButtons){
+            button.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String buttonText = (String)((Button)v).getText();
+                    Log.d(TAG,buttonText + "Button is pressed. Deciphered as " + customTestButtonParser(buttonText) );
+                /*    mainViewModel.updateViewGazeController(customTestButtonParser());*/
+                }
+            });
+
+        }
     }
+
+
 
 
 
@@ -202,14 +218,14 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        Detector detector = mainViewModel.getDetector();
+        final Detector detector = mainViewModel.getDetector();
         if(detector.getApproach().equals(Approach.OPEN_CV_SPARSE_FLOW)){
             /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
             ((SparseFlowDetectionData) detectionData).setFrame(inputFrame.rgba());
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mainViewModel.updateViewGazeController();
+                    /* mainViewModel.updateViewGazeController(detector.getDirection());*/
                 }
             });
             return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();
@@ -244,5 +260,15 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         }
 
+    }
+
+    /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+    Direction customTestButtonParser(String buttonText){
+        Direction[] directions = Direction.values();
+        for(Direction direction:directions){
+            if(buttonText.equalsIgnoreCase(direction.toString()))
+                return direction;
+        }
+        return Direction.UNKNOWN;
     }
 }

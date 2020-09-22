@@ -41,8 +41,8 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    void updateViewGazeController(){
-        viewGazeController.updateSelectedViewHolder(getDirection());
+    void updateViewGazeController(Direction direction){
+        viewGazeController.updateSelectedViewHolder(direction);
         if(selectedViewHolderID.getValue() != viewGazeController.getSelectedViewHolderIndex())
         selectedViewHolderID.setValue(viewGazeController.getSelectedViewHolderIndex());
     }

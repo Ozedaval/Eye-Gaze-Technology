@@ -46,46 +46,47 @@
 
 
             <Button
-                android:id="@+id/leftButton"
+                android:id="@+id/mainLeftButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Left"
-                app:layout_constraintTop_toBottomOf="@id/topButton"
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
                 app:layout_constraintLeft_toLeftOf="parent"
               />
 
             <Button
-                android:id="@+id/topButton"
+                android:id="@+id/mainTopButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Top"
-                app:layout_constraintLeft_toRightOf="@id/leftButton"
+                app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/neutralButton"
+                android:id="@+id/mainNeutralButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Neutral"
-                app:layout_constraintTop_toBottomOf="@id/topButton"
-                app:layout_constraintLeft_toRightOf="@id/leftButton"
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
+                app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
                 />
 
             <Button
+                android:id="@+id/mainBottomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bottom"
-                app:layout_constraintTop_toBottomOf="@id/neutralButton"
-                app:layout_constraintLeft_toRightOf="@id/leftButton"
+                app:layout_constraintTop_toBottomOf="@id/mainNeutralButton"
+                app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
                 />
 
             <Button
-                android:id="@+id/rightButton"
+                android:id="@+id/mainRightButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Right"
-                app:layout_constraintTop_toBottomOf="@id/topButton"
-                app:layout_constraintLeft_toRightOf="@id/topButton" />
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
+                app:layout_constraintLeft_toRightOf="@id/mainTopButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
