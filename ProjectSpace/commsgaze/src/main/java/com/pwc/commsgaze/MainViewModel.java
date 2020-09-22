@@ -11,7 +11,6 @@ import com.pwc.commsgaze.detection.DetectionEngineMaker;
 import com.pwc.commsgaze.detection.Detector;
 import com.pwc.commsgaze.detection.data.DetectionData;
 
-import java.util.ArrayList;
 
 /*Holds details for MainActivity in a Activity life-conscious way */
 public class MainViewModel extends ViewModel {
@@ -21,6 +20,7 @@ public class MainViewModel extends ViewModel {
     private DetectionEngineMaker detectionEngineMakerInstance;
     private Detector detector;
     private ViewGazeController viewGazeController;
+    private MutableLiveData<Integer> selectedViewHolderID;
 
 
     Direction getDirection(){
@@ -40,17 +40,28 @@ public class MainViewModel extends ViewModel {
         this.detector = detectionEngineMakerInstance.getDetector();
     }
 
-    void setViewGazeController(ViewGazeController viewGazeController){
-        this.viewGazeController = viewGazeController;
-    }
 
     void updateViewGazeController(){
         viewGazeController.updateSelectedViewHolder(getDirection());
+        if(selectedViewHolderID.getValue() != viewGazeController.getSelectedViewHolderIndex())
+        selectedViewHolderID.setValue(viewGazeController.getSelectedViewHolderIndex());
     }
 
-    void initialiseViewGazeHolders(ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders){
-        viewGazeController.initialiseViewHolders(viewHolders);
+    LiveData<Integer> getSelectedViewHolderID(){
+        if (selectedViewHolderID == null){
+            selectedViewHolderID = new MutableLiveData<>(0);
+        }
+    return  selectedViewHolderID;
     }
+
+    void initialiseViewGazeHolders(int numOfViewHolders,int fixedDimension){
+        if(viewGazeController == null) {
+            viewGazeController = new ViewGazeController(fixedDimension);
+        }
+        viewGazeController.initialiseViewHolders(numOfViewHolders);
+    }
+
+
     /*Check on UI thread for shared preference before calling this*/
     LiveData<Boolean> getIsFirstRun() {
         if (isFirstRun == null) {

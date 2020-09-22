@@ -1,56 +1,45 @@
 package com.pwc.commsgaze;
 
 
-import android.graphics.Color;
 import android.util.Log;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-
-
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
-public class ViewGazeController {
+public class ViewGazeController  {
 
-    private MainRecyclerViewAdapter mainRecyclerViewAdapter;
     private static final String TAG = "ViewGazeController";
     private int selectedViewHolderIndex = 0;
-    private ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders;
-    private ArrayList<Direction> directionList= new ArrayList<>(20);
-    private final int DIRECTION_THRESHOLD =50;
+    private int numOfViewHolders;
+    private ArrayList<Direction> directionList = new ArrayList<>(20);
+    private final int DIRECTION_THRESHOLD = 50;
+    private int fixedDimension;
 
+
+    int getSelectedViewHolderIndex(){
+        return selectedViewHolderIndex;
+    }
 
 
     void updateSelectedViewHolder(Direction direction){
        /* Log.d(TAG,"Direction "+ direction.toString());*/
         /*RGB - 195,246,247 defaultLightBlue */
 
-
         directionList.add(direction);
 
             if (directionList.size() == DIRECTION_THRESHOLD) {
                 directionList.remove(0);
             }
+
             Direction suitableDirection = getSuitableDirection(directionList);
-            Log.d(TAG, "Suitable Direction is " + suitableDirection);
-            viewHolders.get(selectedViewHolderIndex).itemView.setBackgroundColor(Color.rgb(195, 246, 247));
+           /* Log.d(TAG, "Suitable Direction is " + suitableDirection);*/
             if (suitableDirection.equals(Direction.RIGHT)) {
-                if (selectedViewHolderIndex < viewHolders.size() - 1) {
-                    ++selectedViewHolderIndex;
-                    viewHolders.get(selectedViewHolderIndex).itemView.setBackgroundColor(Color.LTGRAY);
-                }
 
+            }
+            else if (suitableDirection.equals(Direction.LEFT)) {
 
-            } else if (suitableDirection.equals(Direction.LEFT)) {
-                if (selectedViewHolderIndex >= 1) {
-                    --selectedViewHolderIndex ;
-                    viewHolders.get(selectedViewHolderIndex).itemView.setBackgroundColor(Color.LTGRAY);
-                }
             }
 
     }
@@ -69,19 +58,18 @@ public class ViewGazeController {
                 suitableDirection = freqEntry.getKey();
             }
         }
-
         return suitableDirection;
     }
 
-    void initialiseViewHolders(ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders){
-        Log.d(TAG,"Intialising ViewHolders "+ viewHolders.toString());
-        this.viewHolders = viewHolders;
 
+    void initialiseViewHolders(int numOfViewHolders){
+        Log.d(TAG,"Initialising  num of ViewHolders "+ numOfViewHolders);
+        this.numOfViewHolders = numOfViewHolders;
     }
 
 
-    ViewGazeController(MainRecyclerViewAdapter mainRecyclerViewAdapter){
-        this.mainRecyclerViewAdapter = mainRecyclerViewAdapter;
+    ViewGazeController(int fixedDimension){
+        this.fixedDimension = fixedDimension;
     }
 
 }

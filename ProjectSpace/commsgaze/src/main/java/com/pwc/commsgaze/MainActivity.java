@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,7 @@ import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static android.view.View.VISIBLE;
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager gridLayoutManager;
     private DetectionData detectionData;
+    private final int RC_FIXED_DIMENSION = 3;
 
 
     static{ System.loadLibrary( "opencv_java4" );}
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
             }
         }
+
         isFirstRun = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
                 .getBoolean(getString(R.string.main_first_run_preference_key), true);
 
@@ -105,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             });
 
             if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(TAG ,"ViewModel LiveData is a" + mainViewModel.getIsFirstRun().getValue());
+                Log.d(TAG ,"ViewModel LiveData is a " + mainViewModel.getIsFirstRun().getValue());
                 DialogFragment initialisationFragment = new InitialisationFragment();
                 initialisationFragment.setCancelable(false);
                 initialisationFragment.show(fragmentManager, getString(R.string.init_fragment_tag));
@@ -115,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
         recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
-        gridLayoutManager = new GridLayoutManager(this,4,GridLayoutManager.VERTICAL,false);
+        gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
         binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
@@ -125,14 +129,33 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
         initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
 
-        mainViewModel.setViewGazeController(new ViewGazeController(recyclerViewAdapter));
+
         recyclerViewAdapter.getAllBoundedViewHolders().observe(this, new Observer<ArrayList<MainRecyclerViewAdapter.ViewHolder>>() {
             @Override
             public void onChanged(ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders) {
-                mainViewModel.initialiseViewGazeHolders(viewHolders);
+                mainViewModel.initialiseViewGazeHolders(viewHolders.size(),RC_FIXED_DIMENSION);
             }
         });
+
+
+        mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                Log.d(TAG,"Selected View Holder ID " + integer);
+            /*    Objects.requireNonNull(binding.recyclerViewMain.findViewHolderForLayoutPosition(integer))
+                        .itemView.setBackgroundColor(Color.rgb(195, 246, 247));*/
+              ArrayList<MainRecyclerViewAdapter.ViewHolder> viewHolders =   recyclerViewAdapter.getAllBoundedViewHolders().getValue();
+              if(viewHolders!= null && viewHolders.size() !=0) {
+                  View view = viewHolders.get(integer).itemView;
+                  boolean isViewVisible = gridLayoutManager.isViewPartiallyVisible(view,true,true);
+                  /*TODO if not visible then scroll*/
+                  Log.d(TAG,"Is Selected View Visible " + isViewVisible);
+              }
+            }
+        });
+
     }
+
 
 
     @Override
@@ -179,12 +202,16 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        mainViewModel.getDirection();
         Detector detector = mainViewModel.getDetector();
         if(detector.getApproach().equals(Approach.OPEN_CV_SPARSE_FLOW)){
             /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
             ((SparseFlowDetectionData) detectionData).setFrame(inputFrame.rgba());
-            mainViewModel.updateViewGazeController();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mainViewModel.updateViewGazeController();
+                }
+            });
             return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();
         }
         return inputFrame.rgba();
