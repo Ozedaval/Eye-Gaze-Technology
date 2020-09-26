@@ -1,8 +1,5 @@
 package com.pwc.commsgaze;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -24,7 +21,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public final static String TAG = "MainRecyclerViewAdapter";
     private String[] data;
 
-        return (LiveData<Set<ViewHolder>>) mutableLiveDataViewHolders;
 
 
 
@@ -37,16 +33,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
 
 
-    public MainRecyclerViewAdapter(String[] data, Context context){
+    public MainRecyclerViewAdapter(String[] data){
         this.data = data;
 
-
-    }
-    public void selectionEffect(int position){
-        int previousItem = selectedItem;
-        selectedItem = position;
-        notifyItemChanged(previousItem);
-        notifyItemChanged(position);
 
     }
 
@@ -54,42 +43,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(data[position]);
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
-        Log.d(TAG,"View " + "position: "+position +" is selected");
-        if(prevHolder!=null) prevHolder.imageView.setBackgroundColor(Color.TRANSPARENT);
-        holder.imageView.setBackgroundColor(Color.TRANSPARENT);
-
-        if (selectedItem == position) {
-            holder.imageView.setBackgroundColor(Color.parseColor("#ffff00"));
-            File externalFileDir = holder.imageView.getContext().getExternalFilesDir(null);
-
-            File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
-            Uri audioUri = Uri.fromFile(sampleAudioFilePath);
-            final MediaPlayer  mediaPlayer = new MediaPlayer();
-
-            mediaPlayer.setAudioAttributes(
-                    new AudioAttributes.Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .build()
-            );
-            try {
-                mediaPlayer.setDataSource(holder.imageView.getContext(), audioUri);
-                mediaPlayer.prepareAsync();
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mediaPlayer.start();
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        prevHolder=holder;
-
-
-
     }
 
     @Override
@@ -100,26 +53,18 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
         public ImageView imageView;
         public TextView textView;
-        HashMap<View,Boolean> selected = new HashMap<>();
 
-        Context context;
-
-        public ViewHolder(@NonNull View itemView, Context context) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             imageView = itemView.findViewById(R.id.imageView_main_adapter);
             textView = itemView.findViewById(R.id.textView_main_adapter);
-            this.context=context;
-            itemView.setOnClickListener(this);
-
         }
 
         @Override
         public void onClick(View v) {
             Log.d(TAG,"View " + textView.getText() +" is selected");
-//            Log.d(TAG,"View " + getAdapterPosition() +" is selected");
-
             File externalFileDir = v.getContext().getExternalFilesDir(null);
-            // for selection effect //
 
             /*Sample is being used here*/
             File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
@@ -145,8 +90,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
                 e.printStackTrace();
             }
         }
-
     }
-
 
 }

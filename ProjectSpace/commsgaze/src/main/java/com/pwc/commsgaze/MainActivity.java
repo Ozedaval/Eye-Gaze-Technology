@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,7 +21,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -67,13 +65,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         hideSystemUI();
-        runFrame=0;
-        this.smoothScroller = new LinearSmoothScroller(this) {
-            @Override protected int getVerticalSnapPreference() {
-                return LinearSmoothScroller.SNAP_TO_START;
-            }
-        };
 
+        setContentView(view);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -154,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 },100);
 
 
-                    Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());
+                Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());
 
 
             }
@@ -162,22 +155,22 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
 
-                /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
-                Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
-                for (Button button : testButtons) {
-                    button.setOnClickListener(new Button.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String buttonText = (String) ((Button) v).getText();
-                            Direction decipheredDirection = customTestButtonParser(buttonText);
-                            Log.d(TAG, buttonText + "Button is pressed. Deciphered as " + decipheredDirection);
-                            mainViewModel.updateViewGazeController(decipheredDirection);
-                        }
-                    });
+        /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+        Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
+        for (Button button : testButtons) {
+            button.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String buttonText = (String) ((Button) v).getText();
+                    Direction decipheredDirection = customTestButtonParser(buttonText);
+                    Log.d(TAG, buttonText + "Button is pressed. Deciphered as " + decipheredDirection);
+                    mainViewModel.updateViewGazeController(decipheredDirection);
                 }
+            });
+        }
         /*TODO change later in accordance*/
 
-            }
+    }
 
 
 
@@ -279,4 +272,3 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         return Direction.UNKNOWN;
     }
 }
-
