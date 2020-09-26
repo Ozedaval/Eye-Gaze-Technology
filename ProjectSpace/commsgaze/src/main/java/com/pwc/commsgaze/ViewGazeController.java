@@ -1,8 +1,6 @@
 package com.pwc.commsgaze;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,8 +25,8 @@ public class ViewGazeController  {
     int getPrevSelectedViewHolderIndex(){return prevSelectedViewHolderIndex;}
 
     void updateSelectedViewHolder(Direction direction){
-        Log.d(TAG,"Gaze Direction estimated "+ direction.toString());
-        Log.d(TAG,"Current select ViewHolder Index "+ selectedViewHolderIndex);
+      /*  Log.d(TAG,"Gaze Direction estimated "+ direction.toString());
+        Log.d(TAG,"Current select ViewHolder Index "+ selectedViewHolderIndex);*/
         prevSelectedViewHolderIndex = selectedViewHolderIndex;
         if(hasNeighbourIn(direction,selectedViewHolderIndex)) {
 
@@ -55,7 +53,8 @@ public class ViewGazeController  {
                     selectedViewHolderIndex = (selectedViewHolderIndex % fixedDimension) +firstElementIndex;
             }
         }
-        Log.d(TAG,"Updated ViewHolder Index "+ selectedViewHolderIndex);}
+ /*       Log.d(TAG,"Updated ViewHolder Index "+ selectedViewHolderIndex);*/
+    }
 
 
     boolean isOnFirstSeq(int selectedViewHolderIndex){

@@ -21,7 +21,14 @@ public class MainViewModel extends ViewModel {
     private Detector detector;
     private ViewGazeController viewGazeController;
     private MutableLiveData<Integer> selectedViewHolderID;
+    private DirectionMediator directionMediator;
+    private MutableLiveData<Direction> gaugedDirection;
 
+    LiveData<Direction> getGaugedDirection() {
+        if(gaugedDirection == null)
+            gaugedDirection = new MutableLiveData<>();
+        return gaugedDirection;
+    }
 
     Direction getDirection(){
         return  (detector==null)? Direction.UNKNOWN:detector.getDirection();
@@ -44,22 +51,32 @@ public class MainViewModel extends ViewModel {
     void updateViewGazeController(Direction direction){
         viewGazeController.updateSelectedViewHolder(direction);
         if(selectedViewHolderID.getValue() != viewGazeController.getSelectedViewHolderIndex())
-        selectedViewHolderID.setValue(viewGazeController.getSelectedViewHolderIndex());
+            selectedViewHolderID.setValue(viewGazeController.getSelectedViewHolderIndex());
     }
+
 
     LiveData<Integer> getSelectedViewHolderID(){
         if (selectedViewHolderID == null){
             selectedViewHolderID = new MutableLiveData<>();
         }
-    return  selectedViewHolderID;
+        return  selectedViewHolderID;
     }
+
 
     int getPreviousSelectedViewHolderID(){
         return  viewGazeController.getPrevSelectedViewHolderIndex();
     }
 
 
-    void initialiseViewGazeHolders(int fixedDimension,int numOfPositions){
+    void updateDirectionMediator(Direction direction) {
+        directionMediator.update(direction);
+        if(directionMediator.getNeedUpdate()){
+            gaugedDirection.setValue(directionMediator.getGaugedCurrentDirection());
+        }
+    }
+
+
+    void initialiseViewGazeHolders(int fixedDimension, int numOfPositions){
         if(viewGazeController == null) {
             viewGazeController = new ViewGazeController(fixedDimension,numOfPositions);
         }
@@ -69,6 +86,9 @@ public class MainViewModel extends ViewModel {
         }
     }
 
+    void initialiseDirectionMediator(int frameThreshold){
+        directionMediator = new DirectionMediator(frameThreshold);
+    }
 
     /*Check on UI thread for shared preference before calling this*/
     LiveData<Boolean> getIsFirstRun() {
