@@ -1,8 +1,10 @@
-package com.pwc.commsgaze;
+package com.pwc.commsgaze.initialisation;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.pwc.commsgaze.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

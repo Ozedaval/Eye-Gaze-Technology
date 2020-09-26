@@ -1,4 +1,4 @@
-package com.pwc.commsgaze;
+package com.pwc.commsgaze.initialisation;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +13,9 @@ import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.pwc.commsgaze.MainViewModel;
+import com.pwc.commsgaze.R;
 
 import java.io.File;
 import java.lang.reflect.Field;

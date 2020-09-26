@@ -29,6 +29,7 @@ import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
+import com.pwc.commsgaze.initialisation.InitialisationFragment;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;

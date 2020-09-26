@@ -5,15 +5,15 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "Contents")
+@Entity(tableName = "content_table")
 public class Content {
     @PrimaryKey(autoGenerate = true)
     int id;
-    @ColumnInfo(name = "Word")
+    @ColumnInfo(name = "word")
     String word;
-    @ColumnInfo(name = "Image")
+    @ColumnInfo(name = "image_path")
     String imageDirPath;
-    @ColumnInfo(name = "Audio")
+    @ColumnInfo(name = "audio_path")
     String audioDirPath;
 
 
@@ -26,7 +26,8 @@ public class Content {
         return word;
     }
 
-    public String getImage() { return imageDirPath; }
+    public String getImage() {
+        return imageDirPath; }
 
     public String getAudio() {
         return audioDirPath;
