@@ -9,19 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.pwc.commsgaze.database.Content;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     /*TODO use data from Room Database instead of temporary data*/
     public final static String TAG = "MainRecyclerViewAdapter";
-    private String[] data;
-
-
+    private List<Content> contents;
 
 
     @NonNull
@@ -32,19 +30,23 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
 
-    public MainRecyclerViewAdapter(String[] data){
-        this.data = data;
-    }
 
     @Override
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.textView.setText(data[position]);
+        holder.textView.setText(contents.get(position).getWord());
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
+    }
+
+    void setContents(List<Content> contents){
+        this.contents = contents;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        if(contents != null)
+        return contents.size();
+        return  0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.pwc.commsgaze.database.Content;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
@@ -36,6 +37,7 @@ import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static android.view.View.VISIBLE;
 
@@ -121,11 +123,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
+        recyclerViewAdapter = new MainRecyclerViewAdapter();
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
 
 
@@ -158,6 +159,14 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
         });
 
+
+        storageViewModel.getAllContents().observe(this, new Observer<List<Content>>() {
+            @Override
+            public void onChanged(List<Content> contents) {
+                Log.d(TAG,"Changed "+ contents.toString());
+                recyclerViewAdapter.setContents(contents);
+            }
+        });
 
 
         /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
