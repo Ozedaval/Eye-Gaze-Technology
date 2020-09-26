@@ -14,64 +14,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     /*TODO use data from Room Database instead of temporary data*/
     public final static String TAG = "MainRecyclerViewAdapter";
     private String[] data;
-    private MutableLiveData<Set<ViewHolder>> mutableLiveDataViewHolders;
-    private List<View> itemViewList = new ArrayList<>();
-    int selectedItem;
-    Context context;
-    ViewHolder viewHolder;
-    @NonNull MainRecyclerViewAdapter.ViewHolder prevHolder;
-    public LiveData<Set<ViewHolder>> getAllBoundedViewHolders() {
 
         return (LiveData<Set<ViewHolder>>) mutableLiveDataViewHolders;
 
-    }
 
 
     @NonNull
     @Override
     public MainRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_main_adapter,parent,false);
-        viewHolder = new ViewHolder(view,this.context);
-
-        if(mutableLiveDataViewHolders.getValue()!=null) {
-            Set<ViewHolder> viewHolderSet = mutableLiveDataViewHolders.getValue();
-            viewHolderSet.add(viewHolder);
-            mutableLiveDataViewHolders.setValue(viewHolderSet);
-        }
-        Log.d(TAG,"Adding to boundedViewHolder " + mutableLiveDataViewHolders.getValue().toString());
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
 
-    @Override
-    public void onViewRecycled(@NonNull ViewHolder holder) {
-        super.onViewRecycled(holder);
-      /*  boundedViewHolder.remove(holder);*/
-    }
 
     public MainRecyclerViewAdapter(String[] data, Context context){
         this.data = data;
-        mutableLiveDataViewHolders = new MutableLiveData<>();
-        mutableLiveDataViewHolders.setValue(new HashSet<ViewHolder>());
-        this.context=context;
-        this.selectedItem=0;
+
 
     }
     public void selectionEffect(int position){
@@ -83,10 +51,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, final int position) {
-        /*Idea of infinite scroll for recyclerview from https://stackoverflow.com/questions/51482227/recyclerview-infinite-scroll-in-both-directions*/
-        int realPos = position % data.length;
-        holder.textView.setText(data[realPos]);
+    public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
+        holder.textView.setText(data[position]);
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
         Log.d(TAG,"View " + "position: "+position +" is selected");
         if(prevHolder!=null) prevHolder.imageView.setBackgroundColor(Color.TRANSPARENT);
@@ -127,8 +93,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
     @Override
-    public int getItemCount() { // for infinity
-       return (data == null) ? 0 : data.length; // Integer.MAX_VALUE
+    public int getItemCount() {
+        return data.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
@@ -155,31 +121,16 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             File externalFileDir = v.getContext().getExternalFilesDir(null);
             // for selection effect //
 
-//
-//            if(selected.get(v)==null){
-//                v.setBackgroundColor(Color.parseColor("#ffff00"));
-//                selected.put(v,true);
-//            }
-//            else{
-//                if(selected.get(v)==true){
-//                    v.setBackground(ContextCompat.getDrawable(context, R.drawable.border_recyclerview_item));
-//                    selected.put(v,false);
-//                }
-//                else{
-//                    v.setBackgroundColor(Color.parseColor("#ffff00"));
-//                    selected.put(v,true);
-//                }
-//            }
             /*Sample is being used here*/
             File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
             Uri audioUri = Uri.fromFile(sampleAudioFilePath);
             final MediaPlayer  mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setAudioAttributes(
-            new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build()
+                    new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
             );
             try {
                 mediaPlayer.setDataSource(v.getContext(), audioUri);

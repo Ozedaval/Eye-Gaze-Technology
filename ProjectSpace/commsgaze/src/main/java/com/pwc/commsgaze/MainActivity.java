@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,14 +27,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
-import com.pwc.commsgaze.detection.SparseFlowDetector;
+import com.pwc.commsgaze.detection.Approach;
+import com.pwc.commsgaze.detection.Detector;
+import com.pwc.commsgaze.detection.data.DetectionData;
+import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.Arrays;
-import java.util.Set;
 
 import static android.view.View.VISIBLE;
 
@@ -46,26 +50,22 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private static final String TAG = "MainActivity";
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager gridLayoutManager;
+    private DetectionData detectionData;
+    private final int RC_FIXED_DIMENSION = 3;
 
-    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run"};
+
     static{ System.loadLibrary( "opencv_java4" );}
-    private CascadeClassifier faceCascade;
-    private CascadeClassifier eyesCascade;
-    public SparseFlowDetector detect;
-    int runFrame;
-    RecyclerView.SmoothScroller smoothScroller;
-    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
 
+
+    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
+    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-
-        View view = binding.getRoot();
-        setContentView(view);
-
+        final View view = binding.getRoot();
         hideSystemUI();
         runFrame=0;
         this.smoothScroller = new LinearSmoothScroller(this) {
@@ -80,13 +80,15 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
             }
         }
+
         isFirstRun = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
                 .getBoolean(getString(R.string.main_first_run_preference_key), true);
 
+        mainViewModel = new ViewModelProvider(this)
+                .get(MainViewModel.class);
         if (isFirstRun) {
             fragmentManager = getSupportFragmentManager();
-            mainViewModel = new ViewModelProvider(this)
-                    .get(MainViewModel.class);
+
 
             mainViewModel.getIsFirstRun().observe(this, new Observer<Boolean>() {
                 @Override
@@ -112,46 +114,71 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             });
 
             if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(TAG ," onResume "+"ViewModel LiveData is a" + mainViewModel.getIsFirstRun().getValue());
-                Log.d(TAG , "on Resume Called");
-
+                Log.d(TAG ,"ViewModel LiveData is a " + mainViewModel.getIsFirstRun().getValue());
                 DialogFragment initialisationFragment = new InitialisationFragment();
                 initialisationFragment.setCancelable(false);
                 initialisationFragment.show(fragmentManager, getString(R.string.init_fragment_tag));
             }
+
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA,this);
-        gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
+        recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
+        gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-        binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
 
-        recyclerViewAdapter.getAllBoundedViewHolders().observe(this, new Observer<Set<MainRecyclerViewAdapter.ViewHolder>>() {
+        mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
+
+
+        /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
+        initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
+
+        mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(Set<MainRecyclerViewAdapter.ViewHolder> viewHolders) {
-                Log.d(TAG,"Total Visible View Holder " + viewHolders.toString());
+            public void onChanged(final Integer integer) {
+                System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
+                RecyclerView.ViewHolder prevViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
+                if(prevViewHolder!=null) {
+                    prevViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_item));
+                }
+                binding.recyclerViewMain.smoothScrollToPosition(integer);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RecyclerView.ViewHolder selectedViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
+                        if (selectedViewHolder!=null) {
+                            selectedViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_selected_item));
+                        }
+                    }
+                },100);
+
+
+                    Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());
+
+
             }
         });
 
-        binding.openCVCameraView.setVisibility(VISIBLE);
-        binding.openCVCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
-        binding.openCVCameraView.setCameraPermissionGranted();
-        binding.openCVCameraView.disableFpsMeter();
-        binding.openCVCameraView.setCvCameraViewListener(this);
 
-        faceCascade = new CascadeClassifier();
-        eyesCascade = new CascadeClassifier();
-        binding.openCVCameraView.bringToFront();
-        /*Log.d(TAG, Arrays.toString(fileList()));
-        Log.d(TAG, getFileStreamPath("eyeModel.xml").getAbsolutePath());
-        Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
-        faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
-        eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
 
-        detect=new SparseFlowDetector();
-    }
+                /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+                Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
+                for (Button button : testButtons) {
+                    button.setOnClickListener(new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String buttonText = (String) ((Button) v).getText();
+                            Direction decipheredDirection = customTestButtonParser(buttonText);
+                            Log.d(TAG, buttonText + "Button is pressed. Deciphered as " + decipheredDirection);
+                            mainViewModel.updateViewGazeController(decipheredDirection);
+                        }
+                    });
+                }
+        /*TODO change later in accordance*/
+
+            }
+
 
 
     @Override
@@ -161,15 +188,16 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 finish();
             }
         }
-        Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
+        Log.d(TAG,  "is First Run is "+isFirstRun);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.d(TAG," onResume called ");
+        /*configs go away when app activity is re-opened*/
+        hideSystemUI();
         binding.openCVCameraView.enableView();
-
 
     }
 
@@ -198,41 +226,57 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        binding.recyclerViewMain.post(new Runnable() {
-            @Override
-            public void run() {
-
-                // to prevent from cases where selecting elements too fast
-                // number can be changed or removed
-                if(runFrame %8==0){
-
-                    if(detect.getDirection()==Direction.LEFT){
-
-                        recyclerViewAdapter.selectedItem-=1;
-                        if(recyclerViewAdapter.selectedItem<0) {
-                            smoothScroller.setTargetPosition(TEMP_DATA.length-1);
-                            gridLayoutManager.startSmoothScroll(smoothScroller);
-                            recyclerViewAdapter.selectedItem = TEMP_DATA.length - 1;
-                        }
-                        recyclerViewAdapter.selectionEffect(recyclerViewAdapter.selectedItem);
-                    }
-                    else if(detect.getDirection()==Direction.RIGHT){
-                        recyclerViewAdapter.selectedItem+=1;
-                        if(recyclerViewAdapter.selectedItem==TEMP_DATA.length){
-                            recyclerViewAdapter.selectedItem=0;
-                            smoothScroller.setTargetPosition(0);
-                            gridLayoutManager.startSmoothScroll(smoothScroller);
-                        }
-                        recyclerViewAdapter.selectionEffect(recyclerViewAdapter.selectedItem);
-
-
-                    }
+        final Detector detector = mainViewModel.getDetector();
+        if(detector.getApproach().equals(Approach.OPEN_CV_SPARSE_FLOW)){
+            /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
+            ((SparseFlowDetectionData) detectionData).setFrame(inputFrame.rgba());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    /* mainViewModel.updateViewGazeController(detector.getDirection());*/
                 }
-                runFrame++;
-            }
-        });
-        return detect.detect(inputFrame.rgba(),faceCascade,eyesCascade);
+            });
+            return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();
+        }
+        return inputFrame.rgba();
     }
 
 
+
+
+    private void initialiseApproach(Approach approach){
+        if(approach.equals(Approach.OPEN_CV_SPARSE_FLOW) ){
+            /*TODO We need to only activate this if the user has set for an approach which uses opencv -- most prolly use the stored data on the approach to check  first */
+            Log.d(TAG,"opencv camera initialisation");
+            binding.openCVCameraView.setVisibility(VISIBLE);
+            binding.openCVCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
+            binding.openCVCameraView.setCameraPermissionGranted();
+            binding.openCVCameraView.disableFpsMeter();
+            binding.openCVCameraView.setCvCameraViewListener(this);
+            binding.openCVCameraView.bringToFront();
+
+            /*TODO check  approach before intialising detectionData */
+            CascadeClassifier faceCascade = new CascadeClassifier();
+            CascadeClassifier eyesCascade = new CascadeClassifier();
+            /*Log.d(TAG, Arrays.toString(fileList()));
+              Log.d(TAG, getFileStreamPath("eyeModel.xml").getAbsolutePath());
+              Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
+            faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
+            eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
+            detectionData = new SparseFlowDetectionData(faceCascade,eyesCascade);
+            mainViewModel.createDetector(Approach.OPEN_CV_SPARSE_FLOW,detectionData);
+        }
+
+    }
+
+    /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+    Direction customTestButtonParser(String buttonText){
+        Direction[] directions = Direction.values();
+        for(Direction direction:directions){
+            if(buttonText.equalsIgnoreCase(direction.toString()))
+                return direction;
+        }
+        return Direction.UNKNOWN;
+    }
 }
+
