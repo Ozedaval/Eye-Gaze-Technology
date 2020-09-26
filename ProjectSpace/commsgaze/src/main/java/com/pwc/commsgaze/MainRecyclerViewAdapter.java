@@ -38,7 +38,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     ViewHolder viewHolder;
     @NonNull MainRecyclerViewAdapter.ViewHolder prevHolder;
     public LiveData<Set<ViewHolder>> getAllBoundedViewHolders() {
+
         return (LiveData<Set<ViewHolder>>) mutableLiveDataViewHolders;
+
     }
 
 
@@ -47,7 +49,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public MainRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_main_adapter,parent,false);
         viewHolder = new ViewHolder(view,this.context);
-
 
         if(mutableLiveDataViewHolders.getValue()!=null) {
             Set<ViewHolder> viewHolderSet = mutableLiveDataViewHolders.getValue();
@@ -87,9 +88,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         int realPos = position % data.length;
         holder.textView.setText(data[realPos]);
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
-        //TODO I don't know why the colour has not been updated even though in "selectionEffect(int position)" above notify it..
-        //This is the only issue
-        Log.d(TAG,"View " + "asdfasdf" +" is selected");
+        Log.d(TAG,"View " + "position: "+position +" is selected");
         if(prevHolder!=null) prevHolder.imageView.setBackgroundColor(Color.TRANSPARENT);
         holder.imageView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -128,8 +127,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
     @Override
-    public int getItemCount() {
-       return (data == null) ? 0 : Integer.MAX_VALUE;
+    public int getItemCount() { // for infinity
+       return (data == null) ? 0 : data.length; // Integer.MAX_VALUE
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {

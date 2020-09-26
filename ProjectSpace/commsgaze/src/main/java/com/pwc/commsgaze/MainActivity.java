@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private CascadeClassifier eyesCascade;
     public SparseFlowDetector detect;
     int runFrame;
+    RecyclerView.SmoothScroller smoothScroller;
     /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
 
 
@@ -66,7 +68,11 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         hideSystemUI();
         runFrame=0;
-
+        this.smoothScroller = new LinearSmoothScroller(this) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -201,15 +207,22 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 if(runFrame %8==0){
 
                     if(detect.getDirection()==Direction.LEFT){
+
                         recyclerViewAdapter.selectedItem-=1;
-                        if(recyclerViewAdapter.selectedItem<1073741823)
-                            recyclerViewAdapter.selectedItem=1073741828;
+                        if(recyclerViewAdapter.selectedItem<0) {
+                            smoothScroller.setTargetPosition(TEMP_DATA.length-1);
+                            gridLayoutManager.startSmoothScroll(smoothScroller);
+                            recyclerViewAdapter.selectedItem = TEMP_DATA.length - 1;
+                        }
                         recyclerViewAdapter.selectionEffect(recyclerViewAdapter.selectedItem);
                     }
                     else if(detect.getDirection()==Direction.RIGHT){
                         recyclerViewAdapter.selectedItem+=1;
-                        if(recyclerViewAdapter.selectedItem==1073741829)
-                            recyclerViewAdapter.selectedItem=1073741823;
+                        if(recyclerViewAdapter.selectedItem==TEMP_DATA.length){
+                            recyclerViewAdapter.selectedItem=0;
+                            smoothScroller.setTargetPosition(0);
+                            gridLayoutManager.startSmoothScroll(smoothScroller);
+                        }
                         recyclerViewAdapter.selectionEffect(recyclerViewAdapter.selectedItem);
 
 
