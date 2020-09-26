@@ -38,6 +38,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.google.android:flexbox:2.0.1'
+   /*debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'*/
+    /*implementation 'com.google.android:flexbox:2.0.1'*/
+
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
@@ -49,5 +54,6 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     // optional : for the listenable feature
     implementation "androidx.room:room-guava:$room_version"
+
 
 }

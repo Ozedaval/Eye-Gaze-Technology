@@ -1,5 +1,14 @@
 package com.pwc.commsgaze;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,14 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        hideSystemUI();
+
         setContentView(view);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -83,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
             if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(TAG ," onResume "+"ViewModel LiveData isa" + mainViewModel.getIsFirstRun().getValue());
+                Log.d(TAG ," onResume "+"ViewModel LiveData is a" + mainViewModel.getIsFirstRun().getValue());
                 Log.d(TAG , "on Resume Called");
 
                 DialogFragment initialisationFragment = new InitialisationFragment();
@@ -95,15 +99,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
         recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
-        gridLayoutManager = new GridLayoutManager(this,4);
-
-
-        binding.recyclerViewMain.setHasFixedSize(true);
+        gridLayoutManager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
         binding.recyclerViewMain.scrollToPosition(Integer.MAX_VALUE / 2);
-
-
     }
 
 
@@ -117,6 +116,24 @@ public class MainActivity extends AppCompatActivity {
         Log.d(getClass().getName() + "isFirstRun is ",  isFirstRun+"");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*configs go away when app activity is re-opened*/
+        hideSystemUI();
+    }
 
+    /*Hides System UI
+     * https://developer.android.com/training/system-ui/immersive.html*/
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
 
 }

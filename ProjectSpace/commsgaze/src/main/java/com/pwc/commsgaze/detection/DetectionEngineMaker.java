@@ -39,7 +39,6 @@ public class DetectionEngineMaker {
                     activeApproach = Approach.OPEN_CV_SPARSE_FLOW;
                     detector = new SparseFlowDetector();
                     return detector;
-
             }
             return detector;
         }
