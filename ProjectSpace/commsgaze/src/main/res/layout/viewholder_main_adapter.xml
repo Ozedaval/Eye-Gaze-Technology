@@ -5,12 +5,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/decor_recyclerview_item"
-    android:layout_margin="20dp">
+    android:layout_margin="20dp"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/textView_main_adapter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:textStyle="bold"
         tools:text="@tools:sample/full_names" />

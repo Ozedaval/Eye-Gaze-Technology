@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.pwc.commsgaze.database.Content;
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         Uri imageUri = Uri.fromFile(new File(contents.get(position).getImageDirPath()));
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
-                .fitCenter()
+                .apply(new RequestOptions().override(250, 250))
                 .into(holder.imageView);
         holder.setAudioDirPath(contents.get(position).getAudioDirPath());
 
