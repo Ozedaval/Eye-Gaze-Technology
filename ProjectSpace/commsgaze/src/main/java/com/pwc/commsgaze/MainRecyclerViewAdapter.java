@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.pwc.commsgaze.database.Content;
 import java.io.File;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
-    /*TODO use data from Room Database instead of temporary data*/
     public final static String TAG = "MainRecyclerViewAdapter";
     private List<Content> contents;
 
@@ -57,7 +55,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         return  0;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
          ImageView imageView;
          TextView textView;
          String audioDirPath;

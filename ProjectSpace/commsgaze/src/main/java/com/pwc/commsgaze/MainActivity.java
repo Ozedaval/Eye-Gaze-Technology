@@ -59,10 +59,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     static{ System.loadLibrary( "opencv_java4" );}
 
 
-    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
-    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,16 +118,23 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
 
-
         recyclerViewAdapter = new MainRecyclerViewAdapter();
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-        mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
-
+        mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
         initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
+
+        storageViewModel.getAllContents().observe(this, new Observer<List<Content>>() {
+            @Override
+            public void onChanged(List<Content> contents) {
+                Log.d(TAG,"Changed "+ contents.toString());
+                recyclerViewAdapter.setContents(contents);
+                mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,contents.size());
+            }
+        });
 
         mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
@@ -160,14 +163,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         });
 
 
-        storageViewModel.getAllContents().observe(this, new Observer<List<Content>>() {
-            @Override
-            public void onChanged(List<Content> contents) {
-                Log.d(TAG,"Changed "+ contents.toString());
-                recyclerViewAdapter.setContents(contents);
-            }
-        });
-
 
         /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
         Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
@@ -182,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 }
             });
         }
-        /*TODO change later in accordance*/
 
     }
 
