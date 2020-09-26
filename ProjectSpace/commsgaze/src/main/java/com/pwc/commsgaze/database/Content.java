@@ -40,10 +40,10 @@ public class Content {
         return word;
     }
 
-    public String getImage() {
+    public String getImageDirPath() {
         return imageDirPath; }
 
-    public String getAudio() {
+    public String getAudioDirPath() {
         return audioDirPath;
     }
 
@@ -53,11 +53,11 @@ public class Content {
         this.word = word;
     }
 
-    public void setImage(String imageDirPath){
+    public void setImageDirPath(String imageDirPath){
         this.imageDirPath = imageDirPath;
     }
 
-    public void setAudio(String audioDirPath) {
+    public void setAudioDirPath(String audioDirPath) {
         this.audioDirPath = audioDirPath;}
 
 

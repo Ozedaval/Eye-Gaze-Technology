@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.pwc.commsgaze.database.Content;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +36,13 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     @Override
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(contents.get(position).getWord());
-        holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
+        Uri imageUri = Uri.fromFile(new File(contents.get(position).getImageDirPath()));
+        Glide.with(holder.itemView.getContext())
+                .load(imageUri)
+                .fitCenter()
+                .into(holder.imageView);
+        holder.setAudioDirPath(contents.get(position).getAudioDirPath());
+
     }
 
     void setContents(List<Content> contents){
@@ -50,8 +58,13 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
-        public ImageView imageView;
-        public TextView textView;
+         ImageView imageView;
+         TextView textView;
+         String audioDirPath;
+
+        public void setAudioDirPath(String audioDirPath) {
+            this.audioDirPath = audioDirPath;
+        }
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,9 +78,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             Log.d(TAG,"View " + textView.getText() +" is selected");
             File externalFileDir = v.getContext().getExternalFilesDir(null);
 
-            /*Sample is being used here*/
-            File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
-            Uri audioUri = Uri.fromFile(sampleAudioFilePath);
+            File audioFilePath = new File(audioDirPath);
+            Uri audioUri = Uri.fromFile(audioFilePath);
             final MediaPlayer  mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setAudioAttributes(
