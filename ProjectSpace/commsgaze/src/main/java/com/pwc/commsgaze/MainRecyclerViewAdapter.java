@@ -32,11 +32,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
 
-
     public MainRecyclerViewAdapter(String[] data){
         this.data = data;
-
-
     }
 
     @Override

@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private RecyclerView.LayoutManager gridLayoutManager;
     private DetectionData detectionData;
     private final int RC_FIXED_DIMENSION = 3;
+    private StorageViewModel storageViewModel;
 
 
     static{ System.loadLibrary( "opencv_java4" );}
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         hideSystemUI();
-
         setContentView(view);
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -78,11 +79,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         isFirstRun = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
                 .getBoolean(getString(R.string.main_first_run_preference_key), true);
 
-        mainViewModel = new ViewModelProvider(this)
-                .get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        storageViewModel = new ViewModelProvider(this).get(StorageViewModel.class);
+
+
         if (isFirstRun) {
             fragmentManager = getSupportFragmentManager();
-
 
             mainViewModel.getIsFirstRun().observe(this, new Observer<Boolean>() {
                 @Override
@@ -116,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
+
+
 
         recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);

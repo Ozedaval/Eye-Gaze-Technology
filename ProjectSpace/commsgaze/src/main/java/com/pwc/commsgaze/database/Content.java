@@ -1,5 +1,6 @@
 package com.pwc.commsgaze.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -7,20 +8,33 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "content_table")
 public class Content {
-    @PrimaryKey(autoGenerate = true)
-    int id;
+    @PrimaryKey()
     @ColumnInfo(name = "word")
-    String word;
+    @NonNull String word;
     @ColumnInfo(name = "image_path")
     String imageDirPath;
     @ColumnInfo(name = "audio_path")
     String audioDirPath;
+    @ColumnInfo(name = "topic")
+    String topic;
 
 
-
-    public int getId() {
-        return id;
+    public Content(@NonNull String word, String imageDirPath, String audioDirPath, String topic){
+        this.word = word;
+        this.imageDirPath = imageDirPath;
+        this.audioDirPath = audioDirPath;
+        this.topic = topic;
     }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+
 
     public String getWord() {
         return word;
@@ -33,9 +47,7 @@ public class Content {
         return audioDirPath;
     }
 
-    public void setId(int id){
-        this.id = id;
-    }
+
 
     public void setWord(String word){
         this.word = word;
@@ -45,5 +57,17 @@ public class Content {
         this.imageDirPath = imageDirPath;
     }
 
-    public void setAudio(String audioDirPath) {this.audioDirPath = audioDirPath;}
+    public void setAudio(String audioDirPath) {
+        this.audioDirPath = audioDirPath;}
+
+
+    @Override
+    public String toString() {
+        return "Content{" +
+                "word='" + word + '\'' +
+                ", imageDirPath='" + imageDirPath + '\'' +
+                ", audioDirPath='" + audioDirPath + '\'' +
+                ", topic='" + topic + '\'' +
+                '}';
+    }
 }

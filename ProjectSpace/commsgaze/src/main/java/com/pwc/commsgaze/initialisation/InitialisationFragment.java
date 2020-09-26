@@ -16,13 +16,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.pwc.commsgaze.MainViewModel;
 import com.pwc.commsgaze.R;
+import com.pwc.commsgaze.StorageViewModel;
+import com.pwc.commsgaze.database.Content;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Stack;
 
+import static com.pwc.commsgaze.utils.FileUtil.AUDIO_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
+import static com.pwc.commsgaze.utils.FileUtil.IMAGE_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
 
 /*Fragment which shows the initialisation loading Bar*/
@@ -36,6 +44,8 @@ public class InitialisationFragment extends DialogFragment {
     private Stack<File> contentAudioExternalFileStack = new Stack<>();
     private boolean isInitialisationAsyncDone;
     private boolean isTTSConversationDone;
+    private StorageViewModel storageViewModel;
+
 
 
     @Override
@@ -48,12 +58,12 @@ public class InitialisationFragment extends DialogFragment {
     }
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         final InitialisationFragment initialisationFragment = this;
+        storageViewModel = new ViewModelProvider(this).get(StorageViewModel.class);
         textToSpeech = new TextToSpeech(requireContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -80,6 +90,7 @@ public class InitialisationFragment extends DialogFragment {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
+                                                initialiseDatabase();
                                                 closeFragment();
                                             }
                                         });
@@ -110,18 +121,21 @@ public class InitialisationFragment extends DialogFragment {
                 if(getContext()!= null){
                     File externalFileDir = getContext().getExternalFilesDir(null);
                     Field[] fields = R.raw.class.getFields();
-                    String name;
+                    String word;
                     String audioName;
                     for(Field field:fields){
-                        if((name = field.getName()).contains(CONTENT_RES_HEADER)) {
+                        if((word = field.getName()).contains(CONTENT_RES_HEADER)) {
                             /*Looking for only content related files*/
-                            if (customFileFormatChecker(name)) {
-                                name = name.substring(name.indexOf("_"));
-                                audioName = "audio" + name;
+                            if (customFileFormatChecker(word)) {
+                                word = word.substring(word.indexOf("_"));
+
+                                audioName = AUDIO_RES_HEADER + word;
+                                word = word.substring(word.lastIndexOf("_"));
                                 Log.d(TAG, "Audio File Name  " + audioName);
-                                contentAudioExternalFileStack.add(new File(externalFileDir, audioName + ".wav"));
+                                File audioFile =  new File(externalFileDir, audioName + ".wav");
+                                contentAudioExternalFileStack.add(audioFile);
                             } else {
-                                throw new AssertionError("Starter File: " + name + " is not formatted correctly in accordance to the custom format we are using!");
+                                throw new AssertionError("Starter File: " + word + " is not formatted correctly in accordance to the custom format we are using!");
                             }
                         }
                     }
@@ -147,11 +161,54 @@ public class InitialisationFragment extends DialogFragment {
         return  text.split("_")[2];
     }
 
+    void initialiseDatabase(){
+        File externalFileDir = getContext().getExternalFilesDir(null);
+        if(externalFileDir != null){
+            File[] files = externalFileDir.listFiles();
+            Log.d(TAG,"Files present " + Arrays.toString(files));
+            String fileName;
+            HashMap<String,ArrayList<String>> filePathMap = new HashMap<>();
+            for(File file:files){
+                if((fileName = file.getName()).contains(AUDIO_RES_HEADER)||fileName.contains(IMAGE_RES_HEADER)){
+                    String topicWordLabel = fileName.substring(fileName.indexOf("_"));
+                    if(topicWordLabel.contains(".")){
+                        topicWordLabel = topicWordLabel.substring(0,topicWordLabel.lastIndexOf("."));
+                    }
+                    if(filePathMap.containsKey(topicWordLabel)){
+                        filePathMap.get(topicWordLabel).add(file.getAbsolutePath());
+                    }
+                    else {
+                        ArrayList<String> filePathList = new ArrayList<>();
+                        filePathList.add(file.getAbsolutePath());
+                        filePathMap.put(topicWordLabel,filePathList);
+                    }
+
+                    Log.d(TAG,"topic Word Label " + topicWordLabel);
+                }
+            }
+
+            for(Map.Entry<String,ArrayList<String>> entry:filePathMap.entrySet()){
+                if(entry.getValue().size()==2){
+                    String word = entry.getValue().get(0);
+                    String topic = word.substring(word.indexOf("_")+1,word.lastIndexOf("_"));
+                    String imgPath = word.contains(IMAGE_RES_HEADER)? word: entry.getValue().get(1);
+                    String audioPath = word.contains(AUDIO_RES_HEADER)? word : entry.getValue().get(1);
+                    word = word.substring(word.lastIndexOf("_")+1);
+                    Content content = new Content(word,imgPath,audioPath,topic);
+                    Log.d(TAG,"Content being added " + content.toString());
+                    storageViewModel.insertContent(content);
+                }
+            }
+
+            Log.d(TAG,"fileNameMap " + filePathMap.toString());
+        }
+    }
 
     void closeFragment(){
         textToSpeech.shutdown();
         textToSpeech = null;
         Log.d(TAG," closeFragment called");
+
         /*Temporarily here to make a smooth UI transition (Visually) */
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -165,6 +222,7 @@ public class InitialisationFragment extends DialogFragment {
     void setInitialisationAsyncDone(){
         isInitialisationAsyncDone = true;
         if(isTTSConversationDone){
+            initialiseDatabase();
             closeFragment();
         }
     }
