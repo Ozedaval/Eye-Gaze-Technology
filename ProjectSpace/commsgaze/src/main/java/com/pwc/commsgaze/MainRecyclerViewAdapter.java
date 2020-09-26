@@ -30,7 +30,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
 
-
     @Override
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(contents.get(position).getWord());
@@ -74,7 +73,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         @Override
         public void onClick(View v) {
             Log.d(TAG,"View " + textView.getText() +" is selected");
-            File externalFileDir = v.getContext().getExternalFilesDir(null);
 
             File audioFilePath = new File(audioDirPath);
             Uri audioUri = Uri.fromFile(audioFilePath);

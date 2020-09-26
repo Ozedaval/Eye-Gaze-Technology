@@ -55,9 +55,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private final int RC_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
 
-
     static{ System.loadLibrary( "opencv_java4" );}
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
