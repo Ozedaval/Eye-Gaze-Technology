@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.DataModel;
+package com.pwc.commsgaze.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

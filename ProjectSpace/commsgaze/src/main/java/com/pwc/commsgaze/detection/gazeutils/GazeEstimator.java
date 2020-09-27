@@ -1,9 +1,10 @@
 package com.pwc.commsgaze.detection.gazeutils;
 
-import android.util.Log;
 import com.pwc.commsgaze.Direction;
+
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,7 +69,7 @@ public class GazeEstimator {
                 int maxValue = Collections.max(neutralHashMap.values());
                 for (Map.Entry<Boolean, Integer> neutralStatusEntry : neutralHashMap.entrySet()) {
                     if (neutralStatusEntry.getValue() == maxValue) {
-                        Log.d(TAG, neutralStatusEntry.getKey().toString() + " has the max at " + neutralStatusEntry.getValue() + "");
+                        /*Log.d(TAG, neutralStatusEntry.getKey().toString() + " has the max at " + neutralStatusEntry.getValue() + "");*/
                         return neutralStatusEntry.getKey();
                     }
                 }

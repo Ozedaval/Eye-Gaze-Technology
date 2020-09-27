@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.DataModel;
+package com.pwc.commsgaze.database;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

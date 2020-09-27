@@ -21,6 +21,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public final static String TAG = "MainRecyclerViewAdapter";
     private String[] data;
 
+
+
+
     @NonNull
     @Override
     public MainRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,21 +32,22 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
 
+
     public MainRecyclerViewAdapter(String[] data){
         this.data = data;
+
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
-        /*Idea of infinite scroll for recyclerview from https://stackoverflow.com/questions/51482227/recyclerview-infinite-scroll-in-both-directions*/
-        int realPos = position % data.length;
-        holder.textView.setText(data[realPos]);
+        holder.textView.setText(data[position]);
         holder.imageView.setImageResource(R.drawable.img_recyclerview_sample);
     }
 
     @Override
     public int getItemCount() {
-       return (data == null) ? 0 : Integer.MAX_VALUE;
+        return data.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
@@ -59,9 +63,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG,"View " +textView.getText() +" is selected");
+            Log.d(TAG,"View " + textView.getText() +" is selected");
             File externalFileDir = v.getContext().getExternalFilesDir(null);
-
 
             /*Sample is being used here*/
             File sampleAudioFilePath = new File(externalFileDir,"audio_topic1_sample1.wav");
@@ -69,10 +72,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             final MediaPlayer  mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setAudioAttributes(
-            new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build()
+                    new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
             );
             try {
                 mediaPlayer.setDataSource(v.getContext(), audioUri);

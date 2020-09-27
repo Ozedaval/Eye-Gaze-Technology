@@ -59,6 +59,7 @@
 <h2><a name = "Title3"> 3. Traceability of Progress & Teamwork</a></h2>
 
 * [**Trello**](https://trello.com/b/GnYy2QBX/track-pupils)
+* [**Weekly Working Hours Log**](https://docs.google.com/spreadsheets/d/1fvAgWoog8Ptu7ehS3y6uI3UGOBSutxZZ_a82oMGfk1E/edit?usp=sharing)
 
     
 
