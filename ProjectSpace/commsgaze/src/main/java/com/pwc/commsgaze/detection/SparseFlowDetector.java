@@ -8,6 +8,7 @@ import com.pwc.commsgaze.detection.gazeutils.GazeEstimator;
 import com.pwc.commsgaze.detection.gazeutils.GazeStatus;
 import com.pwc.commsgaze.detection.gazeutils.SparseOpticalFlowMediator;
 
+import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;

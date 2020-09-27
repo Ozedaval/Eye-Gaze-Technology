@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
     private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
 
+    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
+    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,7 +126,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
 
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
+
         mainViewModel.initialiseDirectionMediator(FRAME_THRESHOLD);
+
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
         initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
@@ -145,7 +150,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                         }
                     }
                 },100);
+
              /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
+
             }
         });
 
@@ -165,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             });
         }
 
+
         mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
             @Override
             public void onChanged(Direction direction) {
@@ -172,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 mainViewModel.updateViewGazeController(direction);
             }
         });
+
 
     }
 
@@ -229,7 +238,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
                     mainViewModel.updateDirectionMediator(detector.getDirection());
+
                 }
             });
             return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();
