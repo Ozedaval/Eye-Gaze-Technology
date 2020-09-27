@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         if (isFirstRun) {
             fragmentManager = getSupportFragmentManager();
 
+
             mainViewModel.getIsFirstRun().observe(this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
