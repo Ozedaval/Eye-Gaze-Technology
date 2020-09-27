@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -26,7 +27,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     @NonNull
     @Override
     public MainRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_main_adapter,parent,false);
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_mainadapter_item,parent,false);
         return new ViewHolder(view);
     }
 
@@ -59,6 +60,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
          ImageView imageView;
          TextView textView;
          String audioDirPath;
+         CardView cardView;
 
         public void setAudioDirPath(String audioDirPath) {
             this.audioDirPath = audioDirPath;
@@ -69,6 +71,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             itemView.setOnClickListener(this);
             imageView = itemView.findViewById(R.id.imageView_main_adapter);
             textView = itemView.findViewById(R.id.textView_main_adapter);
+            cardView = itemView.findViewById(R.id.cardView_main_adapter);
         }
 
         @Override

@@ -1,14 +1,17 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     static{ System.loadLibrary( "opencv_java4" );}
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
@@ -138,24 +141,25 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             @Override
             public void onChanged(final Integer integer) {
                 System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
-                RecyclerView.ViewHolder prevViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
+                MainRecyclerViewAdapter.ViewHolder prevViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
                 if(prevViewHolder!=null) {
-                    prevViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_item));
+                    prevViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(prevViewHolder.itemView.getContext(),R.color.colorLightBlue));
+                    prevViewHolder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
+
                 }
                 binding.recyclerViewMain.smoothScrollToPosition(integer);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        RecyclerView.ViewHolder selectedViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
+                       MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
                         if (selectedViewHolder!=null) {
-                            selectedViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_selected_item));
+                            selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
+                            selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(200).start();
                         }
                     }
                 },100);
 
-
                 Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());
-
 
             }
         });

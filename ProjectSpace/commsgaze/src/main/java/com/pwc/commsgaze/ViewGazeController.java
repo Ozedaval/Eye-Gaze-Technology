@@ -103,6 +103,7 @@ public class ViewGazeController  {
     }
 
 
+
     ViewGazeController(int fixedDimension,int numOfPositions){
         this.fixedDimension = fixedDimension;
         firstSeqLastElementIndex = firstElementIndex + fixedDimension-1;

@@ -60,9 +60,9 @@ public class MainViewModel extends ViewModel {
 
 
     void initialiseViewGazeHolders(int fixedDimension,int numOfPositions){
-        if(viewGazeController == null) {
+
             viewGazeController = new ViewGazeController(fixedDimension,numOfPositions);
-        }
+
         if (selectedViewHolderID == null){
             selectedViewHolderID = new MutableLiveData<Integer>();
             selectedViewHolderID.setValue(0);
