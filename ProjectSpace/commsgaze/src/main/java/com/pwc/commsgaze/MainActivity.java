@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
     private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
 
-    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
-    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
 
 
     @Override
@@ -126,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
 
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
-
         mainViewModel.initialiseDirectionMediator(FRAME_THRESHOLD);
 
 

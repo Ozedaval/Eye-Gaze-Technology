@@ -50,25 +50,6 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    void updateViewGazeController(Direction direction){
-        viewGazeController.updateSelectedViewHolder(direction);
-        if(selectedViewHolderID.getValue() != viewGazeController.getSelectedViewHolderIndex())
-            selectedViewHolderID.setValue(viewGazeController.getSelectedViewHolderIndex());
-    }
-
-
-    LiveData<Integer> getSelectedViewHolderID(){
-        if (selectedViewHolderID == null){
-            selectedViewHolderID = new MutableLiveData<>();
-        }
-        return  selectedViewHolderID;
-    }
-
-
-    int getPreviousSelectedViewHolderID(){
-        return  viewGazeController.getPrevSelectedViewHolderIndex();
-    }
-
 
     void updateDirectionMediator(Direction direction) {
         directionMediator.update(direction);
@@ -78,15 +59,6 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    void initialiseViewGazeHolders(int fixedDimension, int numOfPositions){
-        if(viewGazeController == null) {
-            viewGazeController = new ViewGazeController(fixedDimension,numOfPositions);
-        }
-        if (selectedViewHolderID == null){
-            selectedViewHolderID = new MutableLiveData<Integer>();
-            selectedViewHolderID.setValue(0);
-        }
-    }
 
     void initialiseDirectionMediator(int frameThreshold){
         directionMediator = new DirectionMediator(frameThreshold);
