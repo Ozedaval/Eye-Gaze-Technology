@@ -64,6 +64,7 @@ public class Detect {
     private CascadeClassifier eyesCascade;
     private boolean isTrackerInitialised;
     private MultiTracker multiTracker;
+    private List eyeglobal;
 
 
 
@@ -123,14 +124,15 @@ public class Detect {
                 MatOfRect eyes = new MatOfRect();
                 eyesCascade.detectMultiScale(faceROI, eyes);
                 List<Rect> listOfEyes = eyes.toList();
+
                 ArrayList eyeBoundary=new ArrayList<>();
                 Mat[] eyesROI=new Mat[listOfEyes.size()];
                 List<Rect2d> listOfEyesRect2d  = new ArrayList<>(2);
 
                 for(Rect eye:listOfEyes) {
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
-                    eye.x = face.x + eye.x;
-                    eye.y = face.y + eye.y;
+                    eye.x = face.x +eye.x;
+                    eye.y = face.y +130/100*eye.y;
 
                     Rect2d eyeRect2d = changeRectType(eye.clone());
                     Log.d(TAG, "TrackerCSRT  init ");
@@ -138,47 +140,46 @@ public class Detect {
 
                     listOfEyesRect2d.add(eyeRect2d);
                 }
-
+                eyeglobal=listOfEyes;
                 /*TODO find unique Rect2d*/
                 if(listOfEyesRect2d.size() == 2 && listOfEyes.get(0).x!= listOfEyes.get(1).x) {
                     for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
                         Rect eye = listOfEyes.get(i);
-                        eyesROI[i]=frame.submat(eye);
-                        eyeBoundary.add(eye.clone());
                         Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
+                        eyesROI[i] = frame.submat(eye);
+                        eyeBoundary.add(eye.clone());
                         Mat eyeROICanny = new Mat();
                         Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 2);
-                        Mat binary= new Mat();
-                        Imgproc.threshold(eyesROI[i],binary,100,255,Imgproc.THRESH_BINARY);
-                        Log.d(TAG, "width: "+eyeROICanny.width());
-                        Log.d(TAG, "height: "+eyeROICanny.height());
-                        Mat reduceeyeROI= new Mat(binary, new Rect(0,0,eyeROICanny.cols(),eyeROICanny.rows()));
-                        Log.d(TAG, "width: "+reduceeyeROI.height());
-                        Log.d(TAG, "height: "+reduceeyeROI.width());
+                        Mat binary = new Mat();
+                        Imgproc.threshold(eyesROI[i], binary, 100, 255, Imgproc.THRESH_BINARY);
+//                        Log.d(TAG, "width: "+eyeROICanny.width());
+//                        Log.d(TAG, "height: "+eyeROICanny.height());
+                        Mat binaryROI = new Mat(binary, new Rect(0, 0, eyeROICanny.cols(), eyeROICanny.rows()));
+//                        Log.d(TAG, "width: "+reduceeyeROI.height());
+//                        Log.d(TAG, "height: "+reduceeyeROI.width());
                         MatOfKeyPoint blobs = new MatOfKeyPoint();
-                        Log.d(TAG, "eyeroi"+eyeROICanny.empty());
-                        Log.d(TAG, "eyeroi"+eye);
-                        simpleBlobDetector.detect(reduceeyeROI, blobs);
-                        Rect ROI= new Rect(eye.x,eye.y,eyeROICanny.width(),eyeROICanny.height());
-                        Mat dst=new Mat();
-                        Mat colorCanny=new Mat();
-                        Imgproc.cvtColor(eyeROICanny,colorCanny,Imgproc.COLOR_GRAY2BGR);
+//                        Log.d(TAG, "eyeroi"+eyeROICanny.empty());
+//                        Log.d(TAG, "eyeroi"+eye);
+                        simpleBlobDetector.detect(eyeROICanny, blobs);
                         /*Core.addWeighted(frame.submat(ROI),0.0,colorCanny,1.0,0.0,frame.submat(ROI));*/
-                        Log.d(TAG, "blobs: "+blobs.size().toString());
-                        Log.d(TAG, "blobs: "+blobs.empty());
-                        List<KeyPoint> blobArray=blobs.toList();
-                        Log.d(TAG, "blobslist: "+blobArray.isEmpty());
-                        Log.d(TAG, "blobslist: "+blobArray.size());
-                        Log.d(TAG, "blobs: "+blobArray.get(0));
-                        Log.d(TAG, "eye"+eye.x+"y is"+eye.y);
-                        Log.d(TAG, "eye size"+eye.height+";"+eye.width);
-                        Point blobcentre=blobArray.get(0).pt;
-                        blobcentre.x=eye.x+blobcentre.x;
-                        blobcentre.y=eye.y+blobcentre.y;
-                        Rect2d eyerect=new Rect2d(blobcentre.x,blobcentre.y,eye.clone().width/3,eye.clone().height/3);
-                        multiTracker.add(TrackerCSRT.create(),frameRGB, eyerect);}
-                        isTrackerInitialised = true;
-                        Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
+//                        Log.d(TAG, "blobs: "+blobs.size().toString());
+//                        Log.d(TAG, "blobs: "+blobs.empty());
+                        List<KeyPoint> blobArray = blobs.toList();
+//                        Log.d(TAG, "blobslist: "+blobArray.isEmpty());
+//                        Log.d(TAG, "blobslist: "+blobArray.size());
+//                        Log.d(TAG, "blobs: "+blobArray.get(0));
+//                        Log.d(TAG, "eye"+eye.x+"y is"+eye.y);
+//                        Log.d(TAG, "eye size"+eye.height+";"+eye.width);
+                        if (blobArray.size() != 0) {
+                            Point blobcentre = blobArray.get(0).pt;
+                            blobcentre.x = eye.x + blobcentre.x;
+                            blobcentre.y = eye.y + blobcentre.y;
+                            Rect2d eyerect = new Rect2d(blobcentre.x, blobcentre.y, eye.clone().width / 3, eye.clone().height / 3);
+                            multiTracker.add(TrackerCSRT.create(), frameRGB, eyerect);
+                        }
+//                        Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
+                    }
+                    isTrackerInitialised = true;
                 }
             }
 
@@ -189,14 +190,21 @@ public class Detect {
             MatOfRect2d updatedTrackerBoxes = new MatOfRect2d();
             multiTracker.update(frameRGB, updatedTrackerBoxes);
             Rect2d[] updatedRect2ds = updatedTrackerBoxes.toArray();
+            if(eyeglobal.size()!=0){
+                for (int i = 0; i < eyeglobal.size(); i++) { //Just get the first 2 detected eyes
+                    Rect eye = (Rect) eyeglobal.get(i);
+                    eye = new Rect(eye.x, eye.y , eye.width, eye.height );
+                    Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
+                }
+            }
             for (Rect2d updatedTrackingBox : updatedRect2ds) {
                 Log.d(TAG, "Updated Tracker Bounding box " + updatedTrackingBox);
                 Rect updatedTrackingBoxRect = changeRectType(updatedTrackingBox);
-                Imgproc.rectangle(frame, updatedTrackingBoxRect, new Scalar(0, 255, 0), 2);
+                Imgproc.circle(frame, new Point(updatedTrackingBoxRect.x,updatedTrackingBoxRect.y), 2,new Scalar(255, 255, 255),4);
             }
         }
-
-
+        //Mat Cannyframe=new Mat();
+        //Imgproc.Canny(frame,Cannyframe,50,50*2);
         return frame;
     }
 
