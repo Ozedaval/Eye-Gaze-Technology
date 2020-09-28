@@ -294,23 +294,29 @@ public class Detect {
             return currentDirection;
         }
         Direction estimatedDirection=null;
+        Direction gaugeDirection=null;
         /*Log.d(TAG,"Before "+currentGazeStatus.toString()+ " CurrentDirection"+currentDirection.toString());*/
         if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
                     if (prevDirection == NEUTRAL || prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.LEFT;
+                          gaugeDirection=LEFT;
                     }  if (prevDirection == RIGHT) {
                     currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
-                }
+       //                 estimatedDirection=RIGHT;
+                          gaugeDirection=LEFT;
+                    }
                     estimatedDirection=LEFT;
                     break;
                 case RIGHT:
                     if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
                         currentGazeStatus = GazeStatus.RIGHT;
-
+                            gaugeDirection=RIGHT;
                     } else if (prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+       //                 estimatedDirection=LEFT;
+                            gaugeDirection=RIGHT;
                     }
                     estimatedDirection=RIGHT;
                     break;
@@ -318,9 +324,11 @@ public class Detect {
                     if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus==GazeStatus.RIGHT)){
                         currentGazeStatus = GazeStatus.NEUTRAL;
                         estimatedDirection=NEUTRAL;
+                        gaugeDirection=NEUTRAL;
                     }
                     else{
                         estimatedDirection=prevDirection;
+                        gaugeDirection=prevDirection;
                     }
             }
         }
@@ -328,6 +336,7 @@ public class Detect {
             isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,true));
             if(isStableNeutral()){
                 currentGazeStatus=GazeStatus.NEUTRAL;
+                gaugeDirection=NEUTRAL;
                 prevDirection=NEUTRAL;
                 Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");
                 return NEUTRAL;
@@ -335,12 +344,15 @@ public class Detect {
         }
         if(estimatedDirection!=null){
             prevDirection=estimatedDirection;
-            /* Log.d(TAG," if estimateddirection !=null : Estimated Direction "+estimatedDirection);*/
+             Log.d(TAG," if estimateddirection !=null : Estimated Direction "+estimatedDirection);
             return estimatedDirection;
         }
-        /*Log.d(TAG," if estimateddirection ==null : Current Direction "+currentDirection);*/
+        Log.d(TAG," if estimateddirection ==null : Prev Direction "+prevDirection);
+        Log.d(TAG," if estimateddirection ==null : Current Direction "+currentDirection);
+        gaugeDirection=prevDirection;
         prevDirection=currentDirection;
-        return currentDirection;
+        return estimatedDirection;
+        //return prevDirection;
     }
 
 

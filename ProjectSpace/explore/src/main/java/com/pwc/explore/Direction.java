@@ -5,7 +5,7 @@ package com.pwc.explore;
  * @see com.pwc.explore.eyegaze.opencvsparseflow.Detect*/
 
 public enum Direction implements Runnable {
-    TOP_LEFT,TOP,TOP_RIGHT,LEFT,NEUTRAL,RIGHT,BOTTOM_LEFT,BOTTOM,BOTTOM_RIGHT,UNKNOWN;
+    TOP_LEFT,TOP,TOP_RIGHT,LEFT,NEUTRAL,RIGHT,BOTTOM_LEFT,BOTTOM,BOTTOM_RIGHT,UNKNOWN,RIGHTMOST,LEFTMOST;
 
 
     @Override
