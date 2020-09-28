@@ -30,7 +30,9 @@ import org.opencv.tracking.TrackerCSRT;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -65,6 +67,13 @@ public class Detect {
     private boolean isTrackerInitialised;
     private MultiTracker multiTracker;
     private List eyeglobal;
+    private TrackerCSRT trackerCSRTFirst;
+    private TrackerCSRT trackerCSRTSecond;
+    private  TrackerCSRT[] trackerCSRTs;
+    ArrayList<Rect> eyeBoundary;
+    HashMap<Integer, Point[]> prevPoints;
+    HashMap<Integer, Point[]> currentPoints;
+
 
 
 
@@ -81,6 +90,10 @@ public class Detect {
         multiTracker = MultiTracker.create();
         this.eyesCascade = eyesCascade;
         this.faceCascade = faceCascade;
+        trackerCSRTFirst = TrackerCSRT.create();
+        trackerCSRTSecond = TrackerCSRT.create();
+        trackerCSRTs = new TrackerCSRT[]{trackerCSRTFirst,trackerCSRTSecond};
+
     }
 
 
@@ -88,13 +101,14 @@ public class Detect {
     Mat detect(Mat frame) {
         Mat frameGray = new Mat();
         Mat frameRGB = new Mat();
-
+        frameCount++;
         /*Creating RGB variant of frame*/
         Imgproc.cvtColor(frame,frameRGB,Imgproc.COLOR_RGBA2RGB);
+        HashMap<Integer, Point[]> blob = new HashMap<>();
 
 
 
-        if (!isTrackerInitialised) {
+        if (!isTrackerInitialised || frameCount%30 ==0) {
             /*Creating a Grayscale version of the Image*/
             Imgproc.cvtColor(frame, frameGray, Imgproc.COLOR_BGR2GRAY);
 
@@ -104,6 +118,7 @@ public class Detect {
             /*Detecting faces*/
             MatOfRect faces = new MatOfRect();
             faceCascade.detectMultiScale(frameGray, faces);
+
 
 
             Rect face = null;
@@ -125,14 +140,14 @@ public class Detect {
                 eyesCascade.detectMultiScale(faceROI, eyes);
                 List<Rect> listOfEyes = eyes.toList();
 
-                ArrayList eyeBoundary=new ArrayList<>();
+
                 Mat[] eyesROI=new Mat[listOfEyes.size()];
                 List<Rect2d> listOfEyesRect2d  = new ArrayList<>(2);
 
                 for(Rect eye:listOfEyes) {
                     /*Making changes so to get x & y co-ordinates with respective to the frame*/
                     eye.x = face.x +eye.x;
-                    eye.y = face.y +130/100*eye.y;
+                    eye.y = face.y +eye.y;
 
                     Rect2d eyeRect2d = changeRectType(eye.clone());
                     Log.d(TAG, "TrackerCSRT  init ");
@@ -141,6 +156,11 @@ public class Detect {
                     listOfEyesRect2d.add(eyeRect2d);
                 }
                 eyeglobal=listOfEyes;
+
+                if(listOfEyesRect2d.size()==2){
+                    eyeBoundary=new ArrayList<>();
+                }
+
                 /*TODO find unique Rect2d*/
                 if(listOfEyesRect2d.size() == 2 && listOfEyes.get(0).x!= listOfEyes.get(1).x) {
                     for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
@@ -174,11 +194,13 @@ public class Detect {
                             Point blobcentre = blobArray.get(0).pt;
                             blobcentre.x = eye.x + blobcentre.x;
                             blobcentre.y = eye.y + blobcentre.y;
-                            Rect2d eyerect = new Rect2d(blobcentre.x, blobcentre.y, eye.clone().width / 3, eye.clone().height / 3);
-                            multiTracker.add(TrackerCSRT.create(), frameRGB, eyerect);
+                            Rect2d rect2d = new Rect2d(blobcentre.x-eyeBoundary.get(i).width/7.5,blobcentre.y-eyeBoundary.get(i).width/7.5,eyeBoundary.get(i).width/3.25,eyeBoundary.get(i).width/3.25);
+                            trackerCSRTs[i].init(frameRGB,rect2d);
+                            blob.put(i,  new Point[]{blobcentre});
                         }
 //                        Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
                     }
+                    gazeEstimator.updateEyesBoundary(eyeBoundary);
                     isTrackerInitialised = true;
                 }
             }
@@ -186,22 +208,32 @@ public class Detect {
         }
 
         if(isTrackerInitialised) {
-            Log.d(TAG, "Tracker is going to be updated");
-            MatOfRect2d updatedTrackerBoxes = new MatOfRect2d();
-            multiTracker.update(frameRGB, updatedTrackerBoxes);
-            Rect2d[] updatedRect2ds = updatedTrackerBoxes.toArray();
-            if(eyeglobal.size()!=0){
-                for (int i = 0; i < eyeglobal.size(); i++) { //Just get the first 2 detected eyes
-                    Rect eye = (Rect) eyeglobal.get(i);
-                    eye = new Rect(eye.x, eye.y , eye.width, eye.height );
-                    Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
-                }
+
+            if(prevPoints == null){
+                prevPoints = (HashMap<Integer, Point[]>) blob.clone();
             }
-            for (Rect2d updatedTrackingBox : updatedRect2ds) {
-                Log.d(TAG, "Updated Tracker Bounding box " + updatedTrackingBox);
-                Rect updatedTrackingBoxRect = changeRectType(updatedTrackingBox);
-                Imgproc.circle(frame, new Point(updatedTrackingBoxRect.x,updatedTrackingBoxRect.y), 2,new Scalar(255, 255, 255),4);
+            if(currentPoints == null){
+                currentPoints = new HashMap<>();
             }
+
+            /*     Log.d(TAG, "Tracker is going to be updated");*/
+          /*  MatOfRect2d updatedTrackerBoxes = new MatOfRect2d();
+            multiTracker.update(frameRGB, updatedTrackerBoxes);*/
+            /*Rect2d[] updatedRect2ds = updatedTrackerBoxes.toArray();*/
+            for (int i = 0;i<trackerCSRTs.length;i++){
+                Rect2d rect2d = new Rect2d();
+                trackerCSRTs[i].update(frameRGB,rect2d);
+                Imgproc.circle(frame,new Point(rect2d.x+eyeBoundary.get(i).width/7.5,rect2d.y+eyeBoundary.get(i).width/7.5),3,new Scalar(0,255,0));
+                Point point  = new Point(rect2d.x+eyeBoundary.get(i).width/7.5,rect2d.y+eyeBoundary.get(i).width/7.5);
+                Log.d(TAG,"Updated point "+ point.toString());
+                currentPoints.put(i,new Point[]{point});
+
+            }
+           /* Log.d(TAG,"Movement predicted "+ gazeEstimator.estimateGaze(prevPoints,currentPoints));*/
+            direction = directionEstimator(gazeEstimator.estimateGaze((HashMap<Integer, Point[]>) prevPoints.clone(), (HashMap<Integer, Point[]>) currentPoints.clone()), (HashMap<Integer, Point[]>) currentPoints.clone());
+            prevPoints = (HashMap<Integer, Point[]>) currentPoints.clone();
+       /*     Log.d(TAG,"Direction is "+ direction);*/
+
         }
         //Mat Cannyframe=new Mat();
         //Imgproc.Canny(frame,Cannyframe,50,50*2);
@@ -295,7 +327,6 @@ public class Detect {
         return false;
     }
 
-
     /**
      * Estimates the gaze direction based on current Gaze Direction and the current "Sparse" points
      * @param currentDirection : Gaze Direction based on current frame
@@ -307,13 +338,13 @@ public class Detect {
         }
         Direction estimatedDirection=null;
         /*Log.d(TAG,"Before "+currentGazeStatus.toString()+ " CurrentDirection"+currentDirection.toString());*/
-        if(currentGazeStatus!= GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
+        if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
                     if (prevDirection == NEUTRAL || prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.LEFT;
                     }  if (prevDirection == RIGHT) {
-                    currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                    currentGazeStatus =GazeStatus.ON_THE_WAY_TO_NEUTRAL;
                 }
                     estimatedDirection=LEFT;
                     break;
@@ -327,8 +358,8 @@ public class Detect {
                     estimatedDirection=RIGHT;
                     break;
                 case NEUTRAL:
-                    if(!(currentGazeStatus== GazeStatus.LEFT||currentGazeStatus== GazeStatus.RIGHT)){
-                        currentGazeStatus = GazeStatus.NEUTRAL;
+                    if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus== GazeStatus.RIGHT)){
+                        currentGazeStatus =GazeStatus.NEUTRAL;
                         estimatedDirection=NEUTRAL;
                     }
                     else{
@@ -339,7 +370,7 @@ public class Detect {
         else{
             isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,true));
             if(isStableNeutral()){
-                currentGazeStatus= GazeStatus.NEUTRAL;
+                currentGazeStatus=GazeStatus.NEUTRAL;
                 prevDirection=NEUTRAL;
                 Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");
                 return NEUTRAL;
@@ -354,6 +385,7 @@ public class Detect {
         prevDirection=currentDirection;
         return currentDirection;
     }
+
 
 
     /**
