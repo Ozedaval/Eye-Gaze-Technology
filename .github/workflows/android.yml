@@ -21,6 +21,16 @@ jobs:
     - name: Compiling Project using Gradle
       run: ./ProjectSpace/gradlew build
 
+    - name: Building CommsGaze APK artifact
+      run: |
+       ./ProjectSpace/gradlew assembleDebug  -b ProjectSpace/opencv/build.gradle
+       ./ProjectSpace/gradlew assembleDebug  -b ProjectSpace/commsgaze/build.gradle
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: CommsGaze_APK
+        path: ./ProjectSpace/commsgaze/build/outputs/apk/debug/commsgaze-debug.apk
+
     - name: Building Explore APK artifact
       run: |
        ./ProjectSpace/gradlew assembleDebug  -b ProjectSpace/opencv/build.gradle

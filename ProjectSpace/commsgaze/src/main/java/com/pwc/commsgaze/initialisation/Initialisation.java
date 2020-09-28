@@ -1,9 +1,10 @@
-package com.pwc.commsgaze;
+package com.pwc.commsgaze.initialisation;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
+
+import com.pwc.commsgaze.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,9 +16,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
+import static com.pwc.commsgaze.utils.FileUtil.IMAGE_RES_HEADER;
+import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
+import static com.pwc.commsgaze.utils.FileUtil.hasExternalStoragePrivateData;
 
 /*An AsyncTask class which is used for initialising intensive background tasks.
-* TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
+ * TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
 class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     private WeakReference<InitialisationFragment> initialisationFragmentWeakReference;
@@ -26,17 +31,16 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     private FileOutputStream eyeModelOutputStream;
     private FileOutputStream faceModelOutputStream;
     private static final String TAG="Initialisation";
-    private static final String CONTENT_RES_HEADER = "content";
+
     private ArrayList<InputStream> contentInputStreams;
     private ArrayList<FileOutputStream> contentOutputStreams;
-    private ArrayList<File> contentPicExternalFiles;
-    private TextToSpeech textToSpeech;
-    private ArrayList<File> contentAudioExternalFiles;
+    private ArrayList<File> contentImgExternalFiles;
 
 
-    Initialisation(InitialisationFragment initialisationFragment,TextToSpeech textToSpeech){
-        initialisationFragmentWeakReference =new WeakReference<>(initialisationFragment);
-        this.textToSpeech =textToSpeech;
+
+
+    Initialisation(InitialisationFragment initialisationFragment){
+        initialisationFragmentWeakReference = new WeakReference<>(initialisationFragment);
     }
 
 
@@ -54,37 +58,36 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             Field[] fields = R.raw.class.getFields();
             contentOutputStreams = new ArrayList<>(fields.length);
             contentInputStreams = new ArrayList<>(fields.length);
-            contentPicExternalFiles = new ArrayList<>(fields.length);
-            contentAudioExternalFiles = new ArrayList<>(fields.length);
+            contentImgExternalFiles = new ArrayList<>(fields.length);
+
+
 
      /*TODO: Based on https://stackoverflow.com/questions/33350250/why-getexternalfilesdirs-doesnt-work-on-some-devices
        I think there might be a problem depending on the device
        Need a fix for majority of the Devices later on*/
+
             File externalFileDir = context.getExternalFilesDir(null);
 
-
-            String name;
+            String word;
             int resourceID;
-            String picName;
-            String audioName;
+            String imgName;
             for(int i=0;i<fields.length;i++){
-                if((name = fields[i].getName()).contains(CONTENT_RES_HEADER)) {
+                if((word = fields[i].getName()).contains(CONTENT_RES_HEADER)) {
                     /*Looking for only content related files*/
-                    if (customFileFormatChecker(name)){
-                        name = name.substring(name.indexOf("_"));
-                        picName = "picture" + name;
-                        Log.d(TAG, "Picture File Name  " + picName);
-                        contentPicExternalFiles.add(new File(externalFileDir, picName));
-                        audioName = "audio" + name;
-                        Log.d(TAG, "Audio File Name  " + audioName);
-                        contentAudioExternalFiles.add(new File(externalFileDir, audioName));
+                    if (customFileFormatChecker(word)){
+                        word = word.substring(word.indexOf("_"));
+                        imgName = IMAGE_RES_HEADER + word;
+                        Log.d(TAG, "Image File Name  " + imgName);
+
+                        contentImgExternalFiles.add(new File(externalFileDir, imgName));
                         resourceID = fields[i].getInt(null);
                         Log.d(TAG, "rID " + resourceID);
                         contentInputStreams.add(context.getResources().openRawResource(resourceID));
-                        contentOutputStreams.add(new FileOutputStream(contentPicExternalFiles.get(i)));
+                        contentOutputStreams.add(new FileOutputStream(contentImgExternalFiles.get(i)));
+
                     }
                     else{
-                        throw new AssertionError("Starter File: "+ name +" is not formatted correctly in accordance to the custom format we are using!");
+                        throw new AssertionError("Starter File: "+ word +" is not formatted correctly in accordance to the custom format we are using!");
                     }
                 }
             }
@@ -93,22 +96,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         }
     }
 
-    /*Assuming that file name is in this format "contentType_topicName_contentName.extension*/
-    private void convertTextToAudio() {
-        String text;
-        for (File file : contentAudioExternalFiles) {
-            text = file.getName();
-            text = text.contains(".") ? text.substring(0,text.lastIndexOf(".")):text;
-            text = text.split("_")[2];
-            textToSpeech.synthesizeToFile(text,null,file,this.hashCode()+"");
-        }
-    }
-
-    private boolean customFileFormatChecker(String fileName){
-        fileName = fileName.contains(".") ? fileName.substring(0,fileName.lastIndexOf(".")):fileName;
-        String[] splitName =  fileName.split("_");
-        return  splitName.length == 3 && splitName[0].equalsIgnoreCase("content");
-    }
 
     @Override
     protected Boolean doInBackground(Void... voids) {
@@ -118,31 +105,16 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
 
-            for(int i = 0; i< contentPicExternalFiles.size(); i++){
+            for(int i = 0; i< contentImgExternalFiles.size(); i++){
                 write(contentInputStreams.get(i),contentOutputStreams.get(i));
             }
 
-            Log.d(TAG,"Text to Audio is called");
-
-            convertTextToAudio();
-
-
-            textToSpeech.shutdown();
-
-
             /*TODO: Remove this once code - review is done*/
-            for(File file: contentPicExternalFiles) {
+            for(File file: contentImgExternalFiles) {
                 Log.d(TAG,"Abs "+file.getAbsolutePath());
                 Log.d(TAG,"Can "+file.getCanonicalPath());
                 Log.d(TAG,"fName "+file.getName());
-                Log.d(TAG,"External App - Specific Storage has Picture? " + hasExternalStoragePrivateData(file.getName()));
-            }
-
-            for(File file: contentAudioExternalFiles) {
-                Log.d(TAG,"Abs "+file.getAbsolutePath());
-                Log.d(TAG,"Can "+file.getCanonicalPath());
-                Log.d(TAG,"fName "+file.getName());
-                Log.d(TAG,"External App - Specific Storage has Audio? " + hasExternalStoragePrivateData(file.getName()));
+                Log.d(TAG,"External App - Specific Storage has Picture? " + hasExternalStoragePrivateData(file.getName(),initialisationFragmentWeakReference.get().requireContext()));
             }
 
             return true;
@@ -155,9 +127,9 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected void onPostExecute(Boolean bool) {
-        initialisationFragmentWeakReference.get().closeFragment();
+        initialisationFragmentWeakReference.get().setInitialisationAsyncDone();
         initialisationFragmentWeakReference.clear();
-        Log.d(TAG ," onPostExecute Called & "+getStatus()+bool);
+        Log.d(TAG ," onPostExecute Called & "+ getStatus()+bool);
     }
 
 
@@ -181,10 +153,5 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     }
 
 
-    /*https://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String)*/
-    boolean hasExternalStoragePrivateData(String fileName) {
-        Context context = initialisationFragmentWeakReference.get().requireContext();
-        File file = new File(context.getExternalFilesDir(null),fileName);
-        return file.exists();
-    }
+
 }
