@@ -22,6 +22,15 @@ public class MainViewModel extends ViewModel {
     private ViewGazeController viewGazeController;
     private MutableLiveData<Integer> selectedViewHolderID;
 
+    private DirectionMediator directionMediator;
+    private MutableLiveData<Direction> gaugedDirection;
+
+    LiveData<Direction> getGaugedDirection() {
+        if(gaugedDirection == null)
+            gaugedDirection = new MutableLiveData<>();
+        return gaugedDirection;
+    }
+
 
     Direction getDirection(){
         return  (detector==null)? Direction.UNKNOWN:detector.getDirection();
@@ -38,6 +47,22 @@ public class MainViewModel extends ViewModel {
 
         detectionEngineMakerInstance.createDetector(approach,detectionData);
         this.detector = detectionEngineMakerInstance.getDetector();
+    }
+
+
+
+    void updateDirectionMediator(Direction direction) {
+        directionMediator.update(direction);
+        if(directionMediator.getNeedUpdate()){
+            gaugedDirection.setValue(directionMediator.getGaugedCurrentDirection());
+        }
+    }
+
+
+
+    void initialiseDirectionMediator(int frameThreshold){
+        directionMediator = new DirectionMediator(frameThreshold);
+
     }
 
 

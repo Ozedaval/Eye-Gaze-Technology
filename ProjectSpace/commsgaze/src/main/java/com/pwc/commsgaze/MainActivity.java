@@ -46,6 +46,9 @@ import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
+  
+    static{ System.loadLibrary( "opencv_java4" );}
+  
     private final int PERMISSION_REQUEST_CODE = 1;
     private MainViewModel mainViewModel;
     private Boolean isFirstRun;
@@ -57,8 +60,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private DetectionData detectionData;
     private final int RC_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
+    private  final int FRAME_THRESHOLD = 20;
 
-    static{ System.loadLibrary( "opencv_java4" );}
+
+
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -125,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
+        mainViewModel.initialiseDirectionMediator(FRAME_THRESHOLD);
+
+
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
         initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
@@ -141,8 +149,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(final Integer integer) {
+
                 System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
                 MainRecyclerViewAdapter.ViewHolder prevViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
+
                 if(prevViewHolder!=null) {
                     prevViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(prevViewHolder.itemView.getContext(),R.color.colorLightBlue));
                     prevViewHolder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
@@ -160,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     }
                 },100);
 
-                Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());
+             /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
 
             }
         });
@@ -180,6 +190,16 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 }
             });
         }
+
+
+        mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
+            @Override
+            public void onChanged(Direction direction) {
+          /*      Log.d(TAG,"Gauged Direction " + direction);*/
+                mainViewModel.updateViewGazeController(direction);
+            }
+        });
+
 
     }
 
@@ -237,7 +257,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    /* mainViewModel.updateViewGazeController(detector.getDirection());*/
+
+                    mainViewModel.updateDirectionMediator(detector.getDirection());
+
                 }
             });
             return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();

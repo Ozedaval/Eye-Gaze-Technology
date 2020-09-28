@@ -1,7 +1,5 @@
 package com.pwc.commsgaze.detection;
 
-import android.util.Log;
-
 import com.pwc.commsgaze.Direction;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
@@ -28,6 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
 import static com.pwc.commsgaze.Direction.LEFT;
 import static com.pwc.commsgaze.Direction.NEUTRAL;
 import static com.pwc.commsgaze.Direction.RIGHT;
@@ -359,7 +358,7 @@ public class SparseFlowDetector extends Detector {
             if(isStableNeutral()){
                 currentGazeStatus=GazeStatus.NEUTRAL;
                 prevDirection=NEUTRAL;
-                Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");
+               /* Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");*/
                 return NEUTRAL;
             }
         }
