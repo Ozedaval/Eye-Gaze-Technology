@@ -1,8 +1,10 @@
-package com.pwc.commsgaze;
+package com.pwc.commsgaze.initialisation;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.pwc.commsgaze.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,11 +17,12 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
+import static com.pwc.commsgaze.utils.FileUtil.IMAGE_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
 import static com.pwc.commsgaze.utils.FileUtil.hasExternalStoragePrivateData;
 
 /*An AsyncTask class which is used for initialising intensive background tasks.
-* TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
+ * TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
 class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     private WeakReference<InitialisationFragment> initialisationFragmentWeakReference;
@@ -31,11 +34,13 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     private ArrayList<InputStream> contentInputStreams;
     private ArrayList<FileOutputStream> contentOutputStreams;
-    private ArrayList<File> contentPicExternalFiles;
+    private ArrayList<File> contentImgExternalFiles;
+
+
 
 
     Initialisation(InitialisationFragment initialisationFragment){
-        initialisationFragmentWeakReference =new WeakReference<>(initialisationFragment);
+        initialisationFragmentWeakReference = new WeakReference<>(initialisationFragment);
     }
 
 
@@ -53,7 +58,8 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             Field[] fields = R.raw.class.getFields();
             contentOutputStreams = new ArrayList<>(fields.length);
             contentInputStreams = new ArrayList<>(fields.length);
-            contentPicExternalFiles = new ArrayList<>(fields.length);
+            contentImgExternalFiles = new ArrayList<>(fields.length);
+
 
 
      /*TODO: Based on https://stackoverflow.com/questions/33350250/why-getexternalfilesdirs-doesnt-work-on-some-devices
@@ -62,24 +68,26 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
             File externalFileDir = context.getExternalFilesDir(null);
 
-            String name;
+            String word;
             int resourceID;
-            String picName;
+            String imgName;
             for(int i=0;i<fields.length;i++){
-                if((name = fields[i].getName()).contains(CONTENT_RES_HEADER)) {
+                if((word = fields[i].getName()).contains(CONTENT_RES_HEADER)) {
                     /*Looking for only content related files*/
-                    if (customFileFormatChecker(name)){
-                        name = name.substring(name.indexOf("_"));
-                        picName = "picture" + name;
-                        Log.d(TAG, "Picture File Name  " + picName);
-                        contentPicExternalFiles.add(new File(externalFileDir, picName));
+                    if (customFileFormatChecker(word)){
+                        word = word.substring(word.indexOf("_"));
+                        imgName = IMAGE_RES_HEADER + word;
+                        Log.d(TAG, "Image File Name  " + imgName);
+
+                        contentImgExternalFiles.add(new File(externalFileDir, imgName));
                         resourceID = fields[i].getInt(null);
                         Log.d(TAG, "rID " + resourceID);
                         contentInputStreams.add(context.getResources().openRawResource(resourceID));
-                        contentOutputStreams.add(new FileOutputStream(contentPicExternalFiles.get(i)));
+                        contentOutputStreams.add(new FileOutputStream(contentImgExternalFiles.get(i)));
+
                     }
                     else{
-                        throw new AssertionError("Starter File: "+ name +" is not formatted correctly in accordance to the custom format we are using!");
+                        throw new AssertionError("Starter File: "+ word +" is not formatted correctly in accordance to the custom format we are using!");
                     }
                 }
             }
@@ -97,12 +105,12 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
             write(faceModelInputStream,faceModelOutputStream);
             write(eyeModelInputStream,eyeModelOutputStream);
 
-            for(int i = 0; i< contentPicExternalFiles.size(); i++){
+            for(int i = 0; i< contentImgExternalFiles.size(); i++){
                 write(contentInputStreams.get(i),contentOutputStreams.get(i));
             }
 
             /*TODO: Remove this once code - review is done*/
-            for(File file: contentPicExternalFiles) {
+            for(File file: contentImgExternalFiles) {
                 Log.d(TAG,"Abs "+file.getAbsolutePath());
                 Log.d(TAG,"Can "+file.getCanonicalPath());
                 Log.d(TAG,"fName "+file.getName());

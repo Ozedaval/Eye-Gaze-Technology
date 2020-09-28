@@ -68,13 +68,13 @@ public class MainViewModel extends ViewModel {
 
     void updateViewGazeController(Direction direction){
         viewGazeController.updateSelectedViewHolder(direction);
-        if(selectedViewHolderID.getValue() != viewGazeController.getSelectedViewHolderIndex())
+        if(selectedViewHolderID!= null && selectedViewHolderID.getValue() != viewGazeController.getSelectedViewHolderIndex())
         selectedViewHolderID.setValue(viewGazeController.getSelectedViewHolderIndex());
     }
 
     LiveData<Integer> getSelectedViewHolderID(){
         if (selectedViewHolderID == null){
-            selectedViewHolderID = new MutableLiveData<>();
+            selectedViewHolderID = new MutableLiveData<>(0);
         }
     return  selectedViewHolderID;
     }
@@ -85,9 +85,9 @@ public class MainViewModel extends ViewModel {
 
 
     void initialiseViewGazeHolders(int fixedDimension,int numOfPositions){
-        if(viewGazeController == null) {
+
             viewGazeController = new ViewGazeController(fixedDimension,numOfPositions);
-        }
+
         if (selectedViewHolderID == null){
             selectedViewHolderID = new MutableLiveData<Integer>();
             selectedViewHolderID.setValue(0);

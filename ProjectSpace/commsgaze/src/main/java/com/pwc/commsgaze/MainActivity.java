@@ -1,14 +1,17 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -24,22 +27,28 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.pwc.commsgaze.database.Content;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
+import com.pwc.commsgaze.initialisation.InitialisationFragment;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
+  
+    static{ System.loadLibrary( "opencv_java4" );}
+  
     private final int PERMISSION_REQUEST_CODE = 1;
     private MainViewModel mainViewModel;
     private Boolean isFirstRun;
@@ -50,25 +59,20 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private RecyclerView.LayoutManager gridLayoutManager;
     private DetectionData detectionData;
     private final int RC_FIXED_DIMENSION = 3;
+    private StorageViewModel storageViewModel;
     private  final int FRAME_THRESHOLD = 20;
 
-
-    static{ System.loadLibrary( "opencv_java4" );}
-
-
-    /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
-    private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
 
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         hideSystemUI();
-
         setContentView(view);
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -79,8 +83,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         isFirstRun = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
                 .getBoolean(getString(R.string.main_first_run_preference_key), true);
 
-        mainViewModel = new ViewModelProvider(this)
-                .get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        storageViewModel = new ViewModelProvider(this).get(StorageViewModel.class);
+
+
         if (isFirstRun) {
             fragmentManager = getSupportFragmentManager();
 
@@ -118,32 +124,48 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter(TEMP_DATA);
+
+        recyclerViewAdapter = new MainRecyclerViewAdapter();
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-
-        mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
+        mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
         mainViewModel.initialiseDirectionMediator(FRAME_THRESHOLD);
+
 
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
         initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
 
+        storageViewModel.getAllContents().observe(this, new Observer<List<Content>>() {
+            @Override
+            public void onChanged(List<Content> contents) {
+                Log.d(TAG,"Changed "+ contents.toString());
+                recyclerViewAdapter.setContents(contents);
+                mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,contents.size());
+            }
+        });
+
         mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(final Integer integer) {
-                RecyclerView.ViewHolder prevViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
+
+                System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
+                MainRecyclerViewAdapter.ViewHolder prevViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
+
                 if(prevViewHolder!=null) {
-                    prevViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_item));
+                    prevViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(prevViewHolder.itemView.getContext(),R.color.colorLightBlue));
+                    prevViewHolder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
+
                 }
                 binding.recyclerViewMain.smoothScrollToPosition(integer);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        RecyclerView.ViewHolder selectedViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
+                       MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
                         if (selectedViewHolder!=null) {
-                            selectedViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_selected_item));
+                            selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
+                            selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(200).start();
                         }
                     }
                 },100);

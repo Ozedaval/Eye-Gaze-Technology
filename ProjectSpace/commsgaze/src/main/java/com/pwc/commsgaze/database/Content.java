@@ -1,48 +1,73 @@
 package com.pwc.commsgaze.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "Contents")
+@Entity(tableName = "content_table")
 public class Content {
-    @PrimaryKey(autoGenerate = true)
-    int id;
-    @ColumnInfo(name = "Word")
-    String word;
-    @ColumnInfo(name = "Image")
+    @PrimaryKey()
+    @ColumnInfo(name = "word")
+    @NonNull String word;
+    @ColumnInfo(name = "image_path")
     String imageDirPath;
-    @ColumnInfo(name = "Audio")
+    @ColumnInfo(name = "audio_path")
     String audioDirPath;
+    @ColumnInfo(name = "topic")
+    String topic;
 
 
-
-    public int getId() {
-        return id;
+    public Content(@NonNull String word, String imageDirPath, String audioDirPath, String topic){
+        this.word = word;
+        this.imageDirPath = imageDirPath;
+        this.audioDirPath = audioDirPath;
+        this.topic = topic;
     }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+
 
     public String getWord() {
         return word;
     }
 
-    public String getImage() { return imageDirPath; }
+    public String getImageDirPath() {
+        return imageDirPath; }
 
-    public String getAudio() {
+    public String getAudioDirPath() {
         return audioDirPath;
     }
 
-    public void setId(int id){
-        this.id = id;
-    }
+
 
     public void setWord(String word){
         this.word = word;
     }
 
-    public void setImage(String imageDirPath){
+    public void setImageDirPath(String imageDirPath){
         this.imageDirPath = imageDirPath;
     }
 
-    public void setAudio(String audioDirPath) {this.audioDirPath = audioDirPath;}
+    public void setAudioDirPath(String audioDirPath) {
+        this.audioDirPath = audioDirPath;}
+
+
+    @Override
+    public String toString() {
+        return "Content{" +
+                "word='" + word + '\'' +
+                ", imageDirPath='" + imageDirPath + '\'' +
+                ", audioDirPath='" + audioDirPath + '\'' +
+                ", topic='" + topic + '\'' +
+                '}';
+    }
 }

@@ -6,6 +6,8 @@ import java.io.File;
 
 public class FileUtil {
     public static final String CONTENT_RES_HEADER = "content";
+    public static final String AUDIO_RES_HEADER = "audio";
+    public static final String IMAGE_RES_HEADER = "image";
 
     public static boolean customFileFormatChecker(String fileName){
         fileName = fileName.contains(".") ? fileName.substring(0,fileName.lastIndexOf(".")):fileName;
@@ -18,6 +20,5 @@ public class FileUtil {
         File file = new File(context.getExternalFilesDir(null),fileName);
         return file.exists();
     }
-
 
 }

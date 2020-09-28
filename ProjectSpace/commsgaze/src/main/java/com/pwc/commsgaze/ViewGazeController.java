@@ -12,7 +12,6 @@ public class ViewGazeController  {
 
     private static final String TAG = "ViewGazeController";
     private int selectedViewHolderIndex = 0;
-    private final int DIRECTION_THRESHOLD = 50;
     private int fixedDimension;
     private int lastElementIndex;
     private int lastSeqFirstElementIndex;
@@ -84,7 +83,6 @@ public class ViewGazeController  {
         else  if(direction.equals(Direction.BOTTOM)){
             return  !isOnLastSeq(selectedViewHolderIndex);
         }
-
         return true;
     }
 
@@ -106,6 +104,7 @@ public class ViewGazeController  {
         }
         return suitableDirection;
     }
+
 
 
     ViewGazeController(int fixedDimension,int numOfPositions){
