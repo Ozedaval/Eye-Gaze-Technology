@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private RecyclerView.LayoutManager gridLayoutManager;
     private DetectionData detectionData;
     private final int RC_FIXED_DIMENSION = 3;
+    private  final int FRAME_THRESHOLD = 20;
 
 
     static{ System.loadLibrary( "opencv_java4" );}
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     /*TODO remove this once Room Database is connected with RecyclerView. The below data is for just testing the recyclerView*/
     private final String[] TEMP_DATA = new String[]{"Hello","Hi","Bye","Eat","Sleep","Sad","Run","Dude","Hey","tea","Pizza","Soup","Cold","Hot","Happy"};
+
 
 
     @Override
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
 
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,TEMP_DATA.length);
+        mainViewModel.initialiseDirectionMediator(FRAME_THRESHOLD);
 
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
@@ -130,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(final Integer integer) {
-                System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
                 RecyclerView.ViewHolder prevViewHolder =  binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
                 if(prevViewHolder!=null) {
                     prevViewHolder.itemView.setBackground(getDrawable(R.drawable.decor_recyclerview_item));
@@ -146,9 +148,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     }
                 },100);
 
-
-                Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());
-
+             /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
 
             }
         });
@@ -168,7 +168,16 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 }
             });
         }
-        /*TODO change later in accordance*/
+
+
+        mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
+            @Override
+            public void onChanged(Direction direction) {
+          /*      Log.d(TAG,"Gauged Direction " + direction);*/
+                mainViewModel.updateViewGazeController(direction);
+            }
+        });
+
 
     }
 
@@ -226,7 +235,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    /* mainViewModel.updateViewGazeController(detector.getDirection());*/
+
+                    mainViewModel.updateDirectionMediator(detector.getDirection());
+
                 }
             });
             return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();
