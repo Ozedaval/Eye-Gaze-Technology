@@ -69,6 +69,8 @@ public class Detect {
     private List eyeglobal;
     private TrackerCSRT trackerCSRTFirst;
     private TrackerCSRT trackerCSRTSecond;
+   private TrackerCSRT trackerCSRTThird;
+    private TrackerCSRT trackerCSRTFourth;
     private  TrackerCSRT[] trackerCSRTs;
     ArrayList<Rect> eyeBoundary;
     HashMap<Integer, Point[]> prevPoints;
@@ -93,7 +95,6 @@ public class Detect {
         trackerCSRTFirst = TrackerCSRT.create();
         trackerCSRTSecond = TrackerCSRT.create();
         trackerCSRTs = new TrackerCSRT[]{trackerCSRTFirst,trackerCSRTSecond};
-
     }
 
 
@@ -142,6 +143,7 @@ public class Detect {
 
 
                 Mat[] eyesROI=new Mat[listOfEyes.size()];
+
                 List<Rect2d> listOfEyesRect2d  = new ArrayList<>(2);
 
                 for(Rect eye:listOfEyes) {
@@ -163,52 +165,54 @@ public class Detect {
 
                 /*TODO find unique Rect2d*/
                 if(listOfEyesRect2d.size() == 2 && listOfEyes.get(0).x!= listOfEyes.get(1).x) {
+
                     for (int i = 0; i < listOfEyes.size(); i++) { //Just get the first 2 detected eyes
                         Rect eye = listOfEyes.get(i);
                         Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
                         eyesROI[i] = frame.submat(eye);
                         eyeBoundary.add(eye.clone());
                         Mat eyeROICanny = new Mat();
-                        Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 2);
-                        Mat binary = new Mat();
-                        Imgproc.threshold(eyesROI[i], binary, 100, 255, Imgproc.THRESH_BINARY);
+                        Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 3);
 //                        Log.d(TAG, "width: "+eyeROICanny.width());
 //                        Log.d(TAG, "height: "+eyeROICanny.height());
-                        Mat binaryROI = new Mat(binary, new Rect(0, 0, eyeROICanny.cols(), eyeROICanny.rows()));
 //                        Log.d(TAG, "width: "+reduceeyeROI.height());
 //                        Log.d(TAG, "height: "+reduceeyeROI.width());
                         MatOfKeyPoint blobs = new MatOfKeyPoint();
 //                        Log.d(TAG, "eyeroi"+eyeROICanny.empty());
 //                        Log.d(TAG, "eyeroi"+eye);
-                        simpleBlobDetector.detect(eyeROICanny, blobs);
                         /*Core.addWeighted(frame.submat(ROI),0.0,colorCanny,1.0,0.0,frame.submat(ROI));*/
 //                        Log.d(TAG, "blobs: "+blobs.size().toString());
 //                        Log.d(TAG, "blobs: "+blobs.empty());
                         List<KeyPoint> blobArray = blobs.toList();
+                        if (blobArray.size() == 0) {
+                            simpleBlobDetector.detect(eyeROICanny, blobs);
+                            blobArray = blobs.toList();
+                            Log.d(TAG, "blob zero");
+                        }
 //                        Log.d(TAG, "blobslist: "+blobArray.isEmpty());
 //                        Log.d(TAG, "blobslist: "+blobArray.size());
 //                        Log.d(TAG, "blobs: "+blobArray.get(0));
-//                        Log.d(TAG, "eye"+eye.x+"y is"+eye.y);
-//                        Log.d(TAG, "eye size"+eye.height+";"+eye.width);
+                        Log.d(TAG, "eye" + eye.x + "y is" + eye.y);
+                        Log.d(TAG, "eye size" + eye.height + ";" + eye.width);
                         if (blobArray.size() != 0) {
                             Point blobcentre = blobArray.get(0).pt;
-                            blobcentre.x = eye.x + blobcentre.x;
-                            blobcentre.y = eye.y + blobcentre.y;
-                            Rect2d rect2d = new Rect2d(blobcentre.x-eyeBoundary.get(i).width/7.5,blobcentre.y-eyeBoundary.get(i).width/7.5,eyeBoundary.get(i).width/3.25,eyeBoundary.get(i).width/3.25);
-                            trackerCSRTs[i].init(frameRGB,rect2d);
-                            blob.put(i,  new Point[]{blobcentre});
+                            blobcentre.x = blobcentre.x + eye.x;
+                            blobcentre.y = blobcentre.y + eye.y;
+                            Rect2d rect2d = new Rect2d(blobcentre.x - eyeBoundary.get(i).width / 7.5, blobcentre.y - eyeBoundary.get(i).width / 7.5, eyeBoundary.get(i).width / 3.25, eyeBoundary.get(i).width / 3.25);
+                            isTrackerInitialised = trackerCSRTs[i].init(frameRGB, rect2d);
+                            Log.d(TAG, "boolean" + isTrackerInitialised);
+                            blob.put(i, new Point[]{blobcentre});
                         }
 //                        Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());
+                        }
+                            gazeEstimator.updateEyesBoundary(eyeBoundary);
+                            isTrackerInitialised=true;
                     }
-                    gazeEstimator.updateEyesBoundary(eyeBoundary);
-                    isTrackerInitialised = true;
-                }
             }
+                }
 
-        }
 
         if(isTrackerInitialised) {
-
             if(prevPoints == null){
                 prevPoints = (HashMap<Integer, Point[]>) blob.clone();
             }
@@ -220,19 +224,40 @@ public class Detect {
           /*  MatOfRect2d updatedTrackerBoxes = new MatOfRect2d();
             multiTracker.update(frameRGB, updatedTrackerBoxes);*/
             /*Rect2d[] updatedRect2ds = updatedTrackerBoxes.toArray();*/
+            boolean updated = true;
             for (int i = 0;i<trackerCSRTs.length;i++){
                 Rect2d rect2d = new Rect2d();
-                trackerCSRTs[i].update(frameRGB,rect2d);
-                Imgproc.circle(frame,new Point(rect2d.x+eyeBoundary.get(i).width/7.5,rect2d.y+eyeBoundary.get(i).width/7.5),3,new Scalar(0,255,0));
-                Point point  = new Point(rect2d.x+eyeBoundary.get(i).width/7.5,rect2d.y+eyeBoundary.get(i).width/7.5);
-                Log.d(TAG,"Updated point "+ point.toString());
-                currentPoints.put(i,new Point[]{point});
+                boolean success=trackerCSRTs[i].update(frameRGB,rect2d);
+                if(success && (eyeBoundary.get(i).x-eyeBoundary.get(i).width / 7.5<=rect2d.x&&rect2d.x<=eyeBoundary.get(i).x+eyeBoundary.get(i).width+eyeBoundary.get(i).width / 7.5)&&(eyeBoundary.get(i).y-eyeBoundary.get(i).width / 3.25<=rect2d.y&&rect2d.y<=eyeBoundary.get(i).y+eyeBoundary.get(i).height+eyeBoundary.get(i).width / 3.5)) {
+                    Log.d(TAG, "i" + i);
+                    Log.d(TAG, "rect2D" + rect2d.x + ", " + rect2d.y + ", " + rect2d.width + ", " + rect2d.height);
+                    Imgproc.circle(frame, new Point(rect2d.x + eyeBoundary.get(i).width / 7.5, rect2d.y + eyeBoundary.get(i).width / 7.5), 3, new Scalar(0, 255, 0));
+                    Point point = new Point(rect2d.x + eyeBoundary.get(i).width / 7.5, rect2d.y + eyeBoundary.get(i).width / 7.5);
+                    Log.d(TAG, "Updated point " + point.toString());
+                    currentPoints.put(i, new Point[]{point});
+                }
+                else{updated=false;
+                isTrackerInitialised=false;
+                    direction = UNKNOWN;
+                    simpleBlobDetector = SimpleBlobDetector.create();
 
+                    /* By Default isFirstPairOfIrisFound,needCalibration & prevFrameHadFace is false */
+                    gazeEstimator = new GazeEstimator(0.33f);
+                    faceDetectionSmoother=new DetectionSmoother(0.2f);
+                    isNeutralQueue = new LinkedList<>();
+                    currentGazeStatus= GazeStatus.UNKNOWN;
+                    trackerCSRT = TrackerCSRT.create();
+                    multiTracker = MultiTracker.create();
+                    trackerCSRTFirst = TrackerCSRT.create();
+                    trackerCSRTSecond = TrackerCSRT.create();
+                    trackerCSRTs = new TrackerCSRT[]{trackerCSRTFirst,trackerCSRTSecond};
+                return frame;
+                }
             }
-           /* Log.d(TAG,"Movement predicted "+ gazeEstimator.estimateGaze(prevPoints,currentPoints));*/
-            direction = directionEstimator(gazeEstimator.estimateGaze((HashMap<Integer, Point[]>) prevPoints.clone(), (HashMap<Integer, Point[]>) currentPoints.clone()), (HashMap<Integer, Point[]>) currentPoints.clone());
-            prevPoints = (HashMap<Integer, Point[]>) currentPoints.clone();
-       /*     Log.d(TAG,"Direction is "+ direction);*/
+            /* Log.d(TAG,"Movement predicted "+ gazeEstimator.estimateGaze(prevPoints,currentPoints));*/
+            if(updated!=false){direction = directionEstimator(gazeEstimator.estimateGaze((HashMap<Integer, Point[]>) prevPoints.clone(), (HashMap<Integer, Point[]>) currentPoints.clone()), (HashMap<Integer, Point[]>) currentPoints.clone());
+            prevPoints = (HashMap<Integer, Point[]>) currentPoints.clone();}
+            /*     Log.d(TAG,"Direction is "+ direction);*/
 
         }
         //Mat Cannyframe=new Mat();
@@ -331,59 +356,70 @@ public class Detect {
      * Estimates the gaze direction based on current Gaze Direction and the current "Sparse" points
      * @param currentDirection : Gaze Direction based on current frame
      * @param currentPoints : Map which consists of the newly predicted/created "Sparse" Points*/
-    private Direction directionEstimator(Direction currentDirection,HashMap<Integer,Point[]>currentPoints){
-        if(prevDirection==null){
-            prevDirection=currentDirection;
+    private Direction directionEstimator(Direction currentDirection,HashMap<Integer,Point[]>currentPoints) {
+        if (prevDirection == null) {
+            prevDirection = currentDirection;
             return currentDirection;
         }
-        Direction estimatedDirection=null;
+        Direction estimatedDirection = null;
+        Direction gaugeDirection = null;
         /*Log.d(TAG,"Before "+currentGazeStatus.toString()+ " CurrentDirection"+currentDirection.toString());*/
-        if(currentGazeStatus!=GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
+        if (currentGazeStatus != GazeStatus.ON_THE_WAY_TO_NEUTRAL) {
             switch (currentDirection) {
                 case LEFT:
                     if (prevDirection == NEUTRAL || prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.LEFT;
-                    }  if (prevDirection == RIGHT) {
-                    currentGazeStatus =GazeStatus.ON_THE_WAY_TO_NEUTRAL;
-                }
-                    estimatedDirection=LEFT;
+                        gaugeDirection = LEFT;
+                    }
+                    if (prevDirection == RIGHT) {
+                        currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                        //                 estimatedDirection=RIGHT;
+                        gaugeDirection = LEFT;
+                    }
+                    estimatedDirection = LEFT;
                     break;
                 case RIGHT:
                     if (prevDirection == NEUTRAL || prevDirection == RIGHT) {
                         currentGazeStatus = GazeStatus.RIGHT;
-
+                        gaugeDirection = RIGHT;
                     } else if (prevDirection == LEFT) {
                         currentGazeStatus = GazeStatus.ON_THE_WAY_TO_NEUTRAL;
+                        //                 estimatedDirection=LEFT;
+                        gaugeDirection = RIGHT;
                     }
-                    estimatedDirection=RIGHT;
+                    estimatedDirection = RIGHT;
                     break;
                 case NEUTRAL:
-                    if(!(currentGazeStatus==GazeStatus.LEFT||currentGazeStatus== GazeStatus.RIGHT)){
-                        currentGazeStatus =GazeStatus.NEUTRAL;
-                        estimatedDirection=NEUTRAL;
-                    }
-                    else{
-                        estimatedDirection=prevDirection;
+                    if (!(currentGazeStatus == GazeStatus.LEFT || currentGazeStatus == GazeStatus.RIGHT)) {
+                        currentGazeStatus = GazeStatus.NEUTRAL;
+                        estimatedDirection = NEUTRAL;
+                        gaugeDirection = NEUTRAL;
+                    } else {
+                        estimatedDirection = prevDirection;
+                        gaugeDirection = prevDirection;
                     }
             }
-        }
-        else{
-            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,true));
-            if(isStableNeutral()){
-                currentGazeStatus=GazeStatus.NEUTRAL;
-                prevDirection=NEUTRAL;
-                Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");
+        } else {
+            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints, true));
+            if (isStableNeutral()) {
+                currentGazeStatus = GazeStatus.NEUTRAL;
+                gaugeDirection = NEUTRAL;
+                prevDirection = NEUTRAL;
+                Log.d(TAG, "if- isStableNeutral returning NEUTRAL ");
                 return NEUTRAL;
             }
         }
-        if(estimatedDirection!=null){
-            prevDirection=estimatedDirection;
-            /* Log.d(TAG," if estimateddirection !=null : Estimated Direction "+estimatedDirection);*/
+        if (estimatedDirection != null) {
+            prevDirection = estimatedDirection;
+            Log.d(TAG, " if estimateddirection !=null : Estimated Direction " + estimatedDirection);
             return estimatedDirection;
         }
-        /*Log.d(TAG," if estimateddirection ==null : Current Direction "+currentDirection);*/
-        prevDirection=currentDirection;
-        return currentDirection;
+        Log.d(TAG, " if estimateddirection ==null : Prev Direction " + prevDirection);
+        Log.d(TAG, " if estimateddirection ==null : Current Direction " + currentDirection);
+        gaugeDirection = prevDirection;
+        prevDirection = currentDirection;
+        return estimatedDirection;
+        //return prevDirection;
     }
 
 
