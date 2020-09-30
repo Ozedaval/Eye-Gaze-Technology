@@ -20,6 +20,7 @@ public class StorageViewModel extends AndroidViewModel {
 
     LiveData<List<Content>> getAllContents() { return contents; }
 
+
     public void insertContent(Content content) { repository.insertContent(content); }
 
 }

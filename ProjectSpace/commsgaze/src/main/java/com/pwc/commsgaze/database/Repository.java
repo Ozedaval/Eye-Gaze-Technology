@@ -19,9 +19,12 @@ public class Repository {
 
     public void insertContent(Content content) { new InsertAsyncTask(contentDAO).execute(content); }
 
+
     public LiveData<List<Content>> getAllContents() {
         return contents;
     }
+
+
 
     private static class InsertAsyncTask extends AsyncTask<Content, Void, Void> {
         private ContentDAO contentDAO;
