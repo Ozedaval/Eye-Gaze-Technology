@@ -43,7 +43,7 @@ public class Detect {
     private DetectionSmoother faceDetectionSmoother;
     private Rect prevFace;
     private int frameCountDebug;
-    private static final float FACE_MOVEMENT_THRESHOLD=0.1f;
+    private static final float FACE_MOVEMENT_THRESHOLD=0.3f;
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
@@ -51,8 +51,11 @@ public class Detect {
     private CascadeClassifier eyesCascade;
     private HashMap<Integer, Point[]> prevPoints;
     private HashMap<Integer,Point[]> currentPoints;
-    private MultiTracker multiTracker;
     private List<Rect> eyeBoundary;
+    private TrackerCSRT trackerCSRTFirst;
+    private TrackerCSRT trackerCSRTSecond;
+    private TrackerCSRT[] trackerCSRTs;
+    private boolean isTrackerInitialised;
 
 
     Detect(CascadeClassifier faceCascade,CascadeClassifier eyesCascade) {
@@ -65,8 +68,12 @@ public class Detect {
         currentGazeStatus = GazeStatus.UNKNOWN;
         this.faceCascade = faceCascade;
         this.eyesCascade = eyesCascade;
-        multiTracker = new MultiTracker();
+
+        trackerCSRTFirst = TrackerCSRT.create();
+        trackerCSRTSecond = TrackerCSRT.create();
+        trackerCSRTs = new TrackerCSRT[]{trackerCSRTFirst,trackerCSRTSecond};
         currentPoints = new HashMap<Integer, Point[]>();
+
     }
 
     /**
@@ -158,11 +165,17 @@ public class Detect {
         if (face!=null && (!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
             Log.d(TAG,"Frame Count is " + frameCountDebug +" blob size "+ blob.values().size() +" Going to init ");
             clearTracker();
-
+            boolean isSuccessfullyTracking= true;
             for(int i = 0;i < blob.size();i++){
                 Rect2d irisRect2d = new Rect2d(blob.get(i)[0].x-eyeBoundary.get(i).width/7.5,blob.get(i)[0].y-eyeBoundary.get(i).width/7.5,eyeBoundary.get(i).width/3.25,eyeBoundary.get(i).width/3.25);
-                multiTracker.add(TrackerCSRT.create(),frameRGB,irisRect2d);
+                isSuccessfullyTracking&=trackerCSRTs[i].init(frameRGB,irisRect2d);
                 Log.d(TAG,"Init X & Y of " + i +"th eye is X:"+ (irisRect2d.x-eyeBoundary.get(i).width/7.5)+ "  Y:"+ (irisRect2d.y-eyeBoundary.get(i).width/7.5));
+            }
+            isTrackerInitialised = isSuccessfullyTracking;
+            if(!isSuccessfullyTracking) {
+                Log.d(TAG,"Is Successfully tracking ?"+ isSuccessfullyTracking);
+                clearTracker();
+                return frame;
             }
 
             gazeEstimator.updateEyesBoundary(eyeBoundary);
@@ -177,15 +190,17 @@ public class Detect {
             }
 
             Log.d(TAG,"Frame Count is " + frameCountDebug +" blob size "+ blob.values().size() +" Going to update ");
-                MatOfRect2d matOfIrisRect2d = new MatOfRect2d();
-                multiTracker.update(frameRGB,matOfIrisRect2d);
-            List<Rect2d> matOfIrisRect2dList = matOfIrisRect2d.toList();
 
-            for(int i=0;i<matOfIrisRect2dList.size();i++){
-                Rect2d irisRect2d = matOfIrisRect2dList.get(i);
-                Log.d(TAG,"Updated X & Y of " + i +"th eye is X:"+ irisRect2d.x + "  Y:"+ irisRect2d.y);
-                Imgproc.circle(frame,new Point((irisRect2d.x+irisRect2d.width/2),(irisRect2d.y+irisRect2d.width/2)),3,new Scalar(0,255,0));
-                currentPoints.put(i,new Point[]{new Point(irisRect2d.x+irisRect2d.width/2,irisRect2d.y+irisRect2d.width/2)});
+
+
+
+            for(int i=0;i<2;i++){
+                Rect2d updatedIrisRect2d = new Rect2d();
+                trackerCSRTs[i].update(frameRGB,updatedIrisRect2d);
+
+                Log.d(TAG,"Updated X & Y of " + i +"th eye is X:"+ updatedIrisRect2d.x + "  Y:"+ updatedIrisRect2d.y);
+                Imgproc.circle(frame,new Point((updatedIrisRect2d.x+updatedIrisRect2d.width/2),(updatedIrisRect2d.y+updatedIrisRect2d.width/2)),3,new Scalar(0,255,0));
+                currentPoints.put(i,new Point[]{new Point(updatedIrisRect2d.x+updatedIrisRect2d.width/2,updatedIrisRect2d.y+updatedIrisRect2d.width/2)});
             }
             Log.d(TAG,"Track has updated");
             direction = directionEstimator(gazeEstimator.estimateGaze( prevPoints, currentPoints),  currentPoints);
@@ -209,11 +224,11 @@ public class Detect {
             float xDiff= Math.abs(prevFace.x-currentFace.x);
             float yDiff= Math.abs(prevFace.y-currentFace.y);
             /*   Log.d(TAG,"Face Movement xDiff:"+xDiff+" yDiff"+yDiff+"Threshold value "+prevFace.x*FACE_MOVEMENT_THRESHOLD);*/
-            if(xDiff<(prevFace.x*FACE_MOVEMENT_THRESHOLD)&&yDiff<(prevFace.y*FACE_MOVEMENT_THRESHOLD)){
+            if( xDiff<(prevFace.x*FACE_MOVEMENT_THRESHOLD) && yDiff<(prevFace.y*FACE_MOVEMENT_THRESHOLD )){
                 prevFace=currentFace;
                 return false;
             }
-            prevFace=currentFace;
+            prevFace = currentFace;
             return true;
         }
     }
@@ -225,7 +240,7 @@ public class Detect {
         if (!calibrationIrisIdentified) {
             frameCount++;
         }
-        if(hasFaceMoved){
+        if(hasFaceMoved||!isTrackerInitialised){
             needCalibration=true;
             return;
         }
@@ -362,8 +377,11 @@ public class Detect {
     }
 
     void clearTracker(){
-     multiTracker = new MultiTracker();
-     multiTracker.clear();
+        trackerCSRTFirst.clear();
+        trackerCSRTSecond.clear();
+        trackerCSRTFirst = TrackerCSRT.create();
+        trackerCSRTSecond = TrackerCSRT.create();
+
     }
 
 }
