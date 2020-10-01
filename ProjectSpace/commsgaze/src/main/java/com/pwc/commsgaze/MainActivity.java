@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         Log.d(TAG," onResume called ");
         /*configs go away when app activity is re-opened*/
         hideSystemUI();
-/*        binding.openCVCameraView.enableView();*/
+        binding.openCVCameraView.enableView();
 
     }
 

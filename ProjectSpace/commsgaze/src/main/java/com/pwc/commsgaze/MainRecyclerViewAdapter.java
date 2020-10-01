@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.pwc.commsgaze.database.Content;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -54,6 +57,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
                 .load(imageUri)
                 .apply(new RequestOptions().override(suitableDimension,suitableDimension))
                 .into(holder.imageView);
+
         holder.setAudioDirPath(contents.get(position).getAudioDirPath());
 
     }
