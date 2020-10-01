@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -124,8 +125,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter();
+        recyclerViewAdapter = new MainRecyclerViewAdapter(displaymetrics,RC_FIXED_DIMENSION);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
@@ -221,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         Log.d(TAG," onResume called ");
         /*configs go away when app activity is re-opened*/
         hideSystemUI();
-        binding.openCVCameraView.enableView();
+/*        binding.openCVCameraView.enableView();*/
 
     }
 
