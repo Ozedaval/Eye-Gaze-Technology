@@ -47,9 +47,9 @@ import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
-  
+
     static{ System.loadLibrary( "opencv_java4" );}
-  
+
     private final int PERMISSION_REQUEST_CODE = 1;
     private MainViewModel mainViewModel;
     private Boolean isFirstRun;
@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private final int RC_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
     private  final int FRAME_THRESHOLD = 20;
-
-
 
 
     @Override
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
+                        MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
                         if (selectedViewHolder!=null) {
                             selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
                             selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(200).start();
@@ -173,8 +171,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     }
                 },100);
 
-             /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
-
+                /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
             }
         });
 
@@ -198,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
             @Override
             public void onChanged(Direction direction) {
-          /*      Log.d(TAG,"Gauged Direction " + direction);*/
+                /*      Log.d(TAG,"Gauged Direction " + direction);*/
                 mainViewModel.updateViewGazeController(direction);
             }
         });

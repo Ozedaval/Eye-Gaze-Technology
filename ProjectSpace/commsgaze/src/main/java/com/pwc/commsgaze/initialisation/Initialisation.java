@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.pwc.commsgaze.R;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,6 +21,7 @@ import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.IMAGE_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
 import static com.pwc.commsgaze.utils.FileUtil.hasExternalStoragePrivateData;
+import static com.pwc.commsgaze.utils.FileUtil.write;
 
 /*An AsyncTask class which is used for initialising intensive background tasks.
  * TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
@@ -109,7 +111,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
                 write(contentInputStreams.get(i),contentOutputStreams.get(i));
             }
 
-            /*TODO: Remove this once code - review is done*/
+            /*For Debugging*/
             for(File file: contentImgExternalFiles) {
                 Log.d(TAG,"Abs "+file.getAbsolutePath());
                 Log.d(TAG,"Can "+file.getCanonicalPath());
@@ -133,24 +135,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
     }
 
 
-    /**
-     *Writes onto the OutputStream  based on the InputStream values
-     * @param in:The Stream which consist of the writable data.
-     * @param out:The Stream upon which data is to be written.
-     * https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard*/
-    private void write(InputStream in, FileOutputStream out) throws IOException {
-        byte[] buff = new byte[in.available()];
-        int read = 0;
-        try {
-            while ((read = in.read(buff)) > 0) {
-                out.write(buff, 0, read);
-            }
-        } finally {
-            in.close();
-            out.close();
-        }
-        Log.d("Initialisation ", "Done  Copying");
-    }
 
 
 

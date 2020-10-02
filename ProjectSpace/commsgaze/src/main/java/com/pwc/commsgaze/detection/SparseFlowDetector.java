@@ -150,6 +150,7 @@ public class SparseFlowDetector extends Detector {
 
                     MatOfKeyPoint blobs = new MatOfKeyPoint();
                     simpleBlobDetector.detect(eyeROICanny, blobs);
+
                     /*Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");*/
                     /*Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);*/
 
@@ -157,6 +158,7 @@ public class SparseFlowDetector extends Detector {
                     KeyPoint[] blobsArray = blobs.toArray();
                     if (blobsArray.length != 0) {
                         Point blobCentre = blobsArray[0].pt;
+
                         blobCentre.x = blobCentre.x + eye.x;
                         blobCentre.y = blobCentre.y + eye.y;
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
@@ -173,7 +175,7 @@ public class SparseFlowDetector extends Detector {
         }
 
         /*sparseOpticalFlow Initiator/Calibration Alternator*/
-        if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
+        if (face!=null && (!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
             sparseOpticalFlowMediator.resetSparseOpticalFlow();
             for (Integer roiID : blob.keySet()) {
                 sparseOpticalFlowMediator.setROIPoints(roiID, blob.get(roiID));
