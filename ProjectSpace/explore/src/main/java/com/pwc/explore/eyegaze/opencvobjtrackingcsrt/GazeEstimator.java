@@ -116,7 +116,7 @@ public class GazeEstimator {
                 for (int i = 0; i < currentPointsList.size(); i++) {
                     Point currentPoint = currentPointsList.get(i);
                     Point prevPoint = prevPointsList.get(i);
-                    Log.d(TAG,"Current Point is"+currentPoint+" prevPoint is "+prevPoint);
+                   // Log.d(TAG,"Current Point is"+currentPoint+" prevPoint is "+prevPoint);
                     double xDiff=currentPoint.x-prevPoint.x;
                     if(xDiff<-threshold*5){
                         /*Log.d(TAG,"xDiff is" +xDiff);*/
