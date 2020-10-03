@@ -31,7 +31,7 @@ import java.util.Stack;
 import static com.pwc.commsgaze.utils.FileUtil.AUDIO_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.IMAGE_RES_HEADER;
-import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
+import static com.pwc.commsgaze.utils.FileUtil.isContentFileNameFormatted;
 
 /*Fragment which shows the initialisation loading Bar*/
 public class InitialisationFragment extends DialogFragment {
@@ -126,7 +126,7 @@ public class InitialisationFragment extends DialogFragment {
                     for(Field field:fields){
                         if((word = field.getName()).contains(CONTENT_RES_HEADER)) {
                             /*Looking for only content related files*/
-                            if (customFileFormatChecker(word)) {
+                            if (isContentFileNameFormatted(word)) {
                                 word = word.substring(word.indexOf("_"));
 
                                 audioName = AUDIO_RES_HEADER + word;

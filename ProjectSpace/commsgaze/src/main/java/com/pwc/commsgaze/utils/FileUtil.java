@@ -13,10 +13,11 @@ public class FileUtil {
     public static final String AUDIO_RES_HEADER = "audio";
     public static final String IMAGE_RES_HEADER = "image";
 
-    public static boolean customFileFormatChecker(String fileName){
+    /* Content file to be formatted as such : content_topicName_wordName.extension */
+    public static boolean isContentFileNameFormatted(String fileName){
         fileName = fileName.contains(".") ? fileName.substring(0,fileName.lastIndexOf(".")):fileName;
         String[] splitName =  fileName.split("_");
-        return  splitName.length == 3 && splitName[0].equalsIgnoreCase("content");
+        return  splitName.length == 3 && splitName[0].equalsIgnoreCase(CONTENT_RES_HEADER);
     }
 
     /* https://developer.android.com/reference/android/content/Context.html#getExternalFilesDir(java.lang.String)*/
@@ -32,6 +33,7 @@ public class FileUtil {
      * https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard*/
     public static void write(InputStream in, FileOutputStream out) throws IOException {
         byte[] buff = new byte[in.available()];
+
         int read = 0;
         try {
             while ((read = in.read(buff)) > 0) {

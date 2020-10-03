@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.IMAGE_RES_HEADER;
-import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
+import static com.pwc.commsgaze.utils.FileUtil.isContentFileNameFormatted;
 import static com.pwc.commsgaze.utils.FileUtil.hasExternalStoragePrivateData;
 import static com.pwc.commsgaze.utils.FileUtil.write;
 
@@ -70,15 +70,14 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
             File externalFileDir = context.getExternalFilesDir(null);
 
-            String word;
+            String fileName;
             int resourceID;
-            String imgName;
             for(int i=0;i<fields.length;i++){
-                if((word = fields[i].getName()).contains(CONTENT_RES_HEADER)) {
+                if((fileName= fields[i].getName()).contains(CONTENT_RES_HEADER)) {
                     /*Looking for only content related files*/
-                    if (customFileFormatChecker(word)){
-                        word = word.substring(word.indexOf("_"));
-                        imgName = IMAGE_RES_HEADER + word;
+                    if (isContentFileNameFormatted(fileName)){
+                        String word = fileName.substring(fileName.indexOf("_"));
+                        String imgName = IMAGE_RES_HEADER + word;
                         Log.d(TAG, "Image File Name  " + imgName);
 
                         contentImgExternalFiles.add(new File(externalFileDir, imgName));
@@ -89,7 +88,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
                     }
                     else{
-                        throw new AssertionError("Starter File: "+ word +" is not formatted correctly in accordance to the custom format we are using!");
+                        throw new AssertionError("Starter Content File: "+ fileName +" is not formatted correctly in accordance to the custom format we are using!");
                     }
                 }
             }
