@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.detection.gazeutils;
+package com.pwc.commsgaze.detection.utils;
 
 /*Describes the status of the gaze*/
 public enum GazeStatus {

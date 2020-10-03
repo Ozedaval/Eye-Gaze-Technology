@@ -169,8 +169,9 @@ public class InitialisationFragment extends DialogFragment {
             String fileName;
             HashMap<String,ArrayList<String>> filePathMap = new HashMap<>();
             for(File file:files){
+                /*topicWordLabel - _topic_word*/
                 if((fileName = file.getName()).contains(AUDIO_RES_HEADER)||fileName.contains(IMAGE_RES_HEADER)){
-                    String topicWordLabel = fileName.substring(fileName.indexOf("_"));
+                    String topicWordLabel = fileName.substring(fileName.indexOf("_")+1);
                     if(topicWordLabel.contains(".")){
                         topicWordLabel = topicWordLabel.substring(0,topicWordLabel.lastIndexOf("."));
                     }
@@ -188,6 +189,7 @@ public class InitialisationFragment extends DialogFragment {
             }
 
             for(Map.Entry<String,ArrayList<String>> entry:filePathMap.entrySet()){
+                /*Only inserting Content with those which have audio and image*/
                 if(entry.getValue().size()==2){
                     String word = entry.getValue().get(0);
                     String topic = word.substring(word.indexOf("_")+1,word.lastIndexOf("_"));
@@ -197,6 +199,9 @@ public class InitialisationFragment extends DialogFragment {
                     Content content = new Content(word,imgPath,audioPath,topic);
                     Log.d(TAG,"Content being added " + content.toString());
                     storageViewModel.insertContent(content);
+                }
+                else{
+                    Log.e(TAG,entry.toString()+"is not being added");
                 }
             }
 

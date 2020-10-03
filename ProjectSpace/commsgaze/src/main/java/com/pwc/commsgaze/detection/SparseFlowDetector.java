@@ -3,12 +3,11 @@ package com.pwc.commsgaze.detection;
 import com.pwc.commsgaze.Direction;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
-import com.pwc.commsgaze.detection.gazeutils.DetectionSmoother;
-import com.pwc.commsgaze.detection.gazeutils.GazeEstimator;
-import com.pwc.commsgaze.detection.gazeutils.GazeStatus;
-import com.pwc.commsgaze.detection.gazeutils.SparseOpticalFlowMediator;
+import com.pwc.commsgaze.detection.utils.DetectionSmoother;
+import com.pwc.commsgaze.detection.utils.GazeEstimator;
+import com.pwc.commsgaze.detection.utils.GazeStatus;
+import com.pwc.commsgaze.detection.utils.SparseOpticalFlowMediator;
 
-import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -51,7 +50,7 @@ public class SparseFlowDetector extends Detector {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
-    private final Approach approach = Approach.OPEN_CV_SPARSE_FLOW;
+    private final Approach approach = Approach.OPENCV_SPARSE_FLOW;
     private  CascadeClassifier faceCascade;
     private  CascadeClassifier eyeCascade;
 

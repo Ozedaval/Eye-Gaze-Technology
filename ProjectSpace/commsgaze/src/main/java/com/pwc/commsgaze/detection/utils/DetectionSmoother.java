@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.detection.gazeutils;
+package com.pwc.commsgaze.detection.utils;
 
 import android.util.Log;
 

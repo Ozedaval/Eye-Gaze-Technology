@@ -100,7 +100,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... voids) {
-        /*TODO: Need to delete xml and content data, which will attached to apk*/
         try {
 
             write(faceModelInputStream,faceModelOutputStream);
@@ -132,9 +131,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         initialisationFragmentWeakReference.clear();
         Log.d(TAG ," onPostExecute Called & "+ getStatus()+bool);
     }
-
-
-
 
 
 }

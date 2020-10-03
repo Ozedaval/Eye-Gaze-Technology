@@ -33,7 +33,7 @@ public class DetectionEngineMaker {
             Log.d(TAG, " Active approach to be deleted -- " + activeApproach.toString());
         }
             switch (approach){
-                case OPEN_CV_SPARSE_FLOW:
+                case OPENCV_SPARSE_FLOW:
                     detector = new SparseFlowDetector(detectionData);
                     break;
 
