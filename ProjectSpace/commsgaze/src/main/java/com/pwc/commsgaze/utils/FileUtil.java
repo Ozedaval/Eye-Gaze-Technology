@@ -12,6 +12,7 @@ public class FileUtil {
     public static final String CONTENT_RES_HEADER = "content";
     public static final String AUDIO_RES_HEADER = "audio";
     public static final String IMAGE_RES_HEADER = "image";
+    private static final String TAG = "FileUtil";
 
     /* Content file to be formatted as such : content_topicName_wordName.extension */
     public static boolean isContentFileNameFormatted(String fileName){
@@ -43,7 +44,7 @@ public class FileUtil {
             in.close();
             out.close();
         }
-        Log.d("Initialisation ", "Done  Copying");
+        Log.d(TAG, "Done  Copying");
     }
 
 

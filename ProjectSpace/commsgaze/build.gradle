@@ -24,13 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        test {
-            androidTest {
-                resources.srcDirs += ['src/androidTest/resources']
-            }
-        }
-    }
+
 }
 
 

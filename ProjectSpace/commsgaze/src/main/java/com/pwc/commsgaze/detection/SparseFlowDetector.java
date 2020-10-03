@@ -288,9 +288,9 @@ public class SparseFlowDetector extends Detector {
 
     @Override
     public DetectionData updateDetector(DetectionData detectionData) {
-            SparseFlowDetectionData detectionDataSparse = (SparseFlowDetectionData) detectionData;
-            Mat newFrame = detect(detectionDataSparse.getFrame());
-            detectionDataSparse.updateFrame((newFrame));
+            SparseFlowDetectionData sparseFlowDetectionData = (SparseFlowDetectionData) detectionData;
+            Mat newFrame = detect(sparseFlowDetectionData.getFrame());
+            sparseFlowDetectionData.updateFrame((newFrame));
             return detectionData;
     }
 

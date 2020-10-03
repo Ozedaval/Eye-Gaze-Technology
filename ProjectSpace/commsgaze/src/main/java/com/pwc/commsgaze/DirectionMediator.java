@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.pwc.commsgaze.detection.utils.DirectionUtil.getMaxDirection;
+
 public class DirectionMediator {
     private int frameThreshold;
     ArrayList<Direction> directions;
@@ -46,20 +48,7 @@ public class DirectionMediator {
 
     /*Usable when one is saving and using the previous directions*/
    private Direction getSuitableDirection(){
-        HashMap<Direction,Integer> directionFreq = new HashMap<>();
-
-        for(Direction direction:Direction.values()){
-            directionFreq.put(direction, Collections.frequency(directions,direction));
-        }
-        Direction suitableDirection = Direction.UNKNOWN;
-        int maxFreq = 0 ;
-        for(Map.Entry<Direction,Integer> freqEntry:directionFreq.entrySet()){
-            if(freqEntry.getValue()>maxFreq){
-                maxFreq = freqEntry.getValue();
-                suitableDirection = freqEntry.getKey();
-            }
-        }
-        return suitableDirection;
+        return getMaxDirection(directions);
     }
 
 }

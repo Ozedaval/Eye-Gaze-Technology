@@ -4,6 +4,11 @@ import android.util.Log;
 
 import com.pwc.commsgaze.Direction;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DirectionUtil {
 private final static String TAG= "DirectionUtil";
 
@@ -18,9 +23,28 @@ private final static String TAG= "DirectionUtil";
         return Direction.UNKNOWN;
     }
 
-    public static Direction getOppositeDirection(Direction direction){
-
-        return  null;
-
+    public static Direction getOppositeDirection(Direction direction) {
+        if (direction.equals(Direction.LEFT))
+            return Direction.RIGHT;
+        if (direction.equals(Direction.RIGHT))
+            return Direction.LEFT;
+        return direction;
     }
+
+
+    public static Direction getMaxDirection(ArrayList<Direction> directions){
+        HashMap<Direction,Integer> directionFreq = new HashMap<>();
+
+        for(Direction direction:Direction.values()){
+            directionFreq.put(direction, Collections.frequency(directions,direction));
+        }
+        Direction suitableDirection = Direction.UNKNOWN;
+        int maxFreq = 0 ;
+        for(Map.Entry<Direction,Integer> freqEntry:directionFreq.entrySet()){
+            if(freqEntry.getValue()>maxFreq){
+                maxFreq = freqEntry.getValue();
+                suitableDirection = freqEntry.getKey();
+            }
+        }
+    return  suitableDirection;}
 }

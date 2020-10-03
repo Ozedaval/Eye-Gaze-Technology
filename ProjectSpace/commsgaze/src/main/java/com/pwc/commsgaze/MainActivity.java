@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         final Detector detector = mainViewModel.getDetector();
         if(detector.getApproach().equals(Approach.OPENCV_SPARSE_FLOW)){
             /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
+            Mat debugFrame = inputFrame.rgba();
             ((SparseFlowDetectionData) detectionData).setFrame(inputFrame.rgba());
             runOnUiThread(new Runnable() {
                 @Override
