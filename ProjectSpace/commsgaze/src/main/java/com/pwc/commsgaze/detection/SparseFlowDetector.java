@@ -294,7 +294,10 @@ public class SparseFlowDetector extends Detector {
             return detectionData;
     }
 
-
+    @Override
+    public void clear() {
+        /*TODO fill accordingly*/
+    }
 
 
     /**

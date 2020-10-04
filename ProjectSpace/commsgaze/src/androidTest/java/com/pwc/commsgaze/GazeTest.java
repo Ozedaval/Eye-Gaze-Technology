@@ -50,7 +50,6 @@ public class GazeTest  {
 
 
 
-    /*TODO to make final assertion > 60%*/
 
     @Before
     public void setUp() throws Exception {
@@ -75,6 +74,7 @@ public class GazeTest  {
             }
         }
         else{
+
             throw new AssertionError("Test Files not in place");
         }
         for(String testCaseFileName: testCaseFileNames){
@@ -89,18 +89,19 @@ public class GazeTest  {
     public void approachTest() {
         for(Approach approach:approaches){
             int numOfPasses = 0;
-            /*TODO need to replace this accordingly*/
+
             Log.d(TAG,"Currently testing Approach "+ approach.toString());
             for(String testCaseFileName: testCaseFileNames){
                 if(testCaseApproachTester(approach,testCaseFileName))
                     numOfPasses++;
             }
-            Log.d(TAG,"Number of passes"+ numOfPasses);
+            Log.d(TAG,"Number of passes "+ numOfPasses);
             float passPercentage = (float)numOfPasses/testCaseFileNames.size();
             if(passPercentage< OVERALL_PASS_THRESHOLD){
                 throw new AssertionError(approach.toString()+" Failed GazeTest"+ "Pass Percentage "+passPercentage);
             }
-            Log.d(TAG,approach.toString()+" Passes "+ passPercentage+" of the Tests");
+            Log.d(TAG,approach.toString()+" Passes "+ passPercentage + " of the Tests");
+
         }
     }
 
@@ -118,15 +119,15 @@ public class GazeTest  {
         videoCapture.open(new File(appContext.getExternalFilesDir(null), testCaseFileName).getAbsolutePath());
         ArrayList<Direction> directions = new ArrayList<>();
         Mat frame = new Mat();
-        Mat frameBGR = new Mat();
+        Mat frameRGB = new Mat();
         DetectionData  detectionData = createDetectionData(approach);
         detectionEngineMakerInstance.createDetector(approach,detectionData);
         Detector detector = detectionEngineMakerInstance.getDetector();
         while (videoCapture.read(frame)) {
             /*Log.d(TAG,"Frame details:  frame empty?"+frame.empty()+ " frame size"+frame.size().toString()+" frame channels"+ frame.channels() );*/
             if(approach.equals(Approach.OPENCV_SPARSE_FLOW)){
-                Imgproc.cvtColor(frame, frameBGR, Imgproc.COLOR_RGB2BGR);
-                ((SparseFlowDetectionData)detectionData).setFrame(frameBGR);
+                Imgproc.cvtColor(frame, frameRGB, Imgproc.COLOR_RGB2BGR);
+                ((SparseFlowDetectionData)detectionData).setFrame(frameRGB);
             }
             detector.updateDetector(detectionData);
             Direction detectedDirection = detector.getDirection();
@@ -178,7 +179,6 @@ public class GazeTest  {
         String[] splitName =  fileName.split("_");
         return splitName.length == 5 && splitName[0].equalsIgnoreCase(TEST_RES_HEADER);
     }
-
 
 
     CascadeClassifier getOpenCvFaceCascadeClassifier(){
