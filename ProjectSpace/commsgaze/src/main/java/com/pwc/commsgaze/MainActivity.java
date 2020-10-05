@@ -46,9 +46,9 @@ import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
-  
+
     static{ System.loadLibrary( "opencv_java4" );}
-  
+
     private final int PERMISSION_REQUEST_CODE = 1;
     private MainViewModel mainViewModel;
     private Boolean isFirstRun;
@@ -127,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         recyclerViewAdapter = new MainRecyclerViewAdapter();
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
-        binding.recyclerViewMain.setLayoutManager(gridLayoutManager);
-        binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
+        binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
+        binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
         mainViewModel.initialiseDirectionMediator(FRAME_THRESHOLD);
 
@@ -151,18 +151,18 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             public void onChanged(final Integer integer) {
 
                 System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
-                MainRecyclerViewAdapter.ViewHolder prevViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
+                MainRecyclerViewAdapter.ViewHolder prevViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
 
                 if(prevViewHolder!=null) {
                     prevViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(prevViewHolder.itemView.getContext(),R.color.colorLightBlue));
                     prevViewHolder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
 
                 }
-                binding.recyclerViewMain.smoothScrollToPosition(integer);
+                binding.mainRecyclerView.smoothScrollToPosition(integer);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.recyclerViewMain.findViewHolderForAdapterPosition(integer);
+                        MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(integer);
                         if (selectedViewHolder!=null) {
                             selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
                             selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(200).start();
@@ -170,14 +170,14 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     }
                 },100);
 
-             /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
+                /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
 
             }
         });
 
 
 
-        /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+     /*   *//*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*//*
         Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
         for (Button button : testButtons) {
             button.setOnClickListener(new Button.OnClickListener() {
@@ -189,13 +189,13 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     mainViewModel.updateViewGazeController(decipheredDirection);
                 }
             });
-        }
+        }*/
 
 
         mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
             @Override
             public void onChanged(Direction direction) {
-          /*      Log.d(TAG,"Gauged Direction " + direction);*/
+                /*      Log.d(TAG,"Gauged Direction " + direction);*/
                 mainViewModel.updateViewGazeController(direction);
             }
         });

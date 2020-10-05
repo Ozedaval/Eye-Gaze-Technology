@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
@@ -16,10 +17,139 @@
         android:layout_height="match_parent">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_main"
+        <LinearLayout
+            android:id="@+id/mainAppBarLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="@dimen/size_main_bar"
+            android:orientation="horizontal"
+            android:background="@color/colorDarkBlue"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:background="@color/colorWhite"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="Hello"
+                android:gravity="bottom"
+                android:textSize="50sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="10sp"
+                android:focusableInTouchMode="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:inputType="none">
+            </EditText>
+
+            <ImageView
+                android:id="@+id/faceImageView"
+                android:layout_width="@dimen/size_main_bar"
+                android:layout_height="@dimen/size_main_bar"
+                android:src="@drawable/app_face">
+
+            </ImageView>
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/sideLinearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainAppBarLinearLayout"/>
+
+
+        <LinearLayout
+            android:id="@+id/sideLinearLayout"
+            android:layout_width="@dimen/size_main_bar"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:background="@color/colorDarkBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainAppBarLinearLayout"
+            android:weightSum="10">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@color/colorSemiDarkGreen"
+                app:cardCornerRadius="10sp"
+                android:layout_weight="6"
+                android:layout_margin = "5sp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/main_enter"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@color/colorDarkRed"
+                app:cardCornerRadius="10sp"
+                android:layout_weight="3"
+               android:layout_marginBottom="5sp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="5sp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/main_clear"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@color/colorSemiDarkGray"
+                app:cardCornerRadius="10sp"
+                android:layout_weight="1"
+                android:layout_marginBottom="5sp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="5sp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/main_settings"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+
 
         <org.opencv.android.JavaCameraView
             android:id="@+id/openCVCameraView"
@@ -32,7 +162,8 @@
             opencv:layout_constraintTop_toTopOf="parent"
             opencv:show_fps="false" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainButtonConstraintLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,16 +175,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
-
-            <Button
-                android:id="@+id/mainLeftButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Left"
-                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
-                app:layout_constraintLeft_toLeftOf="parent"
-              />
-
             <Button
                 android:id="@+id/mainTopButton"
                 android:layout_width="wrap_content"
@@ -61,34 +182,38 @@
                 android:text="Top"
                 app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
                 app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/mainLeftButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton" />
 
             <Button
                 android:id="@+id/mainNeutralButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Neutral"
-                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
                 app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
-                />
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton" />
 
             <Button
                 android:id="@+id/mainBottomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bottom"
-                app:layout_constraintTop_toBottomOf="@id/mainNeutralButton"
                 app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
-                />
+                app:layout_constraintTop_toBottomOf="@id/mainNeutralButton" />
 
             <Button
                 android:id="@+id/mainRightButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Right"
-                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
-                app:layout_constraintLeft_toRightOf="@id/mainTopButton" />
+                app:layout_constraintLeft_toRightOf="@id/mainTopButton"
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
