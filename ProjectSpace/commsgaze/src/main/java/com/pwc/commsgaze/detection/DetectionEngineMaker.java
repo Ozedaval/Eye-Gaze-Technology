@@ -20,24 +20,31 @@ public class DetectionEngineMaker {
         return instance;
     }
 
-    public void setActiveApproach(Approach approach){
-        /*TODO add another data class containing various info for detector and use it's instance as a parameter for this function*/
+
+    public void setActiveApproach(Approach approach,DetectionData detectionData){
         if(approach == activeApproach && detector!= null){
             detector.reset();
         }
 
     }
 
+    /* Primarily to be used once */
     public void createDetector(Approach approach,DetectionData detectionData){
         if(activeApproach != null) {
             Log.d(TAG, " Active approach to be deleted -- " + activeApproach.toString());
         }
-            switch (approach){
-                case OPEN_CV_SPARSE_FLOW:
-                    detector = new SparseFlowDetector(detectionData);
-                    break;
+        if(detector!=null){
+            detector.clear();
+        }
 
-            }
+        switch (approach){
+            case OPENCV_SPARSE_FLOW:
+                Log.d(TAG, " Active approach set to  -- " + approach.toString());
+                detector = new SparseFlowDetector(detectionData);
+                break;
+
+        }
+        activeApproach = approach;
     }
 
 

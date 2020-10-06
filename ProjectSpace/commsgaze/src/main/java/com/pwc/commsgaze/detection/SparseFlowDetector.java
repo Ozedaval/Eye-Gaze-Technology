@@ -3,12 +3,11 @@ package com.pwc.commsgaze.detection;
 import com.pwc.commsgaze.Direction;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
-import com.pwc.commsgaze.detection.gazeutils.DetectionSmoother;
-import com.pwc.commsgaze.detection.gazeutils.GazeEstimator;
-import com.pwc.commsgaze.detection.gazeutils.GazeStatus;
-import com.pwc.commsgaze.detection.gazeutils.SparseOpticalFlowMediator;
+import com.pwc.commsgaze.detection.utils.DetectionSmoother;
+import com.pwc.commsgaze.detection.utils.GazeEstimator;
+import com.pwc.commsgaze.detection.utils.GazeStatus;
+import com.pwc.commsgaze.detection.utils.SparseOpticalFlowMediator;
 
-import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -51,7 +50,7 @@ public class SparseFlowDetector extends Detector {
     private GazeStatus currentGazeStatus;
     private Queue<Boolean> isNeutralQueue;
     private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
-    private final Approach approach = Approach.OPEN_CV_SPARSE_FLOW;
+    private final Approach approach = Approach.OPENCV_SPARSE_FLOW;
     private  CascadeClassifier faceCascade;
     private  CascadeClassifier eyeCascade;
 
@@ -150,6 +149,7 @@ public class SparseFlowDetector extends Detector {
 
                     MatOfKeyPoint blobs = new MatOfKeyPoint();
                     simpleBlobDetector.detect(eyeROICanny, blobs);
+
                     /*Log.d(TAG+ " Number of blobs ", blobs.toArray().length + "");*/
                     /*Log.d(TAG," Eye width:"+eye.width+" Eye height"+eye.height);*/
 
@@ -157,6 +157,7 @@ public class SparseFlowDetector extends Detector {
                     KeyPoint[] blobsArray = blobs.toArray();
                     if (blobsArray.length != 0) {
                         Point blobCentre = blobsArray[0].pt;
+
                         blobCentre.x = blobCentre.x + eye.x;
                         blobCentre.y = blobCentre.y + eye.y;
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
@@ -173,7 +174,7 @@ public class SparseFlowDetector extends Detector {
         }
 
         /*sparseOpticalFlow Initiator/Calibration Alternator*/
-        if (face!=null&&(!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
+        if (face!=null && (!isFirstPairOfIrisFound || needCalibration) && isUniqueIrisIdentified(blob)&& eyeBoundary.size()==2) {
             sparseOpticalFlowMediator.resetSparseOpticalFlow();
             for (Integer roiID : blob.keySet()) {
                 sparseOpticalFlowMediator.setROIPoints(roiID, blob.get(roiID));
@@ -287,13 +288,16 @@ public class SparseFlowDetector extends Detector {
 
     @Override
     public DetectionData updateDetector(DetectionData detectionData) {
-            SparseFlowDetectionData detectionDataSparse = (SparseFlowDetectionData) detectionData;
-            Mat newFrame = detect(detectionDataSparse.getFrame());
-            detectionDataSparse.updateFrame((newFrame));
+            SparseFlowDetectionData sparseFlowDetectionData = (SparseFlowDetectionData) detectionData;
+            Mat newFrame = detect(sparseFlowDetectionData.getFrame());
+            sparseFlowDetectionData.updateFrame((newFrame));
             return detectionData;
     }
 
-
+    @Override
+    public void clear() {
+        /*TODO fill accordingly*/
+    }
 
 
     /**

@@ -1,17 +1,15 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -61,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private final int RC_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
     private  final int FRAME_THRESHOLD = 20;
-
-
 
 
     @Override
@@ -124,8 +120,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter();
+        recyclerViewAdapter = new MainRecyclerViewAdapter(displaymetrics,RC_FIXED_DIMENSION);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
         binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
         binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
-        initialiseApproach(Approach.OPEN_CV_SPARSE_FLOW);
+        initialiseApproach(Approach.OPENCV_SPARSE_FLOW);
 
         storageViewModel.getAllContents().observe(this, new Observer<List<Content>>() {
             @Override
@@ -145,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,contents.size());
             }
         });
+
 
         mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
@@ -251,8 +250,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         final Detector detector = mainViewModel.getDetector();
-        if(detector.getApproach().equals(Approach.OPEN_CV_SPARSE_FLOW)){
+        if(detector.getApproach().equals(Approach.OPENCV_SPARSE_FLOW)){
             /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
+            Mat debugFrame = inputFrame.rgba();
             ((SparseFlowDetectionData) detectionData).setFrame(inputFrame.rgba());
             runOnUiThread(new Runnable() {
                 @Override
@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
     private void initialiseApproach(Approach approach){
-        if(approach.equals(Approach.OPEN_CV_SPARSE_FLOW) ){
+        if(approach.equals(Approach.OPENCV_SPARSE_FLOW) ){
             /*TODO We need to only activate this if the user has set for an approach which uses opencv -- most prolly use the stored data on the approach to check  first */
             Log.d(TAG,"opencv camera initialisation");
             binding.openCVCameraView.setVisibility(VISIBLE);
@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
             eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
             detectionData = new SparseFlowDetectionData(faceCascade,eyesCascade);
-            mainViewModel.createDetector(Approach.OPEN_CV_SPARSE_FLOW,detectionData);
+            mainViewModel.createDetector(Approach.OPENCV_SPARSE_FLOW,detectionData);
         }
 
     }

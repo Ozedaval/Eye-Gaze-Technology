@@ -21,7 +21,6 @@ public class MainViewModel extends ViewModel {
     private Detector detector;
     private ViewGazeController viewGazeController;
     private MutableLiveData<Integer> selectedViewHolderID;
-
     private DirectionMediator directionMediator;
     private MutableLiveData<Direction> gaugedDirection;
 
