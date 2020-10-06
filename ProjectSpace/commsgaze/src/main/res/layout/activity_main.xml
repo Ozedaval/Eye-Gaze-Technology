@@ -33,9 +33,9 @@
                 android:text="shop"
                 android:gravity="bottom"
                 android:textSize="50sp"
-                android:layout_marginLeft="10sp"
-                android:layout_marginTop="10sp"
-                android:layout_marginBottom="10sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:focusableInTouchMode="true"
                 android:cursorVisible="false"
                 android:focusable="false"
@@ -138,7 +138,7 @@
                 app:cardBackgroundColor="@color/colorSemiDarkGreen"
                 app:cardCornerRadius="10sp"
                 android:layout_weight="6"
-                android:layout_margin = "5sp">
+                android:layout_margin = "5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -161,9 +161,9 @@
                 app:cardBackgroundColor="@color/colorDarkRed"
                 app:cardCornerRadius="10sp"
                 android:layout_weight="3"
-                android:layout_marginBottom="5sp"
-                android:layout_marginLeft="5sp"
-                android:layout_marginRight="5sp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -184,11 +184,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:cardBackgroundColor="@color/colorSemiDarkGray"
-                app:cardCornerRadius="10sp"
+                app:cardCornerRadius="10dp"
                 android:layout_weight="1"
-                android:layout_marginBottom="5sp"
-                android:layout_marginLeft="5sp"
-                android:layout_marginRight="5sp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

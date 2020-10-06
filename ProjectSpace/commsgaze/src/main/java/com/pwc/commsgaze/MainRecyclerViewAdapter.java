@@ -26,16 +26,11 @@ import java.util.List;
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     public final static String TAG = "MainRecyclerViewAdapter";
     private List<Content> contents;
-    private int deviceHeight;
-    private int deviceWidth;
+    private int imageSize;
     private int fixedDimension;
 
-    MainRecyclerViewAdapter(DisplayMetrics displayMetrics,int fixedDimension){
-        /*TODO to consider for vertical orientation as well*/
-        deviceHeight = displayMetrics.heightPixels  ;
-        deviceWidth = displayMetrics.widthPixels;
-        Log.d(TAG,"Device Height "+ deviceHeight);
-        Log.d(TAG,"Device Width "+ deviceWidth);
+    MainRecyclerViewAdapter(int imageSize,int fixedDimension){
+       this.imageSize = imageSize;
         this.fixedDimension = fixedDimension;
 
     }
@@ -52,10 +47,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(contents.get(position).getWord());
         Uri imageUri = Uri.fromFile(new File(contents.get(position).getImageDirPath()));
-        int suitableDimension = deviceWidth/(fixedDimension+2);
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
-                .apply(new RequestOptions().override(suitableDimension,suitableDimension))
+                .apply(new RequestOptions().override(imageSize,imageSize))
                 .into(holder.imageView);
 
         holder.setAudioDirPath(contents.get(position).getAudioDirPath());

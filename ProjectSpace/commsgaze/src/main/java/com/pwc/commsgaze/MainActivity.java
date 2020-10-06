@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-        final DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+       ;
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter(displaymetrics,RC_FIXED_DIMENSION);
+        recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
+
         binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
         binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
