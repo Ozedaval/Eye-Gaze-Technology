@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             @Override
             public void onChanged(Boolean isDetected) {
                     DetectionData detectionData = mainViewModel.getDetectionData();
-                    /*Log.d(TAG,detectionData.toString());*/
+                    Log.d(TAG,detectionData.toString());
                     int faceRectVisibility = detectionData.getIsFaceDetected() ? VISIBLE : INVISIBLE;
                     int leftEyeRectVisibility = detectionData.getIsLeftEyeDetected() ? VISIBLE : INVISIBLE;
                     int rightEyeRectVisibility = detectionData.getIsRightEyeDetected() ? VISIBLE : INVISIBLE;
@@ -188,8 +188,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     binding.faceRectangleView.setVisibility(faceRectVisibility);
                     binding.eyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
                     binding.eyeRightRectangleView.setVisibility(rightEyeRectVisibility);
-
-
             }
         });
 

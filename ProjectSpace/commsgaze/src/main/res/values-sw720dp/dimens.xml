@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="size_main_bar">100dp</dimen>
-    <dimen name="margin_left_main_face">10dp</dimen>
-    <dimen name="margin_right_main_face">5dp</dimen>
-    <dimen name="margin_top_main_face">7dp</dimen>
-    <dimen name="margin_bottom_main_face">7dp</dimen>
+
 
     <dimen name="width_main_eye_rect_view">20dp</dimen>
     <dimen name="height_main_eye_rect_view">20dp</dimen>
@@ -16,14 +13,9 @@
     <dimen name="line_width_main_rect">3dp</dimen>
     <dimen name="size_main_text">20sp</dimen>
 
-    <dimen name="size_main_image">225dp</dimen>
-    <dimen name="margin_top_main_rv_item">15dp</dimen>
-    <dimen name="margin_left_main_rv_item">20dp</dimen>
-    <dimen name="margin_right_main_rv_item">20dp</dimen>
-    <dimen name="margin_main_rv_item_card_view">10dp</dimen>
-    <dimen name="padding_main_rv_item_linear_layout">15dp</dimen>
-    <dimen name="margin_bottom_main_rv_item_text_view">10dp</dimen>
+    <dimen name="size_main_image">220dp</dimen>
     <dimen name="size_main_rv_item_text_view">25sp</dimen>
-    <dimen name="margin_bottom_main_rv_item">15dp</dimen>
+    <dimen name="margin_top_main_rv_item">20dp</dimen>
+    <dimen name="margin_bottom_main_rv_item">20dp</dimen>
 
 </resources>
