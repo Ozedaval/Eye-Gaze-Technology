@@ -7,3 +7,4 @@ package com.pwc.commsgaze;
 public enum Direction {
     TOP,LEFT,NEUTRAL,RIGHT,BOTTOM,UNKNOWN;
 }
+

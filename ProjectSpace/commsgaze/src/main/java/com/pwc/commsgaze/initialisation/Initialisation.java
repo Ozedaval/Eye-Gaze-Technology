@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.pwc.commsgaze.R;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,8 +19,9 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 import static com.pwc.commsgaze.utils.FileUtil.CONTENT_RES_HEADER;
 import static com.pwc.commsgaze.utils.FileUtil.IMAGE_RES_HEADER;
-import static com.pwc.commsgaze.utils.FileUtil.customFileFormatChecker;
+import static com.pwc.commsgaze.utils.FileUtil.isContentFileNameFormatted;
 import static com.pwc.commsgaze.utils.FileUtil.hasExternalStoragePrivateData;
+import static com.pwc.commsgaze.utils.FileUtil.write;
 
 /*An AsyncTask class which is used for initialising intensive background tasks.
  * TODO change to java.util.concurrent or Kotlin co-routines as Asynctasks are recently being deprecated*/
@@ -68,15 +70,14 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
             File externalFileDir = context.getExternalFilesDir(null);
 
-            String word;
+            String fileName;
             int resourceID;
-            String imgName;
             for(int i=0;i<fields.length;i++){
-                if((word = fields[i].getName()).contains(CONTENT_RES_HEADER)) {
+                if((fileName= fields[i].getName()).contains(CONTENT_RES_HEADER)) {
                     /*Looking for only content related files*/
-                    if (customFileFormatChecker(word)){
-                        word = word.substring(word.indexOf("_"));
-                        imgName = IMAGE_RES_HEADER + word;
+                    if (isContentFileNameFormatted(fileName)){
+                        String word = fileName.substring(fileName.indexOf("_"));
+                        String imgName = IMAGE_RES_HEADER + word;
                         Log.d(TAG, "Image File Name  " + imgName);
 
                         contentImgExternalFiles.add(new File(externalFileDir, imgName));
@@ -87,7 +88,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
                     }
                     else{
-                        throw new AssertionError("Starter File: "+ word +" is not formatted correctly in accordance to the custom format we are using!");
+                        throw new AssertionError("Starter Content File: "+ fileName +" is not formatted correctly in accordance to the custom format we are using!");
                     }
                 }
             }
@@ -99,7 +100,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... voids) {
-        /*TODO: Need to delete xml and content data, which will attached to apk*/
         try {
 
             write(faceModelInputStream,faceModelOutputStream);
@@ -109,7 +109,7 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
                 write(contentInputStreams.get(i),contentOutputStreams.get(i));
             }
 
-            /*TODO: Remove this once code - review is done*/
+            /*For Debugging*/
             for(File file: contentImgExternalFiles) {
                 Log.d(TAG,"Abs "+file.getAbsolutePath());
                 Log.d(TAG,"Can "+file.getCanonicalPath());
@@ -131,27 +131,6 @@ class Initialisation extends AsyncTask<Void,Void,Boolean> {
         initialisationFragmentWeakReference.clear();
         Log.d(TAG ," onPostExecute Called & "+ getStatus()+bool);
     }
-
-
-    /**
-     *Writes onto the OutputStream  based on the InputStream values
-     * @param in:The Stream which consist of the writable data.
-     * @param out:The Stream upon which data is to be written.
-     * https://stackoverflow.com/questions/8664468/copying-raw-file-into-sdcard*/
-    private void write(InputStream in, FileOutputStream out) throws IOException {
-        byte[] buff = new byte[in.available()];
-        int read = 0;
-        try {
-            while ((read = in.read(buff)) > 0) {
-                out.write(buff, 0, read);
-            }
-        } finally {
-            in.close();
-            out.close();
-        }
-        Log.d("Initialisation ", "Done  Copying");
-    }
-
 
 
 }

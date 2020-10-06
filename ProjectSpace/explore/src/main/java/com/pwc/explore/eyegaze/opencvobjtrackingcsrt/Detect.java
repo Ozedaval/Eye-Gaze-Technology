@@ -308,20 +308,20 @@ public class Detect {
                     estimatedDirection=RIGHT;
                     break;
                 case NEUTRAL:
-                    if(!(currentGazeStatus== GazeStatus.LEFT||currentGazeStatus== GazeStatus.RIGHT)){
+                    if(!(currentGazeStatus == GazeStatus.LEFT || currentGazeStatus == GazeStatus.RIGHT)){
                         currentGazeStatus = GazeStatus.NEUTRAL;
-                        estimatedDirection=NEUTRAL;
+                        estimatedDirection = NEUTRAL;
                     }
                     else{
-                        estimatedDirection=prevDirection;
+                        estimatedDirection = prevDirection;
                     }
             }
         }
         else{
             isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,true));
             if(isStableNeutral()){
-                currentGazeStatus= GazeStatus.NEUTRAL;
-                prevDirection=NEUTRAL;
+                currentGazeStatus = GazeStatus.NEUTRAL;
+                prevDirection = NEUTRAL;
                 Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");
                 return NEUTRAL;
             }

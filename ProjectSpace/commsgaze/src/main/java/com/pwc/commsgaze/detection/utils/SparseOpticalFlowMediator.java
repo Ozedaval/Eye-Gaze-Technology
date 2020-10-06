@@ -1,4 +1,4 @@
-package com.pwc.commsgaze.detection.gazeutils;
+package com.pwc.commsgaze.detection.utils;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;

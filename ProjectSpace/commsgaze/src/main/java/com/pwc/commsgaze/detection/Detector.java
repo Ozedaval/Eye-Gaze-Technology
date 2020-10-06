@@ -8,5 +8,7 @@ public abstract class Detector {
      public abstract void reset();
      public abstract Approach getApproach();
      public abstract DetectionData updateDetector(DetectionData detectionData);
+     /*Ideally to manually release resources used by the detector*/
+     public abstract void clear();
 
 }
