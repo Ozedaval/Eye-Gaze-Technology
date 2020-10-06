@@ -1,5 +1,14 @@
 package com.pwc.explore;
 
+import android.content.Context;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
 public class RealTimeTest {
     private int numOfTry;
     private int numOfCorrect;
@@ -17,4 +26,30 @@ public class RealTimeTest {
     public void setNumOfCorrect(int numOfCorrect) { this.numOfCorrect = numOfCorrect; }
     public float getAccuracy() { return accuracy; }
     public void setAccuracy() { this.accuracy = (float) (this.numOfCorrect * 100) / this.numOfTry; }
+
+    public void saveResult(Context context) {
+        String TAG = "RealTimeTest";
+        try {
+            FileWriter out = new FileWriter(new File(context.getFilesDir(), "testResult.txt"));
+            Log.d(TAG, "saveResult :" +context.getFilesDir());
+            out.write(toString());
+            out.close();
+            Log.d(TAG, "saveResult");
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "RealTimeTest {" +
+                "numOfTry=" + numOfTry +
+                ", numOfCorrect=" + numOfCorrect +
+                ", accuracy=" + accuracy + '%' +
+                '}';
+    }
+
 }
