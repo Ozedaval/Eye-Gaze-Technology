@@ -42,7 +42,8 @@
                 android:inputType="none">
             </EditText>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainFaceConstraintLayout"
                 android:layout_width="@dimen/size_main_bar"
                 android:layout_height="@dimen/size_main_bar">
 
@@ -52,48 +53,58 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/app_face">
                 </ImageView>
-
-                <com.pwc.commsgaze.customview.RectangleView
-                    android:id="@+id/mainFaceRectangleView"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mainDetectionConstraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    app:lineWidth="2"
-                    app:color="@color/colorSemiDarkGreen"
-                    tools:ignore="RtlHardcoded">
-                </com.pwc.commsgaze.customview.RectangleView>
+                    android:layout_marginLeft="@dimen/margin_left_main_face"
+                    android:layout_marginRight="@dimen/margin_right_main_face"
+                    android:layout_marginTop="@dimen/margin_top_main_face"
+                    android:layout_marginBottom="@dimen/margin_bottom_main_face">
 
-                <com.pwc.commsgaze.customview.RectangleView
-                    android:id="@+id/mainFirstEyeRectangleView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15sp"
-                    android:layout_marginRight="25sp"
-                    android:layout_marginTop="30sp"
-                    android:layout_marginBottom="35sp"
-                    app:lineWidth="3"
-                    app:color="@color/colorPrimaryDark"
-                    tools:ignore="RtlHardcoded">
-                </com.pwc.commsgaze.customview.RectangleView>
+                    <com.pwc.commsgaze.customview.RectangleView
+                        android:id="@+id/faceRectangleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:foregroundGravity="center_horizontal"
+                        app:color="@color/colorSemiDarkGreen"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:line_width="@dimen/line_width_main_rect" />
 
-                <com.pwc.commsgaze.customview.RectangleView
-                    android:id="@+id/mainSecondEyeRectangleView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30sp"
-                    android:layout_marginRight="10sp"
-                    android:layout_marginTop="30sp"
-                    android:layout_marginBottom="35sp"
-                    app:lineWidth="3"
-                    app:color="@color/colorPrimaryDark"
-                    tools:ignore="RtlHardcoded">
-                </com.pwc.commsgaze.customview.RectangleView>
+                    <com.pwc.commsgaze.customview.RectangleView
+                        android:id="@+id/eyeLeftRectangleView"
+                        android:layout_width="@dimen/width_main_eye_rect_view"
+                        android:layout_height="@dimen/height_main_eye_rect_view"
+                        android:layout_marginRight="@dimen/margin_right_main_left_eye"
+                        android:layout_marginBottom="@dimen/margin_bottom_main_eye"
+                        app:color="@color/colorPrimaryDark"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:line_width="@dimen/line_width_main_rect" />
 
 
-            </RelativeLayout>
+                    <com.pwc.commsgaze.customview.RectangleView
+                        android:id="@+id/eyeRightRectangleView"
+                        android:layout_width="@dimen/width_main_eye_rect_view"
+                        android:layout_height="@dimen/height_main_eye_rect_view"
+                        android:layout_marginLeft="@dimen/margin_left_main_right_eye"
+                        android:layout_marginBottom="@dimen/margin_bottom_main_eye"
+                        app:color="@color/colorPrimaryDark"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:line_width="@dimen/line_width_main_rect" />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
 
@@ -133,7 +144,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/main_enter"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/size_main_text"
                         android:textColor="@color/colorWhite"
                         android:gravity="center"
                         android:textStyle="bold">
@@ -158,7 +169,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/main_clear"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/size_main_text"
                         android:textColor="@color/colorWhite"
                         android:gravity="center"
                         android:textStyle="bold">
@@ -183,7 +194,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/main_settings"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/size_main_text"
                         android:textColor="@color/colorWhite"
                         android:gravity="center"
                         android:textStyle="bold">

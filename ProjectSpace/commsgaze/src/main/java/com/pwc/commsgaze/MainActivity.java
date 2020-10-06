@@ -1,6 +1,7 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
     /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
-  /*    Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
+      Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
         for (Button button : testButtons) {
             button.setOnClickListener(new Button.OnClickListener() {
                 @Override
@@ -188,7 +189,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     mainViewModel.updateViewGazeController(decipheredDirection);
                 }
             });
-        }*/
+        }
+
 
 
         mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {

@@ -2,6 +2,6 @@
 <resources>
     <declare-styleable name="RectangleView">
         <attr name="color" format="color"/>
-        <attr name="lineWidth" format="integer"/>
+        <attr name="line_width" format="dimension"/>
     </declare-styleable>
 </resources>
