@@ -1,17 +1,14 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -145,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,contents.size());
             }
         });
+
 
         mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
             @Override
