@@ -1,5 +1,7 @@
 package com.pwc.commsgaze.detection;
 
+import android.util.Log;
+
 import com.pwc.commsgaze.Direction;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
@@ -22,9 +24,8 @@ import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Stack;
 
 import static com.pwc.commsgaze.Direction.LEFT;
 import static com.pwc.commsgaze.Direction.NEUTRAL;
@@ -46,17 +47,21 @@ public class SparseFlowDetector extends Detector {
     private Direction prevDirection;
     private DetectionSmoother faceDetectionSmoother;
     private Rect prevFace;
-    private static final float FACE_MOVEMENT_THRESHOLD=0.1f;
+    private static final float FACE_MOVEMENT_THRESHOLD = 0.1f;
     private GazeStatus currentGazeStatus;
-    private Queue<Boolean> isNeutralQueue;
-    private static final int STABLE_NEUTRAL_QUEUE_THRESHOLD = 2;
+    private Stack<Boolean> isNeutralStack;
+    private static final int STABLE_NEUTRAL_STACK_THRESHOLD = 2;
     private final Approach approach = Approach.OPENCV_SPARSE_FLOW;
-    private  CascadeClassifier faceCascade;
-    private  CascadeClassifier eyeCascade;
+    private CascadeClassifier faceCascade;
+    private CascadeClassifier eyeCascade;
+    private boolean isFaceDetected;
+    private boolean isLeftEyeDetected;
+    private boolean isRightEyeDetected;
 
 
 
-     SparseFlowDetector(DetectionData detectionData) {
+
+    SparseFlowDetector(DetectionData detectionData) {
         SparseFlowDetectionData sparseFlowDetectionData = (SparseFlowDetectionData)detectionData;
         direction = UNKNOWN;
         simpleBlobDetector = SimpleBlobDetector.create();
@@ -64,13 +69,11 @@ public class SparseFlowDetector extends Detector {
         sparseOpticalFlowMediator = new SparseOpticalFlowMediator(new Size(30, 30), 2);
         gazeEstimator = new GazeEstimator(0.33f);
         faceDetectionSmoother=new DetectionSmoother(0.2f);
-        isNeutralQueue = new LinkedList<>();
+        isNeutralStack = new Stack<>();
         currentGazeStatus = GazeStatus.UNKNOWN;
         this.faceCascade = sparseFlowDetectionData.getFaceCascade();
         this.eyeCascade = sparseFlowDetectionData.getEyeCascade();
     }
-
-
 
 
     /**
@@ -84,7 +87,7 @@ public class SparseFlowDetector extends Detector {
      * Note: "Sparse" Points are re-calibrated every 30 frames or if the face has significantly moved,given that Iris can be detected.
      * See https://docs.google.com/presentation/d/1f_IIDERz56QFGvuWGBGN9E3q1qTx5n0Pq30BDqufBJk/edit#slide=id.g857a29acf1_0_2481
      * @param frame: OpenCV multidimensional array like form of the Image.
-    */
+     */
     Mat detect(Mat frame) {
         /*Thread.dumpStack();*/
         /*Log.d(TAG,"Detect method called");*/
@@ -118,6 +121,7 @@ public class SparseFlowDetector extends Detector {
             /*Displaying the boundary of the detected face*/
             Imgproc.rectangle(frame, face, new Scalar(0, 250, 0));
             Mat faceROI = frameGray.submat(face);
+            isFaceDetected = true;
 
             if (!isFirstPairOfIrisFound || needCalibration) {
 
@@ -143,6 +147,9 @@ public class SparseFlowDetector extends Detector {
                     /*Displaying boundary of the detected eye*/
                     Imgproc.rectangle(frame, eye, new Scalar(10, 0, 255));
 
+                    /*Updating Detection Flag accordingly*/
+
+
                     /*Iris Detection via Blob Detection*/
                     Mat eyeROICanny = new Mat();
                     Imgproc.Canny(eyesROI[i], eyeROICanny, 50, 50 * 3);
@@ -163,10 +170,11 @@ public class SparseFlowDetector extends Detector {
                         Imgproc.circle(frame, blobCentre, 2, new Scalar(255, 0, 0), 4);
                        /* Log.d(TAG,"Height "+eye.height+"Width "+eye.width);
                         Log.d(TAG,"Iris Centre X"+blobCentre.x+"Iris Centre Y"+blobCentre.y);*/
-                        float irisRadius = 2;//TODO(Need to find a value dependent on the size of the eye )
+                        float irisRadius = 2;
                         blob.put(i, getIrisSparsePoint(irisRadius, blobCentre));
                     }
                 }
+                updateEyeDetectionFlag( eyeBoundary,face);
             }
         }
         else {
@@ -206,6 +214,31 @@ public class SparseFlowDetector extends Detector {
     }
 
 
+    void updateEyeDetectionFlag(List<Rect> eyes,Rect face){
+        for(Rect eye:eyes){
+            /*Center of the eye compared to the one half of the face*/
+            if(eye.x+(eye.width/2)<=face.x+(face.width/2)){
+                isRightEyeDetected = true;
+                /*Log.d(TAG,"Right eye is detected");*/
+            }
+            else {
+                isLeftEyeDetected = true;
+               /* Log.d(TAG,"Left eye is detected");*/
+            }
+        }
+    }
+
+
+    void clearDetectionFlags(boolean considerOnlyEyes) {
+
+        if(considerOnlyEyes){
+            isLeftEyeDetected=false;
+            isRightEyeDetected = false;
+        }
+        else{ isFaceDetected = false;}
+    }
+
+
     /**
      * Checks if face has moved based on a threshold value and previous position of the Face
      * @param currentFace: A Section of the current frame which focuses on the Face
@@ -239,6 +272,7 @@ public class SparseFlowDetector extends Detector {
         }
         if(hasFaceMoved){
             needCalibration=true;
+            clearDetectionFlags(true);
             return;
         }
         if (frameCount > FRAME_CALIBRATION_RATE) {
@@ -246,6 +280,7 @@ public class SparseFlowDetector extends Detector {
                 frameCount = 0;
                 needCalibration = false;
             } else {
+                clearDetectionFlags(true);
                 needCalibration = true;
             }
         }
@@ -276,8 +311,9 @@ public class SparseFlowDetector extends Detector {
         return direction;
     }
 
+
     @Override
-   public void reset() {
+    public void reset() {
         sparseOpticalFlowMediator.resetSparseOpticalFlow();
     }
 
@@ -288,16 +324,21 @@ public class SparseFlowDetector extends Detector {
 
     @Override
     public DetectionData updateDetector(DetectionData detectionData) {
-            SparseFlowDetectionData sparseFlowDetectionData = (SparseFlowDetectionData) detectionData;
-            Mat newFrame = detect(sparseFlowDetectionData.getFrame());
-            sparseFlowDetectionData.updateFrame((newFrame));
-            return detectionData;
+        clearDetectionFlags(false);
+        SparseFlowDetectionData sparseFlowDetectionData = (SparseFlowDetectionData) detectionData;
+        Mat newFrame = detect(sparseFlowDetectionData.getFrame());
+        sparseFlowDetectionData.updateFrame((newFrame));
+       /* Log.d(TAG,"IsFacedDetected "+ isFaceDetected + " isLeftEyeDetected "+ isLeftEyeDetected + " isRightEyeDetected "+ isRightEyeDetected);*/
+        sparseFlowDetectionData.updateDetectionFlags(isFaceDetected,isLeftEyeDetected,isRightEyeDetected);
+        return detectionData;
     }
 
     @Override
     public void clear() {
         /*TODO fill accordingly*/
     }
+
+
 
 
     /**
@@ -358,11 +399,11 @@ public class SparseFlowDetector extends Detector {
             }
         }
         else{
-            isNeutralQueue.add(gazeEstimator.isNeutral(currentPoints,true));
+            isNeutralStack.add(gazeEstimator.isNeutral(currentPoints,true));
             if(isStableNeutral()){
                 currentGazeStatus=GazeStatus.NEUTRAL;
                 prevDirection=NEUTRAL;
-               /* Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");*/
+                /* Log.d(TAG,"if- isStableNeutral returning NEUTRAL ");*/
                 return NEUTRAL;
             }
         }
@@ -381,18 +422,18 @@ public class SparseFlowDetector extends Detector {
      * Checks if the estimated Gaze Direction(Neutral) is a "True Positive"
      * @return true if the estimated Neutral is actually neutral */
     private boolean isStableNeutral(){
-        if(isNeutralQueue.size()< STABLE_NEUTRAL_QUEUE_THRESHOLD){
+        if(isNeutralStack.size()< STABLE_NEUTRAL_STACK_THRESHOLD){
             return false;
         }
         else{
             boolean isStableNeutral=true;
-            for(int i=0;i<STABLE_NEUTRAL_QUEUE_THRESHOLD+1;i++){
-                Boolean isNeutralVal = isNeutralQueue.poll();
+            for(int i = 0; i< STABLE_NEUTRAL_STACK_THRESHOLD; i++){
+                Boolean isNeutralVal = isNeutralStack.pop();
                 if (isNeutralVal != null) {
                     isStableNeutral = isStableNeutral && isNeutralVal;
                 }
             }
-            isNeutralQueue.clear();
+            isNeutralStack.clear();
             return  isStableNeutral;
         }
     }

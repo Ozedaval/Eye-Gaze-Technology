@@ -23,6 +23,27 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<Integer> selectedViewHolderID;
     private DirectionMediator directionMediator;
     private MutableLiveData<Direction> gaugedDirection;
+    private MutableLiveData<Boolean> isDetected;
+    private DetectionData detectionData;
+
+    LiveData<Boolean> getIsDetected(){
+        if(isDetected == null)
+            isDetected = new MutableLiveData<>();
+        return isDetected;
+    }
+
+    public DetectionData getDetectionData() {
+        return detectionData;
+    }
+
+    public void setDetectionData(DetectionData detectionData) {
+        this.detectionData = detectionData;
+    }
+
+    void updateDetectionStatus(){
+        /*Log.d(TAG,"updateDetection Status" + detectionData.getIsDetected());*/
+        isDetected.setValue(detectionData.getIsDetected());
+    }
 
     LiveData<Direction> getGaugedDirection() {
         if(gaugedDirection == null)
@@ -61,7 +82,6 @@ public class MainViewModel extends ViewModel {
 
     void initialiseDirectionMediator(int frameThreshold){
         directionMediator = new DirectionMediator(frameThreshold);
-
     }
 
 

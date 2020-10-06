@@ -9,8 +9,8 @@
     <dimen name="width_main_eye_rect_view">15sp</dimen>
     <dimen name="height_main_eye_rect_view">15sp</dimen>
     <dimen name="margin_bottom_main_eye">5sp</dimen>
-    <dimen name="margin_right_main_left_eye">17sp</dimen>
-    <dimen name="margin_left_main_right_eye">17sp</dimen>
+    <dimen name="margin_right_main_left_eye">20sp</dimen>
+    <dimen name="margin_left_main_right_eye">20sp</dimen>
 
 
     <dimen name="line_width_main_rect">2sp</dimen>

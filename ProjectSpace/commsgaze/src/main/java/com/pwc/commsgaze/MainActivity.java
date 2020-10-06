@@ -41,6 +41,7 @@ import org.opencv.objdetect.CascadeClassifier;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private static final String TAG = "MainActivity";
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager gridLayoutManager;
-    private DetectionData detectionData;
     private final int RC_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
     private  final int FRAME_THRESHOLD = 20;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-        DisplayMetrics displaymetrics = new DisplayMetrics();
+        final DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
         recyclerViewAdapter = new MainRecyclerViewAdapter(displaymetrics,RC_FIXED_DIMENSION);
@@ -150,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             @Override
             public void onChanged(final Integer integer) {
 
-                System.out.println(mainViewModel.getPreviousSelectedViewHolderID());
                 MainRecyclerViewAdapter.ViewHolder prevViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(mainViewModel.getPreviousSelectedViewHolderID());
 
                 if(prevViewHolder!=null) {
@@ -172,13 +171,32 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
                 /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
 
+
+            }
+        });
+
+        /*Using this observer pattern instead of using onCameraFrame(), just in case if other library or API is decided to be used for an approach*/
+        mainViewModel.getIsDetected().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isDetected) {
+                    DetectionData detectionData = mainViewModel.getDetectionData();
+                    /*Log.d(TAG,detectionData.toString());*/
+                    int faceRectVisibility = detectionData.getIsFaceDetected() ? VISIBLE : INVISIBLE;
+                    int leftEyeRectVisibility = detectionData.getIsLeftEyeDetected() ? VISIBLE : INVISIBLE;
+                    int rightEyeRectVisibility = detectionData.getIsRightEyeDetected() ? VISIBLE : INVISIBLE;
+
+                    binding.faceRectangleView.setVisibility(faceRectVisibility);
+                    binding.eyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
+                    binding.eyeRightRectangleView.setVisibility(rightEyeRectVisibility);
+
+
             }
         });
 
 
 
-    /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
-      Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
+        /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+        Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
         for (Button button : testButtons) {
             button.setOnClickListener(new Button.OnClickListener() {
                 @Override
@@ -192,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
 
 
-
         mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
             @Override
             public void onChanged(Direction direction) {
@@ -201,9 +218,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
         });
 
-
     }
-
 
 
     @Override
@@ -215,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG,  "is First Run is "+isFirstRun);
     }
+
 
     @Override
     protected void onResume() {
@@ -239,36 +255,40 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
+
     @Override
     public void onCameraViewStarted(int width, int height) {
-
     }
+
 
     @Override
     public void onCameraViewStopped() {
 
     }
 
+
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         final Detector detector = mainViewModel.getDetector();
         if(detector.getApproach().equals(Approach.OPENCV_SPARSE_FLOW)){
             /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
-            Mat debugFrame = inputFrame.rgba();
-            ((SparseFlowDetectionData) detectionData).setFrame(inputFrame.rgba());
+
+            /*TODO call updateDetector before getDirection*/
+            ((SparseFlowDetectionData) mainViewModel.getDetectionData()).setFrame(inputFrame.rgba());
+            Mat updatedFrame = ((SparseFlowDetectionData) detector.updateDetector(mainViewModel.getDetectionData())).getFrame();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
                     mainViewModel.updateDirectionMediator(detector.getDirection());
+                    mainViewModel.updateDetectionStatus();
 
                 }
             });
-            return  ((SparseFlowDetectionData) detector.updateDetector(detectionData)).getFrame();
+            return  updatedFrame;
         }
         return inputFrame.rgba();
     }
-
 
 
 
@@ -283,21 +303,20 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             binding.openCVCameraView.setCvCameraViewListener(this);
             binding.openCVCameraView.bringToFront();
 
-            /*TODO check  approach before intialising detectionData */
+
             CascadeClassifier faceCascade = new CascadeClassifier();
             CascadeClassifier eyesCascade = new CascadeClassifier();
-            /*Log.d(TAG, Arrays.toString(fileList()));
-              Log.d(TAG, getFileStreamPath("eyeModel.xml").getAbsolutePath());
-              Log.d(TAG, getFileStreamPath("faceModel.xml").getAbsolutePath());*/
             faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
             eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
-            detectionData = new SparseFlowDetectionData(faceCascade,eyesCascade);
+            DetectionData detectionData = new SparseFlowDetectionData(faceCascade,eyesCascade);
+            mainViewModel.setDetectionData(detectionData);
             mainViewModel.createDetector(Approach.OPENCV_SPARSE_FLOW,detectionData);
         }
 
     }
 
-    /*TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
+
+    /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
     Direction customTestButtonParser(String buttonText){
         Direction[] directions = Direction.values();
         for(Direction direction:directions){
