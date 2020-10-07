@@ -116,8 +116,10 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
             realTimeTest.setNumOfCorrect(realTimeTest.getNumOfCorrect() + 1);
         realTimeTest.setAccuracy();
         binding.calculatedAccTextView.setText(realTimeTest.getAccuracy() +" %");
-        if (realTimeTest.getNumOfTry() % 100 == 0)
-            realTimeTest.saveResult(this);
+        if (realTimeTest.getNumOfTry() % 100 == 0) {
+            realTimeTest.saveResult(this, false);
+            realTimeTest.saveResult(this, true);
+        }
     }
 
     public void rightButton(View view) {
@@ -126,8 +128,10 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
             realTimeTest.setNumOfCorrect(realTimeTest.getNumOfCorrect() + 1);
         realTimeTest.setAccuracy();
         binding.calculatedAccTextView.setText(realTimeTest.getAccuracy() +" %");
-        if (realTimeTest.getNumOfTry() % 100 == 0)
-            realTimeTest.saveResult(this);
+        if (realTimeTest.getNumOfTry() % 100 == 0) {
+            realTimeTest.saveResult(this, false);
+            realTimeTest.saveResult(this, true);
+        }
     }
 
     public void neutralButton(View view) {
@@ -136,7 +140,9 @@ public class EyeGazeEventActivity extends AppCompatActivity implements CameraBri
             realTimeTest.setNumOfCorrect(realTimeTest.getNumOfCorrect() + 1);
         realTimeTest.setAccuracy();
         binding.calculatedAccTextView.setText(realTimeTest.getAccuracy() +" %");
-        if (realTimeTest.getNumOfTry() % 100 == 0)
-            realTimeTest.saveResult(this);
+        if (realTimeTest.getNumOfTry() % 100 == 0) {
+            realTimeTest.saveResult(this, false);
+            realTimeTest.saveResult(this, true);
+        }
     }
 }

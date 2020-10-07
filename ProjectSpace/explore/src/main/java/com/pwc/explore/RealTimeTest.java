@@ -1,6 +1,7 @@
 package com.pwc.explore;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -27,13 +28,20 @@ public class RealTimeTest {
     public float getAccuracy() { return accuracy; }
     public void setAccuracy() { this.accuracy = (float) (this.numOfCorrect * 100) / this.numOfTry; }
 
-    public void saveResult(Context context) {
+    public void saveResult(Context context, Boolean isInternal) {
         String TAG = "RealTimeTest";
         try {
-            FileWriter out = new FileWriter(new File(context.getFilesDir(), "testResult.txt"));
+            if (isInternal) {
+                FileWriter out = new FileWriter(new File(context.getFilesDir(), "testResult.txt"));
+                out.write(toString());
+                out.close();
+            }
+            else {
+                FileWriter out = new FileWriter(new File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "testResult.txt"));
+                out.write(toString());
+                out.close();
+            }
             Log.d(TAG, "saveResult :" +context.getFilesDir());
-            out.write(toString());
-            out.close();
             Log.d(TAG, "saveResult");
         }
         catch (FileNotFoundException e) {
