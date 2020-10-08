@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.pwc.explore.Direction;
 
+import org.opencv.core.Core;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -36,6 +37,7 @@ public class Detect {
     private SimpleBlobDetector simpleBlobDetector;
     private static final String TAG = "Detect";
     private boolean needCalibration;
+    private boolean lookdown;
     private int frameCount;
     private static final int FRAME_CALIBRATION_RATE = 90;
     private GazeEstimator gazeEstimator;
@@ -54,6 +56,7 @@ public class Detect {
     private TrackerCSRT trackerCSRTFirst;
     private TrackerCSRT trackerCSRTSecond;
     private  TrackerCSRT[] trackerCSRTs;
+    private int noofblack;
     ArrayList<Rect> eyeBoundary;
     HashMap<Integer, Point[]> prevPoints;
     HashMap<Integer, Point[]> currentPoints;
@@ -83,9 +86,12 @@ public class Detect {
     Mat detect(Mat frame) {
         Mat frameGray = new Mat();
         Mat frameRGB = new Mat();
+        Mat frameHSV= new Mat(); //new direction code
+
         frameCount++;
         /*Creating RGB variant of frame*/
         Imgproc.cvtColor(frame,frameRGB,Imgproc.COLOR_RGBA2RGB);
+        Imgproc.cvtColor(frame,frameHSV,Imgproc.COLOR_BGR2HSV); //new direction code
         HashMap<Integer, Point[]> blob = new HashMap<>();
 
 
@@ -124,6 +130,7 @@ public class Detect {
 
 
                 Mat[] eyesROI=new Mat[listOfEyesRect.size()];
+                 Mat[] eyesROI2=new Mat[listOfEyesRect.size()]; //new code for direction
 
 
 
@@ -178,6 +185,14 @@ public class Detect {
                             //  Log.d(TAG, "is Tracker Init: " + isTrackerInitialised);
                             blob.put(i, new Point[]{blobcentre});
                         }
+                        double sum=0;                                                   //new
+                        for (int k=0;k<5;k++) {                                         //new
+                            sum+=getLookdownposition(eye, frameHSV);                    //new
+                        }                                                               //new
+                        if(sum/5<95){                                                   //new
+                            lookdown=false;                                             //new
+                        }                                                               //new
+                        else{lookdown=true;}                                            //new
                         /*Log.d(TAG,"list of Rect2d :" +listOfEyesRect2d.toString());*/
                     }
                     gazeEstimator.updateEyesBoundary(eyeBoundary);
@@ -202,6 +217,14 @@ public class Detect {
                 if(success) {
                    // Log.d(TAG, "Updated" + i+"th Iris Rect (x,y): " + irisUpdatedRect.x + ", " + irisUpdatedRect.y);
                    // Imgproc.rectangle(frame, eyeBoundary.get(i), new Scalar(255,0 , 0));
+                    double sum=0;                                                   //new
+                    for (int k=0;k<5;k++) {                                         //new
+                        sum+=getLookdownposition(eyeBoundary.get(i), frameHSV);     //new
+                    }                                                               //new
+                    if(sum/5<95){                                                   //new
+                        lookdown=false;                                             //new
+                    }                                                               //new
+                    else{lookdown=true;}                                            //new
                     Imgproc.circle(frame, new Point(irisUpdatedRect.x + eyeBoundary.get(i).width / 7.5, irisUpdatedRect.y + eyeBoundary.get(i).width / 7.5), 3, new Scalar(0, 255, 0));
                     Point point = new Point(irisUpdatedRect.x + eyeBoundary.get(i).width / 7.5, irisUpdatedRect.y + eyeBoundary.get(i).width / 7.5);
                     currentPoints.put(i, new Point[]{point});
@@ -272,7 +295,27 @@ public class Detect {
             }
         }
     }
-
+    /**
+     * Return true if the given frame have the eye look down
+     * @param eye: give it the Rect of the eye
+     * @param frameHSV: give it the current frame
+     * @return Boolean true or false to tell eye look down or not*/
+    private double getLookdownposition(Rect eye, Mat frameHSV){
+        Mat blacksub=new Mat();// new code
+        Rect eye2 = new Rect(eye.x,eye.y,eye.width,eye.height/2); //new code for direction
+        Mat eyesROI2=frameHSV.submat(eye2);// new code for direction
+        Scalar blacklow= new Scalar(0,0,0);//new code
+        Scalar blackhigh=new Scalar(360,255,38.25);// new code
+        Core.inRange(eyesROI2,blacklow,blackhigh,blacksub);//new code
+        noofblack=Core.countNonZero(blacksub);
+        Log.d(TAG, "eyesize "+eye.width);
+        Log.d(TAG, "eyesize "+eye.height);
+        Log.d(TAG, "eyesize "+eye.width*eye.height);
+        Log.d(TAG, "noofnonblack: "+noofblack);
+        Log.d(TAG, "noofnonblack: "+((double)(eye.width*eye.height/2-noofblack)/(eye.width*eye.height/2))*100);
+        double percentage=(double)((eye.width*eye.height/2-noofblack)/(eye.width*eye.height/2))*100;
+        return percentage;
+    }
 
     /**
      *Creates Points in relation to the iris centre co-ordinates and the iris radius
@@ -378,14 +421,7 @@ public class Detect {
      */
     private Direction gaugeEstimator(Direction currentDirection){
         if(currentGazeStatus==GazeStatus.ON_THE_WAY_TO_NEUTRAL){
-            switch (currentDirection){
-                case LEFT:
-                    gaugeDirection=RIGHT;
-                case RIGHT:
-                    gaugeDirection=LEFT;
-                case UNKNOWN:
-                    gaugeDirection=NEUTRAL;}
-            return gaugeDirection;
+            return NEUTRAL;
         }
         else{
            return currentDirection;
