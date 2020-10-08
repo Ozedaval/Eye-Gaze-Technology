@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eventTestCoordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <TextView
+            android:id="@+id/eventTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:text="Neutral"
+            android:textColor="@color/colorWhite"
+            opencv:layout_constraintBottom_toBottomOf="parent"
+            opencv:layout_constraintEnd_toEndOf="parent"
+            opencv:layout_constraintStart_toStartOf="parent"
+            opencv:layout_constraintTop_toTopOf="parent"
+            />
+
+
+        <org.opencv.android.JavaCameraView
+            android:id="@+id/openCVCameraView"
+            android:layout_width="320px"
+            android:layout_height="240px"
+            android:keepScreenOn="true"
+            android:visibility="visible"
+            opencv:camera_id="front"
+            opencv:layout_constraintStart_toStartOf="parent"
+            opencv:layout_constraintTop_toTopOf="parent"
+            opencv:show_fps="false" />
+
+        <Button
+            android:id="@+id/reCalibrateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="@string/re_calibrate"
+            android:onClick="reCalibrate"
+            opencv:layout_constraintEnd_toEndOf="parent"
+            opencv:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/leftButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="32dp"
+            android:onClick="leftButton"
+            android:text="LEFT"
+            opencv:layout_constraintBottom_toBottomOf="parent"
+            opencv:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/neutralButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:onClick="neutralButton"
+            android:text="NEUTRAL"
+            opencv:layout_constraintBottom_toBottomOf="parent"
+            opencv:layout_constraintEnd_toStartOf="@+id/rightButton"
+            opencv:layout_constraintStart_toEndOf="@+id/leftButton" />
+
+        <Button
+            android:id="@+id/rightButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:onClick="rightButton"
+            android:text="RIGHT"
+            opencv:layout_constraintBottom_toBottomOf="parent"
+            opencv:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/accuracyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Accuracy"
+            android:textColor="@color/colorWhite"
+            android:textSize="30sp"
+            opencv:layout_constraintEnd_toEndOf="parent"
+            opencv:layout_constraintStart_toStartOf="parent"
+            opencv:layout_constraintTop_toBottomOf="@+id/eventTextView" />
+
+        <TextView
+            android:id="@+id/calculatedAccTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 %"
+            android:textColor="@color/colorWhite"
+            android:textSize="30sp"
+            opencv:layout_constraintEnd_toEndOf="parent"
+            opencv:layout_constraintStart_toStartOf="parent"
+            opencv:layout_constraintTop_toBottomOf="@+id/accuracyTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
