@@ -1,14 +1,12 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private RecyclerView.LayoutManager gridLayoutManager;
     private final int RC_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
-    private  final int FRAME_THRESHOLD = 20;
+    private  final int SELECTION_THRESHOLD = 20;
+    private final int CLICK_INIT_THRESHOLD = 10;
 
 
     @Override
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-       ;
+        ;
 
         recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
         binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
-        mainViewModel.initialiseDirectionMediator(FRAME_THRESHOLD);
+        mainViewModel.initialiseDirectionMediator(SELECTION_THRESHOLD, CLICK_INIT_THRESHOLD);
 
 
 
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         });
 
 
-        mainViewModel.getSelectedViewHolderID().observe(this, new Observer<Integer>() {
+        mainViewModel.getSelectedDataIndex().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(final Integer integer) {
 
@@ -170,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 },100);
 
                 /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
-
-
             }
         });
 
@@ -179,18 +176,33 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         mainViewModel.getIsDetected().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isDetected) {
-                    DetectionData detectionData = mainViewModel.getDetectionData();
-                    Log.d(TAG,detectionData.toString());
-                    int faceRectVisibility = detectionData.getIsFaceDetected() ? VISIBLE : INVISIBLE;
-                    int leftEyeRectVisibility = detectionData.getIsLeftEyeDetected() ? VISIBLE : INVISIBLE;
-                    int rightEyeRectVisibility = detectionData.getIsRightEyeDetected() ? VISIBLE : INVISIBLE;
+                DetectionData detectionData = mainViewModel.getDetectionData();
+                /*  Log.d(TAG,detectionData.toString());*/
+                int faceRectVisibility = detectionData.getIsFaceDetected() ? VISIBLE : INVISIBLE;
+                int leftEyeRectVisibility = detectionData.getIsLeftEyeDetected() ? VISIBLE : INVISIBLE;
+                int rightEyeRectVisibility = detectionData.getIsRightEyeDetected() ? VISIBLE : INVISIBLE;
 
-                    binding.faceRectangleView.setVisibility(faceRectVisibility);
-                    binding.eyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
-                    binding.eyeRightRectangleView.setVisibility(rightEyeRectVisibility);
+                binding.faceRectangleView.setVisibility(faceRectVisibility);
+                binding.eyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
+                binding.eyeRightRectangleView.setVisibility(rightEyeRectVisibility);
             }
         });
 
+        mainViewModel.getNeedClick().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean needClick) {
+                if(needClick){
+                    if(mainViewModel.getSelectedDataIndex().getValue()!=null) {
+                        int selectedDataIndex = mainViewModel.getSelectedDataIndex().getValue();
+                        Log.d(TAG, "Mock Click Effect");
+                        MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(selectedDataIndex);
+
+                            mainViewModel.setPreviousClickedDataIndex(selectedDataIndex);
+                        }
+
+                }
+            }
+        });
 
 
         /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/

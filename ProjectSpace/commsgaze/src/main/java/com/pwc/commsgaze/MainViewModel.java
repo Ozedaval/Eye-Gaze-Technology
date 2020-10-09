@@ -20,16 +20,25 @@ public class MainViewModel extends ViewModel {
     private DetectionEngineMaker detectionEngineMakerInstance;
     private Detector detector;
     private ViewGazeController viewGazeController;
-    private MutableLiveData<Integer> selectedViewHolderID;
+    private MutableLiveData<Integer> selectedDataIndex;
     private DirectionMediator directionMediator;
     private MutableLiveData<Direction> gaugedDirection;
     private MutableLiveData<Boolean> isDetected;
     private DetectionData detectionData;
+    private MutableLiveData<Boolean> needClick;
+    private Integer previousClickedDataIndex;
 
     LiveData<Boolean> getIsDetected(){
         if(isDetected == null)
             isDetected = new MutableLiveData<>();
         return isDetected;
+    }
+
+    LiveData<Boolean> getNeedClick(){
+        if(needClick == null) {
+            needClick = new MutableLiveData<>();
+        }
+        return  needClick;
     }
 
     public DetectionData getDetectionData() {
@@ -52,6 +61,11 @@ public class MainViewModel extends ViewModel {
     }
 
 
+
+    void setPreviousClickedDataIndex(int previousClickedDataIndex){
+        this.previousClickedDataIndex = previousClickedDataIndex;
+    }
+
     Direction getDirection(){
         return  (detector==null)? Direction.UNKNOWN:detector.getDirection();
     }
@@ -66,7 +80,7 @@ public class MainViewModel extends ViewModel {
         }
 
         detectionEngineMakerInstance.createDetector(approach,detectionData);
-        this.detector = detectionEngineMakerInstance.getDetector();
+        detector = detectionEngineMakerInstance.getDetector();
     }
 
 
@@ -76,40 +90,47 @@ public class MainViewModel extends ViewModel {
         if(directionMediator.getNeedUpdate()){
             gaugedDirection.setValue(directionMediator.getGaugedCurrentDirection());
         }
+        if(directionMediator.getIsStableNeutral()){
+            /*To make sure the same element doesnt get clicked repeatedly*/
+            /*Log.d(TAG,"Selected Data Index "+ selectedDataIndex.getValue() + "Previous Clicked Index "+ previousClickedDataIndex);*/
+            if(previousClickedDataIndex == null || !previousClickedDataIndex.equals(selectedDataIndex.getValue()))
+                needClick.setValue(true);
+        }
+        else{needClick.setValue(false);}
     }
 
 
 
-    void initialiseDirectionMediator(int frameThreshold){
-        directionMediator = new DirectionMediator(frameThreshold);
+    void initialiseDirectionMediator(int selectionThreshold,int clickInitThreshold){
+        directionMediator = new DirectionMediator(selectionThreshold,clickInitThreshold);
     }
 
 
     void updateViewGazeController(Direction direction){
-        viewGazeController.updateSelectedViewHolder(direction);
-        if(selectedViewHolderID!= null && selectedViewHolderID.getValue() != viewGazeController.getSelectedViewHolderIndex())
-        selectedViewHolderID.setValue(viewGazeController.getSelectedViewHolderIndex());
+        viewGazeController.updateSelectedDataIndex(direction);
+        if(selectedDataIndex != null && selectedDataIndex.getValue() != viewGazeController.getSelectedDataIndex())
+            selectedDataIndex.setValue(viewGazeController.getSelectedDataIndex());
     }
 
-    LiveData<Integer> getSelectedViewHolderID(){
-        if (selectedViewHolderID == null){
-            selectedViewHolderID = new MutableLiveData<>(0);
+    LiveData<Integer> getSelectedDataIndex(){
+        if (selectedDataIndex == null){
+            selectedDataIndex = new MutableLiveData<>(0);
         }
-    return  selectedViewHolderID;
+        return selectedDataIndex;
     }
 
     int getPreviousSelectedViewHolderID(){
-        return  viewGazeController.getPrevSelectedViewHolderIndex();
+        return  viewGazeController.getPrevSelectedDataIndex();
     }
 
 
     void initialiseViewGazeHolders(int fixedDimension,int numOfPositions){
 
-            viewGazeController = new ViewGazeController(fixedDimension,numOfPositions);
+        viewGazeController = new ViewGazeController(fixedDimension,numOfPositions);
 
-        if (selectedViewHolderID == null){
-            selectedViewHolderID = new MutableLiveData<Integer>();
-            selectedViewHolderID.setValue(0);
+        if (selectedDataIndex == null){
+            selectedDataIndex = new MutableLiveData<Integer>();
+            selectedDataIndex.setValue(0);
         }
     }
 

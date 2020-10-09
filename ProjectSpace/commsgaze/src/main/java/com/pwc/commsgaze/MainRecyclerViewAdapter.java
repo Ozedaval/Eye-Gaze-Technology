@@ -30,7 +30,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     private int fixedDimension;
 
     MainRecyclerViewAdapter(int imageSize,int fixedDimension){
-       this.imageSize = imageSize;
+        this.imageSize = imageSize;
         this.fixedDimension = fixedDimension;
 
     }

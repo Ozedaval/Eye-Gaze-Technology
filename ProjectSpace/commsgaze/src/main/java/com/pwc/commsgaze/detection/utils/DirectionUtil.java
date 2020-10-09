@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DirectionUtil {
-private final static String TAG= "DirectionUtil";
+    private final static String TAG= "DirectionUtil";
 
 
     public static Direction directionParser(String directionName) {
@@ -46,5 +46,22 @@ private final static String TAG= "DirectionUtil";
                 suitableDirection = freqEntry.getKey();
             }
         }
-    return  suitableDirection;}
+        return  suitableDirection;}
+
+
+
+    public static boolean isStable(Direction direction,ArrayList<Direction> directions,int threshold){
+        int directionListSize = directions.size();
+        if(directions.size()<threshold){
+            return false;
+        }
+        for(int i = directionListSize-1;i>directionListSize-threshold;i--){
+            if(!directions.get(i).equals(direction))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
