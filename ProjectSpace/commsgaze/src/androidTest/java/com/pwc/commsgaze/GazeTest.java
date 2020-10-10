@@ -1,6 +1,7 @@
 package com.pwc.commsgaze;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -24,6 +25,8 @@ import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -47,6 +50,7 @@ public class GazeTest  {
     private final String TEST_RES_HEADER = "test";
     private final String OPENCV_HEADER = "OPENCV";
     private final float OVERALL_PASS_THRESHOLD = 0.6f;
+    private StringBuilder testResultBuilder;
 
 
 
@@ -55,7 +59,7 @@ public class GazeTest  {
     public void setUp() throws Exception {
         instrumentationContext = InstrumentationRegistry.getInstrumentation().getContext();
         appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
+        testResultBuilder = new StringBuilder();
         detectionEngineMakerInstance = DetectionEngineMaker.getInstance();
         approaches = Approach.values();
         testCaseFileNames = new ArrayList<>();
@@ -86,23 +90,32 @@ public class GazeTest  {
 
 
     @Test
-    public void approachTest() {
+    public void approachTest() throws IOException {
         for(Approach approach:approaches){
             int numOfPasses = 0;
 
             Log.d(TAG,"Currently testing Approach "+ approach.toString());
+            testResultBuilder.append("Currently testing Approach ").append(approach.toString()).append("\n");
             for(String testCaseFileName: testCaseFileNames){
                 if(testCaseApproachTester(approach,testCaseFileName))
-                    numOfPasses++;
+                {   testResultBuilder.append(testCaseFileName).append(" Passes").append("\n");
+                    numOfPasses++;}
             }
             Log.d(TAG,"Number of passes "+ numOfPasses);
+            testResultBuilder.append("Number of passes ").append(numOfPasses).append("\n");
             float passPercentage = (float)numOfPasses/testCaseFileNames.size();
             if(passPercentage< OVERALL_PASS_THRESHOLD){
                 throw new AssertionError(approach.toString()+" Failed GazeTest"+ "Pass Percentage "+passPercentage);
             }
+            testResultBuilder.append(approach.toString()).append(" Passes ").append(passPercentage).append(" of the Tests").append("\n");;
             Log.d(TAG,approach.toString()+" Passes "+ passPercentage + " of the Tests");
 
         }
+
+        /*From Yunsung's RealTimeTest */
+        FileWriter out = new FileWriter(new File(appContext.getExternalFilesDir(null), "GazeTestResult.txt"));
+        out.write(testResultBuilder.toString());
+        out.close();
     }
 
 
