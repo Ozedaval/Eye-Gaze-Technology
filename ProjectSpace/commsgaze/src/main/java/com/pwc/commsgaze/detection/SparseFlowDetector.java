@@ -61,6 +61,7 @@ public class SparseFlowDetector extends Detector {
 
 
 
+
     SparseFlowDetector(DetectionData detectionData) {
         SparseFlowDetectionData sparseFlowDetectionData = (SparseFlowDetectionData)detectionData;
         direction = UNKNOWN;
@@ -336,9 +337,8 @@ public class SparseFlowDetector extends Detector {
     @Override
     public void clear() {
         /*TODO fill accordingly*/
+
     }
-
-
 
 
     /**

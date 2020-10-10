@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import static com.pwc.commsgaze.detection.utils.DirectionUtil.getMaxDirection;
 import static com.pwc.commsgaze.detection.utils.DirectionUtil.isStable;
 
+import static com.pwc.commsgaze.detection.utils.DirectionUtil.getMaxDirection;
+
 public class DirectionMediator {
     private int selectionThreshold;
     ArrayList<Direction> directions;

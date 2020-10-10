@@ -56,6 +56,10 @@
             android:name=".eyegaze.opencvobjtrackingcsrt.EyeGazeEventActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".eyegaze.opencvsparseflowtest.EyeGazeEventActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity" />
         <activity android:name=".eyegaze.sparseflowSelection.Element1" />
         <activity android:name=".eyegaze.sparseflowSelection.Element2" />
         <activity android:name=".eyegaze.sparseflowSelection.Element3" />

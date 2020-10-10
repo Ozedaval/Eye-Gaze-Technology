@@ -3,6 +3,7 @@ package com.pwc.commsgaze;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +27,14 @@ import java.util.List;
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     public final static String TAG = "MainRecyclerViewAdapter";
     private List<Content> contents;
+
     private int imageSize;
     private int fixedDimension;
 
     MainRecyclerViewAdapter(int imageSize,int fixedDimension){
         this.imageSize = imageSize;
         this.fixedDimension = fixedDimension;
+
 
     }
 
@@ -47,6 +50,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(contents.get(position).getWord());
         Uri imageUri = Uri.fromFile(new File(contents.get(position).getImageDirPath()));
+        int suitableDimension = deviceWidth/(fixedDimension+2);
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
                 .apply(new RequestOptions().override(imageSize,imageSize))
@@ -74,6 +78,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         String audioDirPath;
         CardView cardView;
         CircleView circleView;
+
 
         public void setAudioDirPath(String audioDirPath) {
             this.audioDirPath = audioDirPath;

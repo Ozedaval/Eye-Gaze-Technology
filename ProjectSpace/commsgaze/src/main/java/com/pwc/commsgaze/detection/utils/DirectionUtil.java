@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DirectionUtil {
+
     private final static String TAG= "DirectionUtil";
+
 
 
     public static Direction directionParser(String directionName) {
@@ -46,6 +48,7 @@ public class DirectionUtil {
                 suitableDirection = freqEntry.getKey();
             }
         }
+
         return  suitableDirection;}
 
 
@@ -63,5 +66,6 @@ public class DirectionUtil {
         }
         return true;
     }
+
 
 }

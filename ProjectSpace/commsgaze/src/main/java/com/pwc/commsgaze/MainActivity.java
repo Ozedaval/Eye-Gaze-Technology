@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private StorageViewModel storageViewModel;
     private  final int SELECTION_THRESHOLD = 20;
     private final int CLICK_INIT_THRESHOLD = 10;
+
 
 
     @Override
@@ -123,8 +125,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
 
         recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
+
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
 
         binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
@@ -147,7 +153,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         });
 
 
+
         mainViewModel.getSelectedDataIndex().observe(this, new Observer<Integer>() {
+
             @Override
             public void onChanged(final Integer integer) {
 
@@ -162,7 +170,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(integer);
+
                         if (selectedViewHolder!=null) {
                             selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
                             selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(200).start();
@@ -171,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 },100);
 
                 /*   Log.d(TAG," New integer "+ integer + " Previous Integer "+ mainViewModel.getPreviousSelectedViewHolderID());*/
+
             }
         });
 
@@ -188,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 binding.faceRectangleView.setVisibility(faceRectVisibility);
                 binding.eyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
                 binding.eyeRightRectangleView.setVisibility(rightEyeRectVisibility);
+
             }
         });
 
@@ -329,10 +341,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         final Detector detector = mainViewModel.getDetector();
         if(detector.getApproach().equals(Approach.OPENCV_SPARSE_FLOW)){
             /* Log.d(TAG,"On camera Update approach "+ detector.getApproach().toString());*/
-
-            /*TODO call updateDetector before getDirection*/
+           
             ((SparseFlowDetectionData) mainViewModel.getDetectionData()).setFrame(inputFrame.rgba());
             Mat updatedFrame = ((SparseFlowDetectionData) detector.updateDetector(mainViewModel.getDetectionData())).getFrame();
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -365,8 +377,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             CascadeClassifier eyesCascade = new CascadeClassifier();
             faceCascade.load(getFileStreamPath("faceModel.xml").getAbsolutePath());
             eyesCascade.load(getFileStreamPath("eyeModel.xml").getAbsolutePath());
+
             DetectionData detectionData = new SparseFlowDetectionData(faceCascade,eyesCascade);
             mainViewModel.setDetectionData(detectionData);
+
             mainViewModel.createDetector(Approach.OPENCV_SPARSE_FLOW,detectionData);
         }
 
