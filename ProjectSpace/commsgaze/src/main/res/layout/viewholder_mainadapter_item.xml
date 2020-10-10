@@ -12,7 +12,7 @@
     android:layout_marginBottom="@dimen/margin_bottom_main_rv_item">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_main_adapter"
+        android:id="@+id/mainRVCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="15dp"
@@ -28,11 +28,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:layout_margin="10dp"
                 >
 
                 <com.pwc.commsgaze.customview.CircleView
-                    android:layout_height = "50dp"
-                    android:layout_width = "50dp"
+                    android:id="@+id/mainRVCircleView"
+                    android:layout_height = "30dp"
+                    android:layout_width = "30dp"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +55,7 @@
                 card_view:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView_main_adapter"
+                    android:id="@+id/mainRVTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/margin_bottom_main_rv_item_text_view"
@@ -62,7 +65,7 @@
                     tools:text="@tools:sample/full_names" />
 
                 <ImageView
-                    android:id="@+id/imageView_main_adapter"
+                    android:id="@+id/mainRVImageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Content Image"

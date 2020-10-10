@@ -1,6 +1,7 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -121,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-        ;
 
         recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
         });
 
+
         /*Using this observer pattern instead of using onCameraFrame(), just in case if other library or API is decided to be used for an approach*/
         mainViewModel.getIsDetected().observe(this, new Observer<Boolean>() {
             @Override
@@ -194,14 +195,24 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             public void onChanged(Boolean needClick) {
                 if(needClick){
                     if(mainViewModel.getSelectedDataIndex().getValue()!=null) {
-                        int selectedDataIndex = mainViewModel.getSelectedDataIndex().getValue();
+                        final int selectedDataIndex = mainViewModel.getSelectedDataIndex().getValue();
                         Log.d(TAG, "Mock Click Effect");
-                        MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(selectedDataIndex);
+                        final MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(selectedDataIndex);
                             /*TODO animation effect and meanwhile check if it is neutral , if not cancel click */
                             mainViewModel.setPreviousClickedDataIndex(selectedDataIndex);
-
+                            selectedViewHolder.circleView.setVisibility(VISIBLE);
+                        ValueAnimator valueAnimator = ValueAnimator.ofInt(0,360);
+                        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                /*Log.d(TAG,"Anim Frac "+ animation.getAnimatedValue());*/
+                              selectedViewHolder.circleView.setAngle((int)animation.getAnimatedValue());
+                            }
+                        });
+                        valueAnimator.setTarget(selectedViewHolder.circleView);
+                        valueAnimator.setDuration(3000);
+                        valueAnimator.start();
                         }
-
                 }
             }
         });

@@ -3,7 +3,6 @@ package com.pwc.commsgaze;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.pwc.commsgaze.customview.CircleView;
 import com.pwc.commsgaze.database.Content;
 
 import java.io.File;
@@ -73,6 +73,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         TextView textView;
         String audioDirPath;
         CardView cardView;
+        CircleView circleView;
 
         public void setAudioDirPath(String audioDirPath) {
             this.audioDirPath = audioDirPath;
@@ -81,9 +82,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            imageView = itemView.findViewById(R.id.imageView_main_adapter);
-            textView = itemView.findViewById(R.id.textView_main_adapter);
-            cardView = itemView.findViewById(R.id.cardView_main_adapter);
+            imageView = itemView.findViewById(R.id.mainRVImageView);
+            textView = itemView.findViewById(R.id.mainRVTextView);
+            cardView = itemView.findViewById(R.id.mainRVCardView);
+            circleView = itemView.findViewById(R.id.mainRVCircleView);
         }
 
         @Override

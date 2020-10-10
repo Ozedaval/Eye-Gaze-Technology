@@ -37,8 +37,8 @@ public class CircleView extends View {
      * Used a similar  Declaration and  Retrieval of customAttributes from https://stackoverflow.com/questions/18681956/setting-color-of-a-paint-object-in-custom-view*/
     public CircleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-          height = parseInt(attrs.getAttributeValue(ATTR_NAMESPACE,"layout_height"));
-         width = parseInt(attrs.getAttributeValue(ATTR_NAMESPACE,"layout_width"));
+        height = parseInt(attrs.getAttributeValue(ATTR_NAMESPACE,"layout_height"));
+        width = parseInt(attrs.getAttributeValue(ATTR_NAMESPACE,"layout_width"));
         TypedArray customAttributes = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.CircleView,
@@ -82,10 +82,12 @@ public class CircleView extends View {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         canvas.rotate(-90,center,center);
-        /*canvas.drawRect(width/2f,height/2f,width,height,paint);*/
-        canvas.drawArc(boundingOval,0,360,true,paint);
-
+        canvas.drawArc(boundingOval,0,angle,true,paint);
 
     }
 
+    public void setAngle(int angle) {
+        this.angle = angle;
+        invalidate();
+    }
 }
