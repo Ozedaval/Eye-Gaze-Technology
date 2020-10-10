@@ -1,53 +1,59 @@
 package com.pwc.commsgaze;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+
+import static com.pwc.commsgaze.detection.utils.DirectionUtil.getMaxDirection;
+import static com.pwc.commsgaze.detection.utils.DirectionUtil.isStable;
 
 import static com.pwc.commsgaze.detection.utils.DirectionUtil.getMaxDirection;
 
 public class DirectionMediator {
-    private int frameThreshold;
+    private int selectionThreshold;
     ArrayList<Direction> directions;
     private Direction gaugedCurrentDirection;
     private int frameCounter;
     private boolean needUpdate;
+    private boolean isStableNeutral;
+    private int clickInitThreshold;
 
 
-    DirectionMediator(int frameThreshold){
-        directions = new ArrayList<Direction>(frameThreshold);
+    DirectionMediator(int selectionThreshold, int clickInitThreshold){
+        directions = new ArrayList<Direction>(selectionThreshold);
         gaugedCurrentDirection = Direction.UNKNOWN;
         frameCounter = 0;
-        this.frameThreshold = frameThreshold;
+        this.selectionThreshold = selectionThreshold;
+        this.clickInitThreshold = clickInitThreshold;
     }
+
 
     void update(Direction direction) {
         needUpdate = false;
-        if (directions.size()==frameThreshold){
+        isStableNeutral = isStable(Direction.NEUTRAL,directions,clickInitThreshold);
+        if (directions.size()== selectionThreshold){
             directions.remove(0);
         }
         directions.add(direction);
         frameCounter++;
 
-       if(frameCounter == frameThreshold){
-           gaugedCurrentDirection = getSuitableDirection();
-           frameCounter = 0;
-           needUpdate = true;
-       }
-
+        if(frameCounter == selectionThreshold){
+            gaugedCurrentDirection = getSuitableDirection();
+            frameCounter = 0;
+            needUpdate = true;
+        }
     }
 
-  boolean getNeedUpdate(){
+    boolean getIsStableNeutral(){return  isStableNeutral;}
+
+    boolean getNeedUpdate(){
         return needUpdate;
-  }
+    }
 
     public Direction getGaugedCurrentDirection() {
         return gaugedCurrentDirection;
     }
 
     /*Usable when one is saving and using the previous directions*/
-   private Direction getSuitableDirection(){
+    private Direction getSuitableDirection(){
         return getMaxDirection(directions);
     }
 

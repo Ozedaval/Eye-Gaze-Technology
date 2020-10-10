@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_main_bar">70dp</dimen>
+
+    <dimen name="line_width_main_rect">2dp</dimen>
+    <dimen name="size_main_text">15sp</dimen>
+
+    <dimen name="size_main_image">150dp</dimen>
+    <dimen name="size_main_rv_item_text_view">20sp</dimen>
+    <dimen name="margin_top_main_rv_item">10dp</dimen>
+    <dimen name="margin_bottom_main_rv_item">10dp</dimen>
+
+</resources>
