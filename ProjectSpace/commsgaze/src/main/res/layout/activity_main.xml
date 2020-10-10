@@ -40,7 +40,9 @@
                 android:gravity="bottom"
                 android:inputType="none"
                 android:text=""
-                android:textSize="20sp" />
+                android:textSize="@dimen/size_main_edit_text"
+                tools:text="Sample text"
+                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/mainFaceConstraintLayout"

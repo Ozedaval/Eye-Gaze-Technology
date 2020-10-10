@@ -34,8 +34,8 @@
 
                 <com.pwc.commsgaze.customview.CircleView
                     android:id="@+id/mainRVCircleView"
-                    android:layout_height = "30dp"
-                    android:layout_width = "30dp"
+                    android:layout_height = "@dimen/size_main_rv_circle_view"
+                    android:layout_width = "@dimen/size_main_rv_circle_view"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

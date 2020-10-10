@@ -25,5 +25,7 @@
     <dimen name="margin_bottom_main_rv_item_text_view">10dp</dimen>
     <dimen name="size_main_rv_item_text_view">15sp</dimen>
     <dimen name="margin_bottom_main_rv_item">5dp</dimen>
+    <dimen name="size_main_rv_circle_view">30dp</dimen>
+    <dimen name="size_main_edit_text">20sp</dimen>
 
 </resources>
