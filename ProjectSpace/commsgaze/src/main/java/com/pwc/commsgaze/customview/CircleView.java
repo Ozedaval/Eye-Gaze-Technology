@@ -89,5 +89,7 @@ public class CircleView extends View {
     public void setAngle(int angle) {
         this.angle = angle;
         invalidate();
+
     }
+
 }

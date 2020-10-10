@@ -1,6 +1,7 @@
 package com.pwc.commsgaze;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -202,15 +203,48 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                             mainViewModel.setPreviousClickedDataIndex(selectedDataIndex);
                             selectedViewHolder.circleView.setVisibility(VISIBLE);
                         ValueAnimator valueAnimator = ValueAnimator.ofInt(0,360);
+                        final boolean[] interrupted = {false};
+                        final int initSelectedDataIndex = mainViewModel.getSelectedDataIndex().getValue();
                         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator animation) {
                                 /*Log.d(TAG,"Anim Frac "+ animation.getAnimatedValue());*/
                               selectedViewHolder.circleView.setAngle((int)animation.getAnimatedValue());
+                              if(initSelectedDataIndex!= mainViewModel.getSelectedDataIndex().getValue()){
+                                  interrupted[0] = true;
+                                  animation.cancel();
+                              }
+                            }
+                        });
+
+                        valueAnimator.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                if (!interrupted[0]) {
+                                    selectedViewHolder.itemView.callOnClick();
+                                }
+                                selectedViewHolder.circleView.setVisibility(INVISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                                selectedViewHolder.circleView.setVisibility(INVISIBLE);
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
                             }
                         });
                         valueAnimator.setTarget(selectedViewHolder.circleView);
-                        valueAnimator.setDuration(3000);
+                        valueAnimator.setDuration(1000);
                         valueAnimator.start();
                         }
                 }
