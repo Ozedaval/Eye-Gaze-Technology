@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.database.Content;
-
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
@@ -40,6 +38,7 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -125,19 +124,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-
-
         recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
-
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
-
         binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
         binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
         mainViewModel.initialiseDirectionMediator(SELECTION_THRESHOLD, CLICK_INIT_THRESHOLD);
-
 
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
@@ -172,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     public void run() {
 
                         MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(integer);
-
                         if (selectedViewHolder!=null) {
                             selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
                             selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(200).start();
@@ -239,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                             public void onAnimationEnd(Animator animation) {
                                 if (!interrupted[0]) {
                                     selectedViewHolder.itemView.callOnClick();
+                                    mainViewModel.updateSentence(recyclerViewAdapter.getContent(selectedDataIndex));
                                 }
                                 selectedViewHolder.circleView.setVisibility(INVISIBLE);
                             }
@@ -263,6 +255,29 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
         });
 
+        mainViewModel.getClickedContents().observe(this, new Observer<ArrayList<Content>>() {
+            @Override
+            public void onChanged(ArrayList<Content> contents) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Content content:contents) {
+                    stringBuilder.append(content.getWord());
+                    stringBuilder.append(" ");
+                }
+                Log.d(TAG, "EditText being edited to " + stringBuilder.toString());
+                binding.mainEditText.setText(stringBuilder.toString());
+            }
+
+        });
+
+
+        mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
+            @Override
+            public void onChanged(Direction direction) {
+                /*      Log.d(TAG,"Gauged Direction " + direction);*/
+                mainViewModel.updateViewGazeController(direction);
+            }
+        });
+
 
         /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
         Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
@@ -279,13 +294,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
 
 
-        mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
-            @Override
-            public void onChanged(Direction direction) {
-                /*      Log.d(TAG,"Gauged Direction " + direction);*/
-                mainViewModel.updateViewGazeController(direction);
-            }
-        });
+
 
     }
 
@@ -395,5 +404,10 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 return direction;
         }
         return Direction.UNKNOWN;
+    }
+
+
+    public void enterClicked(View view) {
+        /*TODO*/
     }
 }
