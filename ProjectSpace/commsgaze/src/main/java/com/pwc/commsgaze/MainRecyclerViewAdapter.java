@@ -50,7 +50,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(contents.get(position).getWord());
         Uri imageUri = Uri.fromFile(new File(contents.get(position).getImageDirPath()));
-        int suitableDimension = deviceWidth/(fixedDimension+2);
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
                 .apply(new RequestOptions().override(imageSize,imageSize))
