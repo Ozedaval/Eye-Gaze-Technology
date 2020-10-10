@@ -11,13 +11,11 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.database.Content;
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 import com.pwc.commsgaze.detection.Approach;
@@ -34,6 +32,8 @@ import java.util.List;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static com.pwc.commsgaze.customview.CircleView.MAX_ANGLE;
+import static com.pwc.commsgaze.customview.CircleView.MIN_ANGLE;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
@@ -42,14 +42,15 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     private MainViewModel mainViewModel;
     private ActivityMainBinding binding;
-    private FragmentManager fragmentManager;
     private static final String TAG = "MainActivity";
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager gridLayoutManager;
     private final int RC_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
-    private  final int SELECTION_THRESHOLD = 20;
-    private final int CLICK_INIT_THRESHOLD = 10;
+    private  final int SELECTION_THRESHOLD = 15;
+    private final int CLICK_INIT_THRESHOLD = 5;
+    private final int CLICK_STAGE_DURATION=2375;
+    private final int SELECTION_EFFECT_DURATION =200;
 
 
 
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
                 if(prevViewHolder!=null) {
                     prevViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(prevViewHolder.itemView.getContext(),R.color.colorLightBlue));
-                    prevViewHolder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
+                    prevViewHolder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(SELECTION_EFFECT_DURATION).start();
 
                 }
                 binding.mainRecyclerView.smoothScrollToPosition(integer);
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                         MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(integer);
                         if (selectedViewHolder!=null) {
                             selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
-                            selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(200).start();
+                            selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(SELECTION_EFFECT_DURATION).start();
                         }
                     }
                 },100);
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                             /*TODO animation effect and meanwhile check if it is neutral , if not cancel click */
                             mainViewModel.setPreviousClickedDataIndex(selectedDataIndex);
                             selectedViewHolder.circleView.setVisibility(VISIBLE);
-                        ValueAnimator valueAnimator = ValueAnimator.ofInt(0,360);
+                        ValueAnimator valueAnimator = ValueAnimator.ofInt(MIN_ANGLE,MAX_ANGLE);
                         final boolean[] interrupted = {false};
                         final int initSelectedDataIndex = mainViewModel.getSelectedDataIndex().getValue();
                         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                             }
                         });
                         valueAnimator.setTarget(selectedViewHolder.circleView);
-                        valueAnimator.setDuration(1000);
+                        valueAnimator.setDuration(CLICK_STAGE_DURATION);
                         valueAnimator.start();
                         }
                 }
@@ -210,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
 
         });
-
 
         mainViewModel.getGaugedDirection().observe(this, new Observer<Direction>() {
             @Override
@@ -234,10 +234,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 }
             });
         }
-
-
-
-
     }
 
 
@@ -325,7 +321,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
 
     }
-
 
     /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
     Direction customTestButtonParser(String buttonText){
