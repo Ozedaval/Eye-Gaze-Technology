@@ -12,11 +12,11 @@ import androidx.annotation.Nullable;
 
 import com.pwc.commsgaze.R;
 
+import static com.pwc.commsgaze.customview.ViewUtil.parseInt;
+
 public class RectangleView extends View {
     private final String TAG = "RectangleView";
     private final String ATTR_NAMESPACE= "http://schemas.android.com/apk/res/android";
-
-
 
     private int width;
     private int height;
@@ -30,7 +30,6 @@ public class RectangleView extends View {
         Log.d(TAG,"W"+w+"h"+h);
         width = w;
         height = h;
-
     }
 
     /*Regex from https://stackoverflow.com/a/10372905/11200630
@@ -45,37 +44,23 @@ public class RectangleView extends View {
                 R.styleable.RectangleView,
                 0, 0);
 
-        this.strokeWidth = customAttributes.getDimensionPixelSize(R.styleable.RectangleView_line_width, 1);
-        this.color = (customAttributes.getColor(R.styleable.RectangleView_color,1));
+        strokeWidth = customAttributes.getDimensionPixelSize(R.styleable.RectangleView_line_width, 1);
+        color = (customAttributes.getColor(R.styleable.RectangleView_color,1));
 
 
-
-        Log.d(TAG,"Color"+this.color);
+        Log.d(TAG,"Color"+ color);
         customAttributes.recycle();
 
     }
 
 
 
-    int parseInt(String floatString){
-        if(floatString!= null && !floatString.isEmpty()){
-            floatString = floatString.replaceAll("[^\\d.]", "");
-            return (int)(Float.parseFloat(floatString));}
-        return 0;
-    }
-
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint paint = new Paint();
 
-        float leftX =0;
+        float leftX = 0;
         float topY = 0;
 
         float rightX = width;

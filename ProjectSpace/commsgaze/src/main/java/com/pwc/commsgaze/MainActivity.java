@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pwc.commsgaze.database.Content;
+
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
@@ -196,8 +197,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                         int selectedDataIndex = mainViewModel.getSelectedDataIndex().getValue();
                         Log.d(TAG, "Mock Click Effect");
                         MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(selectedDataIndex);
-
+                            /*TODO animation effect and meanwhile check if it is neutral , if not cancel click */
                             mainViewModel.setPreviousClickedDataIndex(selectedDataIndex);
+
                         }
 
                 }
