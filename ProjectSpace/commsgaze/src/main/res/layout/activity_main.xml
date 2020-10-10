@@ -65,7 +65,7 @@
                     android:layout_marginBottom="@dimen/margin_bottom_main_face">
 
                     <com.pwc.commsgaze.customview.RectangleView
-                        android:id="@+id/faceRectangleView"
+                        android:id="@+id/mainFaceRectangleView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:foregroundGravity="center_horizontal"
@@ -78,7 +78,7 @@
                         app:line_width="@dimen/line_width_main_rect" />
 
                     <com.pwc.commsgaze.customview.RectangleView
-                        android:id="@+id/eyeLeftRectangleView"
+                        android:id="@+id/mainEyeLeftRectangleView"
                         android:layout_width="@dimen/width_main_eye_rect_view"
                         android:layout_height="@dimen/height_main_eye_rect_view"
                         android:layout_marginRight="@dimen/margin_right_main_left_eye"
@@ -93,7 +93,7 @@
 
 
                     <com.pwc.commsgaze.customview.RectangleView
-                        android:id="@+id/eyeRightRectangleView"
+                        android:id="@+id/mainEyeRightRectangleView"
                         android:layout_width="@dimen/width_main_eye_rect_view"
                         android:layout_height="@dimen/height_main_eye_rect_view"
                         android:layout_marginLeft="@dimen/margin_left_main_right_eye"

@@ -1,24 +1,16 @@
 package com.pwc.commsgaze;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,14 +24,12 @@ import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
 import com.pwc.commsgaze.detection.data.DetectionData;
 import com.pwc.commsgaze.detection.data.SparseFlowDetectionData;
-import com.pwc.commsgaze.initialisation.InitialisationFragment;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static android.view.View.INVISIBLE;
@@ -50,9 +40,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     static{ System.loadLibrary( "opencv_java4" );}
 
-    private final int PERMISSION_REQUEST_CODE = 1;
     private MainViewModel mainViewModel;
-    private Boolean isFirstRun;
     private ActivityMainBinding binding;
     private FragmentManager fragmentManager;
     private static final String TAG = "MainActivity";
@@ -73,56 +61,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         hideSystemUI();
         setContentView(view);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
-            }
-        }
-
-        isFirstRun = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE)
-                .getBoolean(getString(R.string.main_first_run_preference_key), true);
-
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         storageViewModel = new ViewModelProvider(this).get(StorageViewModel.class);
 
-
-        if (isFirstRun) {
-            fragmentManager = getSupportFragmentManager();
-
-
-            mainViewModel.getIsFirstRun().observe(this, new Observer<Boolean>() {
-                @Override
-                public void onChanged(Boolean aBoolean) {
-                    if (!aBoolean) {
-                        Log.d(TAG," OnChangedLiveData"+"Changed to "+aBoolean);
-                        Snackbar.make(binding.mainCoordinatorLayout,
-                                getString(R.string.main_initialisation_done_msg),
-                                Snackbar.LENGTH_LONG).show();
-                        Log.d(TAG, "Initialisation done");
-                        SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE).edit();
-                        sharedPreferencesEditor.putBoolean(getString(R.string.main_first_run_preference_key), false);
-                        sharedPreferencesEditor.apply();
-                        Log.d(TAG, "Files present " + Arrays.toString(fileList()));
-                        isFirstRun= false;
-                        mainViewModel.getIsFirstRun().removeObserver(this);
-                        Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.init_fragment_tag));
-                        if(fragment != null){
-                            fragmentManager.beginTransaction().remove(fragment).commit();
-                        }
-                    }
-                }
-            });
-
-            if (mainViewModel.getIsFirstRun().getValue() != null && mainViewModel.getIsFirstRun().getValue()) {
-                Log.d(TAG ,"ViewModel LiveData is a " + mainViewModel.getIsFirstRun().getValue());
-                DialogFragment initialisationFragment = new InitialisationFragment();
-                initialisationFragment.setCancelable(false);
-                initialisationFragment.show(fragmentManager, getString(R.string.init_fragment_tag));
-            }
-
-        }
-        Log.d(TAG ,  "isFirstRun is "+isFirstRun+"");
 
         recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
@@ -130,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
         mainViewModel.initialiseDirectionMediator(SELECTION_THRESHOLD, CLICK_INIT_THRESHOLD);
+
 
 
         /*TODO check the user set default approach and use it -- most prolly use the stored data on the approach and send it to initialiseApproach() */
@@ -187,9 +129,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 int leftEyeRectVisibility = detectionData.getIsLeftEyeDetected() ? VISIBLE : INVISIBLE;
                 int rightEyeRectVisibility = detectionData.getIsRightEyeDetected() ? VISIBLE : INVISIBLE;
 
-                binding.faceRectangleView.setVisibility(faceRectVisibility);
-                binding.eyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
-                binding.eyeRightRectangleView.setVisibility(rightEyeRectVisibility);
+                binding.mainFaceRectangleView.setVisibility(faceRectVisibility);
+                binding.mainEyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
+                binding.mainEyeRightRectangleView.setVisibility(rightEyeRectVisibility);
 
             }
         });
@@ -296,17 +238,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
 
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                finish();
-            }
-        }
-        Log.d(TAG,  "is First Run is "+isFirstRun);
     }
 
 
