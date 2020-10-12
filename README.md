@@ -25,7 +25,7 @@
 </details>
 
 <p align="center">
-<img src="Resources/Proof_of_Concept.gif"  width="50%" length="50%" >
+<img src="Resources/track-pupils-demo.gif"  width="70%" length="50%" >
 </p>
 <p align="center">
      Snippet based on proof of concept app </br>
