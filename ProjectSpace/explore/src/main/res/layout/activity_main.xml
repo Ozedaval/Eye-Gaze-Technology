@@ -63,7 +63,13 @@
             android:layout_weight="1"
             android:onClick="startEyeGazeSparseFlowWithTest"
             android:text="EYE GAZE OPTICAL FLOW WITH TEST" />
-
+        <Button
+            android:id="@+id/eyeGazeTrackingWithTestButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="startEyeGazeTrackerWithTest"
+            android:text="EYE GAZE TRACKING WITH TEST" />
         <Button
             android:id="@+id/miscButton"
             android:layout_width="wrap_content"

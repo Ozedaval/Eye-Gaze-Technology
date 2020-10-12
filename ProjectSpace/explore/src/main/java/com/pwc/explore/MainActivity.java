@@ -140,5 +140,9 @@ public class MainActivity extends AppCompatActivity {
         Intent eyeGazeIntent = new Intent(this, com.pwc.explore.eyegaze.opencvsparseflowtest.EyeGazeEventActivity.class);
         startActivity(eyeGazeIntent);
     }
+    public void startEyeGazeTrackerWithTest(View view) {
+        Intent eyeTestIntent = new Intent(this, com.pwc.explore.eyegaze.opencvtrackingtest.EyeGazeEventActivity.class);
+        startActivity(eyeTestIntent);
+    }
 }
 
