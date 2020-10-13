@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:onClick="startAudio"
     android:layout_marginTop="@dimen/margin_top_main_rv_item"
     android:layout_marginStart="@dimen/margin_left_main_rv_item"
     android:layout_marginEnd="@dimen/margin_right_main_rv_item"
@@ -33,8 +34,8 @@
 
                 <com.pwc.commsgaze.customview.CircleView
                     android:id="@+id/mainRVCircleView"
-                    android:layout_height = "30dp"
-                    android:layout_width = "30dp"
+                    android:layout_height = "@dimen/size_main_rv_circle_view"
+                    android:layout_width = "@dimen/size_main_rv_circle_view"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -3,27 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pwc.commsgaze">
 
+    <uses-feature android:name="android.hardware.Camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_default"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LoadingActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
-    <uses-feature android:name="android.hardware.Camera" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

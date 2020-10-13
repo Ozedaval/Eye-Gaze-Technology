@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.pwc.commsgaze.LoadingViewModel;
 import com.pwc.commsgaze.MainViewModel;
 import com.pwc.commsgaze.R;
 import com.pwc.commsgaze.StorageViewModel;
@@ -38,7 +39,7 @@ public class InitialisationFragment extends DialogFragment {
 
 
     private TextToSpeech textToSpeech;
-    private MainViewModel mainViewModel;
+    private LoadingViewModel loadingViewModel;
     private static final String TAG = "Initialisation Fragment";
     private Initialisation initialisationAsync;
     private Stack<File> contentAudioExternalFileStack = new Stack<>();
@@ -149,8 +150,8 @@ public class InitialisationFragment extends DialogFragment {
         initialisationAsync  = new Initialisation(initialisationFragment);
         initialisationAsync.execute();
 
-        mainViewModel = new ViewModelProvider(requireActivity())
-                .get(MainViewModel.class);
+     loadingViewModel = new ViewModelProvider(requireActivity())
+                .get(LoadingViewModel.class);
         Log.d(TAG, "onCreate Called");
     }
 
@@ -219,7 +220,7 @@ public class InitialisationFragment extends DialogFragment {
             @Override
             public void run() {
                 initialisationAsync.cancel(true);
-                mainViewModel.initialisationDone();
+                loadingViewModel.initialisationDone();
             }
         }, 2000);
     }

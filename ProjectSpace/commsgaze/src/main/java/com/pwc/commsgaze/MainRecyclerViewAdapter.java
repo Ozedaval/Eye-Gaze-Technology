@@ -46,6 +46,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
 
+    Content getContent(int index){
+        return contents.get(index);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(contents.get(position).getWord());
@@ -113,6 +117,12 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         mediaPlayer.start();
+                    }
+                });
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mediaPlayer.release();
                     }
                 });
             } catch (IOException e) {

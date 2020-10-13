@@ -6,16 +6,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pwc.commsgaze.database.Content;
 import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.DetectionEngineMaker;
 import com.pwc.commsgaze.detection.Detector;
 import com.pwc.commsgaze.detection.data.DetectionData;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 /*Holds details for MainActivity in a Activity life-conscious way */
 public class MainViewModel extends ViewModel {
 
-    private MutableLiveData<Boolean> isFirstRun;
+
     private static final String TAG = "MainViewModel";
     private DetectionEngineMaker detectionEngineMakerInstance;
     private Detector detector;
@@ -27,6 +31,8 @@ public class MainViewModel extends ViewModel {
     private DetectionData detectionData;
     private MutableLiveData<Boolean> needClick;
     private Integer previousClickedDataIndex;
+    private MutableLiveData<ArrayList<Content>> clickedContents;
+
 
     LiveData<Boolean> getIsDetected(){
         if(isDetected == null)
@@ -40,6 +46,16 @@ public class MainViewModel extends ViewModel {
         }
         return  needClick;
     }
+
+
+    LiveData<ArrayList<Content>> getClickedContents(){
+        if(clickedContents ==null) {
+            clickedContents = new MutableLiveData<>();
+            clickedContents.setValue(new ArrayList<Content>());
+        }
+        return clickedContents;
+    }
+
 
     public DetectionData getDetectionData() {
         return detectionData;
@@ -60,6 +76,17 @@ public class MainViewModel extends ViewModel {
         return gaugedDirection;
     }
 
+
+    void updateSentence(Content content){
+        ArrayList<Content> contents= clickedContents.getValue();
+        if(contents!=null) {
+
+            Log.d(TAG,"Queue  "+ Arrays.toString(contents.toArray())+" "+content.getWord()+ " being added");
+            contents.add(content);
+            Log.d(TAG,"After adding to Queue " +  Arrays.toString(contents.toArray()));
+        }
+        clickedContents.setValue(contents);
+    }
 
 
     void setPreviousClickedDataIndex(int previousClickedDataIndex){
@@ -135,18 +162,5 @@ public class MainViewModel extends ViewModel {
     }
 
 
-    /*Check on UI thread for shared preference before calling this*/
-    LiveData<Boolean> getIsFirstRun() {
-        if (isFirstRun == null) {
-            isFirstRun = new MutableLiveData<Boolean>();
-            isFirstRun.setValue(true);
-            Log.d(TAG,"getIsFirstRunCalled");
-        }
-        return isFirstRun;
-    }
 
-    public void initialisationDone() {
-        Log.d(TAG," InitialisationDone Called");
-        isFirstRun.setValue(false);
-    }
 }
