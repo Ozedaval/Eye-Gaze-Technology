@@ -18,18 +18,32 @@
 - [**All Documentations**](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ?usp=sharing)
 - [**Decision Log**](https://drive.google.com/drive/folders/18C8N5hQrXN94pWgNyDpYCfhkNWzhSczE)
 - [**Feedback & Reflection Log**](https://drive.google.com/drive/folders/1Tty_NjlyNDwHHwNLGD4vDpX-9KjvH998)
-- [**Meeting Minutes**](https://drive.google.com/drive/u/0/folders/1g2xm1F1sIsowuf-SHqJrCLEgR9KNZMet)
-- [**Risk Management**](https://docs.google.com/document/d/1h8wtWSBGq10KgU5FjX3noPZQz0TSMrlTSjl1m9pVcEc/edit)
-- [**Statement of Work**](https://drive.google.com/drive/u/0/folders/10dU-jHv65cApRlDtr3pOAqkEij3sBB)
+- [**Meeting Minutes**](https://drive.google.com/drive/folders/1bz6aJNaLhqgxjfCjiWHxQpbSfh9tgEOj?usp=sharing)
+    + [Team Meeting](https://drive.google.com/drive/folders/1HjPLR9FZ_2_iRm91MV_KgGgtAlXXAkB5)
+    + [Client Meeting](https://drive.google.com/drive/folders/1JjdIRBprHv1TsyhMA9yGrYzDufUeJb3o)
+- [**Trello**](https://trello.com/b/GnYy2QBX/track-pupils)
+- [**Weekly Working Hours Log**](https://docs.google.com/spreadsheets/d/1fvAgWoog8Ptu7ehS3y6uI3UGOBSutxZZ_a82oMGfk1E/edit?usp=sharing)
+- [**User Story Map**](https://miro.com/app/board/o9J_kodemu8=/)
+- [**Risk Register**](https://docs.google.com/document/d/1h8wtWSBGq10KgU5FjX3noPZQz0TSMrlTSjl1m9pVcEc/edit?usp=sharing)
 - [**Communication(Slack, Google Hangout,Whatsapp and Zoom)**](https://docs.google.com/document/d/1fOy_x4CNGdVu6nbyG_zbYGBBXU7Pvlio7XnqYfclkDY/edit)
+- [**Technical Tools**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Technical-Tools)
+- [**Project Constraints**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Project-Constraints)
+- [**IP Agreement**](https://drive.google.com/file/d/1D6lRpcF439EluSAafE8FFhUSrTIISbAN/view?usp=sharing)
+- [**Acceptance Criteria**](https://docs.google.com/document/d/1NwzMyvCJ_EW52ajgg5v6M_LCen3BKqRJok3HZnjJcT8/edit)
+- [**References**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/References)
+- [**Feedback**](https://drive.google.com/open?id=1j--azvBIf_7xkufhe8fR2g7GvuG47eTfvsKeAyDyk6Y)
+- [**Statement of Work**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Deliverables)
+- [**Installation Instructions**](https://github.com/Ozedaval/Eye-Gaze-Technology/wiki/Installation-Instructions)
+ 
+ 
 </details>
 
 <p align="center">
-<img src="Resources/Proof_of_Concept.gif"  width="50%" length="50%" >
+<img src="Resources/track-pupils-demo.gif"  width="70%" length="50%" >
 </p>
 <p align="center">
-     Snippet based on proof of concept app </br>
-<a href="https://drive.google.com/file/d/1r1SmKbBRJyrehjUkkJXQUgV0WvIy3n0p/view?usp=sharing">Link to full video</a> 
+     Snippet of MVP </br>
+<a href="https://drive.google.com/file/d/19Z20QgDJi-uiaTi0ZIYdc1OYAtlCUJ0r/view?usp=sharing">Link to full video</a> 
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
 
@@ -73,6 +87,7 @@
     + [Team Meeting](https://drive.google.com/drive/folders/1HjPLR9FZ_2_iRm91MV_KgGgtAlXXAkB5)
     + [Client Meeting](https://drive.google.com/drive/folders/1JjdIRBprHv1TsyhMA9yGrYzDufUeJb3o)
 - [**User Story Map**](https://miro.com/app/board/o9J_kodemu8=/)
+- [**Acceptance Criteria**](https://docs.google.com/document/d/1NwzMyvCJ_EW52ajgg5v6M_LCen3BKqRJok3HZnjJcT8/edit)
 - [**Risk Register**](https://docs.google.com/document/d/1h8wtWSBGq10KgU5FjX3noPZQz0TSMrlTSjl1m9pVcEc/edit?usp=sharing)
 - [**Communication(Slack, Google Hangout,Whatsapp and Zoom)**](https://docs.google.com/document/d/1fOy_x4CNGdVu6nbyG_zbYGBBXU7Pvlio7XnqYfclkDY/edit)
 

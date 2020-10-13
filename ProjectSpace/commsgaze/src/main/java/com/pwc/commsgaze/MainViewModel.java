@@ -33,6 +33,7 @@ public class MainViewModel extends ViewModel {
     private Integer previousClickedDataIndex;
     private MutableLiveData<ArrayList<Content>> clickedContents;
 
+
     LiveData<Boolean> getIsDetected(){
         if(isDetected == null)
             isDetected = new MutableLiveData<>();
@@ -46,6 +47,7 @@ public class MainViewModel extends ViewModel {
         return  needClick;
     }
 
+
     LiveData<ArrayList<Content>> getClickedContents(){
         if(clickedContents ==null) {
             clickedContents = new MutableLiveData<>();
@@ -53,6 +55,7 @@ public class MainViewModel extends ViewModel {
         }
         return clickedContents;
     }
+
 
     public DetectionData getDetectionData() {
         return detectionData;
@@ -84,6 +87,7 @@ public class MainViewModel extends ViewModel {
         }
         clickedContents.setValue(contents);
     }
+
 
     void setPreviousClickedDataIndex(int previousClickedDataIndex){
         this.previousClickedDataIndex = previousClickedDataIndex;

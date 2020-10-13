@@ -31,6 +31,7 @@ public class CircleView extends View {
     private float center;
     public static final int MIN_ANGLE = 0;
     public static final int MAX_ANGLE = 360;
+
     private final String TAG = "CircleView";
     private final String ATTR_NAMESPACE= "http://schemas.android.com/apk/res/android";
 

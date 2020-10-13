@@ -44,6 +44,7 @@
                 tools:text="Sample text"
                 />
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/mainFaceConstraintLayout"
                 android:layout_width="@dimen/size_main_bar"
@@ -55,11 +56,13 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/app_face" />
 
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/mainDetectionConstraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_left_main_face"
+
                     android:layout_marginTop="@dimen/margin_top_main_face"
                     android:layout_marginRight="@dimen/margin_right_main_face"
                     android:layout_marginBottom="@dimen/margin_bottom_main_face">
@@ -83,6 +86,7 @@
                         android:layout_height="@dimen/height_main_eye_rect_view"
                         android:layout_marginRight="@dimen/margin_right_main_left_eye"
                         android:layout_marginBottom="@dimen/margin_bottom_main_eye"
+
                         android:visibility="invisible"
                         app:color="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -122,10 +126,12 @@
             app:layout_constraintTop_toBottomOf="@+id/mainAppBarLinearLayout" />
 
 
+
         <LinearLayout
             android:id="@+id/sideLinearLayout"
             android:layout_width="@dimen/size_main_bar"
             android:layout_height="0dp"
+
             android:background="@color/colorDarkBlue"
             android:orientation="vertical"
             android:weightSum="10"
@@ -148,6 +154,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -156,10 +163,12 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/size_main_text"
                         android:textStyle="bold" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+
                 android:id="@+id/mainClearCardView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -175,6 +184,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -183,10 +193,12 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/size_main_text"
                         android:textStyle="bold" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+
                 android:id="@+id/mainSettingsCardView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -197,10 +209,12 @@
                 app:cardBackgroundColor="@color/colorSemiDarkGray"
                 app:cardCornerRadius="10dp">
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
 
                     <TextView
                         android:layout_width="match_parent"
@@ -210,6 +224,7 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/size_main_text"
                         android:textStyle="bold" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -247,6 +262,13 @@
                 android:text="Top"
                 app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
                 app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/mainLeftButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton" />
 
             <Button
                 android:id="@+id/mainLeftButton"

@@ -1,5 +1,6 @@
 package com.pwc.commsgaze;
 
+
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pwc.commsgaze.database.Content;
+
 import com.pwc.commsgaze.databinding.ActivityMainBinding;
 import com.pwc.commsgaze.detection.Approach;
 import com.pwc.commsgaze.detection.Detector;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
 
+
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
         gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
+
         binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
         binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
         mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     public void run() {
 
                         MainRecyclerViewAdapter.ViewHolder selectedViewHolder = (MainRecyclerViewAdapter.ViewHolder) binding.mainRecyclerView.findViewHolderForAdapterPosition(integer);
+
                         if (selectedViewHolder!=null) {
                             selectedViewHolder.cardView.setCardBackgroundColor(ContextCompat.getColor(selectedViewHolder.itemView.getContext(),R.color.colorAccent));
                             selectedViewHolder.itemView.animate().scaleX(1.10f).scaleY(1.10f).setDuration(SELECTION_EFFECT_DURATION).start();
@@ -130,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 int leftEyeRectVisibility = detectionData.getIsLeftEyeDetected() ? VISIBLE : INVISIBLE;
                 int rightEyeRectVisibility = detectionData.getIsRightEyeDetected() ? VISIBLE : INVISIBLE;
 
+
                 binding.mainFaceRectangleView.setVisibility(faceRectVisibility);
                 binding.mainEyeLeftRectangleView.setVisibility(leftEyeRectVisibility);
                 binding.mainEyeRightRectangleView.setVisibility(rightEyeRectVisibility);
@@ -148,7 +154,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                             /*TODO animation effect and meanwhile check if it is neutral , if not cancel click */
                             mainViewModel.setPreviousClickedDataIndex(selectedDataIndex);
                             selectedViewHolder.circleView.setVisibility(VISIBLE);
+
                         ValueAnimator valueAnimator = ValueAnimator.ofInt(MIN_ANGLE,MAX_ANGLE);
+
                         final boolean[] interrupted = {false};
                         final int initSelectedDataIndex = mainViewModel.getSelectedDataIndex().getValue();
                         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -173,7 +181,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                             public void onAnimationEnd(Animator animation) {
                                 if (!interrupted[0]) {
                                     selectedViewHolder.itemView.callOnClick();
+
                                     mainViewModel.updateSentence(recyclerViewAdapter.getContent(selectedDataIndex));
+
                                 }
                                 selectedViewHolder.circleView.setVisibility(INVISIBLE);
                             }
@@ -191,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                             }
                         });
                         valueAnimator.setTarget(selectedViewHolder.circleView);
+
                         valueAnimator.setDuration(CLICK_STAGE_DURATION);
                         valueAnimator.start();
                         }
@@ -221,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         });
 
 
+
         /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
         Button[] testButtons = new Button[]{binding.mainTopButton, binding.mainLeftButton, binding.mainNeutralButton, binding.mainRightButton, binding.mainBottomButton};
         for (Button button : testButtons) {
@@ -233,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                     mainViewModel.updateViewGazeController(decipheredDirection);
                 }
             });
+
         }
     }
 
@@ -321,6 +334,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
 
     }
+
 
     /*    TODO This is primarily for testing the interaction between UI and Gaze. Remove or Comment this when not in use*/
     Direction customTestButtonParser(String buttonText){
