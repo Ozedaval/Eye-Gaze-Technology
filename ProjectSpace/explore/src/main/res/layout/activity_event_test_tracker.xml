@@ -111,11 +111,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Neutral"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
+            android:visibility="visible"
             opencv:layout_constraintEnd_toEndOf="parent"
+            opencv:layout_constraintHorizontal_bias="0.505"
             opencv:layout_constraintStart_toStartOf="parent"
-            opencv:layout_constraintTop_toBottomOf="@+id/calculatedAccTextView"
-            />
+            opencv:layout_constraintTop_toBottomOf="@id/reCalibrateButton"
+            tools:visibility="visible" />
 
         <Button
             android:id="@+id/bottombutton"

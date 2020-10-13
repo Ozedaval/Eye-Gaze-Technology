@@ -182,12 +182,13 @@ public class Detect {
                             isTrackerInitialised = trackerCSRTs[i].init(frameRGB, rect2d);
                             //  Log.d(TAG, "is Tracker Init: " + isTrackerInitialised);
                             blob.put(i, new Point[]{blobcentre});
+                        }                         //new
+                        Log.d(TAG, "lookdown"+getLookdownposition(eyeBoundary.get(i),frameHSV));
+                        double sum=0;
+                        for (int k=0;k<5;k++){
+                            sum+=getLookdownposition(eyeBoundary.get(i), frameHSV);
                         }
-                        double sum=0;                                                   //new
-                        for (int k=0;k<5;k++) {                                         //new
-                            sum+=getLookdownposition(eye, frameHSV);                    //new
-                        }                                                               //new
-                        if(sum/5<95){                                                   //new
+                        if(Double.compare(sum/5,(double) 96)<0){                                                   //new
                             lookdown=false;                                             //new
                         }                                                               //new
                         else{lookdown=true;}                                            //new
@@ -215,14 +216,16 @@ public class Detect {
                 if(success) {
                    // Log.d(TAG, "Updated" + i+"th Iris Rect (x,y): " + irisUpdatedRect.x + ", " + irisUpdatedRect.y);
                    // Imgproc.rectangle(frame, eyeBoundary.get(i), new Scalar(255,0 , 0));
-                    double sum=0;                                                   //new
-                    for (int k=0;k<5;k++) {                                         //new
-                        sum+=getLookdownposition(eyeBoundary.get(i), frameHSV);     //new
-                    }                                                               //new
-                    if(sum/5<90){                                                   //new
+                    double sum=0;
+                    for (int k=0;k<5;k++){
+                        sum+=getLookdownposition(eyeBoundary.get(i), frameHSV);
+                    }
+                    if(Double.compare(sum/5,(double) 96)<0){                                                   //new
                         lookdown=false;                                             //new
                     }                                                               //new
-                    else{lookdown=true;}                                            //new
+                    else{lookdown=true;}
+                    Log.d(TAG, "lookdown"+getLookdownposition(eyeBoundary.get(i),frameHSV));
+                    Log.d(TAG, "lookdown: "+lookdown);
                     Imgproc.circle(frame, new Point(irisUpdatedRect.x + eyeBoundary.get(i).width / 7.5, irisUpdatedRect.y + eyeBoundary.get(i).width / 7.5), 3, new Scalar(0, 255, 0));
                     Point point = new Point(irisUpdatedRect.x + eyeBoundary.get(i).width / 7.5, irisUpdatedRect.y + eyeBoundary.get(i).width / 7.5);
                     currentPoints.put(i, new Point[]{point});
@@ -311,8 +314,7 @@ public class Detect {
         Log.d(TAG, "eyesize "+eye.width*eye.height);
         Log.d(TAG, "noofnonblack: "+noofblack);
         Log.d(TAG, "noofnonblack: "+((double)(eye.width*eye.height/2-noofblack)/(eye.width*eye.height/2))*100);
-        double percentage=(double)((eye.width*eye.height/2-noofblack)/(eye.width*eye.height/2))*100;
-        return percentage;
+        return ((double)(eye.width*eye.height/2-noofblack)/(eye.width*eye.height/2))*100;
     }
 
     /**
