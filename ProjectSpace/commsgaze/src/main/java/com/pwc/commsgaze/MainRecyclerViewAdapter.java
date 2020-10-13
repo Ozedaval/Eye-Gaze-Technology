@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.pwc.commsgaze.customview.CircleView;
 import com.pwc.commsgaze.database.Content;
 
 import java.io.File;
@@ -26,17 +27,14 @@ import java.util.List;
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder> {
     public final static String TAG = "MainRecyclerViewAdapter";
     private List<Content> contents;
-    private int deviceHeight;
-    private int deviceWidth;
+
+    private int imageSize;
     private int fixedDimension;
 
-    MainRecyclerViewAdapter(DisplayMetrics displayMetrics,int fixedDimension){
-        /*TODO to consider for vertical orientation as well*/
-        deviceHeight = displayMetrics.heightPixels  ;
-        deviceWidth = displayMetrics.widthPixels;
-        Log.d(TAG,"Device Height "+ deviceHeight);
-        Log.d(TAG,"Device Width "+ deviceWidth);
+    MainRecyclerViewAdapter(int imageSize,int fixedDimension){
+        this.imageSize = imageSize;
         this.fixedDimension = fixedDimension;
+
 
     }
 
@@ -52,10 +50,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public void onBindViewHolder(@NonNull MainRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.textView.setText(contents.get(position).getWord());
         Uri imageUri = Uri.fromFile(new File(contents.get(position).getImageDirPath()));
-        int suitableDimension = deviceWidth/(fixedDimension+2);
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
-                .apply(new RequestOptions().override(suitableDimension,suitableDimension))
+                .apply(new RequestOptions().override(imageSize,imageSize))
                 .into(holder.imageView);
 
         holder.setAudioDirPath(contents.get(position).getAudioDirPath());
@@ -79,6 +76,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         TextView textView;
         String audioDirPath;
         CardView cardView;
+        CircleView circleView;
+
 
         public void setAudioDirPath(String audioDirPath) {
             this.audioDirPath = audioDirPath;
@@ -87,9 +86,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            imageView = itemView.findViewById(R.id.imageView_main_adapter);
-            textView = itemView.findViewById(R.id.textView_main_adapter);
-            cardView = itemView.findViewById(R.id.cardView_main_adapter);
+            imageView = itemView.findViewById(R.id.mainRVImageView);
+            textView = itemView.findViewById(R.id.mainRVTextView);
+            cardView = itemView.findViewById(R.id.mainRVCardView);
+            circleView = itemView.findViewById(R.id.mainRVCircleView);
         }
 
         @Override

@@ -8,15 +8,13 @@ public class SparseFlowDetectionData extends DetectionData {
     private CascadeClassifier  eyeCascade;
     private Mat frame;
 
+
+
     public SparseFlowDetectionData(CascadeClassifier faceCascade, CascadeClassifier eyeCascade){
         this.faceCascade = faceCascade;
         this.eyeCascade = eyeCascade;
-
-
-    }        @Override
-    public DetectionData getData() {
-        return this;
     }
+
 
     public void updateFrame(Mat frame){
         this.frame = frame;
@@ -38,7 +36,6 @@ public class SparseFlowDetectionData extends DetectionData {
     public Mat getFrame() {
         return frame;
     }
-
 
 }
 

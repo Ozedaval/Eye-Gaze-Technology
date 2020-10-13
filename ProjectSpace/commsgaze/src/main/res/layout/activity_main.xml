@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
@@ -16,10 +17,196 @@
         android:layout_height="match_parent">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_main"
+        <LinearLayout
+            android:id="@+id/mainAppBarLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="@dimen/size_main_bar"
+            android:orientation="horizontal"
+            android:background="@color/colorDarkBlue"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:background="@color/colorWhite"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="shop"
+                android:gravity="bottom"
+                android:textSize="50sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:focusableInTouchMode="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:inputType="none">
+            </EditText>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainFaceConstraintLayout"
+                android:layout_width="@dimen/size_main_bar"
+                android:layout_height="@dimen/size_main_bar">
+
+                <ImageView
+                    android:id="@+id/faceImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/app_face">
+                </ImageView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mainDetectionConstraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_left_main_face"
+                    android:layout_marginRight="@dimen/margin_right_main_face"
+                    android:layout_marginTop="@dimen/margin_top_main_face"
+                    android:layout_marginBottom="@dimen/margin_bottom_main_face">
+
+                    <com.pwc.commsgaze.customview.RectangleView
+                        android:id="@+id/faceRectangleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        android:foregroundGravity="center_horizontal"
+                        app:color="@color/colorSemiDarkGreen"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:line_width="@dimen/line_width_main_rect" />
+
+                    <com.pwc.commsgaze.customview.RectangleView
+                        android:id="@+id/eyeLeftRectangleView"
+                        android:layout_width="@dimen/width_main_eye_rect_view"
+                        android:layout_height="@dimen/height_main_eye_rect_view"
+                        android:layout_marginRight="@dimen/margin_right_main_left_eye"
+                        android:layout_marginBottom="@dimen/margin_bottom_main_eye"
+                        app:color="@color/colorPrimaryDark"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:line_width="@dimen/line_width_main_rect" />
+
+
+                    <com.pwc.commsgaze.customview.RectangleView
+                        android:id="@+id/eyeRightRectangleView"
+                        android:layout_width="@dimen/width_main_eye_rect_view"
+                        android:layout_height="@dimen/height_main_eye_rect_view"
+                        android:layout_marginLeft="@dimen/margin_left_main_right_eye"
+                        android:layout_marginBottom="@dimen/margin_bottom_main_eye"
+                        app:color="@color/colorPrimaryDark"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:line_width="@dimen/line_width_main_rect" />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/sideLinearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainAppBarLinearLayout"/>
+
+
+        <LinearLayout
+            android:id="@+id/sideLinearLayout"
+            android:layout_width="@dimen/size_main_bar"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:background="@color/colorDarkBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainAppBarLinearLayout"
+            android:weightSum = "10">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@color/colorSemiDarkGreen"
+                app:cardCornerRadius="10sp"
+                android:layout_weight="6"
+                android:layout_margin = "5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/main_enter"
+                        android:textSize="@dimen/size_main_text"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@color/colorDarkRed"
+                app:cardCornerRadius="10sp"
+                android:layout_weight="3"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/main_clear"
+                        android:textSize="@dimen/size_main_text"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@color/colorSemiDarkGray"
+                app:cardCornerRadius="10dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/main_settings"
+                        android:textSize="@dimen/size_main_text"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
 
         <org.opencv.android.JavaCameraView
             android:id="@+id/openCVCameraView"
@@ -31,6 +218,7 @@
             opencv:layout_constraintStart_toStartOf="parent"
             opencv:layout_constraintTop_toTopOf="parent"
             opencv:show_fps="false" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainButtonConstraintLayout"
@@ -44,16 +232,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
-
-            <Button
-                android:id="@+id/mainLeftButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Left"
-                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
-                app:layout_constraintLeft_toLeftOf="parent"
-              />
-
             <Button
                 android:id="@+id/mainTopButton"
                 android:layout_width="wrap_content"
@@ -61,34 +239,38 @@
                 android:text="Top"
                 app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
                 app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/mainLeftButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton" />
 
             <Button
                 android:id="@+id/mainNeutralButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Neutral"
-                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
                 app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
-                />
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton" />
 
             <Button
                 android:id="@+id/mainBottomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bottom"
-                app:layout_constraintTop_toBottomOf="@id/mainNeutralButton"
                 app:layout_constraintLeft_toRightOf="@id/mainLeftButton"
-                />
+                app:layout_constraintTop_toBottomOf="@id/mainNeutralButton" />
 
             <Button
                 android:id="@+id/mainRightButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Right"
-                app:layout_constraintTop_toBottomOf="@id/mainTopButton"
-                app:layout_constraintLeft_toRightOf="@id/mainTopButton" />
+                app:layout_constraintLeft_toRightOf="@id/mainTopButton"
+                app:layout_constraintTop_toBottomOf="@id/mainTopButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

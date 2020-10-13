@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomView">
+        <attr name="color" format="color"/>
+        <attr name="line_width" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="RectangleView" parent="CustomView">
+        <attr name="color" />
+        <attr name="line_width"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleView" parent="CustomView">
+        <attr name="color" />
+        <attr name="line_width"/>
+        <attr name="angle" format="integer"/>
+    </declare-styleable>
+
+</resources>
