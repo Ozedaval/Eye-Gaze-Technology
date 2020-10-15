@@ -28,7 +28,10 @@ public class LoadingActivity extends AppCompatActivity {
     private Boolean isFirstRun;
     private FragmentManager fragmentManager;
     private LoadingViewModel loadingViewModel;
+
     private static final String TAG = "LoadingActivity";
+    private Observer<Boolean> firstRunObserver;
+    private Observer<Boolean> cameraPermissionObserver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,30 +48,21 @@ public class LoadingActivity extends AppCompatActivity {
             }
         }
         if (isFirstRun) {
-
             fragmentManager = getSupportFragmentManager();
-
-
-            loadingViewModel.getIsFirstRun().observe(this, new Observer<Boolean>() {
+            firstRunObserver = new Observer<Boolean>() {
                 @Override
-                public void onChanged(Boolean aBoolean) {
-                    if (!aBoolean) {
-                        Log.d(TAG," OnChangedLiveData"+"Changed to "+aBoolean);
+                public void onChanged(Boolean isFirstRun) {
+                    Log.d(TAG," OnChangedLiveData"+"Changed to "+isFirstRun);
+                    Boolean isCameraPermissionGranted = loadingViewModel.getCameraPermissionGranted().getValue();
+                    if (!isFirstRun && isCameraPermissionGranted!=null && isCameraPermissionGranted ) {
                         Log.d(TAG, "Initialisation done");
-                        SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE).edit();
-                        sharedPreferencesEditor.putBoolean(getString(R.string.main_first_run_preference_key), false);
-                        sharedPreferencesEditor.apply();
-                        Log.d(TAG, "Files present " + Arrays.toString(fileList()));
-                        isFirstRun= false;
-                        loadingViewModel.getIsFirstRun().removeObserver(this);
-                        Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.init_fragment_tag));
-                        if(fragment != null){
-                            fragmentManager.beginTransaction().remove(fragment).commit();
-                        }
-                      startMainActivity();
+                        removeObservers();
+                        setFirstRunCompleted();
+                        startMainActivity();
                     }
                 }
-            });
+            };
+            loadingViewModel.getIsFirstRun().observe(this,firstRunObserver );
 
             if (loadingViewModel.getIsFirstRun().getValue() != null && loadingViewModel.getIsFirstRun().getValue()) {
                 Log.d(TAG ,"ViewModel LiveData is a " + loadingViewModel.getIsFirstRun().getValue());
@@ -76,6 +70,19 @@ public class LoadingActivity extends AppCompatActivity {
                 initialisationFragment.setCancelable(false);
                 initialisationFragment.show(fragmentManager, getString(R.string.init_fragment_tag));
             }
+
+
+            cameraPermissionObserver = new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean cameraPermissionGranted) {
+                    if(!loadingViewModel.getIsFirstRun().getValue() && cameraPermissionGranted){
+                        removeObservers();
+                        setFirstRunCompleted();
+                        startMainActivity();
+                    }
+                }
+            };
+            loadingViewModel.getCameraPermissionGranted().observe(this,cameraPermissionObserver);
 
         }
         else{ startMainActivity();}
@@ -87,6 +94,8 @@ public class LoadingActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 finish();
+            }else {
+                loadingViewModel.cameraPermissionGranted();
             }
         }
         Log.d(TAG,  "is First Run is "+isFirstRun);
@@ -111,4 +120,19 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
 
+    void setFirstRunCompleted(){
+        SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences(getString(R.string.main_preference_key), Context.MODE_PRIVATE).edit();
+        sharedPreferencesEditor.putBoolean(getString(R.string.main_first_run_preference_key), false);
+        sharedPreferencesEditor.apply();
+        Log.d(TAG, "Files present " + Arrays.toString(fileList()));
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.init_fragment_tag));
+        if(fragment != null){
+            fragmentManager.beginTransaction().remove(fragment).commit();
+        }
+    }
+
+    void removeObservers(){
+        loadingViewModel.getIsFirstRun().removeObserver(firstRunObserver);
+        loadingViewModel.getCameraPermissionGranted().removeObserver(cameraPermissionObserver);
+    }
 }

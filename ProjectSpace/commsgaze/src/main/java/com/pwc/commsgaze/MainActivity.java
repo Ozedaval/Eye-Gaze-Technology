@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private static final String TAG = "MainActivity";
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager gridLayoutManager;
-    private final int RC_FIXED_DIMENSION = 3;
+    private final int RV_FIXED_DIMENSION = 3;
     private StorageViewModel storageViewModel;
     private  final int SELECTION_THRESHOLD = 15;
     private final int CLICK_INIT_THRESHOLD = 5;
@@ -69,12 +70,14 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         storageViewModel = new ViewModelProvider(this).get(StorageViewModel.class);
 
 
-        recyclerViewAdapter = new MainRecyclerViewAdapter( (int)getResources().getDimension(R.dimen.size_main_image),RC_FIXED_DIMENSION);
-        gridLayoutManager = new GridLayoutManager(this,RC_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
+        recyclerViewAdapter = new MainRecyclerViewAdapter((int) getResources().getDimension(R.dimen.size_main_image));
+        Log.d(TAG,"RV width "+  binding.mainRecyclerView.getWidth());
+
+        gridLayoutManager = new GridLayoutManager(this, RV_FIXED_DIMENSION,GridLayoutManager.VERTICAL,false);
 
         binding.mainRecyclerView.setLayoutManager(gridLayoutManager);
         binding.mainRecyclerView.setAdapter(recyclerViewAdapter);
-        mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,0);
+        mainViewModel.initialiseViewGazeHolders(RV_FIXED_DIMENSION,0);
         mainViewModel.initialiseDirectionMediator(SELECTION_THRESHOLD, CLICK_INIT_THRESHOLD);
 
 
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             public void onChanged(List<Content> contents) {
                 Log.d(TAG,"Changed "+ contents.toString());
                 recyclerViewAdapter.setContents(contents);
-                mainViewModel.initialiseViewGazeHolders(RC_FIXED_DIMENSION,contents.size());
+                mainViewModel.initialiseViewGazeHolders(RV_FIXED_DIMENSION,contents.size());
             }
         });
 
@@ -246,6 +249,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 }
             });
 
+
+
         }
     }
 
@@ -257,8 +262,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         /*configs go away when app activity is re-opened*/
         hideSystemUI();
         binding.openCVCameraView.enableView();
-
     }
+
 
     /*Hides System UI
      * https://developer.android.com/training/system-ui/immersive.html*/
@@ -309,7 +314,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     }
 
 
-
     private void initialiseApproach(Approach approach){
         if(approach.equals(Approach.OPENCV_SPARSE_FLOW) ){
             /*TODO We need to only activate this if the user has set for an approach which uses opencv -- most prolly use the stored data on the approach to check  first */
@@ -350,4 +354,9 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     public void enterClicked(View view) {
         /*TODO*/
     }
+
+
+
+
+
 }
