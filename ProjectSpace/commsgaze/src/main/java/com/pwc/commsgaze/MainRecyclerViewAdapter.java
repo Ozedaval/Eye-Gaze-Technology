@@ -3,7 +3,6 @@ package com.pwc.commsgaze;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,15 +27,14 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public final static String TAG = "MainRecyclerViewAdapter";
     private List<Content> contents;
 
-    private int imageSize;
-    private int fixedDimension;
-
-    MainRecyclerViewAdapter(int imageSize,int fixedDimension){
-        this.imageSize = imageSize;
-        this.fixedDimension = fixedDimension;
+    private int suitableItemSize;
 
 
+    MainRecyclerViewAdapter(int suitableItemSize){
+        Log.d(TAG,"Device Dimension "+ suitableItemSize);
+        this.suitableItemSize = suitableItemSize;
     }
+
 
     @NonNull
     @Override
@@ -56,7 +54,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         Uri imageUri = Uri.fromFile(new File(contents.get(position).getImageDirPath()));
         Glide.with(holder.itemView.getContext())
                 .load(imageUri)
-                .apply(new RequestOptions().override(imageSize,imageSize))
+                .apply(new RequestOptions().override(suitableItemSize, suitableItemSize))
                 .into(holder.imageView);
 
         holder.setAudioDirPath(contents.get(position).getAudioDirPath());
@@ -130,5 +128,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             }
         }
     }
+
 
 }
