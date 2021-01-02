@@ -81,7 +81,7 @@
 <h2><a name = "Title4"> 4. Documentation</a></h2>
 
 - [**All**](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ?usp=sharing)
-- [**App Architecture**](https://drive.google.com/drive/folders/1NscEE2u-RHcwWKxr86hBwGi6uPJST55P?usp=sharing)
+- [**App Architecture**](https://drive.google.com/file/d/15Xfe_FKf86Dg00DQ7rLXrEMzJ7PCGsy5/view)
 - [**Decision Log**](https://drive.google.com/drive/folders/18C8N5hQrXN94pWgNyDpYCfhkNWzhSczE)
 - [**Output**](https://drive.google.com/drive/folders/11VEx6xQj-KdvEMwhQfAj3t7v0ngSZa2l)
 - [**Feedback & Reflection Log**](https://drive.google.com/drive/folders/1Tty_NjlyNDwHHwNLGD4vDpX-9KjvH998)
