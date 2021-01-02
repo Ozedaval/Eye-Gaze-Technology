@@ -42,7 +42,8 @@
 <img src="Resources/track-pupils-demo.gif"  width="70%" length="50%" >
 </p>
 <p align="center">
-     Snippet of MVP </br>
+<a href="https://drive.google.com/file/d/1rmTdVeeDP9rK3k5MDW1rzWMEKGuHVCln/view?usp=sharing">MVP snippet</a> 
+</br>
 <a href="https://drive.google.com/file/d/19Z20QgDJi-uiaTi0ZIYdc1OYAtlCUJ0r/view?usp=sharing">Link to full video</a> 
 </p>
 <h2><a name = "Title1"> 1. Project Overview </a></h2>
@@ -80,6 +81,7 @@
 <h2><a name = "Title4"> 4. Documentation</a></h2>
 
 - [**All**](https://drive.google.com/drive/folders/1NlzcfOPzjzUGLZtv5XBwhFZTKDHvKzTZ?usp=sharing)
+- [**App Architecture**](https://drive.google.com/drive/folders/1NscEE2u-RHcwWKxr86hBwGi6uPJST55P?usp=sharing)
 - [**Decision Log**](https://drive.google.com/drive/folders/18C8N5hQrXN94pWgNyDpYCfhkNWzhSczE)
 - [**Output**](https://drive.google.com/drive/folders/11VEx6xQj-KdvEMwhQfAj3t7v0ngSZa2l)
 - [**Feedback & Reflection Log**](https://drive.google.com/drive/folders/1Tty_NjlyNDwHHwNLGD4vDpX-9KjvH998)
